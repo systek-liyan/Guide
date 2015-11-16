@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SwitchButton">
+        <!-- Drawable to use as the "thumb" that switches back and forth. -->
+        <attr name="my_thumb" format="reference" />
+        <!-- Drawable to use as the "track" that the switch thumb slides within. -->
+        <attr name="my_track" format="reference" />
+        <!-- Text to use when the switch is in the checked/"on" state. -->
+        <attr name="my_textOn" format="string" />
+        <!-- Text to use when the switch is in the unchecked/"off" state. -->
+        <attr name="my_textOff" format="string" />
+        <!-- Amount of padding on either side of text within the switch thumb. -->
+        <attr name="my_thumbTextPadding" format="dimension" />
+        <!-- TextAppearance style for text displayed on the switch thumb. -->
+        <attr name="my_switchTextAppearance" format="reference" />
+        <!-- Minimum width for the switch component -->
+        <attr name="my_switchMinWidth" format="dimension" />
+        <!-- Minimum space between the switch and caption text -->
+        <attr name="my_switchPadding" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="TextAppearance">
+        <!-- Text color. -->
+        <attr name="textColor" format="reference|color" />
+        <!-- Size of the text. Recommended dimension type for text is "sp" for scaled-pixels (example: 15sp). -->
+        <attr name="textSize" format="dimension" />
+        <!-- Style (bold, italic, bolditalic) for the text. -->
+        <attr name="textStyle">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+        <!-- Typeface (normal, sans, serif, monospace) for the text. -->
+        <attr name="typeface">
+            <enum name="normal" value="0" />
+            <enum name="sans" value="1" />
+            <enum name="serif" value="2" />
+            <enum name="monospace" value="3" />
+        </attr>
+        <!-- Color of the text selection highlight. -->
+        <attr name="textColorHighlight" format="reference|color" />
+        <!-- Color of the hint text. -->
+        <attr name="textColorHint" format="reference|color" />
+        <!-- Color of the links. -->
+        <attr name="textColorLink" format="reference|color" />
+        <!-- Present the text in ALL CAPS. This may use a small-caps form when available. -->
+        <attr name="textAllCap" format="boolean" />
+    </declare-styleable>
+
+    <string name="switch_on"/>
+    <string name="switch_off"/>
+
+    <style name="Switch">
+        <item name="my_track">@drawable/switch_btn</item>
+        <item name="my_thumb">@mipmap/switch_btn_slipper</item>
+        <item name="my_switchTextAppearance">@android:style/TextAppearance.Small</item>
+        <item name="my_textOn">@string/switch_on</item>
+        <item name="my_textOff">@string/switch_off</item>
+        <item name="my_thumbTextPadding">16dp</item>
+        <item name="my_switchMinWidth">50dp</item>
+        <item name="my_switchPadding">10dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">#00FFFFFF</item>
+    </style>
+
+</resources>

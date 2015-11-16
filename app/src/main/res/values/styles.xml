@@ -1,0 +1,58 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    /**城市选择界面*/
+    <style name="text_large_black">
+        <item name="android:textColor">@color/myBlack</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="text_ac_title">
+        <item name="android:textColor">@color/myWhite</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    /**toggle_btn*/
+    <style name="toggle_btn">
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/toggle_btn_bg</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">50dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/btn_text_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CustomProgressBar" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:indeterminateDrawable">@drawable/custom_progress_bar</item>
+        <item name="android:layout_width">21dp</item>
+        <item name="android:layout_height">21dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="action_titleBar">
+        <item name="android:textSize">@dimen/titleBar_textSize</item>
+        <item name="android:background">@mipmap/title_color</item>
+    </style>
+    <style name="style_titleBar_text">
+        <item name="android:textColor">@color/myWhite</item>
+        <item name="android:textSize">@dimen/titleBar_textSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+</resources>

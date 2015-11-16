@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@mipmap/dialog_background">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/cancel" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal">
+        <TextView
+            android:id="@+id/dialog_title"
+            android:text="设置蓝牙"
+            android:textSize="@dimen/dialog_title_textSize"
+            android:textColor="@color/myRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/dialog_content"
+            android:text="开启蓝牙模式接发试卷发就是爱上发你手机费我啊就覅哦啊计算蜂胶片设计的发哦水平"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dialog_content_textSize"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+        <CheckBox
+            android:id="@+id/dialog_check_box"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dialog_content_textSize"
+            android:textColor="@color/darkGray"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_check_box"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/dialog_button_true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/dialog_button_textSize"
+            android:text="@string/dialog_button_false"
+            android:background="@mipmap/dialog_button_cancel_background"
+            android:textColor="@color/myWhite"/>
+        <TextView
+            android:id="@+id/dialog_button_false"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:textSize="@dimen/dialog_button_textSize"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_button_true"
+            android:textColor="@color/myWhite"
+            android:background="@mipmap/dialog_button_choose_background"/>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="@dimen/iv_home_page_exhibit_icon_height">
+
+    <ImageView
+        android:id="@+id/iv_home_page_exhibit_icon"
+        android:layout_width="@dimen/iv_home_page_exhibit_icon_width"
+        android:scaleType="fitXY"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/simple_margin_4dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/standard_item_left_right_margin"
+        android:layout_marginRight="@dimen/standard_item_left_right_margin"
+        android:layout_toRightOf="@id/iv_home_page_exhibit_icon"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_home_page_exhibit_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/simple_margin_4dp"
+            android:textColor="@color/myRed"
+            android:textSize="@dimen/tv_home_page_exhibit_name_size" />
+
+            <TextView
+                android:id="@+id/tv_home_page_exhibit_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_home_page_exhibit_name"
+                android:textSize="@dimen/tv_home_page_exhibit_introduce_size" />
+    </RelativeLayout>
+    <include layout="@layout/gray_line" />
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/item_city_alpha"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/darkGray"
+        android:paddingLeft="13dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/myRed" />
+
+    <TextView
+        android:id="@+id/item_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@id/item_city_alpha"
+        android:layout_margin="15.0dip"
+        android:singleLine="true"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#212121" />
+
+</RelativeLayout>

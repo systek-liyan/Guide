@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_toggle_btn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RadioButton
+        android:id="@+id/btn_on"
+        style="@style/toggle_btn"
+        android:checked="true"
+        android:text="@string/download_manage" />
+
+    <RadioButton
+        android:id="@+id/btn_off"
+        style="@style/toggle_btn"
+        android:text="@string/download_cityList" />
+
+</RadioGroup>
