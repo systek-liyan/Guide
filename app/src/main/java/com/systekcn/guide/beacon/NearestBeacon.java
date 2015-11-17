@@ -1,4 +1,4 @@
-package org.altbeacon.mytest;
+package com.systek.beacon;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,8 +78,11 @@ public class NearestBeacon {
 	/** 扫描到的beacon 以及距离beacon的距离 by sa */
 	private Map<String, List<Beacon>> map = new HashMap<String, List<Beacon>>();
 
-	/** 集合默认长度(后台扫描周期1/前台扫描周期0.5*时长3) by sa */
-	 private int INDEX = 6;
+	/** 阈值,用于2个超近的信标的选择 by sa */
+	private double threshold = 0.2;
+	
+	/** 阈值,用于2个超近的信标的选择 by sa */
+	private double avgDistance = 0D;
 
 	/**
 	 * 展品定位使用默认最小距离和最小停留时间<br>
@@ -165,33 +168,7 @@ public class NearestBeacon {
 		return null;
 	}
 
-	// /**
-	// * 每个扫描周期结束，计算距离最近的beacon。用于游客定位。<br>
-	// * @param beacons 本次扫描周期发现的beacon
-	// * @return 距离最近的beacon; 如果本次扫描，没有beacon发现，返回null
-	// * */
-	// private Beacon nearestBeacon(final Collection<Beacon> beacons) {
-	// if (beacons.size() == 0) { // 本次扫描周期没有发现beacon
-	// mNeaestBeacon = null;
-	// mNeaestBeacon_distance = -1.0D;
-	// return null;
-	// }
-	// mBeaconList.clear();
-	// Iterator<Beacon> iterator = beacons.iterator();
-	//
-	// while (iterator.hasNext()) {
-	// Beacon beacon = iterator.next();
-	// BeaconForSort bfs = new BeaconForSort();
-	// bfs.beacon = beacon;
-	// bfs.distance = beacon.getDistance();
-	// mBeaconList.add(bfs);
-	// Log.e("sa--", beacon.getId3()+"");
-	// }
-	// Collections.sort(mBeaconList);
-	// mNeaestBeacon = mBeaconList.get(0).beacon;
-	// mNeaestBeacon_distance = mBeaconList.get(0).distance;
-	// return mNeaestBeacon;
-	// }
+	
 
 	/**
 	 * 每个扫描周期结束，获取最近的Beacon<br>
@@ -236,7 +213,7 @@ public class NearestBeacon {
 			} else {
 				list = map.get(beaconId);
 				list.add(beacon);
-				if (list.size() == INDEX) {
+				if (list.size() == 6) {
 					list.remove(0);
 				}
 				map.put(beaconId, list);
@@ -253,7 +230,7 @@ public class NearestBeacon {
 			if (beaconList != null) {
 				for (int i = 0; i < beaconList.size(); i++) {
 					// 循环取出同一个信标的距离值并累计，用于求平均值
-					ave = ave + Double.parseDouble(beaconList.get(i) .getDistance() + "");
+					ave += Double.parseDouble(beaconList.get(i) .getDistance() + "");
 					// 在最后一次循环时,获取距离的平均值
 					if (i == beaconList.size() - 1) {
 						ave = ave / beaconList.size();
@@ -272,15 +249,14 @@ public class NearestBeacon {
 		double min = 0;// 最小距离
 		if (mBeaconList != null) {
 			for (BeaconForSort bf:mBeaconList) {
-				if (bf.distance != 0 && bf.distance < min) {
+				if (bf.distance != 0 && bf.distance < min || min == 0) {
 					min = bf.distance;
 					mNeaestBeacon = bf.beacon;
-				} else if (min == 0) {
-					min = bf.distance;
-					mNeaestBeacon = bf.beacon;
-				}
+				} 
 			}
-			Log.i("twoooo", "平均值if：" + min + " -- " + mNeaestBeacon.getId3());
+			//最近信标对应的最近距离(的平均值)
+			mNeaestBeacon_distance = min;
+			//Log.i("twoooo", "平均值：" + min + " -- " + mNeaestBeacon.getId3());
 			return mNeaestBeacon;
 		} else
 			return null;
@@ -294,33 +270,36 @@ public class NearestBeacon {
 	 * @return 符合条件的beacon; 不符合条件，返回null.
 	 */
 	private Beacon exhibitBeacon() {
-		// 如果本次扫描没有发现beacon
-		if (mNeaestBeacon == null)
-			return null;
-
-		// 如果本次扫描周期最小距离beacon(mNeaestBeacon)大于展品定位的最小距离，本次扫描周期没有符合条件的展品定位beacon
-		if (mNeaestBeacon_distance > mExhibit_distance)
-			return null;
-
-		// 如果是第一次发现的beacon(mNeaestBeacon),并且它的距离小于展品定位最小距离(mExhibit_distance),则初始化该beacon是展品定位的beacon(mExhibitBeacon)
-		if (mExhibitBeacon == null) {
-			mExhibitBeacon = mNeaestBeacon;
-			mTimestamp = System.currentTimeMillis();
-			return null; // 第一次存储查品定位beacon，逗留时间肯定不符合条件，因此返回null
-		}
-
-		// 如果本次扫描周期最小距离beacon(mNeaestBeacon)与上一扫描周期存储的展品beacon(mExhibitBeacon)不同，则替换mExhibitBeacon
-		if (!mExhibitBeacon.equals(mNeaestBeacon)) {
-			mExhibitBeacon = mNeaestBeacon;
-			mTimestamp = System.currentTimeMillis();
-			return null; // 刚刚替换距离最近的beacon，逗留时间肯定不符合条件，因此返回null
-		}
-
-		// 如果本次扫描周期最小距离beacon(mNeaestBeacon)与上一扫描周期存储的展品beacon(mExhibitBeacon)相同，则判断是否满足最小停留时间
-		if (System.currentTimeMillis() - mTimestamp >= mMin_stay_milliseconds) {
-			return mExhibitBeacon;
+		//获取到最近的信标，并且信标的最近距离小于“展品定位默认距离1.5M”
+		if(mNeaestBeacon!=null && mNeaestBeacon_distance<mExhibit_distance){
+			if(mExhibitBeacon==null){
+				//第一次执行时，mExhibitBeacon肯定为Null,将检测到的Beacon赋给mExhibitBeacon
+				//第二次则该if不执行
+				mExhibitBeacon = mNeaestBeacon;
+				//本次得到的最近信标距离的平均值放到全局，用于和下一次检测到的平均值比较
+				avgDistance = mNeaestBeacon_distance;
+				mTimestamp = System.currentTimeMillis();
+			}
+			if(!mNeaestBeacon.getId3().toString().equals(mExhibitBeacon.getId3().toString())){
+				Log.i("twoooo", "最近信标：" + mNeaestBeacon.getId3()+":"+mNeaestBeacon_distance + " -- 上次最近信标： " + mExhibitBeacon.getId3()+":"+avgDistance+"绝对值:"+Math.abs(mNeaestBeacon_distance-avgDistance));
+				//本次最近信标的距离和上次最近信标的距离相减取绝对值，然后和阈值比较,当大于阈值时候将本次信标的信息存入全局
+				if(Math.abs(mNeaestBeacon_distance-avgDistance)>threshold){
+					mExhibitBeacon = mNeaestBeacon;
+					avgDistance = mNeaestBeacon_distance;
+					mTimestamp = System.currentTimeMillis();
+				}
+				
+			}else{
+				avgDistance = mNeaestBeacon_distance;
+				//本次"最近Beacon"和上个周期检测到的“最近Beacon"相同时，判断停留时间是否>=3秒
+				if(System.currentTimeMillis() - mTimestamp >= mMin_stay_milliseconds){
+					Log.i("twoooo", "3S后切换信标为："+mExhibitBeacon.getId3() + " -- 毫秒：" + (System.currentTimeMillis()-mTimestamp));
+					return mExhibitBeacon;
+				}
+			}
 		}
 		return null;
+		
 	}
 
 

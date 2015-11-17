@@ -1,4 +1,4 @@
-package org.altbeacon.mytest;
+package com.systek.beacon;
 
 import java.util.Collection;
 
