@@ -470,18 +470,19 @@ public class MuseumHomePageActivity extends BaseActivity {
                     if (b != null) {
                         String beaconId = b.getId();
                         LogUtil.i("ZHANG", beaconId);
-                        if (beaconId != null &&
-                                (application.getCurrentBeaconId().equals("")||!beaconId.equals(application.getCurrentBeaconId()))) {
-                            List<ExhibitBean> nearlyExhibitsList = biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
-                            if (nearlyExhibitsList != null && nearlyExhibitsList.size() > 0) {
-                                //LogUtil.i("ZHANG", nearlyExhibitsList.toString());
-                                application.currentExhibitBeanList=nearlyExhibitsList;
-                                application.currentExhibitBean=nearlyExhibitsList.get(0);
-                                application.refreshData();
-                                application.dataFrom=application.DATA_FROM_BEACON;// TODO: 2015/11/3
-                                Intent intent =new Intent();
-                                intent.setAction(ACTION_NOTIFY_CURRENT_EXHIBIT_CHANGE);
-                                sendBroadcast(intent);
+                        if (beaconId != null && !(application.getCurrentBeaconId().equals(""))) {
+                            if(!beaconId.equals(application.getCurrentBeaconId())){
+                                List<ExhibitBean> nearlyExhibitsList = biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
+                                if (nearlyExhibitsList != null && nearlyExhibitsList.size() > 0) {
+                                    //LogUtil.i("ZHANG", nearlyExhibitsList.toString());
+                                    application.currentExhibitBeanList=nearlyExhibitsList;
+                                    application.currentExhibitBean=nearlyExhibitsList.get(0);
+                                    application.refreshData();
+                                    application.dataFrom=application.DATA_FROM_BEACON;// TODO: 2015/11/3
+                                    Intent intent =new Intent();
+                                    intent.setAction(ACTION_NOTIFY_CURRENT_EXHIBIT_CHANGE);
+                                    sendBroadcast(intent);
+                                }
                             }
                         }
                     }
