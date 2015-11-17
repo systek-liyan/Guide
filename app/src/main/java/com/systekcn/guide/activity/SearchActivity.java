@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.adapter.SearchAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;

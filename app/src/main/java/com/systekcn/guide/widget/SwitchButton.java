@@ -21,7 +21,8 @@ import android.view.ViewConfiguration;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.CompoundButton;
 
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
+
 
 /**
  * Created by Qiang on 2015/10/26.

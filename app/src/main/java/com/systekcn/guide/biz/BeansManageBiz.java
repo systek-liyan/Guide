@@ -45,6 +45,7 @@ public class BeansManageBiz implements IConstants{
         List<T> list = null;
         setIGetBeanBiz(new GetBeansFromLocal());
         list = iGetBeanBiz.getAllBeans(context,type,"",id);
+
         if (list==null) {
             if (MyApplication.currentNetworkType != INTERNET_TYPE_NONE) {
                 setIGetBeanBiz(new GetBeansFromNet());
@@ -57,7 +58,7 @@ public class BeansManageBiz implements IConstants{
         }
         if(iGetBeanBiz instanceof GetBeansFromNet){
             boolean isSaveSuccess=saveAllBeans(list);
-            LogUtil.i("测试信息", "数据保存" + isSaveSuccess);
+            LogUtil.i("ZHANG", "数据保存" + isSaveSuccess);
         }
         return (List<T>) list;
     }
@@ -79,7 +80,7 @@ public class BeansManageBiz implements IConstants{
         }
         if (iGetBeanBiz instanceof GetBeansFromNet) {
             boolean isSaveSuccess = saveBean(t);
-            LogUtil.i("测试信息", "数据保存" + isSaveSuccess);
+            LogUtil.i("ZHANG", "数据保存" + isSaveSuccess);
         }
         return t;
     }
@@ -125,7 +126,6 @@ public class BeansManageBiz implements IConstants{
         while(!isGetBeaconOver){}
         return b;
     }
-
 
     List<ExhibitBean> list =null;
     boolean isGetExhibitsOver=false;

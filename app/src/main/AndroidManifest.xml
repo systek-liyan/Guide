@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.systekcn.guide" >
+    package="com.magic.mapdemo" >
 
+    <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -20,8 +21,9 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
 
+
     <application
-        android:name=".MyApplication"
+        android:name="com.systekcn.guide.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -29,21 +31,11 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="VBTyiPo6KDcgKYlw4AxFcs6T" />
+            android:value="TgT58QbNiHTk2p5QWY4E2m5d" />
 
         <activity
-            android:name=".activity.WelcomeActivity"
+            android:name="com.systekcn.guide.activity.WelcomeActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".activity.CityActivity"
-            android:label="@string/title_activity_city"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".activity.MuseumListActivity"
-            android:label="@string/title_activity_museum"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,35 +44,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MuseumHomePageActivity"
+            android:name="com.systekcn.guide.activity.CityActivity"
+            android:label="@string/title_activity_city"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.systekcn.guide.activity.MuseumListActivity"
+            android:label="@string/title_activity_museum"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.systekcn.guide.activity.MuseumHomePageActivity"
             android:label="@string/title_activity_museum_home_page"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".activity.GuideActivity"
+            android:name="com.systekcn.guide.activity.GuideActivity"
             android:label="@string/title_activity_guide"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".activity.SettingActivity"
+            android:name="com.systekcn.guide.activity.SettingActivity"
             android:label="@string/title_activity_setting"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".activity.DownloadActivity"
+            android:name="com.systekcn.guide.activity.DownloadActivity"
             android:label="@string/title_activity_download"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".activity.AboutUsActivity"
+            android:name="com.systekcn.guide.activity.AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".activity.TopicActivity"
+            android:name="com.systekcn.guide.activity.TopicActivity"
             android:label="@string/title_activity_filter"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
@@ -101,24 +103,34 @@
             android:permission="android.permission.BAIDU_LOCATION_SERVICE"
             android:process=":remote" >
         </service>
-        <service android:name=".service.MuseumDownloadService" />
+        <service android:name="com.systekcn.guide.service.MuseumDownloadService" />
 
-        <receiver android:name=".receiver.NetworkStateChangedReceiver" >
+        <receiver android:name="com.systekcn.guide.receiver.NetworkStateChangedReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.MediaPlayService" />
+        <service android:name="com.systekcn.guide.service.MediaPlayService" />
+
+        <service
+            android:name="com.magic.map.service.MapService"
+            android:enabled="true" />
 
         <activity
-            android:name=".activity.SearchActivity"
+            android:name="com.systekcn.guide.activity.SearchActivity"
             android:label="@string/title_activity_search_exhibit"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".activity.CollectionActivity"
+            android:name="com.systekcn.guide.activity.CollectionActivity"
             android:label="@string/title_activity_filter"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

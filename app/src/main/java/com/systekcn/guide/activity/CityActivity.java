@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,8 +20,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.adapter.CityAdapter;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
@@ -29,6 +29,7 @@ import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.entity.CityBean;
 import com.systekcn.guide.widget.DrawerView;
 import com.systekcn.guide.widget.SideBar;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,6 +65,7 @@ public class CityActivity extends BaseActivity {
             }
         };
     };
+    private AlertDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,20 +107,33 @@ public class CityActivity extends BaseActivity {
 
     private void initialize() {
         try{
+            initData();
             initViews();
+            initAdapter();
             addListener();
             initSlidingView();
-            initData();
+            showProgressDialog();
             int netState= NetworkUtil.checkNet(this);
             if(netState==INTERNET_TYPE_NONE){
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 Toast.makeText(this, "当前无网络连接", Toast.LENGTH_SHORT).show();
             }else{
                 initLocation();
             }
-            initAdapter();
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
+    }
+
+    private void showProgressDialog() {
+        progressDialog = new AlertDialog.Builder(CityActivity.this).create();
+        progressDialog.show();
+        Window window = progressDialog.getWindow();
+        window.setContentView(R.layout.alert_dialog_progress);
+        TextView dialog_title=(TextView)window.findViewById(R.id.dialog_title);
+        dialog_title.setText("正在加载...");
     }
 
     private void initSlidingView() {
@@ -129,11 +144,8 @@ public class CityActivity extends BaseActivity {
     private void initAdapter() {
 
         try{
-            if(cities!=null&&cities.size()>0){
-                Collections.sort(cities, pinyinComparator);
-            }else{
-                cities=new ArrayList<>();
-            }
+            cities=new ArrayList<>();
+            pinyinComparator = new PinyinComparator();
             // 自定义Adapter
             adapter = new CityAdapter(this, cities);
             cityListView.setAdapter(adapter);
@@ -145,7 +157,6 @@ public class CityActivity extends BaseActivity {
     private void initViews() {
         // 实例化汉字转拼音类
         //characterParser = CharacterParser.getInstance();
-        pinyinComparator = new PinyinComparator();
         cityListView = (ListView) findViewById(R.id.city_list);
         sideBar = (SideBar) findViewById(R.id.sidebar);
         dialog = (TextView) findViewById(R.id.city_dialog);
@@ -332,6 +343,9 @@ public class CityActivity extends BaseActivity {
             if (cities!=null) {
                 Collections.sort(cities, pinyinComparator);
                 adapter.updateListView(cities);
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
             }
         }catch (Exception e){
             ExceptionUtil.handleException(e);
@@ -351,9 +365,8 @@ public class CityActivity extends BaseActivity {
 			 * LogUtil.i("定位", "纬度=" + latitude + ",经度=" + longitude);
 			 */
                 if (currentCity == null) {
-                    locationButton.setText("定位失败");
                     locationButton.setEnabled(false);
-                    Toast.makeText(CityActivity.this, "定位失败，请手动选择城市", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CityActivity.this, "定位失败，请手动选择城市", Toast.LENGTH_SHORT).show();
                     mLocationClient.stop();
                 } else {
                     locationButton.setText(currentCity);

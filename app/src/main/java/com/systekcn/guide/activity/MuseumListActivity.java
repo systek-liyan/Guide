@@ -13,14 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.adapter.MuseumListAdapter;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.entity.MuseumBean;
 import com.systekcn.guide.widget.DrawerView;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,6 @@ public class MuseumListActivity extends BaseActivity {
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
-
     }
 
     private void initSlidingMenu() {

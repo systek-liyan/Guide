@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
+
 
 public class WelcomeActivity extends BaseActivity {
 

@@ -25,11 +25,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.R;
 import com.systekcn.guide.adapter.ExhibitAdapter;
 import com.systekcn.guide.adapter.OnListViewScrollListener;
 import com.systekcn.guide.beacon.BeaconSearcher;
@@ -44,6 +43,7 @@ import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.entity.MuseumBean;
 import com.systekcn.guide.widget.DrawerView;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Identifier;
@@ -195,6 +195,9 @@ public class MuseumHomePageActivity extends BaseActivity {
                     mediaPlayer.pause();
                     imageView.setBackgroundResource(R.mipmap.headset_off);
                 }else{
+                    if(application.mServiceManager!=null&&application.mServiceManager.isPlaying()){
+                        application.mServiceManager.pause();
+                    }
                     mediaPlayer.start();
                     imageView.setBackgroundResource(R.mipmap.headset_on);
                 }
@@ -300,28 +303,6 @@ public class MuseumHomePageActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        /*ed_museum_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                List<ExhibitBean> list =null;
-                DbUtils db=DbUtils.create(MuseumHomePageActivity.this);
-                try {
-                    list= db.findAll(Selector.from(ExhibitBean.class).where("name","like","%"+s+"%"));
-                } catch (DbException e) {
-                    ExceptionUtil.handleException(e);
-                }
-                exhibitAdapter.updateData(list);
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-                LogUtil.i("zhang","afterTextChanged");
-            }
-        });*/
     }
 
     private void initSlidingMenu() {

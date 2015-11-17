@@ -5,11 +5,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
+import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.widget.DrawerView;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements IConstants{
 
     private ImageView iv_setting_drawer;
     private SlidingMenu side_drawer;

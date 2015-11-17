@@ -12,17 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.adapter.ExhibitAdapter;
 import com.systekcn.guide.adapter.OnListViewScrollListener;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.widget.DrawerView;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.List;

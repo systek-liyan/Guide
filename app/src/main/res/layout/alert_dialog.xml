@@ -38,7 +38,8 @@
         android:gravity="center">
         <TextView
             android:id="@+id/dialog_content"
-            android:text="开启蓝牙模式接发试卷发就是爱上发你手机费我啊就覅哦啊计算蜂胶片设计的发哦水平"
+            android:paddingLeft="@dimen/simple_margin_4dp"
+            android:paddingRight="@dimen/simple_margin_4dp"
             android:layout_width="wrap_content"
             android:textSize="@dimen/dialog_content_textSize"
             android:layout_height="wrap_content" />

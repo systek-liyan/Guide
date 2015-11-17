@@ -22,8 +22,8 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.magic.mapdemo.R;
 import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.R;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.common.IConstants;
@@ -101,7 +101,7 @@ public class GuideFragment extends Fragment implements IConstants {
     /**
      * 当前fragment的view
      */
-    private View view;
+    private View rootView;
     /**
      * 当前是否在下载歌词
      */
@@ -117,9 +117,9 @@ public class GuideFragment extends Fragment implements IConstants {
     /**
      * 信息类型
      */
-    private final int MSG_WHAT_CHANGE_ICON = 1;
-    private final int MSG_WHAT_CHANGE_EXHIBIT = 2;
-    private final int MSG_WHAT_UPDATE_NEARLY_EXHIBIT = 3;
+    private final int MSG_WHAT_CHANGE_ICON = 1;//切换主图
+    private final int MSG_WHAT_CHANGE_EXHIBIT = 2;//切换展品
+    private final int MSG_WHAT_UPDATE_NEARLY_EXHIBIT = 3;//刷新附近展品
 
     /**播放器管理类*/
     private MediaServiceManager mediaServiceManager;
@@ -191,35 +191,66 @@ public class GuideFragment extends Fragment implements IConstants {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        long time =System.currentTimeMillis();
         super.onCreate(savedInstanceState);
         application= (MyApplication) activity.getApplication();
         mediaServiceManager = application.mServiceManager;
         registerReceiver();
+        /**获得屏幕宽度*/
+        DisplayMetrics metric = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        mScreenWidth = metric.widthPixels;
+        mLyricLoadHelper = new LyricLoadHelper();
+        mLyricAdapter = new LyricAdapter(activity);
+        mLyricLoadHelper.setLyricListener(mLyricListener);
+        rootView = activity.getLayoutInflater().inflate(R.layout.fragment_guide, null);
+        initialize();
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideFragment_onCreate耗时" + costTime);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_guide, container, false);
-        initialize();
-        return view;
+        long time =System.currentTimeMillis();
+        if(rootView==null){
+            rootView = activity.getLayoutInflater().inflate(R.layout.fragment_guide, null);
+            initialize();
+        }
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideFragment_onCreateView耗时" + costTime);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LogUtil.i("ZHANG", "GuideFragment_执行了onDestroyView");
+        ((ViewGroup) (rootView.getParent())).removeView(rootView);
     }
 
     private void initialize() {
+        long time =System.currentTimeMillis();
         initView();
         addListener();
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideFragment_initialize耗时" + costTime);
     }
 
     private void refreshView() {
+        long time=System.currentTimeMillis();
         /**加载歌词*/
         loadLyricByHand();
         /**加载主图*/
         initIcon();
         /**加载多角度图片*/
         initMultiImgs();
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideFragment_refreshView耗时" + costTime);
     }
 
     /**加载主要数据*/
     private void refreshData() {
+        long time=System.currentTimeMillis();
         /**如果当前展品不为空，刷新数据*/
         if(application.currentExhibitBean!=null){
             application.refreshData();
@@ -237,6 +268,8 @@ public class GuideFragment extends Fragment implements IConstants {
             btn_switch_topic.setChecked(false);
             initNearlyExhibit();
         }
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideFragment_refreshData耗时" + costTime);
     }
 
     /**加载附近列表*/
@@ -256,6 +289,8 @@ public class GuideFragment extends Fragment implements IConstants {
     }
     /**刷新附近展品图片*/
     private void refreshNearly() {
+        long time=System.currentTimeMillis();
+
         ll_nearly_exhibit.removeAllViews();
 
         if(application.isTopicOpen){
@@ -328,6 +363,10 @@ public class GuideFragment extends Fragment implements IConstants {
                 }
             }
         }
+
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideFragment_refreshNearly耗时" + costTime);
+
     }
 
     /**附近列表监听器*/
@@ -366,6 +405,8 @@ public class GuideFragment extends Fragment implements IConstants {
      * 多角度图片
      */
     private void initMultiImgs() {
+        long startT=System.currentTimeMillis();
+
         imgsTimeList=new ArrayList<>();
         multiImgMap = new HashMap<>();
         hasMultiImg=false;
@@ -421,6 +462,8 @@ public class GuideFragment extends Fragment implements IConstants {
                 ImageLoaderUtil.displaySdcardImage(activity, path, imageView);
             }
         }
+        long costTime=System.currentTimeMillis()-startT;
+        LogUtil.i("ZHANG", "GuideFragment_initMultiImgs耗时" + costTime);
     }
 
     /**播放控制监听器*/
@@ -453,6 +496,8 @@ public class GuideFragment extends Fragment implements IConstants {
     };
 
     private void initIcon() {
+        long startT=System.currentTimeMillis();
+
         String iconUrl = application.currentExhibitBean.getIconurl();
         String localUrl = getLocalImgUrl(iconUrl);
         if (Tools.isFileExist(localUrl)) {
@@ -463,6 +508,9 @@ public class GuideFragment extends Fragment implements IConstants {
             iv_frag_largest_img.setTag(httpUrl);
             ImageLoaderUtil.displayNetworkImage(activity, httpUrl, iv_frag_largest_img);
         }
+        long costTime=System.currentTimeMillis()-startT;
+        LogUtil.i("ZHANG", "GuideActivity_initIcon耗时" + costTime);
+
     }
 
     private String getLocalImgUrl(String iconUrl) {
@@ -473,16 +521,26 @@ public class GuideFragment extends Fragment implements IConstants {
 
     @Override
     public void onResume() {
+        long time =System.currentTimeMillis();
         super.onResume();
         hasMultiImg=true;
         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
         ImgObserver imgObserver=new ImgObserver();
         imgObserver.start();
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideActivity_onResume耗时" + costTime);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtil.i("ZHANG", "执行了GuideActivity_onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        LogUtil.i("ZHANG","执行了GuideActivity_onStop");
         hasMultiImg=false;
     }
 
@@ -492,64 +550,67 @@ public class GuideFragment extends Fragment implements IConstants {
         activity.unregisterReceiver(playStateChangeReceiver);
     }
     private void initView() {
-        mLyricLoadHelper = new LyricLoadHelper();
-        DisplayMetrics metric = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mScreenWidth = metric.widthPixels;
-        iv_frag_largest_img = (ImageView) view.findViewById(R.id.iv_frag_largest_img);
-        lyricShow = (ListView) view.findViewById(R.id.lyricShow);
-        music_seekBar = (SeekBar) view.findViewById(R.id.music_seekBar);
-        iv_lyric_ctrl = (ImageView) view.findViewById(R.id.iv_lyric_ctrl);
-        music_play_and_ctrl = (ImageView) view.findViewById(R.id.music_play_and_ctrl);
-        lyric_empty = (TextView) view.findViewById(R.id.lyric_empty);
-        ll_nearly_exhibit = (LinearLayout) view.findViewById(R.id.ll_nearly_exhibit);
-        ll_multi_angle_img = (LinearLayout) view.findViewById(R.id.ll_multi_angle_img);
-        btn_switch_topic=(SwitchButton)view.findViewById(R.id.btn_switch_topic);
-        mLyricLoadHelper.setLyricListener(mLyricListener);
-        mLyricAdapter = new LyricAdapter(activity);
+        long time =System.currentTimeMillis();
+        iv_frag_largest_img = (ImageView) rootView.findViewById(R.id.iv_frag_largest_img);
+        lyricShow = (ListView) rootView.findViewById(R.id.lyricShow);
+        music_seekBar = (SeekBar) rootView.findViewById(R.id.music_seekBar);
+        iv_lyric_ctrl = (ImageView) rootView.findViewById(R.id.iv_lyric_ctrl);
+        music_play_and_ctrl = (ImageView) rootView.findViewById(R.id.music_play_and_ctrl);
+        lyric_empty = (TextView) rootView.findViewById(R.id.lyric_empty);
+        ll_nearly_exhibit = (LinearLayout) rootView.findViewById(R.id.ll_nearly_exhibit);
+        ll_multi_angle_img = (LinearLayout) rootView.findViewById(R.id.ll_multi_angle_img);
+        btn_switch_topic=(SwitchButton) rootView.findViewById(R.id.btn_switch_topic);
         lyricShow.setAdapter(mLyricAdapter);
         lyricShow.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG","GuideActivity_initView耗时"+costTime);
     }
 
     private void addListener() {
-
-        btn_switch_topic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    application.isTopicOpen=true;
-                    if(application.topicExhibitBeanList!=null){
-                        application.nearlyExhibitBeanList.clear();
-                        refreshNearly();
-                    }
-                }else{
-                    application.nearlyExhibitBeanList=new ArrayList<>();
-                    application.isTopicOpen=false;
-                    initNearlyExhibit();
-                }
-            }
-        });
-
-        music_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    if(mediaServiceManager.isPlaying()){
-                        mediaServiceManager.seekTo(progress);
-                    }
-                }
-            }
-        });
-
+        long time =System.currentTimeMillis();
+        btn_switch_topic.setOnCheckedChangeListener(compoundChangeListener);
+        music_seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
         music_play_and_ctrl.setOnClickListener(musicCtrlListener);
         iv_lyric_ctrl.setOnClickListener(musicCtrlListener);
+        long costTime=System.currentTimeMillis()-time;
+        LogUtil.i("ZHANG", "GuideActivity_addListener耗时" + costTime);
     }
+
+    private SeekBar.OnSeekBarChangeListener seekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (fromUser) {
+                if(mediaServiceManager.isPlaying()){
+                    mediaServiceManager.seekTo(progress);
+                }
+            }
+        }
+    };
+
+
+    private CompoundButton.OnCheckedChangeListener compoundChangeListener=new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(isChecked){
+                application.isTopicOpen=true;
+                if(application.topicExhibitBeanList!=null){
+                    application.nearlyExhibitBeanList.clear();
+                    refreshNearly();
+                }
+            }else{
+                application.nearlyExhibitBeanList=new ArrayList<>();
+                application.isTopicOpen=false;
+                initNearlyExhibit();
+            }
+        }
+    };
+
 
     private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
 
@@ -582,7 +643,7 @@ public class GuideFragment extends Fragment implements IConstants {
     }
 
     private void loadLyricByHand() {
-
+        long time =System.currentTimeMillis();
         try{
             String name = currentLyricUrl.replaceAll("/", "_");
             // 取得歌曲同目录下的歌词文件绝对路径
@@ -594,14 +655,14 @@ public class GuideFragment extends Fragment implements IConstants {
             } else {
                 mIsLyricDownloading = true;
                 // 尝试网络获取歌词
-                // Log.i(TAG, "loadLyric()--->本地无歌词，尝试从网络获取");
+                LogUtil.i(TAG, "loadLyric()--->本地无歌词，尝试从网络获取");
                 new LyricDownloadAsyncTask().execute(currentLyricUrl);
             }
+            long costTime=System.currentTimeMillis()-time;
+            LogUtil.i("ZHANG", "GuideActivity_loadLyricByHand耗时" + costTime);
         }catch (Exception e){
             ExceptionUtil.handleException(e);
-
         }
-
     }
 
     private class LyricDownloadAsyncTask extends AsyncTask<String, Void, String> {

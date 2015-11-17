@@ -8,9 +8,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.R;
 import com.systekcn.guide.activity.AboutUsActivity;
 import com.systekcn.guide.activity.CityActivity;
 import com.systekcn.guide.activity.CollectionActivity;
@@ -18,6 +17,7 @@ import com.systekcn.guide.activity.DownloadActivity;
 import com.systekcn.guide.activity.SettingActivity;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 

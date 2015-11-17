@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.common.utils.LogUtil;
 
 /**

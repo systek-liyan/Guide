@@ -1,9 +1,39 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.systekcn.guide.fragment.MapFragment">
+    android:layout_height="match_parent"
+    tools:context="com.systekcn.guide.fragment.MapFragment">
 
     <com.magic.map.widget.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <include
+        android:id="@+id/poi_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        layout="@layout/poi"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:orientation="vertical" >
+
+        <ToggleButton
+            android:id="@+id/tbn_poi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textOff="@string/poi_hidden"
+            android:textOn="@string/poi_show" />
+
+        <Button
+            android:id="@+id/btn_route"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/route" />
+    </LinearLayout>
 </FrameLayout>

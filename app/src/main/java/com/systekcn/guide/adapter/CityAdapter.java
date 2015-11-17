@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
 import com.systekcn.guide.entity.CityBean;
 
 import java.util.List;

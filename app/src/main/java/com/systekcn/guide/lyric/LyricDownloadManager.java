@@ -102,7 +102,7 @@ public class LyricDownloadManager implements IConstants {
             OutputStreamWriter out = new OutputStreamWriter(outstream);
             out.write(content);
             out.close();
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             Log.i(TAG, "很遗憾，将歌词写入外存时发生了IO错误");
         }

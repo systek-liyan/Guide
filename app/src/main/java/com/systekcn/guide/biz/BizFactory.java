@@ -15,5 +15,7 @@ public class BizFactory {
         return new BeansManageBiz(context);
     }
 
-
+    public static IConstants getDownloadBiz(Context context){
+        return  new DownloadBiz(context);
+    }
 }

@@ -3,6 +3,7 @@ package com.systekcn.guide;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -10,6 +11,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.manager.MediaServiceManager;
 
@@ -124,6 +126,7 @@ public class MyApplication extends Application implements IConstants{
         return LOCAL_ASSETS_PATH+currentExhibitBean.getMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/";
     }
     private void initConfig() {
+        NetworkUtil.checkNet(this);
         SharedPreferences settings = getSharedPreferences(APP_SETTING, 0);
         String mGuideModel=settings.getString(GUIDE_MODEL_KEY, IConstants.GUIDE_MODEL_HAND);
         LogUtil.i("ZHANG", mGuideModel);
@@ -195,6 +198,10 @@ public class MyApplication extends Application implements IConstants{
             }
         }
         return "";
+    }
+
+    public static Context getContext(){
+        return getContext();
     }
 
 }

@@ -78,9 +78,9 @@ public interface IConstants {
 
     /*用于下载过程中传递消息的广播过滤信息*/
      String ACTION_DOWNLOAD="download";
-     String ACTION_PAUSE="pause";
-     String ACTION_CONTINUE="continue";
-     String ACTION_PROGRESS="progress";
+     String ACTION_DOWNLOAD_PAUSE ="action_download_pause";
+     String ACTION_DOWNLOAD_CONTINUE ="action_download_continue";
+     String ACTION_PROGRESS="action_download_progress";
      String ACTION_DOWNLOAD_JSON="download_json";
      String ACTION_ASSETS_JSON="assets_json";
 

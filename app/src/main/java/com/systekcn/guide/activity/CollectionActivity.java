@@ -5,8 +5,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.systekcn.guide.R;
+import com.magic.mapdemo.R;
+import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 public class CollectionActivity extends BaseActivity {
 

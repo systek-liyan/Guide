@@ -28,20 +28,6 @@
             android:layout_marginLeft="4dp"
             android:src="@mipmap/setting" />
 
-        <TextView
-            android:id="@+id/iv_home_page_guide"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="4dp"
-            android:background="@mipmap/home_page_guide_button"
-            android:src="@mipmap/switch_tab"
-            android:text="@string/home_page_guide_button_text"
-            android:textColor="@color/myWhite"
-            android:textSize="@dimen/titleBar_small_textSize" />
     </RelativeLayout>
     <ListView
         android:id="@+id/lv_download"

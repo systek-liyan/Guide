@@ -1,9 +1,19 @@
 package com.systekcn.guide.common.utils;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.view.Window;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.magic.mapdemo.R;
+import com.systekcn.guide.MyApplication;
+import com.systekcn.guide.activity.CityActivity;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.entity.CityBean;
 import com.systekcn.guide.entity.ExhibitBean;
@@ -11,11 +21,13 @@ import com.systekcn.guide.entity.MuseumBean;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
 
 public class Tools implements IConstants{
 
@@ -30,6 +42,7 @@ public class Tools implements IConstants{
 			mPath.mkdirs();
 		}
 	}
+
 
 	public static String  changePathToName(String path){
 		String name =path .replaceAll("/","_");
@@ -166,6 +179,198 @@ public class Tools implements IConstants{
 		}else{
 			return false;
 		}
+	}
+
+	/**
+	 * @param context
+	 *            上下文
+	 * @param string
+	 *            吐司要出来的内容
+	 */
+	public static void showMessage(Context context, String string) {
+		Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+	}
+
+	/**
+	 *
+	 * @param str
+	 *            密码字符串
+	 * @return 加密后的字符串
+	 */
+	public static String MD5(String str) {
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+		char[] charArray = str.toCharArray();
+		byte[] byteArray = new byte[charArray.length];
+		for (int i = 0; i < charArray.length; i++) {
+			byteArray[i] = (byte) charArray[i];
+		}
+		byte[] md5Bytes = md5.digest(byteArray);
+		StringBuffer hexValue = new StringBuffer();
+		for (int i = 0; i < md5Bytes.length; i++) {
+			int val = ((int) md5Bytes[i]) & 0xff;
+			if (val < 16) {
+				hexValue.append("0");
+			}
+			hexValue.append(Integer.toHexString(val));
+		}
+
+		return hexValue.toString();
+	}
+
+	/**
+	 * 显示对话框
+	 *
+	 * @param context
+	 * @param message
+	 *            要显示的内容
+	 * @param positive
+	 *            点击确定的按钮的名字
+	 * @param negative
+	 *            点击取消按钮的名字
+	 * @param listener
+	 *            对按钮的监听事件
+	 */
+	public static void showDialog(Context context, String message,
+								  String positive, String negative,
+								  DialogInterface.OnClickListener listener) {
+		try {
+			AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+			alertDialog.setMessage(message);
+			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, positive,
+					listener);
+			alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, negative,
+					listener);
+			alertDialog.show();
+		} catch (Exception e) {
+			ExceptionUtil.handleException(e);
+		}
+	}
+
+	/**
+	 * jeno_spf 用来存储保存的信息 这个方法是用来判断是否登录 其中isLogin 和 OK 当换成别的 根据自己来进行设置
+	 * 当登录成功后把这个存入进去。
+	 *
+	 * @return
+	 */
+	public static boolean isLogin() {
+		try {
+			SharedPreferences sp = MyApplication.getContext()
+					.getSharedPreferences("jeno_spf", Context.MODE_PRIVATE);
+			if (sp.contains("isLongin") && sp.contains("OK")) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			ExceptionUtil.handleException(e);
+			return false;
+		}
+	}
+
+	/**
+	 * 清空
+	 *
+	 * @param context
+	 */
+	public static void clearValues(Context context) {
+		try {
+			SharedPreferences sp = context.getSharedPreferences("jeno_spf",
+					Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = sp.edit();
+			editor.clear();
+			editor.commit();
+		} catch (Exception e) {
+			ExceptionUtil.handleException(e);
+		}
+	}
+
+	/**
+	 * 向SP文件存储数据
+	 *
+	 * @param context
+	 * @param key
+	 *            键名
+	 * @param value
+	 *            键值
+	 */
+	public static void saveValue(Context context, String key, Object value) {
+		try {
+			SharedPreferences sp = context.getSharedPreferences("jeno_spf",
+					Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = sp.edit();
+			if (value instanceof Integer) {
+				editor.putInt(key, (Integer) value);
+			} else if (value instanceof String) {
+				editor.putString(key, (String) value);
+			} else if (value instanceof Boolean) {
+				editor.putBoolean(key, (Boolean) value);
+			}
+			editor.commit();
+		} catch (Exception e) {
+			ExceptionUtil.handleException(e);
+		}
+	}
+
+	/**
+	 * 从SP文件中读取指定Key的值
+	 *
+	 * type=1/数值 defValue=-1 | type=2/字符串 defValue=null | type=3/布尔
+	 * defValue=false
+	 *
+	 * @param context
+	 * @param key
+	 *            键名
+	 * @param type
+	 *            数据存储类型
+	 * @return 键值
+	 */
+	public static Object getValue(Context context, String key,
+								  Object defaultObject) {
+		Object object = null;
+		try {
+			SharedPreferences sp = context.getSharedPreferences("jeno_spf",
+					Context.MODE_PRIVATE);
+			object = null;
+			if (defaultObject instanceof Integer) {
+				return sp.getInt(key, (Integer) defaultObject);
+			} else if (defaultObject instanceof String) {
+				return sp.getString(key, (String) defaultObject);
+			} else if (defaultObject instanceof Boolean) {
+				return sp.getBoolean(key, (Boolean) defaultObject);
+			}
+		} catch (Exception e) {
+			ExceptionUtil.handleException(e);
+		}
+		return object;
+	}
+
+	/**
+	 * 将数据保存到内存中。
+	 *
+	 * @param context  上下文
+	 * @param fileName 文件的名字
+	 * @param content  保存在文件中的内容
+	 * @return
+	 */
+	public static boolean saveValue2Phone(Context context, String fileName,
+										  String content) {
+
+		try {
+			FileOutputStream fos = new FileOutputStream(context.getFilesDir()
+					+ fileName);
+			fos.write(content.getBytes());
+			return true;
+		} catch (Exception e) {
+			ExceptionUtil.handleException(e);
+			return false;
+		}
+
 	}
 
 }

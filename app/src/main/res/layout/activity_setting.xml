@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_setting"
             style="@style/style_titleBar_text"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -36,9 +36,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="25sp"
             android:text="设置"
-            android:id="@+id/textView2" />
+            android:id="@+id/tv_btn_setting" />
     </LinearLayout>
 
 </LinearLayout>
