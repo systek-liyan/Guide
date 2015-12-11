@@ -52,7 +52,7 @@
     <string name="title_activity_filter">专题筛选</string>
     <string name="title_activity_collection">收藏</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--  专题界面  -->
     <string name="activity_collection_has_choose">已选择</string>
@@ -87,6 +87,10 @@
     <string name="map_load_finish">地图加载完成</string>
     <string name="map_index_finish">地图检索完成</string>
     <string name="map_init">地图开始初始化</string>
+
+    <string name="title_activity_lock_screen">LockScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>

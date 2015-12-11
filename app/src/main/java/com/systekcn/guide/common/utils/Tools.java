@@ -4,16 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Vibrator;
 import android.util.Base64;
-import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.magic.mapdemo.R;
 import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.activity.CityActivity;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.entity.CityBean;
 import com.systekcn.guide.entity.ExhibitBean;
@@ -31,6 +29,36 @@ import java.security.MessageDigest;
 
 public class Tools implements IConstants{
 
+	/**震动时间*/
+	public static void virbate(long time) {
+		Vibrator vibrator = (Vibrator) MyApplication.get().getSystemService(Context.VIBRATOR_SERVICE);
+		vibrator.vibrate(time);
+	}
+
+
+	/**
+	 * 从Assets中读取图片
+	 */
+	public Bitmap getImageFromAssetsFile(Context context,String fileName)
+	{
+		Bitmap image = null;
+		AssetManager am = context.getResources().getAssets();
+		try
+		{
+			InputStream is = am.open(fileName);
+			image = BitmapFactory.decodeStream(is);
+			is.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+		return image;
+
+	}
+
+
 	public static  byte[] BitmapToBytes(Bitmap bm) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -45,8 +73,7 @@ public class Tools implements IConstants{
 
 
 	public static String  changePathToName(String path){
-		String name =path .replaceAll("/","_");
-		return name;
+		return path .replaceAll("/","_");
 	}
 
 
@@ -56,9 +83,7 @@ public class Tools implements IConstants{
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setReadTimeout(5000);
-
 			InputStream input = conn.getInputStream();// 到这可以直接BitmapFactory.decodeFile也行。 返回bitmap
-
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
 			byte[] buffer = new byte[1024];
 			int len = 0;
@@ -71,7 +96,7 @@ public class Tools implements IConstants{
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			ExceptionUtil.handleException(e);
 		}
 		return data;
 	}
@@ -86,11 +111,9 @@ public class Tools implements IConstants{
 	public static String bitmapToString(String filePath,int width,int height) {
 
 		Bitmap bm = getSmallBitmap(filePath,width,height);
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.JPEG, 40, baos);
 		byte[] b = baos.toByteArray();
-
 		return Base64.encodeToString(b, Base64.DEFAULT);
 
 	}
@@ -155,6 +178,8 @@ public class Tools implements IConstants{
 			url=URL_MUSEUM_LIST;
 		} else if (type==URL_TYPE_GET_EXHIBITS_BY_MUSEUM_ID) {
 			url=URL_EXHIBIT_LIST;
+		}else if(type==URL_TYPE_GET_MUSEUM_BY_ID){
+			url=URL_GET_MUSEUM_BY_ID;
 		}
 		return url;
 	}
@@ -162,7 +187,7 @@ public class Tools implements IConstants{
 	public static Class<?> checkTypeForClass(int type){
 		if(type==URL_TYPE_GET_CITY){
 			return CityBean.class;
-		}else if(type==URL_TYPE_GET_MUSEUM_LIST){
+		}else if(type==URL_TYPE_GET_MUSEUM_LIST||type==URL_TYPE_GET_MUSEUM_BY_ID){
 			return MuseumBean.class;
 		}else if(type==URL_TYPE_GET_EXHIBITS_BY_MUSEUM_ID){
 			return ExhibitBean.class;
@@ -174,11 +199,7 @@ public class Tools implements IConstants{
 
 	public static boolean isFileExist(String path){
 		File file =new File(path);
-		if(file.exists()){
-			return true;
-		}else{
-			return false;
-		}
+		return file.exists();
 	}
 
 	/**
@@ -219,7 +240,6 @@ public class Tools implements IConstants{
 			}
 			hexValue.append(Integer.toHexString(val));
 		}
-
 		return hexValue.toString();
 	}
 
@@ -260,13 +280,8 @@ public class Tools implements IConstants{
 	 */
 	public static boolean isLogin() {
 		try {
-			SharedPreferences sp = MyApplication.getContext()
-					.getSharedPreferences("jeno_spf", Context.MODE_PRIVATE);
-			if (sp.contains("isLongin") && sp.contains("OK")) {
-				return true;
-			} else {
-				return false;
-			}
+			SharedPreferences sp = MyApplication.getAppContext().getSharedPreferences(APP_SETTING, Context.MODE_PRIVATE);
+			return sp.contains("isLongin") && sp.contains("OK");
 		} catch (Exception e) {
 			ExceptionUtil.handleException(e);
 			return false;
@@ -301,8 +316,7 @@ public class Tools implements IConstants{
 	 */
 	public static void saveValue(Context context, String key, Object value) {
 		try {
-			SharedPreferences sp = context.getSharedPreferences("jeno_spf",
-					Context.MODE_PRIVATE);
+			SharedPreferences sp = context.getApplicationContext().getSharedPreferences("museum", Context.MODE_PRIVATE);
 			SharedPreferences.Editor editor = sp.edit();
 			if (value instanceof Integer) {
 				editor.putInt(key, (Integer) value);
@@ -330,12 +344,10 @@ public class Tools implements IConstants{
 	 *            数据存储类型
 	 * @return 键值
 	 */
-	public static Object getValue(Context context, String key,
-								  Object defaultObject) {
+	public static Object getValue(Context context, String key, Object defaultObject) {
 		Object object = null;
 		try {
-			SharedPreferences sp = context.getSharedPreferences("jeno_spf",
-					Context.MODE_PRIVATE);
+			SharedPreferences sp = context.getApplicationContext().getSharedPreferences("museum", Context.MODE_PRIVATE);
 			object = null;
 			if (defaultObject instanceof Integer) {
 				return sp.getInt(key, (Integer) defaultObject);
@@ -371,6 +383,57 @@ public class Tools implements IConstants{
 			return false;
 		}
 
+	}
+
+
+	public static void  downLoadFromUrl(String urlStr,String fileName,String savePath) throws IOException{
+		URL url = new URL(urlStr);
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		//设置超时间为10秒
+		conn.setRequestMethod("GET");
+		conn.setReadTimeout(5000);
+		conn.setConnectTimeout(10*1000);
+		//防止屏蔽程序抓取而返回403错误
+		conn.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0");
+		if (conn.getResponseCode() == 200) {
+			//得到输入流
+			InputStream inputStream = conn.getInputStream();
+			//获取自己数组
+			byte[] getData = readInputStream(inputStream);
+			//文件保存位置
+			File saveDir = new File(savePath);
+			if(!saveDir.exists()){
+				saveDir.mkdir();
+			}
+			File file = new File(saveDir+File.separator+fileName);
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(getData);
+			if(fos!=null){
+				fos.close();
+			}
+			if(inputStream!=null){
+				inputStream.close();
+			}
+			LogUtil.i("ZHANG","文件保存成功");
+		}
+
+	}
+
+	/**
+	 * 从输入流中获取字节数组
+	 * @param inputStream
+	 * @return
+	 * @throws IOException
+	 */
+	private static  byte[] readInputStream(InputStream inputStream) throws IOException {
+		byte[] buffer = new byte[8192];
+		int len = 0;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		while((len = inputStream.read(buffer)) != -1) {
+			bos.write(buffer, 0, len);
+		}
+		bos.close();
+		return bos.toByteArray();
 	}
 
 }

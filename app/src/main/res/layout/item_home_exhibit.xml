@@ -38,5 +38,5 @@
                 android:layout_below="@id/tv_home_page_exhibit_name"
                 android:textSize="@dimen/tv_home_page_exhibit_introduce_size" />
     </RelativeLayout>
-    <include layout="@layout/gray_line" />
+    <include layout="@layout/line_gray" />
 </RelativeLayout>

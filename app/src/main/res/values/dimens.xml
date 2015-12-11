@@ -42,7 +42,7 @@
     <dimen name="guide_frag_hamburger_textSize">10sp</dimen>
     <dimen name="guide_frag_hamburger_text_margin">5dp</dimen>
     <dimen name="guide_frag_multi_angle_img_height">108dp</dimen>
-    <dimen name="seekBar_height">12dp</dimen>
+    <dimen name="seekBar_height">10dp</dimen>
     <dimen name="seekBar_margin_right">15dp</dimen>
     <dimen name="title_bar_margin">15dp</dimen>
 

@@ -34,7 +34,7 @@ public class LyricXMLParser {
     class MyHandler extends DefaultHandler {
         private int mSongCount = 0;
         private ArrayList<Integer> mLyricIds = new ArrayList<Integer>();
-        private StringBuilder mStringBuilder = new StringBuilder();;
+        private StringBuilder mStringBuilder = new StringBuilder();
 
         public int getSongCount() {
             return mSongCount;

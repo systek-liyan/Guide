@@ -16,8 +16,9 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.systekcn.guide.common.IConstants;
 
-public class ImageLoaderUtil {
+public class ImageLoaderUtil implements IConstants{
 	private static ImageLoaderConfiguration configuration;
 	private static ImageLoaderConfiguration newConfiguration(Context context)
 	{
@@ -47,13 +48,13 @@ public class ImageLoaderUtil {
 		}
 		return configuration;
 	}
-	public static void displayNetworkImage(Context context,final String imageUrl,final ImageView imageView)
+	public static void displayNetworkImage(final Context context,final String imageUrl,final ImageView imageView)
 	{
 		try {
 			ImageLoader imageLoader=ImageLoader.getInstance();
 			configuration=newConfiguration(context);
 			imageLoader.init(configuration);
-			imageLoader.displayImage(imageUrl, imageView);
+			//imageLoader.displayImage(imageUrl, imageView);
 			imageLoader.displayImage(imageUrl, imageView, new ImageLoadingListener() {
 
 				@Override
@@ -72,6 +73,10 @@ public class ImageLoaderUtil {
 				@Override
 				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 					// TODO 此处可存储图片至本地sdcard
+					LogUtil.i("ZHANG", "onLoadingComplete");
+					String path=imageUri.substring(imageUri.indexOf("182.92.82.70/") + 12);
+					String name=Tools.changePathToName(path);
+					LogUtil.i("ZHANG",name);
 				}
 
 				@Override
@@ -91,6 +96,19 @@ public class ImageLoaderUtil {
 		imageLoader.init(configuration);
 		imageLoader.displayImage("file:///"+filePathName, ivImage);
 	}
+
+	public static void displayMyImage(Context context, String filePathName, ImageView ivImage){
+		ImageLoader imageLoader=ImageLoader.getInstance();
+		configuration=newConfiguration(context);
+		imageLoader.init(configuration);
+		String localPath="file:///"+filePathName;
+		if(Tools.isFileExist(localPath)){
+			imageLoader.displayImage(localPath,ivImage);
+		}else{
+			imageLoader.displayImage(filePathName, ivImage);
+		}
+	}
+
 
 	public static void releaseImageViewResouce(ImageView imageView) {
 		if (imageView == null) return;

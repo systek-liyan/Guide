@@ -1,6 +1,8 @@
 package com.systekcn.guide.entity;
 
-public class ExhibitBean implements BeanInterface{
+import com.systekcn.guide.entity.base.BaseEntity;
+
+public class ExhibitBean extends BaseEntity {
 
     private String id;
     private String name;
@@ -270,5 +272,15 @@ public class ExhibitBean implements BeanInterface{
         result = 31 * result + version;
         result = 31 * result + priority;
         return result;
+    }
+
+    @Override
+    public void parseData(String data) {
+
+    }
+
+    @Override
+    public String getDataStr() {
+        return null;
     }
 }

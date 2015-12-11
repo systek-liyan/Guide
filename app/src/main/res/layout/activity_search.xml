@@ -5,7 +5,7 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context="com.systekcn.guide.activity.SearchActivity"
     android:orientation="vertical">
-   <com.systekcn.guide.widget.SearchView
+   <com.systekcn.guide.custom.SearchView
        android:id="@+id/search_view"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"/>

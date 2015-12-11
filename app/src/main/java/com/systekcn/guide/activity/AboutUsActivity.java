@@ -1,26 +1,22 @@
 package com.systekcn.guide.activity;
 
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.magic.mapdemo.R;
-import com.systekcn.guide.widget.DrawerView;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 
 public class AboutUsActivity extends BaseActivity {
 
-    ImageView iv_about_us_drawer;
+    private ImageView iv_about_us_drawer;
     private SlidingMenu side_drawer;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_us);
-        initialize();
-    }
 
-    private void initialize() {
+    @Override
+    public void initialize() {
+        setContentView(R.layout.activity_about_us);
         initViews();
         addListener();
         initSlidingMenu();

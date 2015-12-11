@@ -74,7 +74,7 @@ public class RangeState {
                 }
                 // If we still have useful measurements, keep it around but mark it as not
                 // tracked anymore so we don't pass it on as visible unless it is seen again
-                if (!rangedBeacon.noMeasurementsAvailable() == true) {
+                if (!rangedBeacon.noMeasurementsAvailable()) {
                     //if TrackingCache is enabled, allow beacon to not receive
                     //measurements for a certain amount of time
                     if (!UseTrackingCache || rangedBeacon.isExpired())

@@ -32,7 +32,6 @@
             android:id="@+id/tv_download_item_size"
             android:gravity="center"
             android:textSize="10sp"
-            android:text=""
             android:layout_weight="0.5"
             android:layout_width="35dp"
             android:layout_marginRight="10dp"
@@ -45,10 +44,15 @@
         android:layout_marginLeft="13dp"
         android:layout_marginRight="10dp">
 
+        <TextView
+            android:id="@+id/tv_download_state"
+            android:textSize="9sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/iv_download_ctrl_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </FrameLayout>
 
 </LinearLayout>

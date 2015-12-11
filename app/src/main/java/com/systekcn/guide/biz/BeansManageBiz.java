@@ -63,33 +63,54 @@ public class BeansManageBiz implements IConstants{
         return (List<T>) list;
     }
 
-    public <T> T getBeanById(int type, String id) {
+    public <T> List<T> getAllBeansByNet(int type,Class<T> clazz,String id) {
+        List<T> list = null;
+        if (MyApplication.currentNetworkType != INTERNET_TYPE_NONE) {
+            setIGetBeanBiz(new GetBeansFromNet());
+            String url= Tools.checkTypeForNetUrl(type);
+            list = iGetBeanBiz.getAllBeans(context,type, url,id);
+        }else{
+            list=new ArrayList<T>();
+            return list;
+        }
+        boolean isSaveSuccess = saveAllBeans(list);
+        LogUtil.i("ZHANG", "数据保存" + isSaveSuccess);
+        return (List<T>) list;
+    }
 
-        T t = null;
+
+
+    public Object getBeanById(int type, String id) {
+
+        Object object = null;
         setIGetBeanBiz(new GetBeansFromLocal());
-        t = iGetBeanBiz.getBeanById(context,type,"",id);
-        if (t==null) {
-            if (MyApplication.currentNetworkType != INTERNET_TYPE_NONE) {
-                setIGetBeanBiz(new GetBeansFromNet());
-                String url= Tools.checkTypeForNetUrl(type);
-                list = iGetBeanBiz.getAllBeans(context,type, url,id);
-            }else{
-                t=null;
-                return t;
-            }
+        object = iGetBeanBiz.getBeanById(context,type,"",id);
+        if (object==null) if (MyApplication.currentNetworkType != INTERNET_TYPE_NONE) {
+            setIGetBeanBiz(new GetBeansFromNet());
+            String url = Tools.checkTypeForNetUrl(type);
+            object = iGetBeanBiz.getBeanById(context, type, url, id);
+        } else {
+            return null;
         }
         if (iGetBeanBiz instanceof GetBeansFromNet) {
-            boolean isSaveSuccess = saveBean(t);
+            boolean isSaveSuccess = saveBean(object);
             LogUtil.i("ZHANG", "数据保存" + isSaveSuccess);
         }
-        return t;
+        return object;
     }
 
 
     List<BeaconBean> beaconBeans=null;
     BeaconBean b=null;
     boolean isGetBeaconOver=false;
+
+
     public BeaconBean getBeaconMinorAndMajor(Identifier minor,Identifier major){
+
+        long startTime=System.currentTimeMillis();
+        if(context==null){
+            context=MyApplication.get().getApplicationContext();
+        }
         DbUtils db=DbUtils.create(context);
         try {
             beaconBeans= db.findAll(Selector.from(BeaconBean.class).where("minor", "=", minor).and("major","=",major));
@@ -98,32 +119,34 @@ public class BeansManageBiz implements IConstants{
             ExceptionUtil.handleException(e);
         }
         if(beaconBeans==null||beaconBeans.size()<=0){
-            return null;
-        }else{
-            b=beaconBeans.get(0);
-        }
-        // TODO: 2015/11/2
-       /* if(b==null){ 
-            isGetBeaconOver=false;
-            HttpUtils http= new HttpUtils();
-            http.send(HttpRequest.HttpMethod.GET, "", new RequestCallBack<String>() {
 
+            HttpUtils http=new HttpUtils();
+            http.send(HttpRequest.HttpMethod.GET, URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> responseInfo) {
-                    b= JSON.parseObject(responseInfo.result, BeaconBean.class);
                     isGetBeaconOver=true;
+                    try{
+                        beaconBeans= JSON.parseArray(responseInfo.result, BeaconBean.class);
+                        if(beaconBeans!=null&&beaconBeans.size()>0){
+                            b=beaconBeans.get(0);
+                        }
+                    }catch (Exception e){ExceptionUtil.handleException(e);}
                 }
 
                 @Override
                 public void onFailure(HttpException error, String msg) {
-                    LogUtil.i("TAG", "Beacon获取失败"+error.toString());
+                    isGetBeaconOver=true;
                 }
             });
-        }*/
-        if(db!=null){
-            db.close();
+        }else{
+            b=beaconBeans.get(0);
         }
-        while(!isGetBeaconOver){}
+        db.close();
+        while(!isGetBeaconOver){
+            if(System.currentTimeMillis()-startTime>5000){
+                break;
+            }
+        }
         return b;
     }
 

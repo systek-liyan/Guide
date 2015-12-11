@@ -20,6 +20,7 @@ import com.systekcn.guide.biz.DownloadBiz;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.Tools;
 import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.entity.LabelBean;
@@ -45,6 +46,8 @@ public class MuseumDownloadService extends IntentService implements IConstants{
     private List<ExhibitBean> exhibitList;
     private List<MapBean> mapList;
     private DownloadBiz downloadBiz;
+    private String museumId;
+
     public MuseumDownloadService() {
         super("download");
     }
@@ -73,7 +76,7 @@ public class MuseumDownloadService extends IntentService implements IConstants{
         LogUtil.i("ZHANG", "已启动下载服务");
         try {
             String assetsJson = intent.getStringExtra(DOWNLOAD_ASSETS_KEY);
-            String museumId = intent.getStringExtra(DOWNLOAD_MUSEUMID_KEY);
+            museumId = intent.getStringExtra(DOWNLOAD_MUSEUMID_KEY);
             /**将展品详细信息保存至数据库*/
             saveAllJson(museumId);
 			/** 创建下载业务对象，并开始下载 */
@@ -97,6 +100,7 @@ public class MuseumDownloadService extends IntentService implements IConstants{
                 ||mapList==null||mapList.size()<=0
                 ){}
         saveAllAssetsList();
+        LogUtil.i("ZHANG","所有json数据存储成功");
     }
     private void sendProgress() {
         while(!isDownloadOver){
@@ -113,6 +117,9 @@ public class MuseumDownloadService extends IntentService implements IConstants{
                 ExceptionUtil.handleException(e);
             }
         }
+        /**下载完毕，存储状态*/
+        Tools.saveValue(this, museumId, "true");
+        LogUtil.i("ZHANG","下载状态已保存");
     }
 
     /** 获取博物馆所有展品的详细信息的json */

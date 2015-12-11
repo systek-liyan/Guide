@@ -1,7 +1,6 @@
 package com.systekcn.guide.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,14 +14,16 @@ import android.widget.TextView;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.ExhibitAdapter;
 import com.systekcn.guide.adapter.OnListViewScrollListener;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.ExhibitBean;
-import com.systekcn.guide.widget.DrawerView;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,19 +37,29 @@ public class TopicActivity extends BaseActivity {
             tv_collection_chunqiu, tv_collection_zhanguo, tv_collection_qing,
             tv_collection_shixiang, tv_collection_qingtong,tv_collection_tongqi,
             tv_collection_shike;
-
+    /**展品总列表*/
     private  List<ExhibitBean> totalExhibitList;
+    /**单个标签搜索结果列表*/
     private  List<ExhibitBean> checkExhibitList;
+    /**展示列表*/
     private  List<ExhibitBean> disPlayCheckExhibitList;
+    /**已选标签布局*/
     private LinearLayout ll_collection_has_choose;
+    /**展示集listview*/
     private ListView lv_collection_listView;
+    /**适配器*/
     private ExhibitAdapter exhibitAdapter;
+    /**滚动监听*/
     private OnListViewScrollListener onListViewScrollListener;
+    /**图片是否显示标签*/
     private boolean isPictureShow=true;
+    /**已选标签控件集合*/
     private List<TextView> tvList;
-    private TextView iv_titlebar_toGuide;
-
+    /**右上角导览按钮*/
+    private TextView iv_titleBar_toGuide;
+    /**侧边栏*/
     private SlidingMenu side_drawer;
+    /**侧边栏按钮*/
     private ImageView iv_topic_drawer;
 
     public void setOnListViewScrollListener(OnListViewScrollListener onListViewScrollListener) {
@@ -56,13 +67,13 @@ public class TopicActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initialize() {
         setContentView(R.layout.activity_topic);
         totalExhibitList =application.totalExhibitBeanList;
-        initialize();
+        /*初始化*/
+        init();
     }
-    private void initialize() {
+    private void init() {
         initViews();
         initSlidingMenu();
         exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
@@ -92,8 +103,7 @@ public class TopicActivity extends BaseActivity {
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExhibitBean bean = exhibitAdapter.getItem(position);
-                application.currentExhibitBean=bean;
+                application.currentExhibitBean= exhibitAdapter.getItem(position);
                 application.refreshData();
                 Intent intent =new Intent(TopicActivity.this,GuideActivity.class);
                 application.dataFrom=application.DATA_FROM_HOME;
@@ -102,19 +112,19 @@ public class TopicActivity extends BaseActivity {
             }
         });
 
-        iv_titlebar_toGuide.setOnClickListener(new View.OnClickListener() {
+        iv_titleBar_toGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /**点击导览时，判断，如果当前筛选列表不为为空，向专题列表赋值，启动导览界面*/
-                if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()<=0){
-                    application.topicExhibitBeanList=new ArrayList<>();
-                    application.currentExhibitBean=application.totalExhibitBeanList.get(0);
-                }else{
-                    application.topicExhibitBeanList=disPlayCheckExhibitList;
-                    application.currentExhibitBean=application.topicExhibitBeanList.get(0);
+                if (disPlayCheckExhibitList == null || disPlayCheckExhibitList.size() <= 0) {
+                    application.topicExhibitBeanList = new ArrayList<>();
+                    application.currentExhibitBean = application.totalExhibitBeanList.get(0);
+                } else {
+                    application.topicExhibitBeanList = disPlayCheckExhibitList;
+                    application.currentExhibitBean = application.topicExhibitBeanList.get(0);
                 }
-                application.isTopicOpen=true;
-                Intent intent = new Intent(TopicActivity.this,GuideActivity.class);
+                application.isTopicOpen = true;
+                Intent intent = new Intent(TopicActivity.this, GuideActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -166,7 +176,6 @@ public class TopicActivity extends BaseActivity {
             textView.setText(label);
             textView.setTextSize(12);
             textView.setGravity(Gravity.CENTER);
-            textView.setBackgroundResource(R.mipmap.collection_has_check_box);
             textView.setOnClickListener(deleteLabelClickListener);
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginStart(15);
@@ -206,7 +215,23 @@ public class TopicActivity extends BaseActivity {
                     tvList.get(i).setVisibility(View.VISIBLE);
                 }
             }
-            List<ExhibitBean> removeList=getList((String)charsTop);
+            if(ll_collection_has_choose.getChildCount()>0){
+                disPlayCheckExhibitList.clear();
+                for(int i=0;i<ll_collection_has_choose.getChildCount();i++){
+                    TextView tvLabel= (TextView) ll_collection_has_choose.getChildAt(i);
+                    String text= (String) tvLabel.getText();
+                    List<ExhibitBean> list=getList(text);
+                    if(list!=null&&list.size()>0){
+                        disPlayCheckExhibitList.removeAll(list);
+                        disPlayCheckExhibitList.addAll(list);
+                    }
+                }
+            }else{
+                disPlayCheckExhibitList=new ArrayList<>();
+                //disPlayCheckExhibitList=totalExhibitList;
+                Tools.showMessage(TopicActivity.this,"抱歉，没有符合您筛选条件的展品！");
+            }
+            /*List<ExhibitBean> removeList=getList((String)charsTop);
             if(removeList!=null&&removeList.size()>0){
                 if(disPlayCheckExhibitList!=null&&removeList.size()>0){
                     disPlayCheckExhibitList.removeAll(removeList);
@@ -214,7 +239,7 @@ public class TopicActivity extends BaseActivity {
                 if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()==0){
                     disPlayCheckExhibitList=totalExhibitList;
                 }
-            }
+            }*/
             exhibitAdapter.updateData(disPlayCheckExhibitList);
         }
     };
@@ -240,7 +265,7 @@ public class TopicActivity extends BaseActivity {
 
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
         lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
-        iv_titlebar_toGuide=(TextView)findViewById(R.id.iv_titlebar_toGuide);
+        iv_titleBar_toGuide =(TextView)findViewById(R.id.iv_titlebar_toGuide);
 
         tv_collection_pig=(TextView)findViewById(R.id.tv_collection_pig);
         tv_collection_tiger=(TextView)findViewById(R.id.tv_collection_tiger);
@@ -305,6 +330,4 @@ public class TopicActivity extends BaseActivity {
         tv_collection_tongqi.setOnClickListener(labelClickListener);
         tv_collection_shike.setOnClickListener(labelClickListener);
     }
-
-
 }

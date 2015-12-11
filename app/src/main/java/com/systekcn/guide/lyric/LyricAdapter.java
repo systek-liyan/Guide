@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
 import com.systekcn.guide.common.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class LyricAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.lyric_line, null);
+            convertView = inflater.inflate(R.layout.line_lyric, null);
             holder.lyric_line = (TextView) convertView.findViewById(R.id.lyric_line_text);
             convertView.setTag(holder);
         } else {

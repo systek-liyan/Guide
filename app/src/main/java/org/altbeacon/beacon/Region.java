@@ -26,6 +26,8 @@ package org.altbeacon.beacon;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.systekcn.guide.common.utils.ExceptionUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,8 +232,12 @@ public class Region implements Parcelable {
      * @return a new instance of this class with the same uniqueId and identifiers
      */
     @Override
-    @Deprecated
     public Region clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException e) {
+            ExceptionUtil.handleException(e);
+        }
         return new Region(mUniqueId, mIdentifiers);
     }
 }

@@ -3,6 +3,8 @@ package org.altbeacon.beacon;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
 
+import com.systekcn.guide.common.utils.ExceptionUtil;
+
 import org.altbeacon.beacon.logging.LogManager;
 import org.altbeacon.bluetooth.BleAdvertisement;
 import org.altbeacon.bluetooth.Pdu;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.lang.System.*;
 
 /**
  * Created by dyoung on 7/21/14.
@@ -35,12 +39,22 @@ import java.util.regex.Pattern;
  */
 public class BeaconParser {
     private static final String TAG = "BeaconParser";
-    private static final Pattern I_PATTERN = Pattern.compile("i\\:(\\d+)\\-(\\d+)(l?)");
-    private static final Pattern M_PATTERN = Pattern.compile("m\\:(\\d+)-(\\d+)\\=([0-9A-Fa-f]+)");
-    private static final Pattern S_PATTERN = Pattern.compile("s\\:(\\d+)-(\\d+)\\=([0-9A-Fa-f]+)");
-    private static final Pattern D_PATTERN = Pattern.compile("d\\:(\\d+)\\-(\\d+)([bl]?)");
-    private static final Pattern P_PATTERN = Pattern.compile("p\\:(\\d+)\\-(\\d+)\\:?([\\-\\d]+)?");
-    private static final Pattern X_PATTERN = Pattern.compile("x");
+    private static final Pattern M_PATTERN;
+    private static final Pattern I_PATTERN;
+    private static final Pattern S_PATTERN;
+    private static final Pattern D_PATTERN;
+    private static final Pattern P_PATTERN;
+    private static final Pattern X_PATTERN;
+
+    static {
+        I_PATTERN = Pattern.compile("i\\:(\\d+)\\-(\\d+)(l?)");
+        M_PATTERN = Pattern.compile("m\\:(\\d+)-(\\d+)\\=([0-9A-Fa-f]+)");
+        S_PATTERN = Pattern.compile("s\\:(\\d+)-(\\d+)\\=([0-9A-Fa-f]+)");
+        D_PATTERN = Pattern.compile("d\\:(\\d+)\\-(\\d+)([bl]?)");
+        P_PATTERN = Pattern.compile("p\\:(\\d+)\\-(\\d+)\\:?([\\-\\d]+)?");
+        X_PATTERN = Pattern.compile("x");
+    }
+
     private static final char[] HEX_ARRAY = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
     private Long mMatchingBeaconTypeCode;
@@ -386,7 +400,7 @@ public class BeaconParser {
             }
         }
 
-        if (patternFound == false) {
+        if (!patternFound) {
             // This is not a beacon
             if (getServiceUuid() == null) {
                 if (LogManager.isVerboseLoggingEnabled()) {
@@ -442,7 +456,7 @@ public class BeaconParser {
                 // keep default value
             }
             catch (NullPointerException e2) {
-                // keep default value
+                ExceptionUtil.handleException(e2);
             }
             // make sure it is a signed integer
             if (txPower > 127) {
@@ -626,7 +640,8 @@ public class BeaconParser {
     private String byteArrayToString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
-            sb.append(String.format("%02x", bytes[i]));
+            byte aByte = bytes[i];
+            sb.append(String.format("%02x", aByte));
             sb.append(" ");
         }
         return sb.toString().trim();
@@ -640,9 +655,7 @@ public class BeaconParser {
             }
         }
         else {
-            for (int i = 0; i <= endIndex-startIndex; i++) {
-                bytes[i] = byteBuffer[startIndex+i];
-            }
+            arraycopy(byteBuffer, startIndex + 0, bytes, 0, endIndex - startIndex + 1);
         }
 
 
@@ -664,17 +677,7 @@ public class BeaconParser {
 
         // And if it is a 12 byte number we add dashes to it to make it look like a standard UUID
         if (bytes.length == 16) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(hexString.substring(0,8));
-            sb.append("-");
-            sb.append(hexString.substring(8,12));
-            sb.append("-");
-            sb.append(hexString.substring(12,16));
-            sb.append("-");
-            sb.append(hexString.substring(16,20));
-            sb.append("-");
-            sb.append(hexString.substring(20,32));
-            return sb.toString();
+            return hexString.substring(0, 8) + "-" + hexString.substring(8, 12) + "-" + hexString.substring(12, 16) + "-" + hexString.substring(16, 20) + "-" + hexString.substring(20, 32);
         }
         return "0x"+hexString;
     }

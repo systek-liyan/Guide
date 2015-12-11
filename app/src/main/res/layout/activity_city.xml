@@ -103,7 +103,7 @@
         android:divider="@color/lightGray"
         android:dividerHeight="2dp" />
 
-    <com.systekcn.guide.widget.SideBar
+    <com.systekcn.guide.custom.SideBar
         android:id="@+id/sidebar"
         android:layout_width="30dp"
         android:layout_height="match_parent"

@@ -1,31 +1,34 @@
 package com.systekcn.guide.activity;
 
-import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.magic.mapdemo.R;
-import com.systekcn.guide.adapter.MuseumListAdapter;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
+import com.systekcn.guide.adapter.MuseumAdapter;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
+import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.MuseumBean;
-import com.systekcn.guide.widget.DrawerView;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MuseumListActivity extends BaseActivity {
+public class MuseumListActivity extends BaseActivity implements IConstants{
 
     private ListView lvMuseum;
     /*当前所在城市*/
@@ -34,33 +37,23 @@ public class MuseumListActivity extends BaseActivity {
     private SlidingMenu side_drawer;
     private ImageView iv_titleBar_switch;
     private List<MuseumBean> museumList;
-    private MuseumListAdapter adapter;
+    private MuseumAdapter adapter;
     private final int MSG_WHAT_MUSEUMS = 1;
     /**
      * 侧滑菜单按钮
      */
     private ImageView iv_drawer;
+    private MyHandler handler;
 
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_WHAT_MUSEUMS) {
-                adapter.updateData(museumList);
-            }
-        }
-    };
     private ImageView home_page_guide_flower;
     private TextView tv_museum_search;
+    private Dialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initialize() {
         setContentView(R.layout.activity_museum_list);
-        initialize();
-    }
-
-    private void initialize() {
         try{
+            initHandler();
             // 初始化数据
             initData();
             // 初始化视图
@@ -69,9 +62,25 @@ public class MuseumListActivity extends BaseActivity {
             addListener();
             //初始化侧滑菜单
             initSlidingMenu();
+            //数据初始化好之前显示加载对话框
+            showProgressDialog();
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
+    }
+
+    private void initHandler() {
+        handler=new MyHandler();
+    }
+
+
+    private void showProgressDialog() {
+        progressDialog = new AlertDialog.Builder(MuseumListActivity.this).create();
+        progressDialog.show();
+        Window window = progressDialog.getWindow();
+        window.setContentView(R.layout.dialog_progress);
+        TextView dialog_title=(TextView)window.findViewById(R.id.dialog_title);
+        dialog_title.setText("正在加载...");
     }
 
     private void initSlidingMenu() {
@@ -85,11 +94,11 @@ public class MuseumListActivity extends BaseActivity {
         iv_titleBar_switch = (ImageView) findViewById(R.id.iv_titleBar_switch);
         home_page_guide_flower = (ImageView) findViewById(R.id.home_page_guide_flower);
         lvMuseum = (ListView) findViewById(R.id.lv_museum_list);
-        tv_museum_search=(TextView)findViewById(R.id.tv_museum_search);
+        tv_museum_search=(TextView)findViewById(R.id.ed_museum_search);
         if (museumList == null) {
             museumList = new ArrayList<>();
         }
-        adapter = new MuseumListAdapter(museumList, this);
+        adapter = new MuseumAdapter(museumList, this);
         lvMuseum.setAdapter(adapter);
     }
 
@@ -97,8 +106,9 @@ public class MuseumListActivity extends BaseActivity {
         tv_museum_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(MuseumListActivity.this,SearchActivity.class);
+                Intent intent =new Intent(MuseumListActivity.this,SearchMuseumActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -179,5 +189,23 @@ public class MuseumListActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+
+    class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_WHAT_MUSEUMS) {
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+                adapter.updateData(museumList);
+            }
+        }
     }
 }

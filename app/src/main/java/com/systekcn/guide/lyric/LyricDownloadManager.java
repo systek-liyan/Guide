@@ -55,8 +55,7 @@ public class LyricDownloadManager implements IConstants {
         // 获取歌词文本，存在字符串类中
         try {
             // 建立网络连接
-            br = new BufferedReader(new InputStreamReader(mUrl.openStream(),
-                    GB2312));
+            br = new BufferedReader(new InputStreamReader(mUrl.openStream(), UTF_8));
             if (br != null) {
                 content = new StringBuilder();
                 // 逐行获取歌词文本
@@ -72,25 +71,18 @@ public class LyricDownloadManager implements IConstants {
         }
 
         if (content != null) {
-            // 检查保存的目录是否已经创建
-
-//			String folderPath = PreferenceManager.getDefaultSharedPreferences(
-//					mContext).getString(SettingFragment.KEY_LYRIC_SAVE_PATH,
-//					Constant.LYRIC_SAVE_FOLDER_PATH);
             File savefolder = new File(folderPath);
             if (!savefolder.exists()) {
                 savefolder.mkdirs();
             }
             String localName=lyricName.replaceAll("/","_");
             String savePath = folderPath  + localName;
-//			String savePath = folderPath + File.separator + musicName + ".lrc";
             Log.i(TAG, "歌词保存路径:" + savePath);
             saveLyric(content.toString(), savePath);
             return savePath;
         } else {
             return null;
         }
-
     }
 
     /** 将歌词保存到本地，写入外存中 */

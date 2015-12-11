@@ -5,8 +5,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.magic.mapdemo.R;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
+
 
 public class CollectionActivity extends BaseActivity {
 
@@ -17,12 +20,17 @@ public class CollectionActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
-        initialize();
+        init();
     }
 
-    private void initialize() {
+    private void init() {
         initView();
         addListener();
+        initSlidingMenu();
+    }
+    private void initSlidingMenu() {
+        DrawerView dv =new DrawerView(this);
+        side_drawer = dv.initSlidingMenu();
     }
 
     private void addListener() {

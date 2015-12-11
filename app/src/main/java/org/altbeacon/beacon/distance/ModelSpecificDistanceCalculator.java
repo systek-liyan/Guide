@@ -6,7 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import org.altbeacon.beacon.BeaconManager;
+import com.systekcn.guide.common.utils.ExceptionUtil;
+
 import org.altbeacon.beacon.logging.LogManager;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -167,10 +168,14 @@ public class ModelSpecificDistanceCalculator implements DistanceCalculator {
         }
         finally {
             if (reader != null) {
-                try { reader.close(); } catch (Exception e2) {}
+                try { reader.close(); } catch (Exception e2) {
+                    ExceptionUtil.handleException(e2);
+                }
             }
             if (inputStream != null) {
-                try { inputStream.close(); } catch (Exception e2) {}
+                try { inputStream.close(); } catch (Exception e2) {
+                    ExceptionUtil.handleException(e2);
+                }
             }
         }
         try {
@@ -199,7 +204,9 @@ public class ModelSpecificDistanceCalculator implements DistanceCalculator {
             try {
                 if (outputStream != null) outputStream.close();
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+                ExceptionUtil.handleException(e);
+            }
         }
         LogManager.i(TAG, "Successfully saved new distance model file");
         return true;

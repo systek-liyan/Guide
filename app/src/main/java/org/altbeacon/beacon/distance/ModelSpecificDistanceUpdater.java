@@ -56,7 +56,7 @@ public class ModelSpecificDistanceUpdater extends AsyncTask<Void, Void, Void> {
     }
 
     interface CompletionHandler {
-        public void onComplete(String body, Exception exception, int code);
+         void onComplete(String body, Exception exception, int code);
     }
 
 }

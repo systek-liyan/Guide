@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.Tools;
@@ -68,7 +68,8 @@ public class SearchAdapter extends BaseAdapter implements IConstants{
         viewHolder.name.setText(exhibitBean.getName());
         viewHolder.labels.setText(exhibitBean.getLabels());
         String iconUrl=exhibitBean.getIconurl();
-        String localUrl= Tools.changePathToName(iconUrl);
+        String localUrl=LOCAL_ASSETS_PATH+exhibitBean.getMuseumId() + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+Tools.changePathToName(iconUrl);
+
         if(Tools.isFileExist(localUrl)){
             ImageLoaderUtil.displaySdcardImage(context,localUrl,viewHolder.iv_icon);
         }else{

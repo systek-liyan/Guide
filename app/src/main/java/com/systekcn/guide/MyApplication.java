@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -13,6 +12,7 @@ import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.manager.BluetoothManager;
 import com.systekcn.guide.manager.MediaServiceManager;
 
 import java.util.ArrayList;
@@ -20,19 +20,21 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Qiang on 2015/10/22.
+ * Created by Qiang on 2015/11/26.
  */
 public class MyApplication extends Application implements IConstants{
-    /*所有的activity都放入此集合中*/
-    public static ArrayList<Activity> listActivity = new ArrayList<>();
+
+    private static MyApplication myApplication;
     /*软件是否开发完毕*/
     public static final boolean isRelease = false;
+    /*所有的activity都放入此集合中*/
+    public static ArrayList<Activity> listActivity = new ArrayList<>();
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
     public static final int GUIDE_MODEL_AUTO=2;
     public static final int GUIDE_MODEL_HAND=3;
-    public static int guideModel=GUIDE_MODEL_HAND;
-    public  MediaServiceManager mServiceManager;
+    //public static int guideModel=GUIDE_MODEL_HAND;
+    public MediaServiceManager mServiceManager;
 
     /**当前展品*/
     public ExhibitBean currentExhibitBean;
@@ -61,48 +63,32 @@ public class MyApplication extends Application implements IConstants{
     public int dataFrom;
 
     public boolean isTopicOpen=false;
+    private BluetoothManager bluetoothManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        application=this;
+        myApplication = this;
         // 防止重启两次,非相同名字的则返回
         if (!isSameAppName()) {
             return;
         }
         try{
-            initConfig();
-            initBaiduSDK();
             currentExhibitBeanList=new ArrayList<>();
             totalExhibitBeanList=new ArrayList<>();
             everSeenExhibitBeanList=new ArrayList<>();
             topicExhibitBeanList=new ArrayList<>();
             recordExhibitBeanList=new ArrayList<>();
             nearlyExhibitBeanList=new ArrayList<>();
+            initConfig();
             mServiceManager = new MediaServiceManager(getApplicationContext());
-            mServiceManager.connectService();
+            bluetoothManager=BluetoothManager.newInstance(getApplicationContext());
+            bluetoothManager.initBeaconSearcher();
+            initBaiduSDK();
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
     }
-
-    public void refreshData(){
-        if(currentExhibitBean!=null){
-            currentExhibitId=currentExhibitBean.getId();
-        }
-        currentMuseumId=currentExhibitBean.getMuseumId();
-        currentBeaconId=currentExhibitBean.getBeaconId();
-    }
-
-    public String getCurrentBeaconId(){
-        if(currentExhibitBean!=null){
-            currentBeaconId=currentExhibitBean.getBeaconId();
-            return currentBeaconId;
-        }else{
-            return "";
-        }
-    }
-
     private void initBaiduSDK() {
         try {
             // 初始化百度地图
@@ -112,8 +98,23 @@ public class MyApplication extends Application implements IConstants{
         }
     }
 
+    public  static Context getAppContext(){
+        return myApplication.getApplicationContext();
+    }
+    public void refreshData(){
+        if(currentExhibitBean!=null){
+            currentExhibitId=currentExhibitBean.getId();
+        }
+        currentMuseumId=currentExhibitBean.getMuseumId();
+        currentBeaconId=currentExhibitBean.getBeaconId();
+    }
+
     public  String getCurrentLyricDir(){
         return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_LYRIC+"/";
+    }
+
+    public String getCurrentAudioDir(){
+        return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_AUDIO+"/";
     }
     public  String getCurrentMuseumId(){
         if(currentExhibitBean!=null){
@@ -127,7 +128,7 @@ public class MyApplication extends Application implements IConstants{
     }
     private void initConfig() {
         NetworkUtil.checkNet(this);
-        SharedPreferences settings = getSharedPreferences(APP_SETTING, 0);
+        /*SharedPreferences settings = getSharedPreferences(APP_SETTING, 0);
         String mGuideModel=settings.getString(GUIDE_MODEL_KEY, IConstants.GUIDE_MODEL_HAND);
         LogUtil.i("ZHANG", mGuideModel);
         if(mGuideModel.equals(IConstants.GUIDE_MODEL_HAND)){
@@ -135,7 +136,16 @@ public class MyApplication extends Application implements IConstants{
         }else if(mGuideModel.equals(IConstants.GUIDE_MODEL_AUTO)){
             guideModel=GUIDE_MODEL_AUTO;
         }
-        LogUtil.i("测试数据模式", "guideModel----" + guideModel);
+        LogUtil.i("测试数据模式", "guideModel----" + guideModel);*/
+    }
+
+    public String getCurrentBeaconId(){
+        if(currentExhibitBean!=null){
+            currentBeaconId=currentExhibitBean.getBeaconId();
+            return currentBeaconId;
+        }else{
+            return "";
+        }
     }
 
     /*退出程序 */
@@ -150,7 +160,6 @@ public class MyApplication extends Application implements IConstants{
                 }
             }
         }
-        mServiceManager.disConnectService();
         System.exit(0);
     }
 
@@ -159,8 +168,8 @@ public class MyApplication extends Application implements IConstants{
      *
      * @return JApplication
      */
-    public  MyApplication get() {
-        return application;
+    public static MyApplication get() {
+        return myApplication;
     }
 
     /**
@@ -171,12 +180,8 @@ public class MyApplication extends Application implements IConstants{
     private boolean isSameAppName() {
         int pid = android.os.Process.myPid();
         String processAppName = getProcessAppName(pid);
-        if (TextUtils.isEmpty(processAppName) || !processAppName.equalsIgnoreCase(getPackageName())) {
-            return false;
-        }
-        return true;
+        return !(TextUtils.isEmpty(processAppName) || !processAppName.equalsIgnoreCase(getPackageName()));
     }
-
     /**
      * 获取processAppName
      *
@@ -187,8 +192,7 @@ public class MyApplication extends Application implements IConstants{
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         Iterator<ActivityManager.RunningAppProcessInfo> iterator = activityManager.getRunningAppProcesses().iterator();
         while (iterator.hasNext()) {
-            ActivityManager.RunningAppProcessInfo runningAppProcessInfo = iterator
-                    .next();
+            ActivityManager.RunningAppProcessInfo runningAppProcessInfo = (ActivityManager.RunningAppProcessInfo) (iterator.next());
             try {
                 if (runningAppProcessInfo.pid == pid) {
                     return runningAppProcessInfo.processName;
@@ -199,9 +203,4 @@ public class MyApplication extends Application implements IConstants{
         }
         return "";
     }
-
-    public static Context getContext(){
-        return getContext();
-    }
-
 }

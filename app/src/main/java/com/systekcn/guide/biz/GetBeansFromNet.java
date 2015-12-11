@@ -24,6 +24,7 @@ public class GetBeansFromNet implements IGetBeanBiz {
     @SuppressWarnings("unchecked")
     @Override
     public <T> List<T> getAllBeans(Context context, int type, String url, String id) {
+
         long startTime = System.currentTimeMillis();
         final Class clazz = Tools.checkTypeForClass(type);
         HttpUtils http = new HttpUtils();
@@ -36,6 +37,7 @@ public class GetBeansFromNet implements IGetBeanBiz {
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
+                LogUtil.i("ZHANG", "HTTP...onSuccess");
                 String str=responseInfo.result;
                 try{
                     list = JSON.parseArray(str, clazz);
@@ -50,17 +52,21 @@ public class GetBeansFromNet implements IGetBeanBiz {
 
             @Override
             public void onFailure(HttpException error, String msg) {
-                LogUtil.i("测试信息", error.toString());
+                LogUtil.i("ZHANG", error.toString());
             }
         });
-        /**判断超时10秒*/
-        while ((System.currentTimeMillis() - startTime) < 10000 || list == null) {
+        /**判断超时20秒*/
+        while ( list == null) {
+            if((System.currentTimeMillis() - startTime) > 20000){
+                break;
+            }
         }
         return (List<T>) list;
     }
 
     @Override
-    public <T> T getBeanById(Context context, int type, String url, String Id) {
+    public Object getBeanById(Context context, int type, String url, String Id) {
+        long startTime=System.currentTimeMillis();
         final Class clazz = Tools.checkTypeForClass(type);
         HttpUtils http = new HttpUtils();
         http.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
@@ -71,7 +77,7 @@ public class GetBeansFromNet implements IGetBeanBiz {
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                obj = JSON.parseObject(responseInfo.result, clazz);
+                list = JSON.parseArray(responseInfo.result, clazz);
             }
 
             @Override
@@ -82,8 +88,11 @@ public class GetBeansFromNet implements IGetBeanBiz {
             public void onFailure(HttpException error, String msg) {
             }
         });
-        while (obj == null) {
+        while (list == null) {
+            if((System.currentTimeMillis() - startTime) > 20000){
+                break;
+            }
         }
-        return (T) obj;
+        return list.get(0);
     }
 }

@@ -1,6 +1,8 @@
 package com.systekcn.guide.entity;
 
-public class MapBean implements BeanInterface{
+import com.systekcn.guide.entity.base.BaseEntity;
+
+public class MapBean extends BaseEntity {
 
 	private String id;
 	private String museumId;
@@ -76,4 +78,13 @@ public class MapBean implements BeanInterface{
 		this.version = version;
 	}
 
+	@Override
+	public void parseData(String data) {
+
+	}
+
+	@Override
+	public String getDataStr() {
+		return null;
+	}
 }

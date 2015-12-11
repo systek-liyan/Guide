@@ -1,37 +1,12 @@
 package com.systekcn.guide.fragment;
 
-import android.app.Activity;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.PointF;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 
-import com.magic.map.IMapLoaderCallback;
-import com.magic.map.MapManager;
-import com.magic.map.resource.poi.PoiFilter;
-import com.magic.map.util.MapData;
-import com.magic.map.util.PoiData;
-import com.magic.map.widget.MapView;
-import com.magic.map.widget.onMapListener;
-import com.magic.mapdemo.R;
-import com.systekcn.guide.MyApplication;
 import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.LogUtil;
 
-public class MapFragment extends Fragment implements IMapLoaderCallback,
-        onMapListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener,IConstants{
+public class MapFragment extends Fragment implements IConstants{
 
-    private static final String TAG = "MapDemo";
+    /*private static final String TAG = "MapDemo";
     private MapManager mManager = null;
     private MapView mMapView = null;
     private PoiFilter mFilter = null;
@@ -59,33 +34,47 @@ public class MapFragment extends Fragment implements IMapLoaderCallback,
 
     private Activity activity;
     private View view;
+    public float nnnn=0;
+    public float mmmm=0;
+    private MapController mController;
+    private double cc;
+    private double dd;
+    private double ee;
+    private double ff;
+    private float aaa;
+    private int bbb;
+    private float ccc;
+    private int count;//自定义count
 
     private MyApplication application;
+    private Double exhibitX;
+    private Double exhibitY;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity=activity;
-        application= (MyApplication) activity.getApplication();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        application= (MyApplication) activity.getApplication();
+        ExhibitBean bean=application.currentExhibitBean;
+        exhibitX = Double.valueOf(application.currentExhibitBean.getMapx());
+        exhibitY=Double.valueOf(application.currentExhibitBean.getMapy());
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_map, container, false);
-        /*try{
+        try{
             mManager = new MapManager(activity);
             mManager.init();
             mManager.addOnMapListener(this);
             initComponents();
         }catch (Exception e){
             ExceptionUtil.handleException(e);
-        }*/
+        }
         return view;
     }
 
@@ -106,71 +95,81 @@ public class MapFragment extends Fragment implements IMapLoaderCallback,
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
     public void onMapInit(MapData data) {
-        LogUtil.i(TAG, getString(R.string.map_init));
+       // LogUtil.i("ZHANG", getString(R.string.map_init));
+
     }
 
     @Override
     public void onMapIndexFinish() {
-        LogUtil.i(TAG, getString(R.string.map_index_finish));
+        LogUtil.i("ZHANG", getString(R.string.map_index_finish));
     }
 
     @Override
     public void onMapLoadFinish(int i) {
-        LogUtil.i(TAG, "onMapLoadFinish ");
+        count++;
+       // LogUtil.i("ZHANG", "onMapLoadFinish ");
+        exhibitX = Double.valueOf(application.currentExhibitBean.getMapx());
+        exhibitY=Double.valueOf(application.currentExhibitBean.getMapy());
+        handler.sendEmptyMessage(MSG_WHAT_DRAW_EXHIBIT);
     }
+    private  final int MSG_WHAT_DRAW_EXHIBIT=1;
+    Handler handler =new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==MSG_WHAT_DRAW_EXHIBIT){
+                renwubiaozhu(exhibitX,exhibitY);
+            }
+        }
+    };
 
     @Override
     public void onMapFinish() {
-        LogUtil.i(TAG, getString(R.string.map_finish));
+        LogUtil.i("ZHANG", getString(R.string.map_finish));
+        zhanpinbiaozhu(exhibitX, exhibitY, count);
     }
 
     @Override
     public void onAmenityLoadFinish(int error) {
-        LogUtil.i(TAG, getString(R.string.amenity_load_finish));
+        LogUtil.i("ZHANG", getString(R.string.amenity_load_finish));
     }
 
     @Override
     public void onPoiClick(PoiData data) {
-        mPoiName.setText(data.getName());
-        mPoiDescription.setText(data.getDescription());
+        //  mPoiName.setText(data.getName());
+        //  mPoiDescription.setText(data.getDescription());
         //此处修改phone为显示id
-        mPoiPhone.setText("Phone Num:" + data.getId());
-        mPoiUri.setText("Site:" + data.getUri());
-        mPoiLocation.setText(String.format("Lat:%f, Lon:%f", data.getLat(),
-                data.getLon()));
-        mPoiId = data.getId();
-        	if (data.getType() == PoiFilter.TYPE_CUSTOM) {
-        		mBtnDel.setEnabled(true);
-        	} else {
-        		mBtnDel.setEnabled(false);
-        	}
-        if (!mPoi.isShown()) {
-            mPoi.setVisibility(View.VISIBLE);
-        }
+        //  mPoiPhone.setText("Phone Num:" + data.getId());
+        //  mPoiUri.setText("Site:" + data.getUri());
+        // mPoiLocation.setText(String.format("Lat:%f, Lon:%f", data.getLat(),
+        //          data.getLon()));
+        // mPoiId = data.getId();
+        //	if (data.getType() == PoiFilter.TYPE_CUSTOM) {
+        //		mBtnDel.setEnabled(true);
+        //	} else {.0.
+        //		mBtnDel.setEnabled(false);
+        //	}
+        //  if (!mPoi.isShown()) {
+        //       mPoi.setVisibility(View.VISIBLE);
+        //   }
     }
 
     private void initComponents() {
-        mMapView = (MapView) findViewById(R.id.mapview);
-        mPoiName = (TextView) findViewById(R.id.tv_name);
-        mPoiDescription = (TextView) findViewById(R.id.tv_description);
-        mPoiPhone = (TextView) findViewById(R.id.tv_phone);
-        mPoiUri = (TextView) findViewById(R.id.tv_uri);
-        mPoiLocation = (TextView) findViewById(R.id.tv_location);
-        mPoi = (ViewGroup) findViewById(R.id.poi_info);
-        mMapView.setMapManager(mManager);
-        mFilter = new PoiFilter(mManager, PoiFilter.TYPE_SHOP);
-        mBtnStart = (Button) findViewById(R.id.btn_start);
-        mBtnEnd = (Button) findViewById(R.id.btn_stop);
-        mBtnDel = (Button) findViewById(R.id.btn_del);
-        mBtnRoute = (Button) findViewById(R.id.btn_route);
-        mBtnPoiSwitcher = (ToggleButton) findViewById(R.id.tbn_poi);
-        mBtnStart.setOnClickListener(this);
-        mBtnEnd.setOnClickListener(this);
-        mBtnDel.setOnClickListener(this);
-        mBtnRoute.setOnClickListener(this);
-        mBtnPoiSwitcher.setOnCheckedChangeListener(this);
-        mMapView.setOnPoiListener(this);
+        try{
+            mMapView = (MapView) findViewById(R.id.mapview);
+            mController=mMapView.getController();
+            mController.setZoomAnimate(0, 1);
+            mMapView.setMapManager(mManager);
+            mFilter = new PoiFilter(mManager, 2);
+            mMapView.setOnPoiListener(this);
+        }catch ( Exception e){
+            ExceptionUtil.handleException(e);
+        }
     }
 
     private View findViewById(int id){
@@ -178,98 +177,24 @@ public class MapFragment extends Fragment implements IMapLoaderCallback,
     }
 
     public void onNothingClick() {
-        if (mPoi.isShown()) {
+        if (mPoi!=null&&mPoi.isShown()) {
             mPoi.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onLongPress(PointF point) {
-        mTouchPoint = point;
-        if (mBtnPoiSwitcher.isChecked()) {
-            onCreateDialog(0).show();
-        }
-    }
-
-    protected Dialog onCreateDialog(int id) {
-        Builder builder = new Builder(activity);
-        LayoutInflater inflater = LayoutInflater.from(activity);
-        View layout = null;
-        if (id == 0) {
-            layout = inflater.inflate(R.layout.custom_poi, null);
-            mCustomPoiId = (EditText) layout.findViewById(R.id.et_id);
-            mCustomPoiName = (EditText) layout.findViewById(R.id.et_name);
-            mCustomPoiDescription = (EditText) layout
-                    .findViewById(R.id.et_description);
-            mCustomPoiPhone = (EditText) layout.findViewById(R.id.et_phone);
-            mCustomPoiSite = (EditText) layout.findViewById(R.id.et_site);
-            builder.setView(layout);
-            builder.setPositiveButton(getString(android.R.string.ok),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String id = mCustomPoiId.getText().toString();
-                            if (id.length() > 0) {
-                                PoiData data = new PoiData(Long.parseLong(id),
-                                        mCustomPoiName.getText().toString(),
-                                        mCustomPoiDescription.getText()
-                                                .toString(), mCustomPoiPhone
-                                        .getText().toString(),
-                                        mCustomPoiSite.getText().toString(),
-                                        PoiFilter.TYPE_CUSTOM);
-                                mMapView.addPoi(mTouchPoint, data);
-                                dialog.dismiss();
-                            } else {
-                                mCustomPoiId
-                                        .setError(getString(R.string.error_id));
-                            }
-                        }
-                    });
-            builder.setNegativeButton(getString(android.R.string.cancel),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-        } else if (id == 1) {
-            layout = inflater.inflate(R.layout.error, null);
-            builder.setView(layout);
-            builder.setPositiveButton(getString(android.R.string.ok),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-        }
-        return builder.create();
+        LogUtil.i("ZHANG","onLongPress");
     }
 
     @Override
     public void onMapLoadError(int arg0) {
-        onCreateDialog(1).show();
+        //onCreateDialog(1).show();// TODO: 2015/11/17
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_del:
-                mMapView.delPoi(mPoiId);
-                mPoi.setVisibility(View.INVISIBLE);
-                break;
-            case R.id.btn_start:
-                mStart = mPoiData;
-                mBtnRoute.setEnabled(checkRouteReadly());
-                break;
-            case R.id.btn_stop:
-                mEnd = mPoiData;
-                mBtnRoute.setEnabled(checkRouteReadly());
-                break;
-            case R.id.btn_route:
-                mMapView.getController().searchRoute(mStart, mEnd);
-                break;
-        }
+        LogUtil.i("ZHANG","onClick");
     }
 
     private boolean checkRouteReadly(){
@@ -278,6 +203,7 @@ public class MapFragment extends Fragment implements IMapLoaderCallback,
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        LogUtil.i("ZHANG","onCheckedChanged");
         if (isChecked) {
             mMapView.setFilter(mFilter);
         } else {
@@ -287,8 +213,65 @@ public class MapFragment extends Fragment implements IMapLoaderCallback,
 
     @Override
     public void onNewRouteCalculated(boolean arg0) {
-        // TODO Auto-generated method stub
-
+        LogUtil.i("ZHANG","onNewRouteCalculated");
     }
+
+    //这是搜索后的展品位置标注，参数x，y是想在地图上标出的坐标，count用来计数同时生成id
+    public void zhanpinbiaozhu(double x,double y,int count){
+        Builder builder = new Builder(activity);
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        View layout = null;
+        layout = inflater.inflate(R.layout.custom_poi, null);
+        //mCustomPoiId = (EditText) layout.findViewById(R.id.et_id);
+        mCustomPoiName = (EditText) layout.findViewById(R.id.et_name);
+        mCustomPoiDescription = (EditText) layout.findViewById(R.id.et_description);
+        mCustomPoiPhone = (EditText) layout.findViewById(R.id.et_phone);
+        mCustomPoiSite = (EditText) layout.findViewById(R.id.et_site);
+        builder.setView(layout);
+        PoiData data = new PoiData(111112345+count,
+                mCustomPoiName.getText().toString(),
+                mCustomPoiDescription.getText().toString(),
+                mCustomPoiPhone.getText().toString(),
+                mCustomPoiSite.getText().toString(),
+                PoiFilter.TYPE_SHOP);
+
+        //x=116.356738,y=39.959162;x,y是坐标值，格式大概是这样
+        //(570,810)是mMapView在任何情况下获取坐标对应的屏幕位置！！！
+        //这是在1920屏幕上测试通过的，假如是小屏幕不通过，只需修改（579,810）这一组数值即可。
+        cc=mMapView.getLatitude();
+        dd=mMapView.getLongitude();
+        ee=x-dd;
+        ff=cc-y;
+        aaa=mMapView.getDensity();
+        bbb=mMapView.getZoom();
+        ccc=mMapView.getZoomScale();
+        //算式后的系数，一为17(0,1)倍率下，x轴参数，一为y轴参数。
+        //float n=(float)(570+ee*186431.9);
+        //float m=(float)(810+ff*243191.9);
+        float n=(float)(570+ee*186431.9);
+        float m=(float)(810+ff*243191.9);
+        mTouchPoint=new PointF(n,m);
+        mMapView.addPoi(mTouchPoint, data);
+    }
+
+    public void renwubiaozhu(double x,double y){
+        cc=mMapView.getLatitude();
+        dd=mMapView.getLongitude();
+        ee=x-dd;
+        ff=cc-y;
+        aaa=mMapView.getDensity();
+        bbb=mMapView.getZoom();
+        ccc=mMapView.getZoomScale();
+        //算式后的系数，一为17(0,1)倍率下，x轴参数，一为y轴参数。
+        //float n=(float)(570+ee*186431.9);
+        //float m=(float)(810+ff*243191.9);
+        nnnn=(float)(570+ee*186431.9);
+        mmmm=(float)(810+ff*243191.9);
+        FrameLayout root = (FrameLayout)view;
+        final DrawView draw = new DrawView(activity);
+        draw.setMinimumWidth(300);
+        draw.setMinimumHeight(500);
+        root.addView(draw);
+    }*/
 
 }

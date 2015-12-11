@@ -36,23 +36,23 @@ public interface MonitorNotifier {
     /**
      * Indicates the Android device is inside the Region of beacons
      */
-    public static final int INSIDE = 1;
+     int INSIDE = 1;
     /**
      * Indicates the Android device is outside the Region of beacons
      */
-    public static final int OUTSIDE = 0;
+     int OUTSIDE = 0;
 
     /**
      * Called when at least one beacon in a <code>Region</code> is visible.
      * @param region a Region that defines the criteria of beacons to look for
      */
-    public void didEnterRegion(Region region);
+     void didEnterRegion(Region region);
 
     /**
      * Called when no beacons in a <code>Region</code> are visible.
      * @param region a Region that defines the criteria of beacons to look for
      */
-    public void didExitRegion(Region region);
+     void didExitRegion(Region region);
 
     /**
      * Called with a state value of MonitorNotifier.INSIDE when at least one beacon in a <code>Region</code> is visible.
@@ -60,5 +60,5 @@ public interface MonitorNotifier {
      * @param state either MonitorNotifier.INSIDE or MonitorNotifier.OUTSIDE
      * @param region a Region that defines the criteria of beacons to look for
      */
-    public void didDetermineStateForRegion(int state, Region region);
+     void didDetermineStateForRegion(int state, Region region);
 }

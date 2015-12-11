@@ -1,14 +1,16 @@
 package com.systekcn.guide.activity;
 
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.widget.DrawerView;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
+import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 
 public class SettingActivity extends BaseActivity implements IConstants{
 
@@ -16,16 +18,25 @@ public class SettingActivity extends BaseActivity implements IConstants{
     private SlidingMenu side_drawer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initialize(){
         setContentView(R.layout.activity_setting);
-        initialize();
+        init();
     }
 
-    private void initialize() {
+    private void init() {
         initViews();
         addListener();
         initSlidingMenu();
+    }
+
+    public void doClick(View view){
+        if(view.getId()==R.id.button_test1){
+            String test=String.valueOf(Tools.getValue(this, "test", "false"));
+            Toast.makeText(this,test,Toast.LENGTH_SHORT).show();
+        }else if(view.getId()==R.id.button_test2){
+            Tools.saveValue(this, "test", "true");
+            Toast.makeText(this,"数据已保存",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initSlidingMenu() {

@@ -47,9 +47,8 @@ public class DistanceConfigFetcher {
         URL url;
         HttpURLConnection conn = null;
         do {
-            if (requestCount != 0) {
-                LogManager.d(TAG, "Following redirect from %s to %s",
-                        mUrlString, conn.getHeaderField("Location"));
+            if (requestCount != 0&&conn!=null) {
+                //LogManager.d(TAG, "Following redirect from %s to %s", mUrlString, conn.getHeaderField("Location"));
                 currentUrlString = conn.getHeaderField("Location");
             }
             requestCount++;
@@ -88,16 +87,18 @@ public class DistanceConfigFetcher {
                         || mResponseCode == HttpURLConnection.HTTP_SEE_OTHER));
 
         if (mException == null) {
+            BufferedReader in;
             try {
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(
-                                conn.getInputStream())
-                );
-                String inputLine;
-                while ((inputLine = in.readLine()) != null)
-                    responseBuilder.append(inputLine);
-                in.close();
-                mResponse = responseBuilder.toString();
+                if(conn!=null){
+                    in = new BufferedReader(new InputStreamReader(conn.getInputStream())
+                    );
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        responseBuilder.append(inputLine);
+                    }
+                    in.close();
+                    mResponse = responseBuilder.toString();
+                }
             } catch (Exception e) {
                 mException = e;
                 LogManager.w(e, TAG, "error reading beacon data");

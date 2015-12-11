@@ -65,16 +65,16 @@ import java.util.concurrent.RejectedExecutionException;
 public class BeaconService extends Service {
     public static final String TAG = "BeaconService";
 
-    private Map<Region, RangeState> rangedRegionState = new HashMap<Region, RangeState>();
+    private final Map<Region, RangeState> rangedRegionState = new HashMap<Region, RangeState>();
     private Map<Region, MonitorState> monitoredRegionState = new HashMap<Region, MonitorState>();
     int trackedBeaconsPacketCount;
     private Handler handler = new Handler();
-    private int bindCount = 0;
+    private int bindCount;
     private BluetoothCrashResolver bluetoothCrashResolver;
-    private DistanceCalculator defaultDistanceCalculator = null;
+    private DistanceCalculator defaultDistanceCalculator ;
     private List<BeaconParser> beaconParsers;
     private CycledLeScanner mCycledScanner;
-    private boolean mBackgroundFlag = false;
+    private boolean mBackgroundFlag ;
     private GattBeaconTracker mGattBeaconTracker = new GattBeaconTracker();
 
     /*

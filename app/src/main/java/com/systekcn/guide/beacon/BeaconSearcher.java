@@ -1,6 +1,11 @@
 package com.systekcn.guide.beacon;
 
-import java.util.Collection;
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.RemoteException;
 
 import org.altbeacon.beacon.AltBeaconParser;
 import org.altbeacon.beacon.Beacon;
@@ -15,13 +20,8 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.service.ArmaRssiFilter;
 import org.altbeacon.beacon.service.RunningAverageRssiFilter;
 
-import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.RemoteException;
-import android.util.Log;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * beacon基站搜索类， 用以搜索beacon基站，开发者 通过实现callback回调接口
@@ -287,13 +287,14 @@ public class BeaconSearcher {
 		 */
 		@Override
 		public void didRangeBeaconsInRegion(Collection<Beacon> beacons,Region region) {
-			LogManager.d(TAG,"didRangeBeaconsInRegion(),beacons=" + beacons.size());
+			/*LogManager.d(TAG,"didRangeBeaconsInRegion(),beacons=" + beacons.size());
 			for (Beacon beacon : beacons) {
 				LogManager.d(TAG, beacon.getId2()+":"+beacon.getId3() + "," + beacon.getDistance());
+			}*/
+			List<BeaconForSort> bs = mNearestBeacon.getNearestBeacon(mGetBeaconType, beacons);
+			if(bs!=null&&bs.size()>0){
+				mOnNearestBeaconListener.getNearestBeacons(mGetBeaconType, bs);
 			}
-			Beacon beacon = mNearestBeacon.getNearestBeacon(mGetBeaconType,beacons);
-			if(beacon!=null)
-				mOnNearestBeaconListener.getNearestBeacon(mGetBeaconType, beacon);
 		}
 	};
 
@@ -303,8 +304,7 @@ public class BeaconSearcher {
 		/** Called when at least one beacon in a Region is visible. */
 		@Override
 		public void didEnterRegion(Region region) {
-			LogManager
-					.d(TAG,
+			LogManager.d(TAG,
 							"didEnterRegion(),region uniqueId= "
 									+ region.getUniqueId());
 			/**
@@ -412,7 +412,8 @@ public class BeaconSearcher {
 		 * @param beacon
 		 *            展品定位beacon或游客定位beacon
 		 */
-		public void getNearestBeacon(int type, Beacon beacon);
+		 void getNearestBeacon(int type, Beacon beacon);
+		 void getNearestBeacons(int type, List<BeaconForSort> beacons);
 	}
 
 	/**
@@ -535,13 +536,9 @@ public class BeaconSearcher {
 	@SuppressLint("InlinedApi")
 	public boolean checkBLEEnable() throws BleNotAvailableException {
 		try {
-			if (mBeaconManager.checkAvailability()) {
-				// 支持ble 且蓝牙已打开
-				return true;
-			} else {
-				// 支持ble 但蓝牙未打开
-				return false;
-			}
+			// 支持ble 且蓝牙已打开
+// 支持ble 但蓝牙未打开
+			return mBeaconManager.checkAvailability();
 		} catch (BleNotAvailableException e) {
 			// 当设备没有bluetooth或没有ble时，会产生该异常
 			throw new BleNotAvailableException(

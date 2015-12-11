@@ -30,7 +30,7 @@ public class RangedBeacon {
             Constructor cons = BeaconManager.getRssiFilterImplClass().getConstructors()[0];
             filter = (RssiFilter)cons.newInstance();
             if ((filter != null) && (filter instanceof RunningAverageRssiFilter))
-                ((RunningAverageRssiFilter)filter).setSampleExpirationMilliseconds(sampleExpirationMilliseconds);
+                RunningAverageRssiFilter.setSampleExpirationMilliseconds(sampleExpirationMilliseconds);
         } catch (Exception e) {
             LogManager.e(TAG, "Could not construct RssiFilterImplClass %s", BeaconManager.getRssiFilterImplClass().getName());
         }

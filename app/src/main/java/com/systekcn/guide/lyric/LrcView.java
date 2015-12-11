@@ -133,7 +133,6 @@ public class LrcView extends ScrollView {
             mScroller.startScroll(this.getScrollX(), (int) (oldHeight + fontSize - midHeight + DY / 2), 0, 30, 800);
 
         }
-        return;
     }
 
     @Override

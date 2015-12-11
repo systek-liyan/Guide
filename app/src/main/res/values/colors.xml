@@ -16,10 +16,13 @@
     <color name="red">#F55453</color>
     <color name="gray">#E1E1E1</color>
 
-    <color name="btn_press_color">#5677fc</color>
-    <color name="btn_pressed_color">#3ca0ec</color>
+    <color name="btn_press_color">#e77d46</color>
+    <color name="btn_pressed_color">#E47732</color>
 
+    <color name="black_overlay">#66000000</color>
+    <color name="yellow">#FDC83E</color>
 
+    <color name="my_green">#2bdace</color>
 
 
 </resources>

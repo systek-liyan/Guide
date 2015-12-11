@@ -1,7 +1,5 @@
 package org.altbeacon.beacon.service;
 
-import android.util.Log;
-
 import org.altbeacon.beacon.Beacon;
 
 import java.util.HashMap;

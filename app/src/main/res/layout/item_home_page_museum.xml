@@ -3,11 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/largest_icon_height">
-
         <LinearLayout
             android:id="@+id/ll_museum_largest_icon"
             android:layout_width="match_parent"
@@ -36,72 +34,74 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/myWhite"
         android:gravity="center_vertical|end">
         <ImageView
             android:id="@+id/iv_home_page_ctrl_sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/standard_item_left_right_margin"
             android:background="@mipmap/headset_on" />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/myWhite">
         <TextView
             android:id="@+id/tv_museum_introduce_short"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tv_home_page_museum_introduce_height" />
-
         <TextView
             android:id="@+id/tv_museum_introduce_long"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/myWhite"
             android:visibility="gone" />
-
-
         <ImageView
             android:id="@+id/iv_home_page_introduce_open"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tv_museum_introduce_short"
+            android:layout_width="20dp"
+            android:layout_height="14dp"
+            android:scaleType="fitXY"
+            android:layout_margin="5dp"
+            android:layout_below="@id/tv_museum_introduce_short"
             android:layout_centerHorizontal="true"
             android:src="@mipmap/home_page_text_open" />
         <ImageView
             android:id="@+id/iv_home_page_introduce_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tv_museum_introduce_long"
+            android:layout_width="20dp"
+            android:layout_height="14dp"
+            android:scaleType="fitXY"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@id/tv_museum_introduce_long"
             android:layout_centerHorizontal="true"
             android:visibility="gone"
             android:src="@mipmap/home_page_text_close" />
+
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/standard_item_height"
-        android:layout_below="@+id/iv_icon">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/standard_item_left_right_margin"
-            android:src="@mipmap/search"/>
-
-        <TextView
-            android:id="@+id/ed_museum_search"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:hint="@string/search_view_museum_hint"
-            android:paddingLeft="48dp"
-            android:textSize="12sp" />
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/ed_museum_search"
+                android:layout_gravity="center_vertical"
+                android:drawableLeft="@mipmap/search"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:background="@drawable/shape_search_edittext"
+                android:drawablePadding="5dp"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:textSize="16sp"
+                android:inputType="text"
+                android:hint="请输入关键字"/>
+        </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>

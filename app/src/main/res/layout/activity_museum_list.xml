@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context="com.systekcn.guide.activity.MuseumListActivity">
 
     <RelativeLayout
@@ -54,38 +55,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/largest_icon_height"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/bowuguan" />
 
-            <RelativeLayout
-                android:id="@+id/rl_search"
+            <LinearLayout
+                android:id="@+id/ll_search_museum"
+                android:layout_below="@id/iv_icon"
                 android:layout_width="match_parent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_height="@dimen/standard_item_height"
-                android:layout_below="@+id/iv_icon">
-
-                <ImageView
-                    android:id="@+id/iv_museum_searching"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/standard_item_left_right_margin"
-                    android:src="@mipmap/search" />
-
-                <TextView
-                    android:id="@+id/tv_museum_search"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:textSize="@dimen/ed_museum_search_textSize"
-                    android:hint="@string/search_view_museum_hint"
-                    android:paddingLeft="48dp" />
-            </RelativeLayout>
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/ed_museum_search"
+                        android:layout_gravity="center_vertical"
+                        android:drawableLeft="@mipmap/search"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/shape_search_edittext"
+                        android:drawablePadding="5dp"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:textSize="16sp"
+                        android:inputType="text"
+                        android:hint="请输入关键字"/>
+                </FrameLayout>
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/lv_museum_list"
@@ -93,7 +88,7 @@
                 android:layout_height="480dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/rl_search" />
+                android:layout_below="@+id/ll_search_museum" />
         </RelativeLayout>
     </ScrollView>
 
@@ -102,6 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/fm_home_page_flower_bottom_instance"
         android:layout_marginRight="@dimen/activity_horizontal_margin">
 
@@ -112,4 +108,4 @@
             android:src="@mipmap/home_page_flower" />
     </FrameLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".WelcomeActivity">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/titleBar_title_text"
-        style="@style/action_titleBar"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:id="@+id/linearlayout_dots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="15dp" >
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/style_titleBar_text"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="欢迎界面"/>
-    </RelativeLayout>
-
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="188dp"
-        android:text="@string/activity_welcome"
-        android:textSize="30sp" />
-
-</RelativeLayout>
+        android:text="进入体验"
+        android:id="@+id/btn_into_app"
+        android:visibility="gone"
+        android:background="@drawable/bg_btn"
+        android:textColor="@color/myWhite"
+        android:layout_marginBottom="65dp"
+        android:layout_gravity="bottom|center_horizontal" />
+</FrameLayout>

@@ -109,7 +109,6 @@
                         android:layout_marginTop="2dp"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="圆明园猪首" />]
 
@@ -122,7 +121,6 @@
                         android:layout_marginTop="2dp"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="圆明园猴首" />
 
@@ -135,7 +133,6 @@
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="圆明园虎首" />
 
@@ -148,7 +145,6 @@
                         android:layout_marginTop="2dp"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="圆明园牛首" />
                 </LinearLayout>
@@ -183,7 +179,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="东魏" />
 
@@ -194,7 +189,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="北齐" />
 
@@ -205,7 +199,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="北魏" />
 
@@ -216,7 +209,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="西周" />
 
@@ -227,7 +219,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="商" />
 
@@ -238,7 +229,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="隋" />
 
@@ -249,7 +239,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="唐代" />
 
@@ -260,7 +249,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="汉代" />
 
@@ -271,7 +259,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="春秋" />
 
@@ -282,7 +269,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="战国" />
 
@@ -293,7 +279,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="清" />
                 </LinearLayout>
@@ -328,7 +313,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="石像" />]
 
@@ -339,7 +323,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="青铜" />
 
@@ -350,7 +333,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="铜器" />
 
@@ -361,7 +343,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="石刻" />
                 </LinearLayout>
@@ -397,7 +378,6 @@
                         android:layout_marginTop="2dp"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="暂无分类" />]
 
@@ -409,7 +389,6 @@
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
                         android:layout_marginTop="2dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="暂无分类" />
 
@@ -421,7 +400,6 @@
                         android:layout_marginTop="2dp"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
-                        android:background="@mipmap/collection_check_box"
                         android:gravity="center"
                         android:text="暂无分类" />
                 </LinearLayout>

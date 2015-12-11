@@ -1,18 +1,18 @@
 package com.systekcn.guide.beacon;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
+import com.systekcn.guide.common.utils.ExceptionUtil;
+
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.logging.LogManager;
+
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.distance.ModelSpecificDistanceCalculator;
-import org.altbeacon.beacon.logging.LogManager;
-
-import android.content.Context;
-import android.content.res.AssetManager;
 
 /**
  * <pre>
@@ -138,7 +138,9 @@ public class DefaultDistanceCalcuator {
             try {
                 if (outputStream != null) outputStream.close();
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				ExceptionUtil.handleException(e);
+			}
         }
         LogManager.i(TAG, "Successfully saved new distance model file");
         return true;

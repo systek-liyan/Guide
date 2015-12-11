@@ -1,7 +1,7 @@
 package org.altbeacon.beacon.distance;
 
 import android.os.Build;
-import org.altbeacon.beacon.BeaconManager;
+
 import org.altbeacon.beacon.logging.LogManager;
 
 /**
@@ -11,10 +11,10 @@ import org.altbeacon.beacon.logging.LogManager;
  */
 public class AndroidModel {
     private static final String TAG = "AndroidModel";
-    String mVersion;
-    String mBuildNumber;
-    String mModel;
-    String mManufacturer;
+    private String mVersion;
+    private String mBuildNumber;
+    private String mModel;
+    private String mManufacturer;
 
 
     public AndroidModel(String version, String buildNumber,

@@ -61,9 +61,9 @@ public class Beacon implements Parcelable {
      * Determines whether a the bluetoothAddress (mac address) must be the same for two Beacons
      * to be configured equal.
      */
-    protected static boolean sHardwareEqualityEnforced = false;
+    private static boolean sHardwareEqualityEnforced = false;
 
-    protected static DistanceCalculator sDistanceCalculator = null;
+    private static DistanceCalculator sDistanceCalculator = null;
 
     /**
      * The a list of the multi-part identifiers of the beacon.  Together, these identifiers signify
@@ -82,7 +82,7 @@ public class Beacon implements Parcelable {
      * and merged into this beacon.  Data fields are limited to the size of a Java long, or six
      * bytes.
      */
-    protected List<Long> mExtraDataFields;
+    private List<Long> mExtraDataFields;
 
     /**
      * A double that is an estimate of how far the Beacon is away in meters.   Note that this number
@@ -455,9 +455,7 @@ public class Beacon implements Parcelable {
                 return false;
             }
         }
-        return sHardwareEqualityEnforced ?
-                this.getBluetoothAddress().equals(thatBeacon.getBluetoothAddress()) :
-                true;
+        return !sHardwareEqualityEnforced || this.getBluetoothAddress().equals(thatBeacon.getBluetoothAddress());
     }
 
     /**

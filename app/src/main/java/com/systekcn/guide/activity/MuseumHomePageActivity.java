@@ -1,61 +1,67 @@
 package com.systekcn.guide.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.magic.mapdemo.R;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.systekcn.guide.MyApplication;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.ExhibitAdapter;
 import com.systekcn.guide.adapter.OnListViewScrollListener;
-import com.systekcn.guide.beacon.BeaconSearcher;
-import com.systekcn.guide.beacon.NearestBeacon;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
+import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.Tools;
-import com.systekcn.guide.entity.BeaconBean;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.entity.MuseumBean;
-import com.systekcn.guide.widget.DrawerView;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.Identifier;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MuseumHomePageActivity extends BaseActivity {
+public class MuseumHomePageActivity extends BaseActivity implements IConstants{
 
     private String currentMuseumId;
-    /* 侧滑菜单 */
+    /**侧滑菜单 */
     private SlidingMenu side_drawer;
     /**展品列表*/
     private ListView exhibitListView;
@@ -83,6 +89,7 @@ public class MuseumHomePageActivity extends BaseActivity {
     private ImageView iv_Drawer;
     /**listview的header*/
     private View lv_header;
+    /**布局解析器*/
     private LayoutInflater inflater;
     /**控制博物馆介绍内同大小的图片按钮开*/
     private ImageView iv_home_page_introduce_open;
@@ -98,19 +105,11 @@ public class MuseumHomePageActivity extends BaseActivity {
     private ImageView home_page_guide_flower;
     /**屏幕宽度*/
     private int screenWidth;
+    /**播放器*/
     private MediaPlayer mediaPlayer;
-
-    /**蓝牙扫描对象*/
-    private static BeaconSearcher mBeaconSearcher;
-    /**
-     * Bluetooth 设备可见时间，单位：秒。
-     */
-    private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
-    /**
-     * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
-     */
-    private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
     private ModelChangeBroadcastReceiver modelChangeBroadcastReceiver;
+    private AlertDialog progressDialog;
+    private DrawerView drawerView;
 
     public void setOnListViewScrollListener(OnListViewScrollListener onListViewScrollListener) {
         this.onListViewScrollListener = onListViewScrollListener;
@@ -119,8 +118,11 @@ public class MuseumHomePageActivity extends BaseActivity {
     Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             if (msg.what == MSG_WHAT_UPDATE_DATA) {
-                updateDate();
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
                 application.totalExhibitBeanList=currentExhibitList;
+                updateDate();
             }
         }
     };
@@ -128,31 +130,34 @@ public class MuseumHomePageActivity extends BaseActivity {
     //private int start,end;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initialize() {
         setContentView(R.layout.activity_museum_home_page);
+        application.mServiceManager.connectService();/**启动播放服务*/
         Intent intent = getIntent();
         currentMuseumId = intent.getStringExtra(INTENT_MUSEUM_ID);
-        application= (MyApplication) getApplication();
         application.currentMuseumId=currentMuseumId;
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         screenWidth = display.getWidth();
-        if(application.guideModel==application.GUIDE_MODEL_AUTO){
-            initBeaconSearcher();
-        }
-        initialize();
-    }
-
-    private void initialize() {
-        registerReceiver();
-        initView();
+        init();
+        initData();
+        //registerReceiver();
         addListener();
         initSlidingMenu();
-        initData();
+        /**数据初始化好之前显示加载对话框*/
+        showProgressDialog();
     }
 
-    private void initView() {
+    private void showProgressDialog() {
+        progressDialog = new AlertDialog.Builder(MuseumHomePageActivity.this).create();
+        progressDialog.show();
+        Window window = progressDialog.getWindow();
+        window.setContentView(R.layout.dialog_progress);
+        TextView dialog_title=(TextView)window.findViewById(R.id.dialog_title);
+        dialog_title.setText("正在加载...");
+    }
+
+    private void init() {
         inflater = LayoutInflater.from(this);
         iv_Drawer = (ImageView) findViewById(R.id.iv_setting);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -161,7 +166,7 @@ public class MuseumHomePageActivity extends BaseActivity {
         home_page_guide_flower=(ImageView)findViewById(R.id.home_page_guide_flower);
         lv_header = inflater.inflate(R.layout.item_home_page_museum, null);
         ll_museum_largest_icon = (LinearLayout) lv_header.findViewById(R.id.ll_museum_largest_icon);
-        ed_museum_search = (TextView) lv_header.findViewById(R.id.ed_museum_search);// TODO: 2015/11/6  
+        ed_museum_search = (TextView) lv_header.findViewById(R.id.ed_museum_search);// TODO: 2015/11/6
         iv_home_page_ctrl_sound = (ImageView) lv_header.findViewById(R.id.iv_home_page_ctrl_sound);
         tv_museum_introduce_short = (TextView) lv_header.findViewById(R.id.tv_museum_introduce_short);
         tv_museum_introduce_long = (TextView) lv_header.findViewById(R.id.tv_museum_introduce_long);
@@ -175,11 +180,10 @@ public class MuseumHomePageActivity extends BaseActivity {
         exhibitListView.setAdapter(exhibitAdapter);
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
-        if(mediaPlayer.isPlaying()){
+        if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             mediaPlayer.pause();
             iv_home_page_ctrl_sound.setBackgroundResource(R.mipmap.headset_off);
         }
@@ -207,8 +211,9 @@ public class MuseumHomePageActivity extends BaseActivity {
         home_page_guide_flower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MuseumHomePageActivity.this,TopicActivity.class);
-                startActivity(intent);
+                showPopupWindow(v);
+                /*Intent intent = new Intent(MuseumHomePageActivity.this,TopicActivity.class);
+                startActivity(intent);*/
             }
         });
 
@@ -248,9 +253,6 @@ public class MuseumHomePageActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MuseumHomePageActivity.this, GuideActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                application.currentExhibitBean = application.totalExhibitBeanList.get(0);
-                application.currentExhibitBeanList.add(application.currentExhibitBean);
-                application.refreshData();
                 startActivity(intent);
             }
         });
@@ -286,9 +288,8 @@ public class MuseumHomePageActivity extends BaseActivity {
         exhibitListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExhibitBean bean = exhibitAdapter.getItem(position - 1);
-                application.currentExhibitBean = bean;
-                LogUtil.i("ZHANG","exhibitListView.setOnItemClickListener::::application.currentExhibitBean = bean");
+                application.currentExhibitBean = exhibitAdapter.getItem(position - 1);
+                LogUtil.i("ZHANG", "exhibitListView.setOnItemClickListener::::application.currentExhibitBean = bean");
                 application.refreshData();
                 Intent intent = new Intent(MuseumHomePageActivity.this, GuideActivity.class);
                 application.dataFrom = application.DATA_FROM_HOME;
@@ -298,24 +299,66 @@ public class MuseumHomePageActivity extends BaseActivity {
         ed_museum_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(MuseumHomePageActivity.this,SearchActivity.class);
+                Intent intent = new Intent(MuseumHomePageActivity.this, SearchActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 startActivity(intent);
             }
         });
     }
 
+    private void showPopupWindow(View view) {
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_window, null);
+        // 设置按钮的点击事件
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+        popupWindow.setTouchable(true);
+
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        LinearLayout button = (LinearLayout) contentView.findViewById(R.id.lv_topic_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MuseumHomePageActivity.this, TopicActivity.class);
+                startActivity(intent);
+                popupWindow.dismiss();
+            }
+        });
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        //设置popwindow出现和消失动画
+        //popupWindow.setAnimationStyle(R.style.PopMenuAnimation);
+        // 设置好参数之后再show
+        //popupWindow.showAsDropDown(view);
+        /**显示在父控件上方*/
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, location[0] - view.getWidth() - 50, location[1] - view.getHeight() - 50);
+    }
+
     private void initSlidingMenu() {
-        DrawerView dv =new DrawerView(this);
-        side_drawer = dv.initSlidingMenu();
+        drawerView =new DrawerView(this);
+        side_drawer = drawerView.initSlidingMenu();
     }
 
     private void initData() {
         new Thread() {
             @Override
             public void run() {
-                currentMuseum = getMuseumBean(currentMuseumId);
+                currentMuseum= getBeanById(currentMuseumId);
                 BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(MuseumHomePageActivity.this);
+                //currentMuseum = getMuseumBean(currentMuseumId);
                 currentExhibitList = biz.getAllBeans(URL_TYPE_GET_EXHIBITS_BY_MUSEUM_ID, ExhibitBean.class, currentMuseumId);
                 while (currentExhibitList == null) {
                 }
@@ -324,22 +367,45 @@ public class MuseumHomePageActivity extends BaseActivity {
         }.start();
     }
 
-    private MuseumBean getMuseumBean(String museumId) {
-        MuseumBean bean = null;
-        DbUtils db = DbUtils.create(MuseumHomePageActivity.this);
+
+    private MuseumBean tempMuseum;
+    private MuseumBean getBeanById(String museumId) {
+        long startTime=System.currentTimeMillis();
+        DbUtils db=DbUtils.create(this);
         try {
-            bean = db.findById(MuseumBean.class, museumId);
+            tempMuseum=db.findById(MuseumBean.class,museumId);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
-        }finally{
-            if(db!=null){
-                db.close();
+        }
+        if(tempMuseum==null){
+            HttpUtils http=new HttpUtils();
+            http.send(HttpRequest.HttpMethod.GET, URL_GET_MUSEUM_BY_ID + museumId, new RequestCallBack<String>() {
+
+                @Override
+                public void onSuccess(ResponseInfo<String> responseInfo) {
+                   List<MuseumBean> museumList= JSON.parseArray(responseInfo.result,MuseumBean.class);
+                    if(museumList!=null&&museumList.size()>0){
+                        tempMuseum=museumList.get(0);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(HttpException error, String msg) {
+
+                }
+            });
+        }
+        while(tempMuseum==null){
+            if(System.currentTimeMillis()-startTime>10000){
+                break;
             }
         }
-        return bean;
+        return tempMuseum;
     }
 
     private void updateDate() {
+
         if (currentMuseum != null) {
             tv_title.setText(currentMuseum.getName());
             tv_museum_introduce_short.setText(currentMuseum.getTextUrl());
@@ -371,26 +437,32 @@ public class MuseumHomePageActivity extends BaseActivity {
     }
 
     private void initAudio() {
-        mediaPlayer=new MediaPlayer();
-        String audioPath = currentMuseum.getAudioUrl();
-        String audioName = Tools.changePathToName(audioPath);
-        String audioUrl = LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_AUDIO + "/"+ audioName;
-        String dataUrl="";
-        // 判断sdcard上有没有图片
-        if (Tools.isFileExist(audioUrl)) {
-            dataUrl=audioUrl;
-        } else {
-            dataUrl = BASEURL + audioPath;
-        }
-        try {
-            mediaPlayer.setDataSource(dataUrl);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(){
+            @Override
+            public void run() {
+                mediaPlayer=new MediaPlayer();
+                String audioPath = currentMuseum.getAudioUrl();
+                String audioName = Tools.changePathToName(audioPath);
+                String audioUrl = LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_AUDIO + "/"+ audioName;
+                String dataUrl="";
+                // 判断sdcard上有没有图片
+                if (Tools.isFileExist(audioUrl)) {
+                    dataUrl=audioUrl;
+                } else {
+                    dataUrl = BASEURL + audioPath;
+                }
+                try {
+                    mediaPlayer.setDataSource(dataUrl);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                } catch (IllegalStateException e) {
+                    ExceptionUtil.handleException(e);
+                } catch (IOException e) {
+                    ExceptionUtil.handleException(e);
+                }
+            }
+        }.start();
+
     }
 
     /*用于计算点击返回键时间*/
@@ -421,121 +493,33 @@ public class MuseumHomePageActivity extends BaseActivity {
         modelChangeBroadcastReceiver=new ModelChangeBroadcastReceiver();
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ACTION_MODEL_CHANGED);
-        registerReceiver(modelChangeBroadcastReceiver,intentFilter);
+        registerReceiver(modelChangeBroadcastReceiver, intentFilter);
     }
 
     @Override
     protected void onDestroy() {
-        if (mBeaconSearcher != null) {
-            mBeaconSearcher.closeSearcher();
-            mBeaconSearcher=null;
-        }
         unregisterReceiver(modelChangeBroadcastReceiver);
+        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // requestCode 与请求开启 Bluetooth 传入的 requestCode 相对应
-        if (requestCode == REQUEST_CODE_BLUETOOTH_ON) {
-            switch (resultCode) {
-                // 点击确认按钮
-                case Activity.RESULT_OK:
-                    LogUtil.i("ZHANG", "用户选择开启 Bluetooth，Bluetooth 会被开启");
-                    initBeaconSearcher();
-                    break;
-                // 点击取消按钮或点击返回键
-                case Activity.RESULT_CANCELED:
-                    LogUtil.i("ZHANG", "用户拒绝打开 Bluetooth, Bluetooth 不会被开启");
-                    break;
-            }
-        }
-    }
 
-    /**
-     * 实现beacon搜索监听，或得BeaconSearcher搜索到的beacon对象
-     */
-    private BeaconSearcher.OnNearestBeaconListener onNearestBeaconListener=new BeaconSearcher.OnNearestBeaconListener(){
-
-        @Override
-        public void getNearestBeacon(int type,Beacon beacon) {
-            if (beacon == null) {//&& application.guideModel==application.GUIDE_MODEL_AUTO
-            } else {
-                try{
-                    Identifier major = beacon.getId2();
-                    Identifier minor = beacon.getId3();
-                    LogUtil.i("ZHANG","major===="+major+","+"minor==="+minor);
-                    BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(MuseumHomePageActivity.this);
-                    BeaconBean b = biz.getBeaconMinorAndMajor(minor, major);
-                    if (b != null) {
-                        String beaconId = b.getId();
-                        LogUtil.i("ZHANG", beaconId);
-                        if (beaconId != null && !(application.getCurrentBeaconId().equals(""))) {
-                            if(!beaconId.equals(application.getCurrentBeaconId())){
-                                List<ExhibitBean> nearlyExhibitsList = biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
-                                if (nearlyExhibitsList != null && nearlyExhibitsList.size() > 0) {
-                                    //LogUtil.i("ZHANG", nearlyExhibitsList.toString());
-                                    application.currentExhibitBeanList=nearlyExhibitsList;
-                                    application.currentExhibitBean=nearlyExhibitsList.get(0);
-                                    application.refreshData();
-                                    application.dataFrom=application.DATA_FROM_BEACON;// TODO: 2015/11/3
-                                    Intent intent =new Intent();
-                                    intent.setAction(ACTION_NOTIFY_CURRENT_EXHIBIT_CHANGE);
-                                    sendBroadcast(intent);
-                                }
-                            }
-                        }
-                    }
-                }catch (Exception e){
-                    ExceptionUtil.handleException(e);
-                }
-            }
-        }
-    };
-
-    public void initBeaconSearcher() {
-        if(mBeaconSearcher==null){
-            // 设定用于展品定位的最小停留时间(ms)
-            mBeaconSearcher = BeaconSearcher.getInstance(this);
-            // NearestBeacon.GET_EXHIBIT_BEACON：展品定位beacon
-            // NearestBeacon.GET_EXHIBIT_BEACON：游客定位beacon。可以不用设置上述的最小停留时间和最小距离
-            mBeaconSearcher.setMin_stay_milliseconds(2000);
-            // 设定用于展品定位的最小距离(m)
-            mBeaconSearcher.setExhibit_distance(2.0);
-            // 设置获取距离最近的beacon类型
-            mBeaconSearcher.setNearestBeaconType(NearestBeacon.GET_EXHIBIT_BEACON);
-            // 当蓝牙打开时，打开beacon搜索器，开始搜索距离最近的Beacon
-            // 设置beacon监听器
-            mBeaconSearcher.setNearestBeaconListener(onNearestBeaconListener);
-            // 添加导游模式切换监听
-            if (mBeaconSearcher!=null&&mBeaconSearcher.checkBLEEnable()) {
-                mBeaconSearcher.openSearcher();
-            } else {
-                // 请求打开 Bluetooth
-                Intent requestBluetoothOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                // 设置 Bluetooth 设备可以被其它 Bluetooth 设备扫描到
-                requestBluetoothOn.setAction(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-                // 设置 Bluetooth 设备可见时间
-                requestBluetoothOn.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, BLUETOOTH_DISCOVERABLE_DURATION);
-                // 请求开启 Bluetooth
-                this.startActivityForResult(requestBluetoothOn, REQUEST_CODE_BLUETOOTH_ON);
-            }
-        }
-    }
 
     class ModelChangeBroadcastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(application.guideModel==application.GUIDE_MODEL_AUTO){
+           /* if(application.guideModel==application.GUIDE_MODEL_AUTO){
                 initBeaconSearcher();
             }else{
                 if (mBeaconSearcher != null) {
                     mBeaconSearcher.closeSearcher();
                     mBeaconSearcher=null;
                 }
-            }
+            }*/
         }
     }
+
+
 
 }

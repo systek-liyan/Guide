@@ -14,5 +14,5 @@ public interface BeaconDataNotifier {
      * @param data
      * @param exception
      */
-    public void beaconDataUpdate(Beacon beacon, BeaconData data, DataProviderException exception);
+     void beaconDataUpdate(Beacon beacon, BeaconData data, DataProviderException exception);
 }

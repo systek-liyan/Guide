@@ -30,7 +30,7 @@ public class LyricLoadHelper {
          * @param lyricSentences     歌词文本处理后的所有歌词句子
          * @param indexOfCurSentence 正在播放的句子在句子集合中的索引号
          */
-        public abstract void onLyricLoaded(List<LyricSentence> lyricSentences,
+        void onLyricLoaded(List<LyricSentence> lyricSentences,
                                            int indexOfCurSentence);
 
         /**
@@ -40,7 +40,7 @@ public class LyricLoadHelper {
          *                           currentTime
          *                           已经播放的毫秒数
          */
-        public abstract void onLyricSentenceChanged(int indexOfCurSentence);
+        void onLyricSentenceChanged(int indexOfCurSentence);
     }
 
     private static final String TAG = LyricLoadHelper.class.getSimpleName();
@@ -131,7 +131,6 @@ public class LyricLoadHelper {
                     fr.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
                 }
             } else {
                 Log.i(TAG, "歌词文件不存在");
@@ -299,8 +298,8 @@ public class LyricLoadHelper {
      */
     @SuppressLint("DefaultLocale")
     private long parseTime(String strTime) {
-        String beforeDot = new String("00:00:00");
-        String afterDot = new String("0");
+        String beforeDot = "00:00:00";
+        String afterDot = "0";
 
         // 将字符串按小数点拆分成整秒部分和小数部分。
         int dotIndex = strTime.indexOf(".");

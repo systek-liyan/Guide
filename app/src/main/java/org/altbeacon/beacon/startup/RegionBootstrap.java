@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.RemoteException;
-import android.util.Log;
 
 import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.logging.LogManager;
 
 import java.util.ArrayList;

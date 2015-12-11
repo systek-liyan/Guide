@@ -1,7 +1,9 @@
 package com.systekcn.guide.entity;
 
 
-public class LabelBean implements BeanInterface{
+import com.systekcn.guide.entity.base.BaseEntity;
+
+public class LabelBean extends BaseEntity{
 
 	private String id;
 	private String museumId;
@@ -48,4 +50,13 @@ public class LabelBean implements BeanInterface{
 				+ ", name=" + name + ", labels=" + lables + "]";
 	}
 
+	@Override
+	public void parseData(String data) {
+
+	}
+
+	@Override
+	public String getDataStr() {
+		return null;
+	}
 }

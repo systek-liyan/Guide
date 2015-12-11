@@ -84,26 +84,26 @@ public interface BeaconConsumer {
     /**
      * Called when the beacon service is running and ready to accept your commands through the BeaconManager
      */
-    public void onBeaconServiceConnect();
+     void onBeaconServiceConnect();
 
     /**
      * Called by the BeaconManager to get the context of your Service or Activity.  This method is implemented by Service or Activity.
      * You generally should not override it.
      * @return the application context of your service or activity
      */
-    public Context getApplicationContext();
+     Context getApplicationContext();
 
     /**
      * Called by the BeaconManager to unbind your BeaconConsumer to the  BeaconService.  This method is implemented by Service or Activity, and
      * You generally should not override it.
      * @return the application context of your service or activity
      */
-    public void unbindService(ServiceConnection connection);
+     void unbindService(ServiceConnection connection);
 
     /**
      * Called by the BeaconManager to bind your BeaconConsumer to the  BeaconService.  This method is implemented by Service or Activity, and
      * You generally should not override it.
      * @return the application context of your service or activity
      */
-    public boolean bindService(Intent intent, ServiceConnection connection, int mode);
+     boolean bindService(Intent intent, ServiceConnection connection, int mode);
 }

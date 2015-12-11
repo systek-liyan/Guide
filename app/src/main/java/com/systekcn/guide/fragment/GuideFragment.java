@@ -1,6 +1,8 @@
 package com.systekcn.guide.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +12,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -22,8 +29,9 @@ import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.magic.mapdemo.R;
 import com.systekcn.guide.MyApplication;
+import com.systekcn.guide.R;
+import com.systekcn.guide.adapter.NearlyGalleryAdapter;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.common.IConstants;
@@ -31,6 +39,7 @@ import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.custom.SwitchButton;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.lyric.LyricAdapter;
 import com.systekcn.guide.lyric.LyricDownloadManager;
@@ -38,7 +47,6 @@ import com.systekcn.guide.lyric.LyricLoadHelper;
 import com.systekcn.guide.lyric.LyricSentence;
 import com.systekcn.guide.manager.MediaServiceManager;
 import com.systekcn.guide.service.MediaPlayService;
-import com.systekcn.guide.widget.SwitchButton;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -88,7 +96,7 @@ public class GuideFragment extends Fragment implements IConstants {
     /**
      * 附近展品布局
      */
-    private LinearLayout ll_nearly_exhibit;
+    private RecyclerView recycle_nearly;
     /**
      * 歌词显示
      */
@@ -96,8 +104,7 @@ public class GuideFragment extends Fragment implements IConstants {
     /**
      * 歌词显示适配器
      */
-    private LyricAdapter mLyricAdapter;
-
+    public LyricAdapter mLyricAdapter;
     /**
      * 当前fragment的view
      */
@@ -110,17 +117,8 @@ public class GuideFragment extends Fragment implements IConstants {
      * 进度条最大值
      */
     private int currentMax;
-
-    private String currentExhibitId;
     /**歌词背景图片*/
     private ImageView iv_frag_largest_img;
-    /**
-     * 信息类型
-     */
-    private final int MSG_WHAT_CHANGE_ICON = 1;//切换主图
-    private final int MSG_WHAT_CHANGE_EXHIBIT = 2;//切换展品
-    private final int MSG_WHAT_UPDATE_NEARLY_EXHIBIT = 3;//刷新附近展品
-
     /**播放器管理类*/
     private MediaServiceManager mediaServiceManager;
     /**
@@ -143,44 +141,23 @@ public class GuideFragment extends Fragment implements IConstants {
     private boolean hasMultiImg =false;
     /**专题开关*/
     private SwitchButton btn_switch_topic;
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            /**当信息类型为更换歌词背景*/
-            if (msg.what == MSG_WHAT_CHANGE_ICON) {
-                String imgPath = (String) msg.obj;
-                String currentIconPath=(String)iv_frag_largest_img.getTag();
-                String imgLocalPath = application.getCurrentImgDir() + Tools.changePathToName(imgPath);
-                /**若歌词路径不为空，判断图片url,加载图片*/
-                if(currentIconPath!=null&&!imgPath.equals(currentIconPath)&&!imgPath.equals(imgLocalPath)){
-                    if (Tools.isFileExist(imgLocalPath)) {
-                        iv_frag_largest_img.setTag(imgLocalPath);
-                        ImageLoaderUtil.displaySdcardImage(activity, imgLocalPath, iv_frag_largest_img);
-                    } else {
-                        String httpPath = BASEURL + imgPath;
-                        iv_frag_largest_img.setTag(httpPath);
-                        ImageLoaderUtil.displayNetworkImage(activity, httpPath, iv_frag_largest_img);
-                    }
-                }else{
-                    currentIconPath=null;
-                    imgPath=null;
-                }
-                /**若信息类型为展品切换，刷新数据，刷新界面*/
-            } else if (msg.what == MSG_WHAT_CHANGE_EXHIBIT) {
-                refreshData();
-                refreshView();
-                mediaServiceManager.notifyAllDataChange();
-            }else if(msg.what==MSG_WHAT_UPDATE_NEARLY_EXHIBIT){/**更新附近展品*/
-                refreshNearly();
-            }
-        }
-    };
+    private ExhibitBean currentExhibit;
+    private String currentExhibitId;
+    private Dialog progressDialog;
+    /**
+     * 信息类型
+     */
+    private final int MSG_WHAT_CHANGE_ICON = 1;//切换主图
+    private final int MSG_WHAT_CHANGE_EXHIBIT = 2;//切换展品
+    private final int MSG_WHAT_UPDATE_NEARLY_EXHIBIT = 3;//刷新附近展品
+    private final int MSG_WHAT_PAUSE_MUSIC = 4;//暂停播放
+    private final int MSG_WHAT_CONTINUE_MUSIC = 5;//继续播放
+    private MyHandler handler;
+    private NearlyGalleryAdapter nearlyGalleryAdapter;
 
 
     public static GuideFragment newInstance() {
-        GuideFragment fragment = new GuideFragment();
-        return fragment;
+        return new GuideFragment();
     }
 
     @Override
@@ -203,7 +180,8 @@ public class GuideFragment extends Fragment implements IConstants {
         mLyricLoadHelper = new LyricLoadHelper();
         mLyricAdapter = new LyricAdapter(activity);
         mLyricLoadHelper.setLyricListener(mLyricListener);
-        rootView = activity.getLayoutInflater().inflate(R.layout.fragment_guide, null);
+        LayoutInflater inflater=activity.getLayoutInflater();
+        rootView =inflater.inflate(R.layout.fragment_guide, null);
         initialize();
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideFragment_onCreate耗时" + costTime);
@@ -223,17 +201,33 @@ public class GuideFragment extends Fragment implements IConstants {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         LogUtil.i("ZHANG", "GuideFragment_执行了onDestroyView");
         ((ViewGroup) (rootView.getParent())).removeView(rootView);
+        handler.removeCallbacksAndMessages(null);
+        activity.unregisterReceiver(playStateChangeReceiver);
+        super.onDestroyView();
     }
 
     private void initialize() {
         long time =System.currentTimeMillis();
+        handler=new MyHandler();
         initView();
         addListener();
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideFragment_initialize耗时" + costTime);
+        handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+    }
+
+    public View getRootView(){
+        return rootView;
+    }
+    private void showProgressDialog() {
+        progressDialog = new AlertDialog.Builder(activity).create();
+        progressDialog.show();
+        Window window = progressDialog.getWindow();
+        window.setContentView(R.layout.dialog_progress);
+        TextView dialog_title=(TextView)window.findViewById(R.id.dialog_title);
+        dialog_title.setText("正在加载...");
     }
 
     private void refreshView() {
@@ -244,6 +238,11 @@ public class GuideFragment extends Fragment implements IConstants {
         initIcon();
         /**加载多角度图片*/
         initMultiImgs();
+        if(mediaServiceManager.isPlaying()){
+            music_play_and_ctrl.setBackgroundResource(R.mipmap.media_play);
+        }else{
+            music_play_and_ctrl.setBackgroundResource(R.mipmap.media_stop);
+        }
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideFragment_refreshView耗时" + costTime);
     }
@@ -259,14 +258,15 @@ public class GuideFragment extends Fragment implements IConstants {
         }
         /**当前展品ID*/
         currentExhibitId = application.currentExhibitBean.getId();
+        currentExhibit = application.currentExhibitBean;
         /**加载歌词*/
         currentLyricUrl = application.currentExhibitBean.getTexturl();
-
+        /**专题是否打开*/
         if(application.isTopicOpen){
             btn_switch_topic.setChecked(true);
         }else{
             btn_switch_topic.setChecked(false);
-            initNearlyExhibit();
+            //initNearlyExhibit();// TODO: 2015/12/1  
         }
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideFragment_refreshData耗时" + costTime);
@@ -290,83 +290,80 @@ public class GuideFragment extends Fragment implements IConstants {
     /**刷新附近展品图片*/
     private void refreshNearly() {
         long time=System.currentTimeMillis();
+        nearlyGalleryAdapter.updateData(application.currentExhibitBeanList);
 
+        /*Animation anim = AnimationUtils.loadAnimation(activity,R.anim.appear_top_left_out);
+        for(int i=0;i<ll_nearly_exhibit.getChildCount();i++){
+            ImageView img= (ImageView) ll_nearly_exhibit.getChildAt(i);
+            img.startAnimation(anim);
+        }
         ll_nearly_exhibit.removeAllViews();
-
         if(application.isTopicOpen){
             application.nearlyExhibitBeanList=application.topicExhibitBeanList;
         }else{
-            if(application.currentExhibitBeanList!=null&&application.currentExhibitBeanList.size()>0){
-                application.nearlyExhibitBeanList.removeAll(application.currentExhibitBeanList);
-                application.nearlyExhibitBeanList.addAll(application.currentExhibitBeanList);
-            }
-        }
-
-        /**当附近展品列表不为空时*/
-        if(application.nearlyExhibitBeanList!=null&&application.nearlyExhibitBeanList.size()>0) {
-            /**循环遍历附近展品集合*/
-            for(int i=0;i<application.nearlyExhibitBeanList.size();i++){
-                ExhibitBean bean=application.nearlyExhibitBeanList.get(i);
-                /**如果类中不包含附近列表中的展品，则加载*/
-                ImageView imageView = new ImageView(activity);
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                imageView.setTag(bean);
-                ll_nearly_exhibit.addView(imageView, new LinearLayout.LayoutParams(mScreenWidth / 3, LinearLayout.LayoutParams.MATCH_PARENT));
-                /**判断本地是否有图片文件，决定加载本地或网络图片*/
-                String imgUrl =application.nearlyExhibitBeanList.get(i).getIconurl();
-                String name = Tools.changePathToName(imgUrl);
-                String localUrl = application.getCurrentImgDir() + name;
-                if (Tools.isFileExist(localUrl)) {
-                    ImageLoaderUtil.displaySdcardImage(activity, localUrl, imageView);
-                } else {
-                    ImageLoaderUtil.displayNetworkImage(activity, BASEURL + imgUrl, imageView);
-                }
-                imageView.setOnClickListener(nearlyExhibitOnclickListener);
-                /**如果看过的展品集合中包含这个展品*/
-                if(application.everSeenExhibitBeanList.contains(bean)){
-                    /**如果这个展品是当前展品，设置背景框，高亮，否则设置为灰色*/
-                    if(bean.equals(application.currentExhibitBean)){
-                        imageView.setBackgroundResource(R.drawable.img_back);
-                        imageView.setAlpha(1f);
-                    }else{
-                        imageView.setAlpha(0.5f);
+            application.nearlyExhibitBeanList=application.currentExhibitBeanList;
+            *//**当附近展品列表不为空时*//*
+            if(application.nearlyExhibitBeanList!=null&&application.nearlyExhibitBeanList.size()>0) {
+                *//**循环遍历附近展品集合*//*
+                for(int i=0;i<application.nearlyExhibitBeanList.size();i++){
+                    ExhibitBean bean=application.nearlyExhibitBeanList.get(i);
+                    *//**如果类中不包含附近列表中的展品，则加载*//*
+                    ImageView imageView = new ImageView(activity);
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    imageView.setTag(bean);
+                    ll_nearly_exhibit.addView(imageView, new LinearLayout.LayoutParams(mScreenWidth / 3, LinearLayout.LayoutParams.MATCH_PARENT));
+                    *//**判断本地是否有图片文件，决定加载本地或网络图片*//*
+                    String imgUrl =application.nearlyExhibitBeanList.get(i).getIconurl();
+                    String name = Tools.changePathToName(imgUrl);
+                    String localUrl = application.getCurrentImgDir() + name;
+                    if (Tools.isFileExist(localUrl)) {
+                        ImageLoaderUtil.displaySdcardImage(activity, localUrl, imageView);
+                    } else {
+                        ImageLoaderUtil.displayNetworkImage(activity, BASEURL + imgUrl, imageView);
                     }
-                }
-                /**遍历附近图片控件父容器，如果大于8个，删除剩8个*/
-                if(!application.isTopicOpen){
-                    while(ll_nearly_exhibit.getChildCount()>8){
-                        ll_nearly_exhibit.removeViewAt(0);
-                        application.nearlyExhibitBeanList.remove(0);
+                    imageView.setOnClickListener(nearlyExhibitOnclickListener);
+                    *//**如果看过的展品集合中包含这个展品*//*
+                    if(application.everSeenExhibitBeanList.contains(bean)){
+                        *//**如果这个展品是当前展品，设置背景框，高亮，否则设置为灰色*//*
+                        if(bean.equals(application.currentExhibitBean)){
+                            imageView.setBackgroundResource(R.drawable.img_back);
+                            imageView.setAlpha(1f);
+                        }else{
+                            imageView.setAlpha(0.5f);
+                        }
                     }
-                }
-            }
-            /**不管附近展品列表是否为空，都遍历附近展品列表*/
-            ExhibitBean b=null;
-            for(int i=0;i<ll_nearly_exhibit.getChildCount();i++){
-                b= (ExhibitBean) ll_nearly_exhibit.getChildAt(i).getTag();
-                /**如果看过的展品包括这个展品，*/
-                if(application.everSeenExhibitBeanList.contains(b)){
-                    /**如果这个展品是当前展品，设置背景框，高亮，否则设置为灰色*/
-                    if(b.equals(application.currentExhibitBean)){
-                        ll_nearly_exhibit.getChildAt(i).setBackgroundResource(R.drawable.img_back);
-                        ll_nearly_exhibit.getChildAt(i).setAlpha(1f);
-                    }else{
-                        ll_nearly_exhibit.getChildAt(i).setAlpha(0.5f);
-                        ll_nearly_exhibit.getChildAt(i).setBackgroundResource(0);
-                    }
-                }else{/**如果看过的展品不包括这个展品*/
-                    /**未看过的当前展品，都设置为高亮，如果是当前展品，则加背景框*/
-                    if(b.equals(application.currentExhibitBean)){
-                        ll_nearly_exhibit.getChildAt(i).setBackgroundResource(R.drawable.img_back);
-                    }
+                    *//**遍历附近图片控件父容器，如果大于8个，删除剩8个*//*
+                    if(!application.isTopicOpen){
+                        while(ll_nearly_exhibit.getChildCount()>8){
+                            ll_nearly_exhibit.removeViewAt(ll_nearly_exhibit.getChildCount()-1);
+                            application.nearlyExhibitBeanList.remove(application.nearlyExhibitBeanList.size()-1);
+                        }
+                    }}
+            }}
+        *//**不管附近展品列表是否为空，都遍历附近展品列表*//*
+        ExhibitBean b=null;
+        for(int i=0;i<ll_nearly_exhibit.getChildCount();i++){
+            b= (ExhibitBean) ll_nearly_exhibit.getChildAt(i).getTag();
+            *//**如果看过的展品包括这个展品，*//*
+            if(application.everSeenExhibitBeanList.contains(b)){
+                *//**如果这个展品是当前展品，设置背景框，高亮，否则设置为灰色*//*
+                if(b.equals(application.currentExhibitBean)){
+                    ll_nearly_exhibit.getChildAt(i).setBackgroundResource(R.drawable.img_back);
                     ll_nearly_exhibit.getChildAt(i).setAlpha(1f);
+                }else{
+                    ll_nearly_exhibit.getChildAt(i).setAlpha(0.5f);
+                    ll_nearly_exhibit.getChildAt(i).setBackgroundResource(0);
                 }
+            }else{*//**如果看过的展品不包括这个展品*//*
+                *//**未看过的当前展品，都设置为高亮，如果是当前展品，则加背景框*//*
+                if(b.equals(application.currentExhibitBean)){
+                    ll_nearly_exhibit.getChildAt(i).setBackgroundResource(R.drawable.img_back);
+                }
+                ll_nearly_exhibit.getChildAt(i).setAlpha(1f);
             }
-        }
-
+        }*/
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideFragment_refreshNearly耗时" + costTime);
-
     }
 
     /**附近列表监听器*/
@@ -473,11 +470,9 @@ public class GuideFragment extends Fragment implements IConstants {
             switch (v.getId()) {
                 case R.id.music_play_and_ctrl:
                     if (mediaServiceManager != null && mediaServiceManager.isPlaying()) {
-                        music_play_and_ctrl.setBackgroundResource(R.mipmap.media_stop);
-                        mediaServiceManager.pause();
+                        handler.sendEmptyMessage(MSG_WHAT_PAUSE_MUSIC);
                     } else if (mediaServiceManager != null && !mediaServiceManager.isPlaying()) {
-                        music_play_and_ctrl.setBackgroundResource(R.mipmap.media_play);
-                        mediaServiceManager.toContinue();
+                        handler.sendEmptyMessage(MSG_WHAT_CONTINUE_MUSIC);
                     }
                     break;
                 case R.id.iv_lyric_ctrl:
@@ -515,8 +510,7 @@ public class GuideFragment extends Fragment implements IConstants {
 
     private String getLocalImgUrl(String iconUrl) {
         String name = iconUrl.replaceAll("/", "_");
-        String localUrl = application.getCurrentImgDir() + name;
-        return localUrl;
+        return application.getCurrentImgDir() + name;
     }
 
     @Override
@@ -524,7 +518,12 @@ public class GuideFragment extends Fragment implements IConstants {
         long time =System.currentTimeMillis();
         super.onResume();
         hasMultiImg=true;
-        handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+        if(currentExhibit!=null&&!currentExhibit.equals(application.currentExhibitBean)){
+            handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+        }else if(application.currentExhibitBean==null){
+            application.currentExhibitBean=application.totalExhibitBeanList.get(0);
+            handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+        }
         ImgObserver imgObserver=new ImgObserver();
         imgObserver.start();
         long costTime=System.currentTimeMillis()-time;
@@ -557,8 +556,15 @@ public class GuideFragment extends Fragment implements IConstants {
         iv_lyric_ctrl = (ImageView) rootView.findViewById(R.id.iv_lyric_ctrl);
         music_play_and_ctrl = (ImageView) rootView.findViewById(R.id.music_play_and_ctrl);
         lyric_empty = (TextView) rootView.findViewById(R.id.lyric_empty);
-        ll_nearly_exhibit = (LinearLayout) rootView.findViewById(R.id.ll_nearly_exhibit);
         ll_multi_angle_img = (LinearLayout) rootView.findViewById(R.id.ll_multi_angle_img);
+
+        recycle_nearly = (RecyclerView) rootView.findViewById(R.id.recycle_nearly);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recycle_nearly.setLayoutManager(linearLayoutManager);
+        nearlyGalleryAdapter=new NearlyGalleryAdapter(activity,application.currentExhibitBeanList);
+        recycle_nearly.setAdapter(nearlyGalleryAdapter);
+
         btn_switch_topic=(SwitchButton) rootView.findViewById(R.id.btn_switch_topic);
         lyricShow.setAdapter(mLyricAdapter);
         lyricShow.startAnimation(AnimationUtils.loadAnimation(activity, android.R.anim.fade_in));
@@ -568,10 +574,25 @@ public class GuideFragment extends Fragment implements IConstants {
 
     private void addListener() {
         long time =System.currentTimeMillis();
+        //获取电话通讯服务
+        TelephonyManager tpm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        //创建一个监听对象，监听电话状态改变事件
+        tpm.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         btn_switch_topic.setOnCheckedChangeListener(compoundChangeListener);
         music_seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
         music_play_and_ctrl.setOnClickListener(musicCtrlListener);
         iv_lyric_ctrl.setOnClickListener(musicCtrlListener);
+        nearlyGalleryAdapter.setOnItemClickLitener(new NearlyGalleryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                application.currentExhibitBean=application.currentExhibitBeanList.get(position);
+                nearlyGalleryAdapter.setSelectIndex(position);
+                nearlyGalleryAdapter.notifyDataSetChanged();
+                handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+            }
+        });// TODO: 2015/12/10
+
+
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideActivity_addListener耗时" + costTime);
     }
@@ -593,7 +614,6 @@ public class GuideFragment extends Fragment implements IConstants {
         }
     };
 
-
     private CompoundButton.OnCheckedChangeListener compoundChangeListener=new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -606,18 +626,17 @@ public class GuideFragment extends Fragment implements IConstants {
             }else{
                 application.nearlyExhibitBeanList=new ArrayList<>();
                 application.isTopicOpen=false;
-                initNearlyExhibit();
+                //initNearlyExhibit();// TODO: 2015/12/1
             }
         }
     };
-
 
     private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
 
         @Override
         public void onLyricLoaded(List<LyricSentence> lyricSentences, int index) {
             if (lyricSentences != null) {
-                LogUtil.i(TAG, "onLyricLoaded--->歌词句子数目=" + lyricSentences.size() + ",当前句子索引=" + index);
+                //LogUtil.i(TAG, "onLyricLoaded--->歌词句子数目=" + lyricSentences.size() + ",当前句子索引=" + index);
                 mLyricAdapter.setLyric(lyricSentences);
                 mLyricAdapter.setCurrentSentenceIndex(index);
                 mLyricAdapter.notifyDataSetChanged();
@@ -639,6 +658,7 @@ public class GuideFragment extends Fragment implements IConstants {
         intentFilter.addAction(MediaPlayService.ACTION_UPDATE_DURATION);
         intentFilter.addAction(MediaPlayService.ACTION_UPDATE_CURRENT_EXHIBIT);
         intentFilter.addAction(ACTION_NOTIFY_CURRENT_EXHIBIT_CHANGE);
+        intentFilter.addAction(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE);
         activity.registerReceiver(playStateChangeReceiver, intentFilter);
     }
 
@@ -745,7 +765,75 @@ public class GuideFragment extends Fragment implements IConstants {
                 refreshView();
             }else if(ACTION_NOTIFY_CURRENT_EXHIBIT_CHANGE.equals(action)){
                 handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+            }else if(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE.equals(action)){
+                handler.sendEmptyMessage(MSG_WHAT_UPDATE_NEARLY_EXHIBIT);
             }
         }
     }
+
+    private PhoneStateListener phoneStateListener=new PhoneStateListener(){
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            switch (state) {
+                case TelephonyManager.CALL_STATE_IDLE: //空闲
+                    break;
+                case TelephonyManager.CALL_STATE_RINGING: //来电
+                    handler.sendEmptyMessage(MSG_WHAT_PAUSE_MUSIC);
+                    break;
+                case TelephonyManager.CALL_STATE_OFFHOOK: //摘机（正在通话中）
+                    handler.sendEmptyMessage(MSG_WHAT_PAUSE_MUSIC);
+                    break;
+            }
+        }
+    };
+
+
+    private class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            /**当信息类型为更换歌词背景*/
+            if (msg.what == MSG_WHAT_CHANGE_ICON) {
+                String imgPath = (String) msg.obj;
+                String currentIconPath=(String)iv_frag_largest_img.getTag();
+                String imgLocalPath = application.getCurrentImgDir() + Tools.changePathToName(imgPath);
+                /**若歌词路径不为空，判断图片url,加载图片*/
+                if(currentIconPath!=null&&!imgPath.equals(currentIconPath)&&!imgPath.equals(imgLocalPath)){
+                    if (Tools.isFileExist(imgLocalPath)) {
+                        iv_frag_largest_img.setTag(imgLocalPath);
+                        ImageLoaderUtil.displaySdcardImage(activity, imgLocalPath, iv_frag_largest_img);
+                    } else {
+                        String httpPath = BASEURL + imgPath;
+                        iv_frag_largest_img.setTag(httpPath);
+                        ImageLoaderUtil.displayNetworkImage(activity, httpPath, iv_frag_largest_img);
+                    }
+                }else{
+                    currentIconPath=null;
+                    imgPath=null;
+                }
+                /**若信息类型为展品切换，刷新数据，刷新界面*/
+            } else if (msg.what == MSG_WHAT_CHANGE_EXHIBIT) {
+                /**数据初始化好之前显示加载对话框*/
+                showProgressDialog();
+                refreshData();
+                refreshView();
+                mediaServiceManager.notifyAllDataChange();
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+            }else if(msg.what==MSG_WHAT_UPDATE_NEARLY_EXHIBIT){/**更新附近展品*/
+                refreshNearly();
+            }else if(msg.what==MSG_WHAT_PAUSE_MUSIC){
+                /**暂停播放*/
+                if (mediaServiceManager != null && mediaServiceManager.isPlaying()) {
+                    music_play_and_ctrl.setBackgroundResource(R.mipmap.media_stop);
+                    mediaServiceManager.pause();
+                }
+            }else if(msg.what==MSG_WHAT_CONTINUE_MUSIC){
+                /**继续播放*/
+                music_play_and_ctrl.setBackgroundResource(R.mipmap.media_play);
+                mediaServiceManager.toContinue();
+            }
+        }
+    }
+
 }

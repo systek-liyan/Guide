@@ -41,5 +41,5 @@ public interface RangeNotifier {
      * @param beacons a collection of <code>Beacon<code> objects that have been seen in the past second
      * @param region the <code>Region</code> object that defines the criteria for the ranged beacons
      */
-    public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region);
+     void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region);
 }

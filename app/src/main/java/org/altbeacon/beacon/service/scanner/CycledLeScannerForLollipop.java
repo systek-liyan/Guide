@@ -80,65 +80,63 @@ public class CycledLeScannerForLollipop extends CycledLeScanner {
     protected boolean deferScanIfNeeded() {
         long millisecondsUntilStart = mNextScanCycleStartTime - System.currentTimeMillis();
         if (millisecondsUntilStart > 0) {
-            if (true) {
-                long secsSinceLastDetection = System.currentTimeMillis() -
-                        DetectionTracker.getInstance().getLastDetectionTime();
-                // If we have seen a device recently
-                // devices should behave like pre-Android L devices, because we don't want to drain battery
-                // by continuously delivering packets for beacons visible in the background
-                if (mScanDeferredBefore == false) {
-                    if (secsSinceLastDetection > BACKGROUND_L_SCAN_DETECTION_PERIOD_MILLIS) {
-                        mBackgroundLScanStartTime = System.currentTimeMillis();
-                        mBackgroundLScanFirstDetectionTime = 0l;
-                        LogManager.d(TAG, "This is Android L. Doing a filtered scan for the background.");
+            long secsSinceLastDetection = System.currentTimeMillis() -
+                    DetectionTracker.getInstance().getLastDetectionTime();
+            // If we have seen a device recently
+            // devices should behave like pre-Android L devices, because we don't want to drain battery
+            // by continuously delivering packets for beacons visible in the background
+            if (!mScanDeferredBefore) {
+                if (secsSinceLastDetection > BACKGROUND_L_SCAN_DETECTION_PERIOD_MILLIS) {
+                    mBackgroundLScanStartTime = System.currentTimeMillis();
+                    mBackgroundLScanFirstDetectionTime = 0l;
+                    LogManager.d(TAG, "This is Android L. Doing a filtered scan for the background.");
 
-                        // On Android L, between scan cycles do a scan with a filter looking for any beacon
-                        // if we see one of those beacons, we need to deliver the results
-                        ScanSettings settings = (new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)).build();
+                    // On Android L, between scan cycles do a scan with a filter looking for any beacon
+                    // if we see one of those beacons, we need to deliver the results
+                    ScanSettings settings = (new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)).build();
 
+                    try {
+                        if (getScanner() != null) {
+                            getScanner().startScan(new ScanFilterUtils().createScanFiltersForBeaconParsers(
+                                    mBeaconManager.getBeaconParsers()), settings, getNewLeScanCallback());
+                        }
+                    }
+                    catch (IllegalStateException e) {
+                        LogManager.w(TAG, "Cannot start scan.  Bluetooth may be turned off.");
+                    }
+
+                } else {
+                    LogManager.d(TAG, "This is Android L, but we last saw a beacon only %s "
+                                    + "ago, so we will not keep scanning in background.",
+                            secsSinceLastDetection);
+                }
+            }
+            if (mBackgroundLScanStartTime > 0l) {
+                // if we are in here, we have detected beacons recently in a background L scan
+                if (DetectionTracker.getInstance().getLastDetectionTime() > mBackgroundLScanStartTime) {
+                    if (mBackgroundLScanFirstDetectionTime == 0l) {
+                        mBackgroundLScanFirstDetectionTime = DetectionTracker.getInstance().getLastDetectionTime();
+                    }
+                    if (System.currentTimeMillis() - mBackgroundLScanFirstDetectionTime
+                            >= BACKGROUND_L_SCAN_DETECTION_PERIOD_MILLIS) {
+                        // if we are in here, it has been more than 10 seconds since we detected
+                        // a beacon in background L scanning mode.  We need to stop scanning
+                        // so we do not drain battery
+                        LogManager.d(TAG, "We've been detecting for a bit.  Stopping Android L background scanning");
                         try {
                             if (getScanner() != null) {
-                                getScanner().startScan(new ScanFilterUtils().createScanFiltersForBeaconParsers(
-                                        mBeaconManager.getBeaconParsers()), settings, getNewLeScanCallback());
+                                getScanner().stopScan((ScanCallback) getNewLeScanCallback());
                             }
                         }
                         catch (IllegalStateException e) {
-                            LogManager.w(TAG, "Cannot start scan.  Bluetooth may be turned off.");
+                            LogManager.w(TAG, "Cannot stop scan.  Bluetooth may be turned off.");
                         }
-
-                    } else {
-                        LogManager.d(TAG, "This is Android L, but we last saw a beacon only %s "
-                                + "ago, so we will not keep scanning in background.",
-                                secsSinceLastDetection);
+                        mBackgroundLScanStartTime = 0l;
                     }
-                }
-                if (mBackgroundLScanStartTime > 0l) {
-                    // if we are in here, we have detected beacons recently in a background L scan
-                    if (DetectionTracker.getInstance().getLastDetectionTime() > mBackgroundLScanStartTime) {
-                        if (mBackgroundLScanFirstDetectionTime == 0l) {
-                            mBackgroundLScanFirstDetectionTime = DetectionTracker.getInstance().getLastDetectionTime();
-                        }
-                        if (System.currentTimeMillis() - mBackgroundLScanFirstDetectionTime
-                                >= BACKGROUND_L_SCAN_DETECTION_PERIOD_MILLIS) {
-                            // if we are in here, it has been more than 10 seconds since we detected
-                            // a beacon in background L scanning mode.  We need to stop scanning
-                            // so we do not drain battery
-                            LogManager.d(TAG, "We've been detecting for a bit.  Stopping Android L background scanning");
-                            try {
-                                if (getScanner() != null) {
-                                    getScanner().stopScan((ScanCallback) getNewLeScanCallback());
-                                }
-                            }
-                            catch (IllegalStateException e) {
-                                LogManager.w(TAG, "Cannot stop scan.  Bluetooth may be turned off.");
-                            }
-                            mBackgroundLScanStartTime = 0l;
-                        }
-                        else {
-                            // report the results up the chain
-                            LogManager.d(TAG, "Delivering Android L background scanning results");
-                            mCycledLeScanCallback.onCycleEnd();
-                        }
+                    else {
+                        // report the results up the chain
+                        LogManager.d(TAG, "Delivering Android L background scanning results");
+                        mCycledLeScanCallback.onCycleEnd();
                     }
                 }
             }
@@ -147,7 +145,7 @@ public class CycledLeScannerForLollipop extends CycledLeScanner {
             // Don't actually wait until the next scan time -- only wait up to 1 second.  This
             // allows us to start scanning sooner if a consumer enters the foreground and expects
             // results more quickly.
-            if (mScanDeferredBefore == false && mBackgroundFlag) {
+            if (!mScanDeferredBefore && mBackgroundFlag) {
                 setWakeUpAlarm();
             }
             mHandler.postDelayed(new Runnable() {

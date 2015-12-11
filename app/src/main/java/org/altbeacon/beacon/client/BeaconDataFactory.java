@@ -16,6 +16,6 @@ public interface BeaconDataFactory {
      * When data is available, it is passed back to the beaconDataNotifier interface
      * @param beacon
      */
-    public void requestBeaconData(Beacon beacon, BeaconDataNotifier notifier);
+     void requestBeaconData(Beacon beacon, BeaconDataNotifier notifier);
 }
 

@@ -1,6 +1,7 @@
 package com.systekcn.guide.entity;
 
-import java.io.Serializable;
+import com.systekcn.guide.entity.base.BaseEntity;
+
 import java.util.Date;
 
 /*
@@ -9,12 +10,8 @@ import java.util.Date;
   * 一个DownloadBean对象，表示对应一个下载任务 ，即某一个博物馆的离线数据包（数据和文件（资源））
   * 
   */
-public class DownloadInfoBean implements BeanInterface,Serializable{
+public class DownloadInfoBean extends BaseEntity {
 
-	/**
-	 * 序列化默认版本ID
-	 */
-	private static final long serialVersionUID = 1L;
 
 	/** 博物馆id */
 	private String museumId;
@@ -147,5 +144,15 @@ public class DownloadInfoBean implements BeanInterface,Serializable{
 		String Completed = this.isCompleted?"true":"false";
 		return "Id,name,city,Completed,current,total="+museumId+","+name+","+city+",isCompleted="+ Completed +
 				","+current+","+total;
+	}
+
+	@Override
+	public void parseData(String data) {
+
+	}
+
+	@Override
+	public String getDataStr() {
+		return null;
 	}
 }

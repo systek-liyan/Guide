@@ -12,12 +12,13 @@ import android.widget.ListView;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.SearchAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.custom.SearchView;
 import com.systekcn.guide.entity.ExhibitBean;
-import com.systekcn.guide.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,8 +117,7 @@ public class SearchActivity extends BaseActivity implements SearchView.SearchVie
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int position, long l) {
-                ExhibitBean bean =resultAdapter.getItem(position);
-                application.currentExhibitBean=bean;
+                application.currentExhibitBean= resultAdapter.getItem(position);
                 application.refreshData();
                 Intent intent =new Intent(SearchActivity.this,GuideActivity.class);
                 startActivity(intent);

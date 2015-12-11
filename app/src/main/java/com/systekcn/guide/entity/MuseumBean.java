@@ -1,6 +1,8 @@
 package com.systekcn.guide.entity;
 
-public class MuseumBean implements BeanInterface {
+import com.systekcn.guide.entity.base.BaseEntity;
+
+public class MuseumBean extends BaseEntity {
 	
 	private String id;
 	private String name;// 博物馆名称
@@ -107,6 +109,7 @@ public class MuseumBean implements BeanInterface {
 	public void setPriority(int priority) {
 		this.priority = priority;
 	}
+
 	@Override
 	public String toString() {
 		return "MuseumBean [id=" + id + ", name=" + name + ", longitudX=" + longitudX + ", longitudY=" + longitudY
@@ -114,5 +117,11 @@ public class MuseumBean implements BeanInterface {
 				+ ", textUrl=" + textUrl + ", floorCount=" + floorCount + ", imgUrl=" + imgUrl + ", audioUrl="
 				+ audioUrl + ", city=" + city + ", version=" + version + ", priority=" + priority + "]";
 	}
-	
+	@Override
+	public void parseData(String data) {
+	}
+	@Override
+	public String getDataStr() {
+		return null;
+	}
 }

@@ -2,7 +2,6 @@ package com.systekcn.guide.biz;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -114,8 +113,7 @@ public class DownloadBiz implements IConstants{
         List<String> list = JSON.parseArray(jsonString, String.class);
         fileCount = list.size();
         fileTotalCount =fileCount;
-        Vector<String>  vector= new Vector<>(list);
-        return vector;
+        return new Vector<>(list);
     }
 
     /* 下载assets中数据 */
@@ -133,19 +131,19 @@ public class DownloadBiz implements IConstants{
         for (int i = start; i < end; i++) {
             str = assetsList.get(i);
             if (str.endsWith(".jpg")||str.endsWith(".png")) {
-                savePath = LOCAL_ASSETS_PATH +id+"/"+LOCAL_FILE_TYPE_IMAGE+ str.substring(str.lastIndexOf("/"));
+                savePath = LOCAL_ASSETS_PATH +id+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+ str.replaceAll("/","_");
                 final String url = BASEURL + assetsList.get(i);
                 downloadFile(http, savePath, url);
             } else if (str.endsWith(".lrc")) {
-                savePath = LOCAL_ASSETS_PATH+id+"/" +LOCAL_FILE_TYPE_LYRIC+ str.substring(str.lastIndexOf("/"));
+                savePath = LOCAL_ASSETS_PATH+id+"/" +LOCAL_FILE_TYPE_LYRIC+"/"+ str.replaceAll("/", "_");
                 final String url = BASEURL + assetsList.get(i);
                 downloadFile(http, savePath, url);
             } else if (str.endsWith(".mp3") || str.endsWith(".wav")) {
-                savePath = LOCAL_ASSETS_PATH+id+"/" +LOCAL_FILE_TYPE_AUDIO+ str.substring(str.lastIndexOf("/"));
+                savePath = LOCAL_ASSETS_PATH+id+"/" +LOCAL_FILE_TYPE_AUDIO+"/"+ str.replaceAll("/","_");
                 final String url = BASEURL + assetsList.get(i);
                 downloadFile(http, savePath, url);
             } else {
-                LogUtil.i("文件后缀异常", "------------------------------------------");
+                LogUtil.i("文件后缀异常", "----------------------------");
                 count--;
             }
         }
@@ -176,11 +174,6 @@ public class DownloadBiz implements IConstants{
                     in.setAction(ACTION_PROGRESS);
                     in.putExtra(ACTION_PROGRESS, 100);// currentSize*100/totalSize
                     context.sendBroadcast(in);
-                    SharedPreferences setting = context.getSharedPreferences("setting",Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = setting.edit();
-                    editor.putBoolean(mMuseumId,true);
-                    editor.commit();
-                    LogUtil.i("ZHANG","下载状态已保存");
                 }
             }
 
@@ -193,7 +186,6 @@ public class DownloadBiz implements IConstants{
             public void onLoading(long total, long current, boolean isUploading) {
                 super.onLoading(total, current, isUploading);
             }
-
         });
         httpHandlerList.add(httpHandler);
     }

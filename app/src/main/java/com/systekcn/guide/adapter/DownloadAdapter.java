@@ -2,7 +2,6 @@ package com.systekcn.guide.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.magic.mapdemo.R;
+import com.systekcn.guide.MyApplication;
+import com.systekcn.guide.R;
 import com.systekcn.guide.activity.DownloadActivity;
+import com.systekcn.guide.activity.MuseumHomePageActivity;
 import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.biz.DownloadBiz;
 import com.systekcn.guide.common.IConstants;
@@ -72,6 +73,7 @@ public class DownloadAdapter extends BaseAdapter implements IConstants{
         return false;
     }
 
+    int count;
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -83,6 +85,8 @@ public class DownloadAdapter extends BaseAdapter implements IConstants{
             viewHolder.progressBar=(ProgressBar)convertView.findViewById(R.id.pb_download_item_progress);
             viewHolder.tvProgress=(TextView)convertView.findViewById(R.id.tv_download_item_size);
             viewHolder.ivCtrl=(ImageView)convertView.findViewById(R.id.iv_download_ctrl_btn);
+            viewHolder.tvState=(TextView)convertView.findViewById(R.id.tv_download_state);
+
             convertView.setTag(viewHolder);
         }else{
             viewHolder=(ViewHolder)convertView.getTag();
@@ -97,52 +101,70 @@ public class DownloadAdapter extends BaseAdapter implements IConstants{
         }else{
             ImageLoaderUtil.displayNetworkImage(context, BASEURL + iconPath, viewHolder.ivIcon);
         }
-
-        SharedPreferences settings = context.getSharedPreferences(bean.getId(), 0);
-        boolean isDownload = settings.getBoolean(bean.getId(), false);
+        count++;
+        LogUtil.i("ZHANG",bean.getId()+">>>>>"+count);
+        String isDownload = String.valueOf(Tools.getValue(context, bean.getId(),""));
+        LogUtil.i("ZHANG","测试数据isDownload----"+isDownload);
         viewHolder.ivCtrl.setTag(position);
-        if(isDownload){
-            viewHolder.ivCtrl.setVisibility(View.INVISIBLE);
+        viewHolder.ivIcon.setTag(bean.getId());
+        if(isDownload.equals("true")){
+            viewHolder.ivCtrl.setVisibility(View.GONE);
             viewHolder.tvProgress.setVisibility(View.INVISIBLE);
-        }else{
-            viewHolder.ivCtrl.setImageResource(R.mipmap.btn_download_pause);
-        }
-        viewHolder.ivCtrl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position =Integer.parseInt(v.getTag().toString());
-                ImageView imageView=(ImageView)v;
-                MuseumBean museum=getItem(position);
-                if (download_state==DOWNLOAD_STATE_NOT) {
-                    DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz(context);
-                    downloadBiz.download(museum.getId());
-                    imageView.setImageResource(R.mipmap.btn_download_downloading);
-                    download_state = DOWNLOAD_STATE_DOWNLOADING;
-                }else if(download_state==DOWNLOAD_STATE_DOWNLOADING) {
-                    Intent intent= new Intent();
-                    intent.setAction(ACTION_DOWNLOAD_PAUSE);
-                    intent.putExtra(ACTION_DOWNLOAD_PAUSE, museum.getId());
-                    context.sendBroadcast(intent);
-                    LogUtil.i("ZHANG","发送了广播DOWNLOAD_STATE_PAUSE");
-                    imageView.setImageResource(R.mipmap.btn_download_pause);
-                    download_state = DOWNLOAD_STATE_PAUSE;
-                }else if(download_state==DOWNLOAD_STATE_PAUSE){
-                    Intent intent= new Intent();
-                    intent.setAction(ACTION_DOWNLOAD_CONTINUE);
-                    context.sendBroadcast(intent);
-                    LogUtil.i("ZHANG", "发送了广播DOWNLOAD_STATE_DOWNLOADING");
-                    download_state=DOWNLOAD_STATE_DOWNLOADING;
-                    imageView.setImageResource(R.mipmap.btn_download_downloading);
+            viewHolder.tvState.setVisibility(View.VISIBLE);
+            viewHolder.tvState.setText("已下载");
+            viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, MuseumHomePageActivity.class);
+                    intent.putExtra(INTENT_MUSEUM_ID,bean.getId());
+                    context.startActivity(intent);
                 }
-                downloadProgressListener.onProgressChanged(viewHolder);
-            }
-        });
+            });
+        }else{
+            viewHolder.tvState.setVisibility(View.GONE);
+            viewHolder.ivCtrl.setVisibility(View.VISIBLE);
+            viewHolder.ivCtrl.setBackgroundResource(R.mipmap.btn_download_pause);
+            viewHolder.ivCtrl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = Integer.parseInt(v.getTag().toString());
+                    ImageView imageView = (ImageView) v;
+                    MuseumBean museum = getItem(position);
+                    if (download_state == DOWNLOAD_STATE_NOT) {
+                        if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE){
+                            DownloadBiz downloadBiz = (DownloadBiz) BizFactory.getDownloadBiz(context);
+                            downloadBiz.download(museum.getId());
+                            imageView.setBackgroundResource(R.mipmap.btn_download_downloading);
+                            download_state = DOWNLOAD_STATE_DOWNLOADING;
+                        }else{
+                            Tools.showMessage(context,"当前无网络，请检查网络！");
+                        }
+                    } else if (download_state == DOWNLOAD_STATE_DOWNLOADING) {
+                        Intent intent = new Intent();
+                        intent.setAction(ACTION_DOWNLOAD_PAUSE);
+                        intent.putExtra(ACTION_DOWNLOAD_PAUSE, museum.getId());
+                        context.sendBroadcast(intent);
+                        LogUtil.i("ZHANG", "发送了广播DOWNLOAD_STATE_PAUSE");
+                        imageView.setBackgroundResource(R.mipmap.btn_download_pause);
+                        download_state = DOWNLOAD_STATE_PAUSE;
+                    } else if (download_state == DOWNLOAD_STATE_PAUSE) {
+                        Intent intent = new Intent();
+                        intent.setAction(ACTION_DOWNLOAD_CONTINUE);
+                        context.sendBroadcast(intent);
+                        LogUtil.i("ZHANG", "发送了广播DOWNLOAD_STATE_DOWNLOADING");
+                        download_state = DOWNLOAD_STATE_DOWNLOADING;
+                        imageView.setBackgroundResource(R.mipmap.btn_download_downloading);
+                    }
+                    downloadProgressListener.onProgressChanged(viewHolder);
+                }
+            });
+        }
         return convertView;
     }
     public class ViewHolder {
         public   ImageView ivIcon,ivCtrl;
         public ProgressBar progressBar;
-        public TextView tvProgress;
+        public TextView tvProgress,tvState;
     }
 
     public interface DownloadProgressListener {

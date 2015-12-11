@@ -441,8 +441,7 @@ public class BeaconManager {
             throw new RemoteException("The BeaconManager is not bound to the service.  Call beaconManager.bind(BeaconConsumer consumer) and wait for a callback to onBeaconServiceConnect()");
         }
         Message msg = Message.obtain(null, BeaconService.MSG_START_RANGING, 0, 0);
-        StartRMData obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
-        msg.obj = obj;
+        msg.obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
         serviceMessenger.send(msg);
         synchronized (rangedRegions) {
             rangedRegions.add(region);
@@ -469,8 +468,7 @@ public class BeaconManager {
             throw new RemoteException("The BeaconManager is not bound to the service.  Call beaconManager.bind(BeaconConsumer consumer) and wait for a callback to onBeaconServiceConnect()");
         }
         Message msg = Message.obtain(null, BeaconService.MSG_STOP_RANGING, 0, 0);
-        StartRMData obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
-        msg.obj = obj;
+        msg.obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
         serviceMessenger.send(msg);
         synchronized (rangedRegions) {
             Region regionToRemove = null;
@@ -504,8 +502,7 @@ public class BeaconManager {
             throw new RemoteException("The BeaconManager is not bound to the service.  Call beaconManager.bind(BeaconConsumer consumer) and wait for a callback to onBeaconServiceConnect()");
         }
         Message msg = Message.obtain(null, BeaconService.MSG_START_MONITORING, 0, 0);
-        StartRMData obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
-        msg.obj = obj;
+        msg.obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
         serviceMessenger.send(msg);
         synchronized (monitoredRegions) {
             monitoredRegions.add(region);
@@ -533,8 +530,7 @@ public class BeaconManager {
             throw new RemoteException("The BeaconManager is not bound to the service.  Call beaconManager.bind(BeaconConsumer consumer) and wait for a callback to onBeaconServiceConnect()");
         }
         Message msg = Message.obtain(null, BeaconService.MSG_STOP_MONITORING, 0, 0);
-        StartRMData obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
-        msg.obj = obj;
+        msg.obj = new StartRMData(region, callbackPackageName(), this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
         serviceMessenger.send(msg);
         synchronized (monitoredRegions) {
             Region regionToRemove = null;
@@ -566,8 +562,7 @@ public class BeaconManager {
         Message msg = Message.obtain(null, BeaconService.MSG_SET_SCAN_PERIODS, 0, 0);
         LogManager.d(TAG, "updating background flag to %s", mBackgroundMode);
         LogManager.d(TAG, "updating scan period to %s, %s", this.getScanPeriod(), this.getBetweenScanPeriod());
-        StartRMData obj = new StartRMData(this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
-        msg.obj = obj;
+        msg.obj = new StartRMData(this.getScanPeriod(), this.getBetweenScanPeriod(), this.mBackgroundMode);
         serviceMessenger.send(msg);
     }
 

@@ -1,7 +1,7 @@
 package com.systekcn.guide.activity;
 
+
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -14,7 +14,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.GuideMapFragmentAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.LogUtil;
@@ -24,7 +25,7 @@ import com.systekcn.guide.fragment.MapFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuideActivity extends BaseActivity implements IConstants{
+public class GuideActivity extends BaseActivity implements IConstants {
     /**放置导览和地图的fragment集合*/
     private List<Fragment> fragmentList;
     /**fragment适配器*/
@@ -47,17 +48,17 @@ public class GuideActivity extends BaseActivity implements IConstants{
     private FragmentManager fragmentManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void initialize(){
+
         long startTime=System.currentTimeMillis();
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
         Display display = getWindowManager().getDefaultDisplay();
         if (display.getWidth() < display.getHeight()) {}
         fragmentManager = getSupportFragmentManager();
         fragmentList=new ArrayList<>();
-        initialize();
+        init();
         long costTime=System.currentTimeMillis()-startTime;
-        LogUtil.i("ZHANG","GuideActivity_onCreate耗时"+costTime);
+        LogUtil.i("ZHANG", "GuideActivity_onCreate耗时" + costTime);
     }
 
 
@@ -66,7 +67,7 @@ public class GuideActivity extends BaseActivity implements IConstants{
         super.onNewIntent(intent);
     }
 
-    private void initialize() {
+    private void init() {
         long startTime=System.currentTimeMillis();
         initView();
         addListener();
@@ -101,7 +102,9 @@ public class GuideActivity extends BaseActivity implements IConstants{
         iv_titleBar_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                moveTaskToBack(true);
+                Intent intent = new Intent(GuideActivity.this,MuseumHomePageActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -123,6 +126,7 @@ public class GuideActivity extends BaseActivity implements IConstants{
                 case 0:
                     rb_guide_guide.setChecked(true);
                     rb_guide_map.setChecked(false);
+                    guideFragment.mLyricAdapter.notifyDataSetChanged();
                     break;
                 case 1:
                     rb_guide_guide.setChecked(false);
@@ -155,6 +159,7 @@ public class GuideActivity extends BaseActivity implements IConstants{
             switch(checkedId){
                 case R.id.rb_guide_guide:
                     viewPager.setCurrentItem(0);
+                    guideFragment.mLyricAdapter.notifyDataSetChanged();
                     break;
                 case R.id.rb_guide_map:
                     viewPager.setCurrentItem(1);

@@ -1,10 +1,8 @@
 package com.systekcn.guide.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -20,28 +18,35 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.magic.mapdemo.R;
+import com.systekcn.guide.R;
+import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.CityAdapter;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
+import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.NetworkUtil;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.SideBar;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.CityBean;
-import com.systekcn.guide.widget.DrawerView;
-import com.systekcn.guide.widget.SideBar;
-import com.systekcn.guide.widget.slidingmenu.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class CityActivity extends BaseActivity {
-
+public class CityActivity extends BaseActivity implements IConstants{
+    /**加载数据对话框*/
+    private AlertDialog progressDialog;
+    /**定位连接*/
     private LocationClient mLocationClient;
+    /**右侧显示字母控件*/
     private SideBar sideBar;
-    private TextView dialog;
+    /**选中字母的对话框*/
+    /**侧边栏*/
     private SlidingMenu side_drawer;
+    /***/
     private CityAdapter adapter;
     /** 汉字转换成拼音的类*/
     //private CharacterParser characterParser;
@@ -53,27 +58,47 @@ public class CityActivity extends BaseActivity {
     private PinyinComparator pinyinComparator;
     private ListView cityListView;
     private TextView locationButton;
-    private View view;
+    // private View view;
     private ImageView iv_city_drawer;
     private String currentCity;
+    private Handler handler;
 
-    @SuppressLint("HandlerLeak")
-    private Handler handler=new Handler(){
-        public void handleMessage(Message msg) {
-            if(msg.what==MSG_WHAT_CITIES){
-                updateListView(cities);
-            }
-        };
-    };
-    private AlertDialog progressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        view = View.inflate(this, R.layout.activity_city, null);
-        setContentView(view);
-        initialize();
+    public void initialize() {
+        setContentView(R.layout.activity_city);
+        try{
+            initHandler();
+            initData();
+            initViews();
+            initAdapter();
+            addListener();
+            initSlidingView();
+            /**数据初始化好之前显示加载对话框*/
+            showProgressDialog();
+            initLocationConnect();
+        }catch (Exception e){
+            ExceptionUtil.handleException(e);
+        }
+
     }
+
+    private void initHandler() {
+        handler=new MyHandler();
+    }
+
+    private void initLocationConnect() {
+        int netState= NetworkUtil.checkNet(this);
+        if(netState==INTERNET_TYPE_NONE){
+            if(progressDialog!=null&&progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+            Toast.makeText(this, "当前无网络连接", Toast.LENGTH_SHORT).show();
+        }else{
+            initLocation();
+        }
+    }
+
 
     @Override
     protected void onPause() {
@@ -88,8 +113,9 @@ public class CityActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         disConnectBaiduSDK();
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     private void disConnectBaiduSDK() {
@@ -105,33 +131,12 @@ public class CityActivity extends BaseActivity {
         }
     }
 
-    private void initialize() {
-        try{
-            initData();
-            initViews();
-            initAdapter();
-            addListener();
-            initSlidingView();
-            showProgressDialog();
-            int netState= NetworkUtil.checkNet(this);
-            if(netState==INTERNET_TYPE_NONE){
-                if(progressDialog!=null&&progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
-                Toast.makeText(this, "当前无网络连接", Toast.LENGTH_SHORT).show();
-            }else{
-                initLocation();
-            }
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-        }
-    }
 
     private void showProgressDialog() {
         progressDialog = new AlertDialog.Builder(CityActivity.this).create();
         progressDialog.show();
         Window window = progressDialog.getWindow();
-        window.setContentView(R.layout.alert_dialog_progress);
+        window.setContentView(R.layout.dialog_progress);
         TextView dialog_title=(TextView)window.findViewById(R.id.dialog_title);
         dialog_title.setText("正在加载...");
     }
@@ -159,7 +164,7 @@ public class CityActivity extends BaseActivity {
         //characterParser = CharacterParser.getInstance();
         cityListView = (ListView) findViewById(R.id.city_list);
         sideBar = (SideBar) findViewById(R.id.sidebar);
-        dialog = (TextView) findViewById(R.id.city_dialog);
+        TextView dialog = (TextView) findViewById(R.id.city_dialog);
         iv_city_drawer = (ImageView) findViewById(R.id.iv_city_drawer);
         sideBar.setTextView(dialog);
         locationButton = (TextView) findViewById(R.id.city_btn_location);
@@ -415,6 +420,7 @@ public class CityActivity extends BaseActivity {
         intent.putExtra("city", currentCity);
         startActivity(intent);
         disConnectBaiduSDK();
+        finish();
     }
 
     @Override
@@ -426,5 +432,15 @@ public class CityActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==MSG_WHAT_CITIES){
+                updateListView(cities);
+            }
+        }
+    }
+
 
 }

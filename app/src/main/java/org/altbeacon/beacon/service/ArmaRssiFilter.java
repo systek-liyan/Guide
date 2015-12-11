@@ -35,7 +35,7 @@ public class ArmaRssiFilter implements RssiFilter {
         if (!isInitialized) {
             armaMeasurement = rssi;
             isInitialized = true;
-        };
+        }
         armaMeasurement = Double.valueOf(armaMeasurement - armaSpeed * (armaMeasurement - rssi)).intValue();
         LogManager.d(TAG, "armaMeasurement: %s", armaMeasurement);
     }

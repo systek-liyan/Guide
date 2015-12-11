@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.systekcn.guide.common.utils.ExceptionUtil;
+
 import org.altbeacon.beacon.logging.LogManager;
 
 import java.io.BufferedReader;
@@ -210,8 +212,7 @@ public class BluetoothCrashResolver {
             LogManager.d(TAG, "Distinct Bluetooth devices seen at crash: %s",
                     distinctBluetoothAddresses.size());
         }
-        long nowTimestamp = new Date().getTime();
-        lastBluetoothCrashDetectionTime = nowTimestamp;
+        lastBluetoothCrashDetectionTime = new Date().getTime();
         detectedCrashCount++;
 
         if (recoveryInProgress) {
@@ -239,7 +240,7 @@ public class BluetoothCrashResolver {
     public boolean isRecoveryInProgress() { return recoveryInProgress; }
 
     public interface UpdateNotifier {
-        public void dataUpdated();
+         void dataUpdated();
     }
 
     public void setUpdateNotifier(UpdateNotifier updateNotifier) {
@@ -391,7 +392,9 @@ public class BluetoothCrashResolver {
             if (writer != null) {
                 try {
                     writer.close();
-                } catch (IOException e1) { }
+                } catch (IOException e1) {
+                    ExceptionUtil.handleException(e1);
+                }
             }
         }
         LogManager.d(TAG, "Wrote %s Bluetooth addresses", distinctBluetoothAddresses.size());
@@ -420,10 +423,7 @@ public class BluetoothCrashResolver {
             }
             line = reader.readLine();
             if (line != null) {
-                lastRecoverySucceeded = false;
-                if (line.equals("1")) {
-                    lastRecoverySucceeded = true;
-                }
+                lastRecoverySucceeded = line.equals("1");
             }
 
             String mac;
@@ -440,7 +440,8 @@ public class BluetoothCrashResolver {
             if (reader != null) {
                 try {
                     reader.close();
-                } catch (IOException e1) { }
+                } catch (IOException e1) {
+                ExceptionUtil.handleException(e1);}
             }
         }
         LogManager.d(TAG, "Read %s Bluetooth addresses", distinctBluetoothAddresses.size());

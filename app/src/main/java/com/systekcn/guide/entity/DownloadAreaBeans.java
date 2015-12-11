@@ -1,9 +1,11 @@
 package com.systekcn.guide.entity;
 
+import com.systekcn.guide.entity.base.BaseEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class DownloadAreaBeans implements BeanInterface,Serializable {
+public class DownloadAreaBeans extends BaseEntity implements Serializable {
 	
 	/**
 	 * 序列化默认版本ID
@@ -58,7 +60,15 @@ public class DownloadAreaBeans implements BeanInterface,Serializable {
 	public String toString() {
 		return "DownloadTargetModels [id=" + id + ", city=" + city + ", list=" + list + "]";
 	}
-	
-	
-	
+
+
+	@Override
+	public void parseData(String data) {
+
+	}
+
+	@Override
+	public String getDataStr() {
+		return null;
+	}
 }

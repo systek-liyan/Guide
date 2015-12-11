@@ -15,7 +15,7 @@ public class LrcUtil {
 			for (int i = 0; i < source.length(); i++) {
 				Character c = Character.toLowerCase(source.charAt(i));
 				if (c <= 256) {
-					sb.append(Integer.toHexString(c).toUpperCase() + "00");
+					sb.append(Integer.toHexString(c).toUpperCase()).append("00");
 				} else {
 					String s = URLEncoder.encode(c.toString(), "UTF-16LE")
 							.replace("%", "");
@@ -78,9 +78,9 @@ public class LrcUtil {
 			int c = song[j];
 			if (c >= 0x80)
 				c = c - 0x100;
-			t1 = (int) ((c + t2) & 0x00000000FFFFFFFF);
-			t2 = (int) ((t2 << (j % 2 + 4)) & 0x00000000FFFFFFFF);
-			t2 = (int) ((t1 + t2) & 0x00000000FFFFFFFF);
+			t1 = (int) ((c + t2));
+			t2 = (int) (t2 << (j % 2 + 4));
+			t2 = (int) (t1 + t2);
 			j -= 1;
 		}
 		j = 0;
@@ -89,9 +89,9 @@ public class LrcUtil {
 			int c = song[j];
 			if (c >= 128)
 				c = c - 256;
-			int t4 = (int) ((c + t1) & 0x00000000FFFFFFFF);
-			t1 = (int) ((t1 << (j % 2 + 3)) & 0x00000000FFFFFFFF);
-			t1 = (int) ((t1 + t4) & 0x00000000FFFFFFFF);
+			int t4 = (int) (c + t1);
+			t1 = (int)(t1 << (j % 2 + 3));
+			t1 = (int)(t1 + t4);
 			j += 1;
 		}
 		int t5 = (int) conv(t2 ^ t3);
@@ -116,7 +116,7 @@ public class LrcUtil {
 
 	/**
 	 * 把如00:00.00这样的字符串转化成 毫秒数的时间，比如 01:10.34就是一分钟加上10秒再加上340毫秒 也就是返回70340毫秒
-	 * 
+	 *
 	 * @param time
 	 *            字符串的时间
 	 * @return 此时间表示的毫秒
