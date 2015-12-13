@@ -13,6 +13,7 @@ import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.base.ViewPagerAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.NetworkUtil;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.Dot;
 import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.fragment.base.BaseFragment;
@@ -37,6 +38,7 @@ public class WelcomeActivity extends BaseActivity implements OnPageChangeListene
 
     @Override
     public void initialize() {
+        ViewUtils.setStateBarToAlpha(this);
         setContentView(R.layout.activity_welcome);
         NetworkUtil.checkNet(this);
         initView();
@@ -80,6 +82,8 @@ public class WelcomeActivity extends BaseActivity implements OnPageChangeListene
             }
         });
     }
+
+
 
     private void initView() {
         btn_into_app=(Button)findViewById(R.id.btn_into_app);

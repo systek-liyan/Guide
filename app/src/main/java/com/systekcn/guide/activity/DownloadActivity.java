@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -27,6 +26,7 @@ import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.MuseumBean;
@@ -66,12 +66,14 @@ public class DownloadActivity extends BaseActivity implements IConstants{
     };
     private TextView tv_download_btn_refresh;/*无网络时刷新按钮*/
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initialize() {
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_download);
         init();
     }
+
 
     private void init() {
         try{

@@ -1,12 +1,12 @@
 package com.systekcn.guide.activity;
 
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 
@@ -17,8 +17,8 @@ public class CollectionActivity extends BaseActivity {
     private SlidingMenu side_drawer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initialize() {
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_collection);
         init();
     }

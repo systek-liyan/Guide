@@ -19,6 +19,7 @@ import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.TimeUtil;
 import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.common.utils.ViewUtils;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -41,6 +42,7 @@ public class LockScreenActivity extends Activity implements IConstants{
                 | WindowManager.LayoutParams.FLAG_FULLSCREEN
                 | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         view =getLayoutInflater().inflate(R.layout.activity_lock_screen,null);
+        ViewUtils.setStateBarToAlpha(this);
         setContentView(view);
         fullscreen_image=(ImageView)view.findViewById(R.id.fullscreen_image);
         btn_unlock=(Button)view.findViewById(R.id.btn_unlock);

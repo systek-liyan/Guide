@@ -49,6 +49,7 @@ import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.ExhibitBean;
@@ -131,6 +132,7 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
 
     @Override
     public void initialize() {
+        ViewUtils.setStateBarColor(this,R.color.myOrange);
         setContentView(R.layout.activity_museum_home_page);
         application.mServiceManager.connectService();/**启动播放服务*/
         Intent intent = getIntent();

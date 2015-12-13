@@ -2,7 +2,6 @@ package com.systekcn.guide.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -17,6 +16,7 @@ import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.MuseumAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.SearchView;
 import com.systekcn.guide.entity.MuseumBean;
 
@@ -58,11 +58,12 @@ public class SearchMuseumActivity extends BaseActivity implements SearchView.Sea
     private MuseumAdapter resultAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initialize() {
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_search_museum);
         initViews();
     }
+
 
     private void initViews() {
         // 搜索结果

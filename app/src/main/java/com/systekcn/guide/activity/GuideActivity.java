@@ -19,6 +19,7 @@ import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.GuideMapFragmentAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.fragment.GuideFragment;
 import com.systekcn.guide.fragment.MapFragment;
 
@@ -49,8 +50,8 @@ public class GuideActivity extends BaseActivity implements IConstants {
 
     @Override
     public void initialize(){
-
         long startTime=System.currentTimeMillis();
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_guide);
         Display display = getWindowManager().getDefaultDisplay();
         if (display.getWidth() < display.getHeight()) {}

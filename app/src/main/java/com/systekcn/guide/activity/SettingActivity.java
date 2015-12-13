@@ -9,6 +9,7 @@ import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 
@@ -19,6 +20,7 @@ public class SettingActivity extends BaseActivity implements IConstants{
 
     @Override
     public void initialize(){
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_setting);
         init();
     }

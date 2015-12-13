@@ -12,7 +12,8 @@
         style="@style/action_titleBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true">
 
         <TextView
             android:id="@+id/tv_title"

@@ -26,6 +26,7 @@ import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.NetworkUtil;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.SideBar;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
@@ -66,6 +67,7 @@ public class CityActivity extends BaseActivity implements IConstants{
 
     @Override
     public void initialize() {
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_city);
         try{
             initHandler();

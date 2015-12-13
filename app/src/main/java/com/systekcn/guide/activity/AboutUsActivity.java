@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 
@@ -16,6 +17,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void initialize() {
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_about_us);
         initViews();
         addListener();

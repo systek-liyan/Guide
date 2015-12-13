@@ -41,8 +41,10 @@
 
         <activity
             android:name=".activity.WelcomeActivity"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,6 +65,8 @@
             android:name=".activity.MuseumHomePageActivity"
             android:label="@string/title_activity_museum_home_page"
             android:launchMode="singleTop"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
@@ -85,6 +89,8 @@
         <activity
             android:name=".activity.AboutUsActivity"
             android:label="@string/title_activity_about_us"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity

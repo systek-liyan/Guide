@@ -21,6 +21,7 @@ import com.systekcn.guide.adapter.OnListViewScrollListener;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.DrawerView;
 import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
 import com.systekcn.guide.entity.ExhibitBean;
@@ -68,6 +69,7 @@ public class TopicActivity extends BaseActivity {
 
     @Override
     public void initialize() {
+        ViewUtils.setStateBarColor(this, R.color.myOrange);
         setContentView(R.layout.activity_topic);
         totalExhibitList =application.totalExhibitBeanList;
         /*初始化*/
