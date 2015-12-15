@@ -15,6 +15,7 @@ import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.listener.NearestBeaconListener;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Identifier;
@@ -30,6 +31,11 @@ public class BluetoothManager implements IConstants{
     private Context context;
     private MyApplication application;
     private static BluetoothManager bluetoothManager;
+    private NearestBeaconListener nearestBeaconListener;
+
+    public void setNearestBeaconListener(NearestBeaconListener nearestBeaconListener) {
+        this.nearestBeaconListener = nearestBeaconListener;
+    }
 
     public void setGetBeaconCallBack(GetBeaconCallBack getBeaconCallBack) {
         this.getBeaconCallBack = getBeaconCallBack;
@@ -108,17 +114,17 @@ public class BluetoothManager implements IConstants{
                 LogUtil.i("ZHANG", beacon.getId2() + "   " + beacon.getId3());
                 try{
                     Identifier major = beacon.getId2();
-                    Identifier minor = beacon.getId3();
-                    LogUtil.i("ZHANG","major===="+major+","+"minor==="+minor);
-                    BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(context);
-                    BeaconBean b = biz.getBeaconMinorAndMajor(minor, major);
-                    if (b != null) {
-                        if(getBeaconCallBack!=null){
-                            getBeaconCallBack.getMuseumByBeaconCallBack(b);
-                        }
-                        String beaconId = b.getId();
-                        LogUtil.i("ZHANG", beaconId);
-                        if (beaconId != null && !(application.getCurrentBeaconId().equals(""))) {
+                            Identifier minor = beacon.getId3();
+                            LogUtil.i("ZHANG","major===="+major+","+"minor==="+minor);
+                            BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(context);
+                            BeaconBean b = biz.getBeaconMinorAndMajor(minor, major);
+                            if (b != null) {
+                                if(getBeaconCallBack!=null){
+                                    getBeaconCallBack.getMuseumByBeaconCallBack(b);
+                                }
+                                String beaconId = b.getId();
+                                LogUtil.i("ZHANG", beaconId);
+                                if (beaconId != null && !(application.getCurrentBeaconId().equals(""))) {
                             if(!beaconId.equals(application.getCurrentBeaconId())){
                                 List<ExhibitBean> nearlyExhibitsList = biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
                                 if (nearlyExhibitsList != null && nearlyExhibitsList.size() > 0) {
@@ -162,6 +168,9 @@ public class BluetoothManager implements IConstants{
                     }
                     if(beaconBeanList.size()>0){
                         BeaconBean b=beaconBeanList.get(0);
+                        if(nearestBeaconListener!=null){
+                            nearestBeaconListener.nearestBeaconCallBack(b);
+                        }
                         if(getBeaconCallBack!=null){
                             getBeaconCallBack.getMuseumByBeaconCallBack(b);
                         }

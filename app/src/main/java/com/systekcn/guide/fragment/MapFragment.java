@@ -1,13 +1,17 @@
 package com.systekcn.guide.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,11 +39,15 @@ import com.ls.widgets.map.model.MapObject;
 import com.ls.widgets.map.utils.PivotFactory;
 import com.systekcn.guide.MyApplication;
 import com.systekcn.guide.R;
+import com.systekcn.guide.beacon.BeaconSearcher;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.map.MapObjectContainer;
 import com.systekcn.guide.common.map.MapObjectModel;
 import com.systekcn.guide.common.map.TextPopup;
+import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.listener.NearestBeaconListener;
+import com.systekcn.guide.manager.BluetoothManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,13 +71,47 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     private Location points[];
     private int currentPoint;
     private MyApplication application;
+    private BluetoothManager bluetoothManager;
+    private BeaconBean beacon;
 
+    /**蓝牙扫描对象*/
+    private BeaconSearcher mBeaconSearcher;
+    private MyHandler hander;
 
     @Override
     public void onAttach(Activity activity) {
         this.activity=activity;
         application=MyApplication.get();
+        bluetoothManager=BluetoothManager.newInstance(activity);
+        bluetoothManager.setNearestBeaconListener(nearestBeaconListener);
+        hander=new MyHandler();
         super.onAttach(activity);
+    }
+
+    private NearestBeaconListener nearestBeaconListener =new NearestBeaconListener() {
+        @Override
+        public void nearestBeaconCallBack(BeaconBean b) {
+            beacon=b;
+            hander.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
+            Log.i("zz","---------------------zzz"+model);
+        }
+    };
+
+
+
+    private final int MSG_WHAT_DRAW_POINT=1;
+
+    class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==MSG_WHAT_DRAW_POINT){
+                if(view!=null) {
+                    MapObjectModel objectModel = new MapObjectModel(0, (int) beacon.getPersonx(), (int) beacon.getPersony(), beacon.getMinor());
+                    model.addObject(objectModel);
+                    initMapObjects();
+                }
+            }
+        }
     }
 
     @Override
@@ -79,12 +121,12 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         view = inflater.inflate(R.layout.fragment_map, container, false);
         nextObjectId = 0;
 
-//		model = new MapObjectContainer();
+		model = new MapObjectContainer();
 
         //initTestLocationPoints();
         initMap(savedInstanceState);
-//		initModel();
-//		initMapObjects();
+		//initModel();
+		//initMapObjects();
         mapObjectInfoPopup = new TextPopup(activity,(FrameLayout)view);
 
         initMapListeners();
@@ -102,6 +144,11 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        hander.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -193,12 +240,12 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     private void initModel()
     {
         //需要在地图上显示的点
-        List<ExhibitBean> list =  application.currentExhibitBeanList;
-        MapObjectModel objectModel;
-        for(ExhibitBean e:list){
-            objectModel = new MapObjectModel(0, 550, 362, "第二号坑 铜车马陈列室");
-            model.addObject(objectModel);
-        }
+//        List<ExhibitBean> list =  application.currentExhibitBeanList;
+//        MapObjectModel objectModel;
+//        for(ExhibitBean e:list){
+//            objectModel = new MapObjectModel(0, (int)e.getMapx(), (int)e.getMapy(), "第二号坑 铜车马陈列室");
+//            model.addObject(objectModel);
+//        }
 
 
         //将对象添加到模型
@@ -224,7 +271,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     private void initMapObjects()
     {
 
-//		mapObjectInfoPopup = new TextPopup(this, (RelativeLayout)findViewById(R.id.rootLayout));
+        //mapObjectInfoPopup = new TextPopup(activity,(FrameLayout)view);
 
         //Layer layer1 = map.getLayerById(LAYER1_ID);
         Layer layer2 = map.getLayerById(LAYER2_ID);
@@ -256,6 +303,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
                 false); // is not scalable. It will have the same size on each zoom level
 
         // Adding object to layer
+        layer.clearAll();
         layer.addMapObject(object1);
         nextObjectId += 1;
     }
@@ -406,9 +454,9 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
 //		if(map.getZoomLevel()==14) {
 //			map.getLayerById(LAYER2_ID).setVisible(true);
 //		}
-        model = new MapObjectContainer();
-        initModel();
-        initMapObjects();
+//        model = new MapObjectContainer();
+//        initModel();
+//        initMapObjects();
     }
 
     @Override
@@ -540,6 +588,12 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         return (int)(mapCoord *  map.getScale() - map.getScrollY());
     }
 
+    class MapBrocastReceiver extends BroadcastReceiver{
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    }
 
 }

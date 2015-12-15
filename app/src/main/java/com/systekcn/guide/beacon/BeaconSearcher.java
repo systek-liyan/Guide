@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.RemoteException;
 
+import com.systekcn.guide.listener.NearestBeaconListener;
+
 import org.altbeacon.beacon.AltBeaconParser;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -297,6 +299,12 @@ public class BeaconSearcher {
 			}
 		}
 	};
+
+	private NearestBeaconListener nearestBeaconListener;
+
+	public void setNearestBeaconListener(NearestBeaconListener nearestBeaconListener) {
+		this.nearestBeaconListener = nearestBeaconListener;
+	}
 
 	/** 发现beacon监听回调，看到beacon，看不到beacon; 进入，离开，临界 */
 	MonitorNotifier mMonitorNotifier = new MonitorNotifier() {
