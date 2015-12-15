@@ -1,5 +1,7 @@
 package com.systekcn.guide.beacon;
 
+import android.util.Log;
+
 import org.altbeacon.beacon.Beacon;
 
 import java.util.ArrayList;
@@ -238,12 +240,15 @@ public class NearestBeacon {
 					// 在最后一次循环时,获取距离的平均值
 					if (i == beaconList.size() - 1) {
 						ave = ave / beaconList.size();
-
-						// 将平均值和Beacon对象存入List，通过该List即可获取最近信标
-						BeaconForSort bfs = new BeaconForSort();
-						bfs.beacon = beaconList.get(i);
-						bfs.distance = ave;
-						mBeaconList.add(bfs);
+						//展品在设定距离范围内时，将其放入List
+						if(ave<=mExhibit_distance) {
+							// 将平均值和Beacon对象存入List，通过该List即可获取最近信标
+							BeaconForSort bfs = new BeaconForSort();
+							bfs.beacon = beaconList.get(i);
+							bfs.distance = ave;
+							mBeaconList.add(bfs);
+							//Log.i("zz", bfs.getDistance() + "--------------" + bfs.getBeacon().getId3());
+						}
 					}
 				}
 			}
@@ -255,12 +260,13 @@ public class NearestBeacon {
 			//排序检测到的Beacon
 			BeaconForSort bf = new BeaconForSort();
 			Collections.sort(mBeaconList,bf);
-			for(int i=0;i<mBeaconList.size();i++){
-				//Log.i("twoooo", "信标ID："+ bf.beacon.getId3()+" 距离 :"+bf.distance);
-				if(bf.distance>mExhibit_distance){
-					mBeaconList.remove(i);
-				}
-			}
+//			for(int i=0;i<mBeaconList.size();i++){
+//				//Log.i("twoooo", "信标ID："+ bf.beacon.getId3()+" 距离 :"+bf.distance);
+//				if(bf.distance>mExhibit_distance){
+//					mBeaconList.remove(i);
+//				}
+//				Log.i("zz",mBeaconList.get(i).getDistance()+"--------------"+mBeaconList.get(i).getBeacon().getId3());
+//			}
 			return mBeaconList;
 		} else
 			return null;
