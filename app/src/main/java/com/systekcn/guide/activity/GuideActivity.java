@@ -20,6 +20,7 @@ import com.systekcn.guide.adapter.GuideMapFragmentAdapter;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.ViewUtils;
+import com.systekcn.guide.custom.MyViewPager;
 import com.systekcn.guide.fragment.GuideFragment;
 import com.systekcn.guide.fragment.MapFragment;
 
@@ -32,7 +33,7 @@ public class GuideActivity extends BaseActivity implements IConstants {
     /**fragment适配器*/
     private GuideMapFragmentAdapter guideMapFragmentAdapter;
     /**fragment的父容器*/
-    private ViewPager viewPager;
+    private MyViewPager viewPager;
     /**导览fragment*/
     private GuideFragment guideFragment;
     /**地体fragment*/
@@ -84,7 +85,7 @@ public class GuideActivity extends BaseActivity implements IConstants {
         rb_guide_guide=(RadioButton)findViewById(R.id.rb_guide_guide);
         rb_guide_map=(RadioButton)findViewById(R.id.rb_guide_map);
         rg_guide_page_title=(RadioGroup)findViewById(R.id.rg_guide_page_title);
-        viewPager=(ViewPager)findViewById(R.id.guide_map_container);
+        viewPager=(MyViewPager)findViewById(R.id.guide_map_container);
         guideFragment = GuideFragment.newInstance();
         mapFragment=new MapFragment();
         fragmentList.add(guideFragment);
