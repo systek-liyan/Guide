@@ -1,6 +1,5 @@
 package com.systekcn.guide.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -111,22 +110,12 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
     private ModelChangeBroadcastReceiver modelChangeBroadcastReceiver;
     private AlertDialog progressDialog;
     private DrawerView drawerView;
+    private MyHandler handler;
 
     public void setOnListViewScrollListener(OnListViewScrollListener onListViewScrollListener) {
         this.onListViewScrollListener = onListViewScrollListener;
     }
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_WHAT_UPDATE_DATA) {
-                if(progressDialog!=null&&progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
-                application.totalExhibitBeanList=currentExhibitList;
-                updateDate();
-            }
-        }
-    };
+
     /**listview的滚动开始和结束*/
     //private int start,end;
 
@@ -141,6 +130,7 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         screenWidth = display.getWidth();
+        handler=new MyHandler();
         init();
         initData();
         //registerReceiver();
@@ -505,8 +495,6 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
         super.onDestroy();
     }
 
-
-
     class ModelChangeBroadcastReceiver extends BroadcastReceiver {
 
         @Override
@@ -522,6 +510,17 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
         }
     }
 
-
+    class MyHandler extends  Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_WHAT_UPDATE_DATA) {
+                if(progressDialog!=null&&progressDialog.isShowing()){
+                    progressDialog.dismiss();
+                }
+                application.totalExhibitBeanList=currentExhibitList;
+                updateDate();
+            }
+        }
+    }
 
 }

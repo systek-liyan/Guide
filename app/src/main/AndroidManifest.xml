@@ -5,7 +5,6 @@
     <!-- map -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -67,10 +66,10 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.MuseumHomePageActivity"
-            android:label="@string/title_activity_museum_home_page"
-            android:launchMode="singleTop"
             android:clipToPadding="true"
             android:fitsSystemWindows="true"
+            android:label="@string/title_activity_museum_home_page"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
@@ -92,24 +91,27 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.AboutUsActivity"
-            android:label="@string/title_activity_about_us"
             android:clipToPadding="true"
             android:fitsSystemWindows="true"
+            android:label="@string/title_activity_about_us"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.TopicActivity"
             android:label="@string/title_activity_filter"
+            android:clipToPadding="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.SearchActivity"
             android:label="@string/title_activity_search_exhibit"
+            android:clipToPadding="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".activity.CollectionActivity"
             android:label="@string/title_activity_filter"
+            android:clipToPadding="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
 
@@ -143,8 +145,16 @@
             android:label="@string/title_activity_lock_screen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity android:name=".activity.SearchMuseumActivity"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".activity.SearchMuseumActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.TestActivity" />
+        <activity
+            android:name=".activity.MuseumHomeActivity"
+            android:launchMode="singleTop"
+            android:clipToPadding="true"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            />
     </application>
 
 </manifest>

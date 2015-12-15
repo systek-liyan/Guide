@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/systekcn/guide/common/map/MapObjectContainer.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/systekcn/guide/common/map/MapObjectModel.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/systekcn/guide/common/map/MapPopupBase.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/systekcn/guide/common/map/TextPopup.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/systekcn/guide/common/map/map/MapObjectContainer.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/systekcn/guide/common/map/map/MapObjectModel.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/map/map_description_background.9.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/map/map_object.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/map_description_background.9.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/map_object.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/map_popup_arrow.png" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/menu" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

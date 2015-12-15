@@ -160,6 +160,9 @@ public class MyApplication extends Application implements IConstants{
                 }
             }
         }
+        if(bluetoothManager!=null){
+            bluetoothManager.disConnectBluetoothService();
+        }
         System.exit(0);
     }
 
