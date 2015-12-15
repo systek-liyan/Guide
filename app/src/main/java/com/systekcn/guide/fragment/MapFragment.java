@@ -137,7 +137,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         // 需要在manifest启用 ACCESS_FINE_LOCATION and ACCESS_COARSE_LOCATION 权限
 
         //如果你在 Filitheyo island ,取消这个注释
-        map.setShowMyPosition(true);
+//        map.setShowMyPosition(true);
 
         map.centerMap();
 
@@ -291,7 +291,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     private void addNotScalableMapObject(int x, int y,  Layer layer)
     {
         // Getting the drawable of the map object
-        Drawable drawable = getResources().getDrawable(R.drawable.map_object);
+        Drawable drawable = getResources().getDrawable(R.mipmap.maps_blue_dot);
         pinHeight = drawable.getIntrinsicHeight();
         // Creating the map object
         MapObject object1 = new MapObject(Integer.valueOf(nextObjectId), // id, will be passed to the listener when user clicks on it
@@ -346,7 +346,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     //添加可扩展的地图对象
     private void addScalableMapObject(int x, int y, Layer layer)
     {
-        Drawable drawable = getResources().getDrawable(R.drawable.map_object);
+        Drawable drawable = getResources().getDrawable(R.mipmap.maps_blue_dot);
         MapObject object1 = new MapObject(Integer.valueOf(nextObjectId),
                 drawable,
                 x,

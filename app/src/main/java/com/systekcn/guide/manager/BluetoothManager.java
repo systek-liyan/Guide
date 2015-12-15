@@ -151,8 +151,7 @@ public class BluetoothManager implements IConstants{
         /**当接受到多个beacon时，根据beacon查找展品，更新附近列表*/
         @Override
         public void getNearestBeacons(int type, List<BeaconForSort> beaconsForSortList) {
-            if(System.currentTimeMillis()-recordTime>3000){
-                recordTime=System.currentTimeMillis();
+
                 beaconBeanList=new ArrayList<>();
                 exhibitBeansList=new ArrayList<>();
                 if (beaconsForSortList != null&&beaconsForSortList.size()>0) {
@@ -160,7 +159,6 @@ public class BluetoothManager implements IConstants{
                         Beacon beacon = beaconsForSortList.get(i).getBeacon();
                         Identifier major = beacon.getId2();
                         Identifier minor = beacon.getId3();
-
                         BeaconBean beaconBean=biz.getBeaconMinorAndMajor(minor, major);
                         if(beaconBean!=null){
                             beaconBeanList.add(beaconBean);
@@ -183,6 +181,9 @@ public class BluetoothManager implements IConstants{
                             }
                         }
                     }
+
+                    if(System.currentTimeMillis()-recordTime>3000){
+                        recordTime=System.currentTimeMillis();
                     if(application.currentExhibitBeanList.size()==0){
                         application.currentExhibitBeanList=exhibitBeansList;
                         Intent intent =new Intent();
@@ -195,9 +196,8 @@ public class BluetoothManager implements IConstants{
                             intent.setAction(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE);
                             context.sendBroadcast(intent);
                         }
-                    }
+                    }}
                 }
-            }
         }
     };
 
