@@ -52,13 +52,13 @@ import com.systekcn.guide.manager.BluetoothManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment implements IConstants,MapEventsListener,OnMapTouchListener {
+public class MapFragment extends Fragment implements IConstants, MapEventsListener, OnMapTouchListener {
     private View view;
 
-    private static final String TAG = "BrowseMapActivity";
+    private static final String TAG = "MapFragment";
 
-    private static final Integer LAYER1_ID = 0;
-    private static final Integer LAYER2_ID = 1;
+    private static final Integer PERSON_LAYER = 0;//人员定位图层
+    private static final Integer EXHIBITS_LAYER = 1;//展品显示图层
     private static final int MAP_ID = 23;
 
     private int nextObjectId;
@@ -74,46 +74,8 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     private BluetoothManager bluetoothManager;
     private BeaconBean beacon;
 
-    /**蓝牙扫描对象*/
-    private BeaconSearcher mBeaconSearcher;
-    private MyHandler hander;
 
-    @Override
-    public void onAttach(Activity activity) {
-        this.activity=activity;
-        application=MyApplication.get();
-        bluetoothManager=BluetoothManager.newInstance(activity);
-        bluetoothManager.setNearestBeaconListener(nearestBeaconListener);
-        hander=new MyHandler();
-        super.onAttach(activity);
-    }
-
-    private NearestBeaconListener nearestBeaconListener =new NearestBeaconListener() {
-        @Override
-        public void nearestBeaconCallBack(BeaconBean b) {
-            beacon=b;
-            hander.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
-            Log.i("zz","---------------------zzz"+model);
-        }
-    };
-
-
-
-    private final int MSG_WHAT_DRAW_POINT=1;
-
-    class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            if(msg.what==MSG_WHAT_DRAW_POINT){
-                if(view!=null) {
-                    MapObjectModel objectModel = new MapObjectModel(0, (int) beacon.getPersonx(), (int) beacon.getPersony(), beacon.getMinor());
-                    model.addObject(objectModel);
-                    initMapObjects();
-                }
-            }
-        }
-    }
-
+    //加载View,初始化数据
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -121,13 +83,13 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         view = inflater.inflate(R.layout.fragment_map, container, false);
         nextObjectId = 0;
 
-		model = new MapObjectContainer();
+        model = new MapObjectContainer();
 
         //initTestLocationPoints();
         initMap(savedInstanceState);
-		//initModel();
-		//initMapObjects();
-        mapObjectInfoPopup = new TextPopup(activity,(FrameLayout)view);
+        //initModel();
+        //initMapObjects();
+        mapObjectInfoPopup = new TextPopup(activity, (FrameLayout) view);
 
         initMapListeners();
 
@@ -144,17 +106,6 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        hander.removeCallbacksAndMessages(null);
-        super.onDestroy();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        map.saveState(outState);
-    }
 
 //	private void initTestLocationPoints()
 //	{
@@ -196,8 +147,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
 
 
     //初始化地图
-    private void initMap(Bundle savedInstanceState)
-    {
+    private void initMap(Bundle savedInstanceState) {
         //为了在屏幕上显示需要的地图，需要初始化工具，并将其放入地图
         map = new MapWidget(savedInstanceState, activity,
                 "map", // root name of the map under assets folder.
@@ -229,23 +179,18 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
         layout.addView(map, 0);
         layout.setBackgroundColor(Color.parseColor("#ffffff"));
 
-        // Adding layers in order to put there some map objects
-        map.createLayer(LAYER1_ID); // you will need layer id's in order to access particular layer
-        map.createLayer(LAYER2_ID);
+        //要在地图上绘制点，需要先添加图层(通过图层的ID可以访问特定的图层)
+        map.createLayer(PERSON_LAYER); //创建人员定位图层
+        map.createLayer(EXHIBITS_LAYER);//创建展品显示图层
     }
 
 
-
     //初始化地图模型
-    private void initModel()
-    {
-        //需要在地图上显示的点
-//        List<ExhibitBean> list =  application.currentExhibitBeanList;
-//        MapObjectModel objectModel;
-//        for(ExhibitBean e:list){
-//            objectModel = new MapObjectModel(0, (int)e.getMapx(), (int)e.getMapy(), "第二号坑 铜车马陈列室");
-//            model.addObject(objectModel);
-//        }
+    private void initModel() {
+
+        //创建并添加地图对象模型(图标点)
+        MapObjectModel objectModel = new MapObjectModel(0, (int) beacon.getPersonx(), (int) beacon.getPersony(), beacon.getMinor());
+        model.addObject(objectModel);
 
 
         //将对象添加到模型
@@ -268,30 +213,42 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
 
 
     //初始化地图对象
-    private void initMapObjects()
-    {
+    private void initMapObjects(Layer layer) {
 
         //mapObjectInfoPopup = new TextPopup(activity,(FrameLayout)view);
 
-        //Layer layer1 = map.getLayerById(LAYER1_ID);
-        Layer layer2 = map.getLayerById(LAYER2_ID);
-
-        for (int i=0; i<model.size(); ++i) {
-            addNotScalableMapObject(model.getObject(i), layer2);
+        //获取图层，并在该图层绘点
+        //Layer personLayer = map.getLayerById(PERSON_LAYER);
+        for (int i = 0; i < model.size(); ++i) {
+            addNotScalableMapObject(model.getObject(i), layer);
         }
 
-        // Adding two map objects to the second layer
         //增加两个地图对象到第二层  右侧的两个点
 //		addScalableMapObject(800, 100, layer2);//图标和图一起放大
 //		addNotScalableMapObject(800, 350,layer2);//地图放大缩小图标点自动适应
     }
 
+    //绘制不可扩展的地图对象
+    private void addNotScalableMapObject(MapObjectModel objectModel, Layer layer) {
+        if (objectModel.getLocation() != null) {
+            addNotScalableMapObject(objectModel.getLocation(), layer);
+        } else {
+            addNotScalableMapObject(objectModel.getX(), objectModel.getY(), layer);
+        }
+    }
 
-    //添加不可扩展的地图对象
-    private void addNotScalableMapObject(int x, int y,  Layer layer)
-    {
+
+    //绘制不可扩展的地图对象(x,y)
+    private void addNotScalableMapObject(int x, int y, Layer layer) {
         // Getting the drawable of the map object
         Drawable drawable = getResources().getDrawable(R.mipmap.maps_blue_dot);
+
+        //绘制人员位置时，先清除改图层上的所有地图对象
+        if (map.getLayerById(PERSON_LAYER) == layer){
+            layer.clearAll();
+            drawable = getResources().getDrawable(R.drawable.map_object);
+        }
+
         pinHeight = drawable.getIntrinsicHeight();
         // Creating the map object
         MapObject object1 = new MapObject(Integer.valueOf(nextObjectId), // id, will be passed to the listener when user clicks on it
@@ -302,24 +259,13 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
                 true, // This object will be passed to the listener
                 false); // is not scalable. It will have the same size on each zoom level
 
-        // Adding object to layer
-        layer.clearAll();
+
+        //绘制地图对象(图标点)到图层
         layer.addMapObject(object1);
         nextObjectId += 1;
     }
 
-    //添加不可扩展的地图对象
-    private void addNotScalableMapObject(MapObjectModel objectModel,  Layer layer)
-    {
-        if (objectModel.getLocation() != null) {
-            addNotScalableMapObject(objectModel.getLocation(), layer);
-        } else {
-            addNotScalableMapObject(objectModel.getX(), objectModel.getY(),  layer);
-        }
-    }
-
-
-    //添加不可扩展的地图对象
+    //绘制不可扩展的地图对象(location)
     private void addNotScalableMapObject(Location location, Layer layer) {
         if (location == null)
             return;
@@ -343,9 +289,8 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     }
 
 
-    //添加可扩展的地图对象
-    private void addScalableMapObject(int x, int y, Layer layer)
-    {
+    //绘制可扩展的地图对象
+    private void addScalableMapObject(int x, int y, Layer layer) {
         Drawable drawable = getResources().getDrawable(R.mipmap.maps_blue_dot);
         MapObject object1 = new MapObject(Integer.valueOf(nextObjectId),
                 drawable,
@@ -359,8 +304,8 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     }
 
 
-    private void initMapListeners()
-    {
+    //地图监听事件
+    private void initMapListeners() {
         // In order to receive MapObject touch events we need to set listener
         map.setOnMapTouchListener(this);
 
@@ -386,18 +331,18 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     }
 
 
+    //地图上的菜单栏
     //@Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = new MenuInflater(activity);
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
 
+    //地图上菜单栏的点击事件
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.zoomIn:
                 map.zoomIn();
@@ -405,16 +350,16 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
             case R.id.zoomOut:
                 map.zoomOut();
                 return true;
-            case R.id.hideLayer2: {
-                Layer layer = map.getLayerById(LAYER2_ID);
+            case R.id.hidePersonLayer: {
+                Layer layer = map.getLayerById(PERSON_LAYER);
                 if (layer != null) {
                     layer.setVisible(false);
                     map.invalidate(); // Need to repaint the layer. This is a bug and will be fixed in next version.
                 }
                 return true;
             }
-            case R.id.showLayer2: {
-                Layer layer = map.getLayerById(LAYER2_ID);
+            case R.id.showPersonLayer: {
+                Layer layer = map.getLayerById(PERSON_LAYER);
                 if (layer != null) {
                     layer.setVisible(true);
                     map.invalidate(); // Need to repaint the layer. This is a bug and will be fixed in next version.
@@ -433,8 +378,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
 
 
     //地图滚动处理
-    private void handleOnMapScroll(MapWidget v, MapScrolledEvent event)
-    {
+    private void handleOnMapScroll(MapWidget v, MapScrolledEvent event) {
         // When user scrolls the map we receive scroll events
         // This is useful when need to move some object together with the map
 
@@ -447,26 +391,33 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     }
 
 
-
+    //地图放大
     @Override
     public void onPostZoomIn() {
         Log.i(TAG, "onPostZoomIn()" + "---" + map.getZoomLevel());
-//		if(map.getZoomLevel()==14) {
-//			map.getLayerById(LAYER2_ID).setVisible(true);
-//		}
-//        model = new MapObjectContainer();
-//        initModel();
-//        initMapObjects();
+		if(map.getZoomLevel()==14) {
+			//map.getLayerById(EXHIBITS_LAYER).setVisible(true);
+            //展品列表
+            List<ExhibitBean> list =  application.totalExhibitBeanList;
+            MapObjectModel objectModel;
+            for(ExhibitBean e:list){
+                objectModel = new MapObjectModel(0, (int)e.getMapx(), (int)e.getMapy(), e.getName());
+                model.addObject(objectModel);
+            }
+            // initModel();
+            initMapObjects(map.getLayerById(EXHIBITS_LAYER));
+        }
+
     }
 
+    //地图缩小
     @Override
     public void onPostZoomOut() {
         Log.i(TAG, "onPostZoomOut()");
     }
 
     @Override
-    public void onPreZoomIn()
-    {
+    public void onPreZoomIn() {
         Log.i(TAG, "onPreZoomIn()");
 
         if (mapObjectInfoPopup != null) {
@@ -475,8 +426,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     }
 
     @Override
-    public void onPreZoomOut()
-    {
+    public void onPreZoomOut() {
         Log.i(TAG, "onPreZoomOut()");
 
         if (mapObjectInfoPopup != null) {
@@ -487,8 +437,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
 
     //* On map touch listener implemetnation 地图上的触摸监听器实现 *//
     @Override
-    public void onTouch(MapWidget v, MapTouchedEvent event)
-    {
+    public void onTouch(MapWidget v, MapTouchedEvent event) {
         // Get touched object events from the MapTouchEvent
         ArrayList<ObjectTouchEvent> touchedObjs = event.getTouchedObjectIds();
 
@@ -504,7 +453,7 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
             // Due to a bug this is not actually the layer id, but index of the layer in layers array.
             // Will be fixed in the next release.
             long layerId = objectTouchEvent.getLayerId();
-            Integer objectId = (Integer)objectTouchEvent.getObjectId();
+            Integer objectId = (Integer) objectTouchEvent.getObjectId();
             // User has touched one or more map object
             // We will take the first one to show in the toast message.
             String message = "You touched the object with id: " + objectId + " on layer: " + layerId +
@@ -542,26 +491,20 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
     }
 
 
-    private void showLocationsPopup(int x, int y, String text)
-    {
+    private void showLocationsPopup(int x, int y, String text) {
         RelativeLayout mapLayout = (RelativeLayout) view.findViewById(R.id.mapLayout);
 
-        if (mapObjectInfoPopup != null)
-        {
+        if (mapObjectInfoPopup != null) {
             mapObjectInfoPopup.hide();
         }
 
         ((TextPopup) mapObjectInfoPopup).setIcon((BitmapDrawable) getResources().getDrawable(R.drawable.map_popup_arrow));
         ((TextPopup) mapObjectInfoPopup).setText(text);
 
-        mapObjectInfoPopup.setOnClickListener(new View.OnTouchListener()
-        {
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == MotionEvent.ACTION_UP)
-                {
-                    if (mapObjectInfoPopup != null)
-                    {
+        mapObjectInfoPopup.setOnClickListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (mapObjectInfoPopup != null) {
                         mapObjectInfoPopup.hide();
                     }
                 }
@@ -575,25 +518,80 @@ public class MapFragment extends Fragment implements IConstants,MapEventsListene
 
     /***
      * Transforms coordinate in map coordinate system to screen coordinate system 地图坐标转换到屏幕坐标
+     *
      * @param mapCoord - X in map coordinate in pixels.  参数mapCoord - X 地图像素坐标
      * @return X coordinate in screen coordinates. You can use this value to display any object on the screen. X是 返回的屏幕坐标，可以使用这个方法在平面上显示任何对象
      */
-    private int xToScreenCoords(int mapCoord)
-    {
-        return (int)(mapCoord *  map.getScale() - map.getScrollX());
+    private int xToScreenCoords(int mapCoord) {
+        return (int) (mapCoord * map.getScale() - map.getScrollX());
     }
 
-    private int yToScreenCoords(int mapCoord)
-    {
-        return (int)(mapCoord *  map.getScale() - map.getScrollY());
+    private int yToScreenCoords(int mapCoord) {
+        return (int) (mapCoord * map.getScale() - map.getScrollY());
     }
 
-    class MapBrocastReceiver extends BroadcastReceiver{
+    class MapBrocastReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
         }
     }
+
+
+    /**
+     * 蓝牙扫描对象
+     */
+    private BeaconSearcher mBeaconSearcher;
+    private MyHandler hander;
+
+    @Override
+    public void onAttach(Activity activity) {
+        this.activity = activity;
+        application = MyApplication.get();
+        bluetoothManager = BluetoothManager.newInstance(activity);
+        bluetoothManager.setNearestBeaconListener(nearestBeaconListener);
+        hander = new MyHandler();
+        super.onAttach(activity);
+    }
+
+    //蓝牙模块返回最近的信标
+    private NearestBeaconListener nearestBeaconListener = new NearestBeaconListener() {
+        @Override
+        public void nearestBeaconCallBack(BeaconBean b) {
+            beacon = b;
+            hander.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
+        }
+    };
+
+
+    private final int MSG_WHAT_DRAW_POINT = 1;
+
+    class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_WHAT_DRAW_POINT) {
+                //地图界面加载后绘点
+                if (view != null) {
+                    initModel();//创建地图对象(图标点)
+                    initMapObjects(map.getLayerById(PERSON_LAYER));//绘制地图对象
+                }
+            }
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        hander.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        map.saveState(outState);
+    }
+
 
 }

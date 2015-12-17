@@ -240,15 +240,16 @@ public class NearestBeacon {
 					// 在最后一次循环时,获取距离的平均值
 					if (i == beaconList.size() - 1) {
 						ave = ave / beaconList.size();
-						//展品在设定距离范围内时，将其放入List
-						if(ave<=mExhibit_distance) {
+						//展品在设定距离范围内(1.5米)时，将其放入List
+						//由于定位不能将范围限定为1.5米，这里取消范围限定，只按顺序返回检索到的信标，由使用者处理"范围"  2015-12-17 by sa
+						//if(ave<=mExhibit_distance) {
 							// 将平均值和Beacon对象存入List，通过该List即可获取最近信标
 							BeaconForSort bfs = new BeaconForSort();
 							bfs.beacon = beaconList.get(i);
 							bfs.distance = ave;
 							mBeaconList.add(bfs);
 							//Log.i("zz", bfs.getDistance() + "--------------" + bfs.getBeacon().getId3());
-						}
+						//}
 					}
 				}
 			}

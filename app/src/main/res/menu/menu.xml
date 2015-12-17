@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/zoomIn" android:title="Zoom In"></item>
     <item android:id="@+id/zoomOut" android:title="Zoom Out"></item>
-    <item android:id="@+id/hideLayer2" android:title="Hide Layer 2"></item>
-    <item android:id="@+id/showLayer2" android:title="Show Layer 2"></item>
+    <item android:id="@+id/hidePersonLayer" android:title="Hide Person Layer"></item>
+    <item android:id="@+id/showPersonLayer" android:title="ShowPerson Layer"></item>
     <item android:title="Scroll to next object" android:id="@+id/scroll_next"></item>
 </menu>
