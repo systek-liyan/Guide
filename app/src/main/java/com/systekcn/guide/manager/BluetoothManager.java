@@ -195,6 +195,7 @@ public class BluetoothManager implements IConstants{
                             Intent intent =new Intent();
                             intent.setAction(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE);
                             context.sendBroadcast(intent);
+                            LogUtil.i("ZHANG","已发送数据");
                         }
                     }}
                 }

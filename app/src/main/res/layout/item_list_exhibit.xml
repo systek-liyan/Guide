@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_exhibit_item"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:background="@color/myGray"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_item_exhibit_list_inner">
+        <com.systekcn.guide.custom.RoundImageView
+            android:id="@+id/iv_exhibit_icon"
+            android:layout_width="100dp"
+            android:layout_height="76dp"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/simple_margin_4dp"
+            android:layout_marginBottom="@dimen/simple_margin_4dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_exhibit_name"
+                    android:textSize="13sp"
+                    android:textColor="@color/red"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:id="@+id/ll_collection_btn"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="14dp"
+                        android:src="@mipmap/heart_empty" />
+                    <TextView
+                        android:textSize="10sp"
+                        android:text="收藏"
+                        android:layout_marginLeft="@dimen/simple_margin_4dp"
+                        android:layout_marginRight="@dimen/simple_margin_4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_exhibit_years"
+                android:layout_width="wrap_content"
+                android:textSize="10sp"
+                android:layout_height="wrap_content"
+                android:text="唐朝末年"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_exhibit_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="瓷器厅 B3 02"/>
+
+                <ImageView
+                    android:id="@+id/iv_exhibit_sound"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="@dimen/simple_margin_4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/sound_sign"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginRight="@dimen/simple_margin_4dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:layout_marginTop="4dp"
+                android:focusableInTouchMode="false"
+                android:descendantFocusability="blocksDescendants"
+                android:background="@color/lightGray"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

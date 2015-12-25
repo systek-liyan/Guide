@@ -4,220 +4,220 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/layout_title_bar" />
 
-
-    <HorizontalScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/largest_icon_height">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
         <LinearLayout
-            android:id="@+id/ll_museum_largest_icon"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"/>
-    </HorizontalScrollView>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/largest_icon_height">
+                <LinearLayout
+                    android:id="@+id/ll_museum_largest_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"/>
+            </HorizontalScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/rl_guide_home"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_home_circle_guide"
-                android:src="@mipmap/home_circle_guide"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/iv_home_circle_guide"
+                        android:src="@mipmap/home_circle_guide"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="导览"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_guide" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_map"
+                        android:src="@mipmap/home_circle_map"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="地图"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_map"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_title"
+                        android:src="@mipmap/home_circle_title"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="专题"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_title" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_essence"
+                        android:src="@mipmap/home_circle_essence"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="专题"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_essence" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_nearly"
+                        android:src="@mipmap/home_circle_nearly"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="附近"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_nearly"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_collect"
+                        android:src="@mipmap/home_circle_collect"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="收藏"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_collect" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_ticket"
+                        android:src="@mipmap/home_circle_ticket"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="订票"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_ticket" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_home_circle_producer"
+                        android:src="@mipmap/home_circle_producer"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="文创"
+                        style="@style/tv_home_menu"
+                        android:layout_below="@id/iv_home_circle_producer" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/myGray"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/bg_btn_intro"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="简介"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/myWhite"
+                    android:textSize="11dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:src="@mipmap/sound_close"/>
+
+            </RelativeLayout>
 
             <TextView
-                android:text="导览"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_guide"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_museum_introduce"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textSize="@dimen/tv_home_page_exhibit_introduce_size"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_map"
-                android:src="@mipmap/home_circle_map"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="地图"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_title"
-                android:src="@mipmap/home_circle_title"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="专题"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_essence"
-                android:src="@mipmap/home_circle_essence"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="专题"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_essence"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_nearly"
-                android:src="@mipmap/home_circle_nearly"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="附近"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_nearly"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_collect"
-                android:src="@mipmap/home_circle_collect"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="收藏"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_ticket"
-                android:src="@mipmap/home_circle_ticket"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="订票"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_ticket"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_home_circle_producer"
-                android:src="@mipmap/home_circle_producer"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="文创"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/iv_home_circle_producer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_home_page_hamburger"
-        android:clickable="false"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:background="@mipmap/iv_introduce"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="简介"
-            android:textColor="@color/myWhite"
-            android:textSize="9dp" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_museum_introduce"
-        android:layout_width="match_parent"
-        android:textSize="@dimen/tv_home_page_exhibit_introduce_size"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

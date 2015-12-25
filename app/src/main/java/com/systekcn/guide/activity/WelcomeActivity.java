@@ -11,11 +11,14 @@ import android.widget.LinearLayout;
 import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.base.ViewPagerAdapter;
+import com.systekcn.guide.biz.BeansManageBiz;
+import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.Dot;
 import com.systekcn.guide.entity.BeaconBean;
+import com.systekcn.guide.entity.MuseumBean;
 import com.systekcn.guide.fragment.base.BaseFragment;
 import com.systekcn.guide.fragment.base.ImageFragment;
 import com.systekcn.guide.manager.BluetoothManager;
@@ -138,7 +141,9 @@ public class WelcomeActivity extends BaseActivity implements OnPageChangeListene
                 count++;
                 if(count==1){
                     museumId=beaconBean.getMuseumId();
-                    targetClass=MuseumHomePageActivity.class;
+                    BeansManageBiz biz= (BeansManageBiz) BizFactory.getBeansManageBiz(WelcomeActivity.this);
+                    application.currentMuseum= (MuseumBean) biz.getBeanById(IConstants.URL_TYPE_GET_MUSEUM_BY_ID,museumId);
+                    targetClass=MuseumHomeActivity.class;
                 }
             }
             return museumId;

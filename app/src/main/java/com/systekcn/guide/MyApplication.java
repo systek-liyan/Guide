@@ -12,6 +12,7 @@ import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.entity.MuseumBean;
 import com.systekcn.guide.manager.BluetoothManager;
 import com.systekcn.guide.manager.MediaServiceManager;
 
@@ -38,6 +39,7 @@ public class MyApplication extends Application implements IConstants{
 
     /**当前展品*/
     public ExhibitBean currentExhibitBean;
+    public MuseumBean currentMuseum;
     /**展品总集合*/
     public List<ExhibitBean> totalExhibitBeanList;
     /**当前要加入展品（蓝牙扫描周边等）集合*/

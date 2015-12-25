@@ -23,6 +23,7 @@
     <color name="yellow">#FDC83E</color>
 
     <color name="my_green">#2bdace</color>
-
-
+    <color name="myGray">#e6e6e6</color>
+    <color name="my_black">#454545</color>
+    <color name="light_gray">#ebeaea</color>
 </resources>

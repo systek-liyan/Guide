@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/layout_title_radio_btn_bar"
+        android:id="@+id/lv_list_map_exhibit"/>
+    <LinearLayout
+        android:id="@+id/ll_exhibit_list_content"
+        android:layout_below="@id/lv_list_map_exhibit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"/>
+
+    <LinearLayout
+        android:id="@+id/ll_tab_control_play"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:orientation="horizontal"
+        android:background="@color/light_gray"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/simple_margin_4dp"
+            android:src="@mipmap/left_gray_line"/>
+        <ImageView
+            android:src="@mipmap/app_logo"
+            android:layout_margin="@dimen/simple_margin_4dp"
+            android:layout_width="@dimen/standard_item_image"
+            android:layout_height="@dimen/standard_item_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:max="10"
+                android:progress="5"
+                android:progressDrawable="@drawable/bg_seek_bar"
+                android:thumb="@drawable/thumb_bar"/>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="双龙耳盘口壶"
+                    android:textSize="10sp"
+                    android:textColor="@color/red"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/play_state_stop"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

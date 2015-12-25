@@ -144,6 +144,8 @@ public class GuideFragment extends Fragment implements IConstants {
     private ExhibitBean currentExhibit;
     private String currentExhibitId;
     private Dialog progressDialog;
+
+    private NearlyGalleryAdapter nearlyGalleryAdapter;
     /**
      * 信息类型
      */
@@ -153,7 +155,6 @@ public class GuideFragment extends Fragment implements IConstants {
     private final int MSG_WHAT_PAUSE_MUSIC = 4;//暂停播放
     private final int MSG_WHAT_CONTINUE_MUSIC = 5;//继续播放
     private MyHandler handler;
-    private NearlyGalleryAdapter nearlyGalleryAdapter;
 
 
     public static GuideFragment newInstance() {
@@ -375,7 +376,7 @@ public class GuideFragment extends Fragment implements IConstants {
             if (exhibit != null) {
                 if(!exhibit.equals(application.currentExhibitBean)){
                     application.currentExhibitBean=exhibit;
-                    v.setBackgroundResource(R.drawable.img_back);
+                    //v.setBackgroundResource(R.drawable.img_back);
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                 }
             }

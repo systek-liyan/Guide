@@ -141,7 +141,7 @@
             android:layout_weight="10"
             android:progressBackgroundTint="@color/darkGray"
             android:progressTint="@color/myOrange"
-            android:thumb="@mipmap/seek_bar_thumb" />
+            android:thumb="@drawable/thumb_bar" />
 
         <ImageView
             android:id="@+id/music_play_and_ctrl"

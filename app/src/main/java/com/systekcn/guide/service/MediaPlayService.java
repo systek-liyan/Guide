@@ -132,6 +132,7 @@ public class MediaPlayService extends Service implements IConstants{
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        handler.removeCallbacksAndMessages(null);
         unregisterReceiver(mReceiver);
         super.onDestroy();
     }

@@ -128,7 +128,8 @@ public class MuseumListActivity extends BaseActivity implements IConstants{
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MuseumBean bean = (MuseumBean) adapter.getItem(position);
+                MuseumBean bean =  adapter.getItem(position);
+                application.currentMuseum=bean;
                 Intent intent = new Intent(MuseumListActivity.this, MuseumHomePageActivity.class);
                 intent.putExtra(INTENT_MUSEUM_ID, bean.getId());
                 startActivity(intent);

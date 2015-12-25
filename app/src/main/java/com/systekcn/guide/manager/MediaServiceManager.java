@@ -1,5 +1,6 @@
 package com.systekcn.guide.manager;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -91,7 +92,13 @@ public class MediaServiceManager implements IConstants {
         mediaServiceBinder.notifyAllDataChange();
     }
 
+    private class PlayCtrlReceiver extends BroadcastReceiver{
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO: 2015/12/25  
+        }
+    }
     /*public List<ExhibitBean> getExhibitList() {
         List<ExhibitBean> exhibitList = new ArrayList<ExhibitBean>();
         if (mediaServiceBinder != null) {

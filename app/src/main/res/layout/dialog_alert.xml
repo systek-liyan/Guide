@@ -69,7 +69,6 @@
             android:layout_marginRight="20dp"
             android:textSize="@dimen/dialog_button_textSize"
             android:text="@string/dialog_button_false"
-            android:background="@mipmap/dialog_button_cancel_background"
             android:textColor="@color/myWhite"/>
         <TextView
             android:id="@+id/dialog_button_false"
@@ -79,8 +78,7 @@
             android:textSize="@dimen/dialog_button_textSize"
             android:layout_height="wrap_content"
             android:text="@string/dialog_button_true"
-            android:textColor="@color/myWhite"
-            android:background="@mipmap/dialog_button_choose_background"/>
+            android:textColor="@color/myWhite" />
     </LinearLayout>
 
 
