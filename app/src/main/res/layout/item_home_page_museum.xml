@@ -27,27 +27,27 @@
             android:background="@mipmap/iv_introduce"
             android:gravity="center_horizontal|center_vertical"
             android:text="简介"
-            android:textColor="@color/myWhite"
+            android:textColor="@color/white"
             android:textSize="9dp" />
 
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/myWhite"
+        android:background="@color/white"
         android:gravity="center_vertical|end">
         <ImageView
             android:id="@+id/iv_home_page_ctrl_sound"
             style="@style/normal_image_view"
             android:layout_marginTop="4dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/standard_item_left_right_margin"
+            android:layout_marginRight="@dimen/simple_10dp"
             android:background="@mipmap/iv_headset_on" />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/myWhite">
+        android:background="@color/white">
         <TextView
             android:id="@+id/tv_museum_introduce_short"
             android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:id="@+id/tv_museum_introduce_long"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/myWhite"
+            android:background="@color/white"
             android:visibility="gone" />
         <ImageView
             android:id="@+id/iv_home_page_introduce_open"

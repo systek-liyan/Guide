@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/style_titleBar_text"
+            style="@style/text_view_title_bar"
             android:text="@string/title_activity_download"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>

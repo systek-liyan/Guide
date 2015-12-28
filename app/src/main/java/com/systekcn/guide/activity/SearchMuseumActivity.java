@@ -59,7 +59,7 @@ public class SearchMuseumActivity extends BaseActivity implements SearchView.Sea
 
     @Override
     protected void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.orange);
         setContentView(R.layout.activity_search_museum);
         initViews();
     }

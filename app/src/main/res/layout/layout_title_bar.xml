@@ -13,18 +13,18 @@
                 style="@style/normal_image_view"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/simple_margin_4dp"
+                android:layout_marginLeft="@dimen/simple_4dp"
                 android:src="@mipmap/setting"/>
             <TextView
                 android:id="@+id/title_bar_topic"
                 android:text="标题"
-                style="@style/style_titleBar_text"/>
+                style="@style/text_view_title_bar"/>
             <ImageView
                 android:id="@+id/title_bar_search"
                 style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/simple_margin_4dp"
+                android:layout_marginRight="@dimen/simple_4dp"
                 android:src="@mipmap/iv_search"/>
         </RelativeLayout>
 

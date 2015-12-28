@@ -88,7 +88,7 @@ public class SearchActivity extends BaseActivity implements SearchView.SearchVie
 
     @Override
     protected void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.orange);
         setContentView(R.layout.activity_search);
         initViews();
     }

@@ -60,7 +60,7 @@ public class SideBar extends View{
 
         for (int i = 0; i < b.length; i++) {
             //paint.setColor(Color.rgb(33, 65, 98));
-            paint.setColor(getResources().getColor(R.color.myOrange));
+            paint.setColor(getResources().getColor(R.color.orange));
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
             paint.setTextSize(20);

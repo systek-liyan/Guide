@@ -52,7 +52,7 @@ public class GuideActivity extends BaseActivity implements IConstants {
     @Override
     public void initialize(){
         long startTime=System.currentTimeMillis();
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.red);
         setContentView(R.layout.activity_guide);
         Display display = getWindowManager().getDefaultDisplay();
         if (display.getWidth() < display.getHeight()) {}

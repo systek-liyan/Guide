@@ -7,8 +7,8 @@
         android:layout_width="135dp"
         android:layout_height="120dp"
         android:scaleType="fitXY"
-        android:layout_marginLeft="@dimen/simple_margin_4dp"
-        android:layout_marginRight="@dimen/simple_margin_4dp"
+        android:layout_marginLeft="@dimen/simple_4dp"
+        android:layout_marginRight="@dimen/simple_4dp"
         android:layout_alignParentTop="true"/>
 
     <RelativeLayout android:layout_width="match_parent"
@@ -33,9 +33,9 @@
                     android:layout_gravity="center_vertical">
                     <TextView
                         android:id="@+id/museum_name"
-                        android:layout_marginLeft="@dimen/simple_margin_4dp"
+                        android:layout_marginLeft="@dimen/simple_4dp"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/myRed"
+                        android:textColor="@color/orange"
                         android:textSize="@dimen/museum_name"
                         android:layout_width="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -43,7 +43,7 @@
                     <TextView android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/simple_margin_4dp"
+                        android:layout_marginRight="@dimen/simple_4dp"
                         android:textSize="@dimen/item_museum_list_content"
                         android:layout_gravity="center_vertical"
                         android:text="@string/museum_has_downloaded"
@@ -62,7 +62,7 @@
                     android:text="@string/museum_open_time"/>
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/simple_margin_4dp"
+                    android:layout_marginLeft="@dimen/simple_4dp"
                     android:textSize="@dimen/item_museum_list_content"
                     android:layout_gravity="center_vertical"
                     android:id="@+id/museum_list_openTime"/>
@@ -80,16 +80,16 @@
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/item_museum_list_content"
-                    android:layout_marginLeft="@dimen/simple_margin_4dp"
+                    android:layout_marginLeft="@dimen/simple_4dp"
                     android:id="@+id/museum_important_alert"
-                    android:textColor="@color/myRed"
+                    android:textColor="@color/orange"
                     android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/simple_margin_4dp"
+                android:layout_marginLeft="@dimen/simple_4dp"
                 android:layout_weight="1">
 
                 <TextView android:layout_width="wrap_content"
@@ -129,9 +129,9 @@
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/museum_book_ticket"
-                    android:textColor="@color/myRed"
+                    android:textColor="@color/orange"
                     android:textSize="@dimen/item_museum_list_content"
-                    android:layout_marginRight="@dimen/simple_margin_4dp"
+                    android:layout_marginRight="@dimen/simple_4dp"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
         </LinearLayout>

@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/sliding_top_bar_height"
-        android:background="@color/myOrange"
+        android:background="@color/orange"
         android:gravity="center_vertical">
     </LinearLayout>
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/myWhite"
+        android:background="@color/white"
         android:gravity="left"
         android:orientation="horizontal">
 
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/myWhite"
+        android:background="@color/white"
         android:gravity="left"
         android:orientation="horizontal">
 
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/myWhite"
+        android:background="@color/white"
         android:gravity="left"
         android:orientation="horizontal">
 
@@ -82,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/myWhite"
+        android:background="@color/white"
         android:gravity="left"
         android:orientation="horizontal">
 
@@ -104,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:background="@color/myWhite"
+        android:background="@color/white"
         android:gravity="left"
         android:orientation="horizontal">
 

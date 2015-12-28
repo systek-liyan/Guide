@@ -61,8 +61,8 @@ public class CityAdapter extends BaseAdapter implements SectionIndexer {
         if(convertView==null){
             convertView=inflater.inflate(R.layout.item_city, null);
             viewHolder=new ViewHolder();
-            viewHolder.alpha=(TextView)convertView.findViewById(R.id.item_city_alpha);
-            viewHolder.name=(TextView)convertView.findViewById(R.id.item_city_name);
+            viewHolder.alpha=(TextView)convertView.findViewById(R.id.itemCityAlpha);
+            viewHolder.name=(TextView)convertView.findViewById(R.id.itemCityName);
             convertView.setTag(viewHolder);
         }else{
             viewHolder=(ViewHolder)convertView.getTag();

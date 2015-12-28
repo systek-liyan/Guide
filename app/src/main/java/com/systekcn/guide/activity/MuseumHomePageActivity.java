@@ -121,7 +121,7 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
 
     @Override
     public void initialize() {
-        ViewUtils.setStateBarColor(this,R.color.myOrange);
+        ViewUtils.setStateBarColor(this,R.color.red);
         setContentView(R.layout.activity_museum_home_page);
         application.mServiceManager.connectService();/**启动播放服务*/
         Intent intent = getIntent();

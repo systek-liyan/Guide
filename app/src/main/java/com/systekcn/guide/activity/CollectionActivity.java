@@ -18,7 +18,7 @@ public class CollectionActivity extends BaseActivity {
 
     @Override
     protected void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.orange);
         setContentView(R.layout.activity_collection);
         init();
     }

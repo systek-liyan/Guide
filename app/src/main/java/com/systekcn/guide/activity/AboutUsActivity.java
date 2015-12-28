@@ -17,7 +17,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.orange);
         setContentView(R.layout.activity_about_us);
         initViews();
         addListener();
@@ -43,7 +43,7 @@ public class AboutUsActivity extends BaseActivity {
     }
 
     private void initViews() {
-        iv_about_us_drawer=(ImageView)findViewById(R.id.iv_about_us_drawer);
+        iv_about_us_drawer=(ImageView)findViewById(R.id.title_bar_more);
     }
 
     @Override

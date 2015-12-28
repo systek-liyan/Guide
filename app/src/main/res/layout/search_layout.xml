@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/myWhite">
+    android:background="@color/white">
     <LinearLayout
-        android:background="@color/myOrange"
+        android:background="@color/orange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -52,7 +52,7 @@
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:text="返回"
-            android:textColor="@color/myWhite"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
 
     <!-- 搜索提示列表(自动补全文本的展品名称显示或精品推荐的显示) -->

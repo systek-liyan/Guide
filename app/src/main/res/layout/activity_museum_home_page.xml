@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            style="@style/style_titleBar_text"
+            style="@style/text_view_title_bar"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>
 
@@ -41,7 +41,7 @@
             android:background="@mipmap/iv_home_page_guide_button"
             android:src="@mipmap/iv_switch_tab"
             android:text="@string/home_page_guide_button_text"
-            android:textColor="@color/myWhite"
+            android:textColor="@color/white"
             android:textSize="@dimen/titleBar_small_textSize" />
     </RelativeLayout>
 

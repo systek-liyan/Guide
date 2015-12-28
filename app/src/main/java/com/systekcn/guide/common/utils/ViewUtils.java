@@ -40,7 +40,7 @@ public class ViewUtils {
         }
         SystemBarTintManager tintManager = new SystemBarTintManager(activity);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.myOrange);
+        tintManager.setStatusBarTintResource(R.color.orange);
     }
 
     /**

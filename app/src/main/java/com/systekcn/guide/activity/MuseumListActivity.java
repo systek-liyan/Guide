@@ -52,7 +52,7 @@ public class MuseumListActivity extends BaseActivity implements IConstants{
 
     @Override
     public void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.orange);
         setContentView(R.layout.activity_museum_list);
         try{
             initHandler();

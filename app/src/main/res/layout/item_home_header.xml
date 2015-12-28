@@ -19,7 +19,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_horizontal|center_vertical"
             android:textSize="9sp"
-            android:textColor="@color/myWhite"
+            android:textColor="@color/white"
             android:background="@mipmap/iv_introduce"/>
     </LinearLayout>
 
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_height="@dimen/standard_item_height">
+        android:layout_height="@dimen/simple_48dp">
 
         <ImageView
             android:id="@+id/iv_museum_searching"
@@ -50,7 +50,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/standard_item_left_right_margin"
+            android:layout_marginLeft="@dimen/simple_10dp"
             android:paddingBottom="10dp"
             android:src="@mipmap/iv_search" />
 

@@ -47,8 +47,7 @@
             android:clipToPadding="true"
             android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
             android:name=".activity.CityActivity"
             android:label="@string/title_activity_city"
@@ -157,7 +156,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity android:name=".activity.PlayActivity" />
-        <activity android:name=".activity.BeginActivity"
+        <activity
+            android:name=".activity.BeginActivity"
             android:clipToPadding="true"
             android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
@@ -168,6 +168,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CityChooseActivity"></activity>
     </application>
 
 </manifest>

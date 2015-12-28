@@ -1,34 +1,26 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
 
-    <dimen name="simple_margin_4dp">4dp</dimen>//通常item图片等内距
-    <dimen name="standard_item_height">48dp</dimen>//标准item高度
-    <dimen name="standard_item_image">40dp</dimen>//标准item高度
-    <dimen name="standard_item_left_right_margin">10dp</dimen>//item距离左右边距
+    <dimen name="simple_4dp">4dp</dimen>
+    <dimen name="simple_10dp">10dp</dimen>
+    <dimen name="simple40dp">40dp</dimen>
+    <dimen name="simple_48dp">48dp</dimen>
 
     <dimen name="activity_horizontal_margin">4dp</dimen>//主页左右间距
+    <dimen name="height_home_page_hamburger">15dp</dimen>//主页中简介夹层的高度
     <dimen name="activity_vertical_margin">16dp</dimen>//像上下间距
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="titleBar_textSize">16sp</dimen>//标题栏中间字体大小
-    <dimen name="titleBar_small_textSize">13dp</dimen>//标题栏左右等小字体大小
 
-    <dimen name="largest_icon_height">188dp</dimen>//app 中最大图片的高度
 
-    <dimen name="height_home_page_hamburger">15dp</dimen>//主页中简介夹层的高度
+    <dimen name="fm_home_page_flower_bottom_instance">25dp</dimen>//主页中右下角花瓣距离底部距离
     <dimen name="tv_home_page_museum_introduce_height">100dp</dimen>//主页中简介夹层的高度
     <dimen name="iv_home_page_exhibit_icon_height">110dp</dimen>//主页中展品图片的高度
     <dimen name="iv_home_page_exhibit_icon_width">135dp</dimen>//主页中展品图片的宽度
-    <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>//主页中展品图片的宽度
-    <dimen name="tv_home_page_exhibit_introduce_size">11sp</dimen>//主页中展品图片的宽度
-    <dimen name="fm_home_page_flower_bottom_instance">25dp</dimen>//主页中右下角花瓣距离底部距离
+    <dimen name="largest_icon_height">188dp</dimen>//app 中最大图片的高度
 
-    <dimen name="dialog_title_textSize">14sp</dimen>//对话框中标题字体的大小
-    <dimen name="dialog_content_textSize">11sp</dimen>//对话框中内容字体的大小
-
-    <dimen name="dialog_button_textSize">13sp</dimen>//对话框中内容字体的大小
 
     /**侧滑菜单*/
-    <dimen name="sliding_top_bar_height">74dp</dimen>//对话框中内容字体的大小
+    <dimen name="sliding_top_bar_height">74dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
     <dimen name="slidingmenu_offset">90dp</dimen>
     /*博物馆列表item*/
@@ -51,4 +43,13 @@
     <!--展品item -->
     <dimen name="height_exhibit_item">94dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+
+    <dimen name="dialog_content_textSize">11sp</dimen>//对话框中内容字体的大小
+    <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
+    <dimen name="titleBar_textSize">16sp</dimen>//标题栏中间字体大小
+    <dimen name="titleBar_small_textSize">13dp</dimen>//标题栏左右等小字体大小
+    <dimen name="tv_home_page_exhibit_introduce_size">11sp</dimen>//主页中展品图片的宽度
+    <dimen name="dialog_title_textSize">14sp</dimen>//对话框中标题字体的大小
+    <dimen name="dialog_button_textSize">13sp</dimen>//对话框中内容字体的大小
 </resources>

@@ -4,26 +4,16 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    /**自定义*/
-    /**城市选择界面*/
+    <!--城市选择界面 -->
     <color name="lightGray">#eeee</color>
-
-    <color name="myBlack">#000</color>
-    <color name="myWhite">#fff</color>
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
     <color name="darkGray">#cccc</color>
-    <color name="myRed">#e77d46</color>
-    <color name="myOrange">#E47732</color>
+    <color name="orange">#e77d46</color>
     <color name="red">#F55453</color>
     <color name="gray">#E1E1E1</color>
-
-    <color name="btn_press_color">#e77d46</color>
-    <color name="btn_pressed_color">#E47732</color>
-
     <color name="black_overlay">#66000000</color>
     <color name="yellow">#FDC83E</color>
-
-    <color name="my_green">#2bdace</color>
-    <color name="myGray">#e6e6e6</color>
-    <color name="my_black">#454545</color>
-    <color name="light_gray">#ebeaea</color>
+    <color name="green">#2bdace</color>
+    <color name="blue">#336598</color>
 </resources>

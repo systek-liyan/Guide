@@ -177,7 +177,7 @@
                 android:id="@+id/rl_relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/myGray"
+                android:background="@color/lightGray"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -188,7 +188,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:text="简介"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/myWhite"
+                    android:textColor="@color/white"
                     android:textSize="11dp" />
 
                 <ImageView

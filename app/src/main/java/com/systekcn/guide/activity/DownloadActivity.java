@@ -69,7 +69,7 @@ public class DownloadActivity extends BaseActivity implements IConstants{
 
     @Override
     protected void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.myOrange);
+        ViewUtils.setStateBarColor(this, R.color.red);
         setContentView(R.layout.activity_download);
         init();
     }

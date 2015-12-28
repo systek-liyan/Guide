@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:textSize="60sp"
             android:text="12:30"
-            android:textColor="@color/myWhite" />
+            android:textColor="@color/white" />
         <TextView
             android:text="观音菩萨像"
             android:layout_gravity="center_horizontal"

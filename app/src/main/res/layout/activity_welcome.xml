@@ -24,7 +24,7 @@
         android:id="@+id/btn_into_app"
         android:visibility="gone"
         android:background="@drawable/btn_bg_green"
-        android:textColor="@color/myWhite"
+        android:textColor="@color/white"
         android:layout_marginBottom="65dp"
         android:layout_gravity="bottom|center_horizontal" />
 </FrameLayout>
