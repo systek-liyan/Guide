@@ -3,6 +3,7 @@ package com.systekcn.guide.common.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -43,7 +44,7 @@ public class ViewUtils {
     }
 
     /**
-     * 获得转台栏的高度
+     * 获得状态栏的高度
      * @param context
      * @return
      */
@@ -56,5 +57,15 @@ public class ViewUtils {
         return result;
     }
 
+    /**
+     * 获得屏幕宽度
+     *
+     * @return
+     */
+    public static int getScreenWidth(Activity activity){
+        DisplayMetrics metric = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.widthPixels;
+    }
 
 }

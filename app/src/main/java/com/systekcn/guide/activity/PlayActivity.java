@@ -1,9 +1,11 @@
 package com.systekcn.guide.activity;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -12,13 +14,23 @@ import android.widget.TextView;
 import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.MultiAngleImgAdapter;
+import com.systekcn.guide.common.IConstants;
+import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.Tools;
 import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.entity.MultiAngleImg;
+import com.systekcn.guide.lyric.LyricAdapter;
+import com.systekcn.guide.lyric.LyricDownloadManager;
+import com.systekcn.guide.lyric.LyricLoadHelper;
+import com.systekcn.guide.lyric.LyricSentence;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
-public class PlayActivity extends BaseActivity {
+public class PlayActivity extends BaseActivity implements IConstants{
 
 
     private ImageView ivPlayBack;
@@ -38,18 +50,50 @@ public class PlayActivity extends BaseActivity {
     private ArrayList<Integer> imgsTimeList;
     private boolean hasMultiImg;
     private MultiAngleImgAdapter mulTiAngleImgAdapter;
+    private int mScreenWidth;
+    /*当前歌词路径*/
+    private String currentLyricUrl;
+    private LyricLoadHelper mLyricLoadHelper;
+    private LyricAdapter mLyricAdapter;
+    private boolean mIsLyricDownloading;
+    private LyricDownloadManager mLyricDownloadManager;
 
     @Override
     protected void initialize() {
         ViewUtils.setStateBarToAlpha(this);
         setContentView(R.layout.activity_play);
+        //LogUtil.i("ZHANG",ViewUtils.getScreenWidth(this));
         handler =new MyHandler();
         initView();
         initData();
-        initMultiImgs();
+        refreshView();
     }
 
+    private void refreshView() {
+        initIcon();
+        initMultiImgs();
+        loadLyricByHand();
+    }
 
+    private void initIcon() {
+        if(application.currentExhibitBean==null){return;}
+        String iconUrl=application.currentExhibitBean.getIconurl();
+        String imageName = Tools.changePathToName(iconUrl);
+        String imgLocalUrl = LOCAL_ASSETS_PATH+application.getCurrentMuseumId() + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
+        File file = new File(imgLocalUrl);
+        // 判断sdcard上有没有图片
+        if (file.exists()) {
+            // 显示sdcard
+            ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, imgExhibitIcon);
+            ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, ivPlayBack);
+        } else {
+            // 服务器上存的imageUrl有域名如http://www.systek.com.cn/1.png
+            iconUrl = BASEURL+ iconUrl;
+            ImageLoaderUtil.displayNetworkImage(this, iconUrl, imgExhibitIcon);
+            ImageLoaderUtil.displayNetworkImage(this, iconUrl, ivPlayBack);
+        }}
+
+    /*初始化界面控件*/
     private void initView() {
         ivPlayBack=(ImageView)findViewById(R.id.ivPlayBack);
         lvLyric=(ListView)findViewById(R.id.lvLyric);
@@ -67,16 +111,97 @@ public class PlayActivity extends BaseActivity {
         recycleMultiAngle.setLayoutManager(linearLayoutManager);
         recycleMultiAngle.setAdapter(mulTiAngleImgAdapter);
 
-    }
+        mLyricLoadHelper = new LyricLoadHelper();
+        mLyricAdapter = new LyricAdapter(this);
+        mLyricLoadHelper.setLyricListener(mLyricListener);
+        lvLyric.setAdapter(mLyricAdapter);
 
+
+        imgWordCtrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lvLyric.getVisibility()!=View.GONE){
+                    lvLyric.setVisibility(View.GONE);
+                    imgExhibitIcon.setAlpha(1.0f);
+                }else{
+                    lvLyric.setVisibility(View.VISIBLE);
+                    imgExhibitIcon.setAlpha(0.7f);
+                }
+
+            }
+        });
+    }
+    private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
+
+        @Override
+        public void onLyricLoaded(List<LyricSentence> lyricSentences, int index) {
+            if (lyricSentences != null) {
+                //LogUtil.i(TAG, "onLyricLoaded--->歌词句子数目=" + lyricSentences.size() + ",当前句子索引=" + index);
+                mLyricAdapter.setLyric(lyricSentences);
+                mLyricAdapter.setCurrentSentenceIndex(index);
+                mLyricAdapter.notifyDataSetChanged();
+            }
+        }
+        @Override
+        public void onLyricSentenceChanged(int indexOfCurSentence) {
+            mLyricAdapter.setCurrentSentenceIndex(indexOfCurSentence);
+            mLyricAdapter.notifyDataSetChanged();
+            lvLyric.smoothScrollToPositionFromTop(indexOfCurSentence, lvLyric.getHeight() / 2, 500);
+        }
+    };
+
+
+    /*加载数据*/
     private void initData() {
         if(application.currentExhibitBean==null){return;}
+        /**加载歌词*/
+        currentLyricUrl = application.currentExhibitBean.getTexturl();
         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
     }
 
-    /**
-     * 多角度图片
-     */
+    private void loadLyricByHand() {
+        long time =System.currentTimeMillis();
+        try{
+            String name = currentLyricUrl.replaceAll("/", "_");
+            // 取得歌曲同目录下的歌词文件绝对路径
+            String lyricFilePath = application.getCurrentLyricDir() + name;
+            File lyricFile = new File(lyricFilePath);
+            if (lyricFile.exists()) {
+                // 本地有歌词，直接读取
+                mLyricLoadHelper.loadLyric(lyricFilePath);
+            } else {
+                mIsLyricDownloading = true;
+                // 尝试网络获取歌词
+                LogUtil.i("ZHANG", "loadLyric()--->本地无歌词，尝试从网络获取");
+                new LyricDownloadAsyncTask().execute(currentLyricUrl);
+            }
+            long costTime=System.currentTimeMillis()-time;
+            LogUtil.i("ZHANG", "GuideActivity_loadLyricByHand耗时" + costTime);
+        }catch (Exception e){
+            ExceptionUtil.handleException(e);
+        }
+    }
+    private class LyricDownloadAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            mLyricDownloadManager = new LyricDownloadManager(PlayActivity.this);
+            // 从网络获取歌词，然后保存到本地
+            String lyricFilePath = mLyricDownloadManager.searchLyricFromWeb(params[0],application.getCurrentLyricDir());
+            // 返回本地歌词路径
+            mIsLyricDownloading = false;
+            return lyricFilePath;
+        }
+
+        @Override
+        protected void onPostExecute(String lyricSavePath) {
+            // Log.i(TAG, "网络获取歌词完毕，歌词保存路径:" + result);
+            // 读取保存到本地的歌曲
+            mLyricLoadHelper.loadLyric(lyricSavePath);
+        }
+    }
+
+    /*加载多角度图片*/
     private void initMultiImgs() {
         long startT=System.currentTimeMillis();
         /*当前展品为空，返回*/
