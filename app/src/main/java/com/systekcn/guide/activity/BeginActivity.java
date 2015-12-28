@@ -74,7 +74,7 @@ public class BeginActivity extends BaseActivity implements IConstants {
                 museumId=beaconBean.getMuseumId();
                 BeansManageBiz biz= (BeansManageBiz) BizFactory.getBeansManageBiz(BeginActivity.this);
                 application.currentMuseum= (MuseumBean) biz.getBeanById(IConstants.URL_TYPE_GET_MUSEUM_BY_ID,museumId);
-                targetClass=MuseumHomeActivity.class;
+                targetClass=CityChooseActivity.class;
             }
             return museumId;
         }

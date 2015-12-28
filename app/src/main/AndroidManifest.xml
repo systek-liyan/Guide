@@ -168,7 +168,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CityChooseActivity"></activity>
+        <activity android:name=".activity.CityChooseActivity"></activity>
     </application>
 
 </manifest>
