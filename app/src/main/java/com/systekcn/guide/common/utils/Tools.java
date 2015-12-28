@@ -262,10 +262,8 @@ public class Tools implements IConstants{
 		try {
 			AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 			alertDialog.setMessage(message);
-			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, positive,
-					listener);
-			alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, negative,
-					listener);
+			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, positive, listener);
+			alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, negative, listener);
 			alertDialog.show();
 		} catch (Exception e) {
 			ExceptionUtil.handleException(e);

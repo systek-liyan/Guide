@@ -313,7 +313,7 @@ public abstract class CycledLeScanner {
 
     protected void cancelWakeUpAlarm() {
         LogManager.d(TAG, "cancel wakeup alarm: %s", mWakeUpOperation);
-        // We actually don't cancel the wakup alarm... we just reschedule for a long time in the
+        // We actually don't btn_cancel the wakup alarm... we just reschedule for a long time in the
         // future.  This is to get around a limit on 500 alarms you can start per app on Samsung
         // devices.
         long milliseconds = Long.MAX_VALUE; // 2.9 million years from now

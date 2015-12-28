@@ -8,23 +8,35 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    /**城市选择界面*/
 
+    <style name="base_image_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="normal_image_view" parent="base_image_view">
+        <item name="android:scaleType">fitXY</item>
+    </style>
+    <style name="normal_match_parent_image_view" parent="base_image_view">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+
+
+    <!-- 城市选择界面-->
     <style name="text_large_black">
         <item name="android:textColor">@color/myBlack</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="text_ac_title">
-        <item name="android:textColor">@color/myWhite</item>
-        <item name="android:textSize">25sp</item>
-    </style>
 
-    /**toggle_btn*/
-
+    <!-- toggle_btn-->
     <style name="toggle_btn">
         <item name="android:button">@null</item>
-        <item name="android:background">@drawable/bg_toggle_btn</item>
+        <item name="android:background">@drawable/toggle_btn_selector</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:minWidth">50dp</item>
@@ -34,6 +46,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <!-- CustomProgressBar-->
     <style name="CustomProgressBar" parent="@android:style/Widget.ProgressBar.Small">
         <item name="android:indeterminateDrawable">@drawable/custom_progress_bar</item>
         <item name="android:layout_width">21dp</item>
@@ -41,11 +54,7 @@
         <item name="android:layout_gravity">center</item>
     </style>
 
-    <style name="action_titleBar">
-        <item name="android:textSize">@dimen/titleBar_textSize</item>
-        <item name="android:background">@mipmap/title_color</item>
-    </style>
-
+    <!--标题 text view -->
     <style name="style_titleBar_text">
         <item name="android:textColor">@color/myWhite</item>
         <item name="android:textSize">@dimen/titleBar_textSize</item>
@@ -54,6 +63,7 @@
         <item name="android:layout_centerInParent">true</item>
     </style>
 
+    <!--FullscreenTheme -->
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -66,12 +76,15 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+
+    <!--LockScreenTheme -->
     <style name="LockScreenTheme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+    <!--tv_home_menu -->
     <style name="tv_home_menu" >
         <item name="android:textSize">@dimen/text_size_home_menu</item>
         <item name="android:textColor">@color/my_black</item>
@@ -80,5 +93,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>
+
+    <!--todo -->
+    <style name="action_titleBar">
+        <item name="android:textSize">@dimen/titleBar_textSize</item>
+        <item name="android:background">@mipmap/iv_title_color</item>
+    </style>
+    <!--todo -->
+    <style name="text_ac_title">
+        <item name="android:textColor">@color/myWhite</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
 
 </resources>

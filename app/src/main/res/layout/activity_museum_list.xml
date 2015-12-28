@@ -31,13 +31,12 @@
 
         <ImageView
             android:id="@+id/iv_titleBar_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="4dp"
-            android:src="@mipmap/switch_tab" />
+            android:src="@mipmap/iv_switch_tab" />
     </RelativeLayout>
 
     <ScrollView
@@ -55,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/largest_icon_height"
                 android:scaleType="fitXY"
-                android:src="@mipmap/bowuguan" />
+                android:src="@mipmap/other_bowuguan" />
 
             <LinearLayout
                 android:id="@+id/ll_search_museum"
@@ -69,7 +68,7 @@
                     <TextView
                         android:id="@+id/ed_museum_search"
                         android:layout_gravity="center_vertical"
-                        android:drawableLeft="@mipmap/search"
+                        android:drawableLeft="@mipmap/iv_search"
                         android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:background="@drawable/shape_search_edittext"
@@ -103,9 +102,8 @@
 
         <ImageView
             android:id="@+id/home_page_guide_flower"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/home_page_flower" />
+            style="@style/normal_image_view"
+            android:src="@mipmap/iv_home_page_flower" />
     </FrameLayout>
 
 </LinearLayout>

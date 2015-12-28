@@ -14,6 +14,7 @@ import com.systekcn.guide.adapter.base.ViewPagerAdapter;
 import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
 import com.systekcn.guide.common.IConstants;
+import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.NetworkUtil;
 import com.systekcn.guide.common.utils.ViewUtils;
 import com.systekcn.guide.custom.Dot;
@@ -52,7 +53,7 @@ public class WelcomeActivity extends BaseActivity implements OnPageChangeListene
             //得到assets/welcome_images/目录下的所有文件的文件名，以便后面打开操作时使用
             list_image = getAssets().list("welcome_images");
         } catch (IOException e1) {
-            e1.printStackTrace();
+            ExceptionUtil.handleException(e1);
         }
 
         // 设置page切换监听

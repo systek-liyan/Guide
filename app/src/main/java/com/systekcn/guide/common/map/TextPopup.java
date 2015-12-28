@@ -52,7 +52,7 @@ public class TextPopup
                         (int)(PADDING_RIGHT  * dipScaleFactor), 
                         (int)(PADDING_BOTTOM * dipScaleFactor));
         
-        text.setBackgroundResource(R.drawable.map_description_background);
+        text.setBackgroundResource(R.drawable.icon_map_description_background);
         text.setTextSize(DEF_TEXT_SIZE);
         text.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
         text.setMaxEms(MAX_EMS);

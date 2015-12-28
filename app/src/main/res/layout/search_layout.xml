@@ -35,11 +35,10 @@
                 android:contentDescription="@string/search_delect_descriction"
                 android:visibility="gone"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/bg_search_view_delete"
+                android:background="@drawable/search_view_delete_selector"
                 android:id="@+id/search_iv_delete"
                 android:layout_gravity="right|center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/normal_image_view"/>
         </FrameLayout>
 
         <!-- 返回按键 -->
@@ -49,7 +48,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_btn_frag_subject"
+            android:background="@drawable/frag_subject_selector"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:text="返回"
@@ -60,7 +59,7 @@
     <ListView
         android:visibility="gone"
         android:id="@+id/search_lv_tips"
-        android:background="@drawable/bg_search_view_tips"
+        android:background="@drawable/search_view_tips_layers"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"

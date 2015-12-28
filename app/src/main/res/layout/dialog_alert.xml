@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@mipmap/dialog_background">
+    android:background="@mipmap/bg_dialog">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="55dp"/>
@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/cancel" />
+            android:src="@mipmap/btn_cancel" />
     </LinearLayout>
 
     <LinearLayout

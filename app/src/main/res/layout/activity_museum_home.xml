@@ -19,7 +19,7 @@
                 android:layout_height="@dimen/largest_icon_height">
                 <LinearLayout
                     android:id="@+id/ll_museum_largest_icon"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"/>
             </HorizontalScrollView>
@@ -38,10 +38,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_guide"
-                        android:src="@mipmap/home_circle_guide"
+                        android:src="@mipmap/iv_home_circle_guide"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="导览"
@@ -55,10 +54,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_map"
-                        android:src="@mipmap/home_circle_map"
+                        android:src="@mipmap/iv_home_circle_map"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="地图"
@@ -72,10 +70,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_title"
-                        android:src="@mipmap/home_circle_title"
+                        android:src="@mipmap/iv_home_circle_title"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="专题"
@@ -89,10 +86,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_essence"
-                        android:src="@mipmap/home_circle_essence"
+                        android:src="@mipmap/iv_home_circle_essence"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="专题"
@@ -115,10 +111,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_nearly"
-                        android:src="@mipmap/home_circle_nearly"
+                        android:src="@mipmap/iv_home_circle_nearly"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view"/>
 
                     <TextView
                         android:text="附近"
@@ -132,10 +127,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_collect"
-                        android:src="@mipmap/home_circle_collect"
+                        android:src="@mipmap/iv_home_circle_collect"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="收藏"
@@ -149,10 +143,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_ticket"
-                        android:src="@mipmap/home_circle_ticket"
+                        android:src="@mipmap/iv_home_circle_ticket"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="订票"
@@ -166,10 +159,9 @@
 
                     <ImageView
                         android:id="@+id/iv_home_circle_producer"
-                        android:src="@mipmap/home_circle_producer"
+                        android:src="@mipmap/iv_home_circle_producer"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/normal_image_view" />
 
                     <TextView
                         android:text="文创"
@@ -192,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:background="@drawable/bg_btn_intro"
+                    android:background="@drawable/btn_bg_intro"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="简介"
                     android:layout_centerVertical="true"
@@ -200,14 +192,13 @@
                     android:textSize="11dp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    style="@style/normal_image_view"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:src="@mipmap/sound_close"/>
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:src="@mipmap/iv_sound_close"/>
 
             </RelativeLayout>
 

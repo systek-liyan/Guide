@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="activity_welcome">欢迎界面</string>
+    <string name="contentDescription">.</string>
     /**城市选择界面*/
     <string name="title_activity_city">CityActivity</string>
     <string name="city_location">当前城市：</string>

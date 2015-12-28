@@ -37,7 +37,7 @@ import java.util.List;
  * The uniqueId field is used to distinguish this Region in the system.  When you set up
  * monitoring or ranging based on a Region and later want to stop monitoring or ranging,
  * you must do so by passing a Region object that has the same uniqueId field value.  If it
- * doesn't match, you can't cancel the operation.  There is no other purpose to this field.
+ * doesn't match, you can't btn_cancel the operation.  There is no other purpose to this field.
  *
  * The region can be constructed from a multi-part identifier.  The first identifier is the most
  * significant, the second the second most significant, etc.
@@ -69,7 +69,7 @@ public class Region implements Parcelable {
 
     /**
      * Constructs a new Region object to be used for Ranging or Monitoring
-     * @param uniqueId - A unique identifier used to later cancel Ranging and Monitoring, or change the region being Ranged/Monitored
+     * @param uniqueId - A unique identifier used to later btn_cancel Ranging and Monitoring, or change the region being Ranged/Monitored
      * @param id1 - most significant identifier (can be null)
      * @param id2 - second most significant identifier (can be null)
      * @param id3 - third most significant identifier (can be null)
@@ -87,7 +87,7 @@ public class Region implements Parcelable {
 
     /**
      * Constructs a new Region object to be used for Ranging or Monitoring
-     * @param uniqueId - A unique identifier used to later cancel Ranging and Monitoring, or change the region being Ranged/Monitored
+     * @param uniqueId - A unique identifier used to later btn_cancel Ranging and Monitoring, or change the region being Ranged/Monitored
      * @param identifiers - list of identifiers for this region
      */
     public Region(String uniqueId, List<Identifier> identifiers) {

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@drawable/bg_title_bar">
+    android:background="@drawable/title_bar_bg">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -10,8 +10,7 @@
             android:layout_height="48dp">
             <ImageView
                 android:id="@+id/title_bar_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/normal_image_view"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/simple_margin_4dp"
@@ -22,12 +21,11 @@
                 style="@style/style_titleBar_text"/>
             <ImageView
                 android:id="@+id/title_bar_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/simple_margin_4dp"
-                android:src="@mipmap/search"/>
+                android:src="@mipmap/iv_search"/>
         </RelativeLayout>
 
 

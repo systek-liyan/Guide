@@ -20,6 +20,7 @@ import java.util.List;
  * Created by Qiang on 2015/12/25.
  */
 public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdapter.ViewHolder> implements IConstants{
+
     private Context context;
     private List<MultiAngleImg> list;
     private LayoutInflater inflater;

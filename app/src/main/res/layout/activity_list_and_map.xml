@@ -16,13 +16,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="@dimen/simple_margin_4dp"
-            android:src="@mipmap/left_gray_line"/>
+            style="@style/normal_image_view"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/simple_margin_4dp"
+            android:src="@mipmap/iv_left_gray_line"/>
         <ImageView
-            android:src="@mipmap/app_logo"
+            android:src="@mipmap/iv_app_logo"
             android:layout_margin="@dimen/simple_margin_4dp"
             android:layout_width="@dimen/standard_item_image"
             android:layout_height="@dimen/standard_item_image" />
@@ -41,8 +40,8 @@
                 android:minHeight="5dp"
                 android:max="10"
                 android:progress="5"
-                android:progressDrawable="@drawable/bg_seek_bar"
-                android:thumb="@drawable/thumb_bar"/>
+                android:progressDrawable="@drawable/seek_bar_bg"
+                android:thumb="@drawable/thumb_bar_selector"/>
 
             <RelativeLayout
                 android:orientation="horizontal"
@@ -59,12 +58,11 @@
                     android:textColor="@color/red"
                     />
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/normal_image_view"
                     android:layout_marginEnd="8dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/play_state_stop"/>
+                    android:src="@mipmap/iv_play_state_stop"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

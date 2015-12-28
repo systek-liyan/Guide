@@ -23,8 +23,7 @@
 
         <ImageView
             android:id="@+id/iv_topic_drawer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_centerVertical="true"
             android:layout_marginLeft="4dp"
             android:src="@mipmap/setting" />
@@ -37,7 +36,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="4dp"
-            android:background="@mipmap/home_page_guide_button"
+            android:background="@mipmap/iv_home_page_guide_button"
             android:text="@string/home_page_guide_button_text"
             android:textColor="@color/myWhite" />
     </RelativeLayout>
@@ -65,11 +64,11 @@
 
             <LinearLayout
                 android:id="@+id/ll_collection_has_choose"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/gray"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"></LinearLayout>
+                android:orientation="horizontal"/>
         </HorizontalScrollView>
     </LinearLayout>
 
@@ -110,7 +109,7 @@
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
                         android:gravity="center"
-                        android:text="圆明园猪首" />]
+                        android:text="圆明园猪首" />
 
                     <TextView
                         android:id="@+id/tv_collection_monkey"

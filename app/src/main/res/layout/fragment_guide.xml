@@ -17,9 +17,7 @@
 
             <ImageView
                 android:id="@+id/iv_frag_largest_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
+                style="@style/normal_match_parent_image_view" />
         </FrameLayout>
 
         <FrameLayout
@@ -68,12 +66,11 @@
 
         <ImageView
             android:id="@+id/iv_lyric_ctrl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/simple_margin_4dp"
-            android:background="@mipmap/lyric_ctrl_btn_close" />
+            android:background="@mipmap/iv_lyric_ctrl_btn_close" />
     </RelativeLayout>
 
     <HorizontalScrollView
@@ -141,14 +138,13 @@
             android:layout_weight="10"
             android:progressBackgroundTint="@color/darkGray"
             android:progressTint="@color/myOrange"
-            android:thumb="@drawable/thumb_bar" />
+            android:thumb="@drawable/thumb_bar_selector" />
 
         <ImageView
             android:id="@+id/music_play_and_ctrl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_marginLeft="@dimen/standard_item_left_right_margin"
             android:layout_marginRight="@dimen/standard_item_left_right_margin"
-            android:background="@mipmap/media_play" />
+            android:background="@mipmap/iv_media_play" />
     </LinearLayout>
 </LinearLayout>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@drawable/bg_title_bar">
+    android:background="@drawable/title_bar_bg">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -10,8 +10,7 @@
             android:layout_height="48dp">
             <ImageView
                 android:id="@+id/title_bar_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/normal_image_view"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/simple_margin_4dp"
@@ -29,12 +28,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/selected_guide_btn_left"
+                    android:background="@drawable/btn_guide_left_selector"
                     android:button="@null"
                     android:checked="true"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="列表"
-                    android:textColor="@drawable/selector_text_color_guide_map"
+                    android:textColor="@drawable/text_color_guide_map_selector"
                     android:textSize="12sp" />
 
                 <RadioButton
@@ -42,21 +41,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/selected_map_btn_right"
+                    android:background="@drawable/btn_map_right_selector"
                     android:button="@null"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="地图"
-                    android:textColor="@drawable/selector_text_color_guide_map"
+                    android:textColor="@drawable/text_color_guide_map_selector"
                     android:textSize="12sp" />
             </RadioGroup>
             <ImageView
                 android:id="@+id/title_bar_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/simple_margin_4dp"
-                android:src="@mipmap/search"/>
+                android:src="@mipmap/iv_search"/>
         </RelativeLayout>
 
 

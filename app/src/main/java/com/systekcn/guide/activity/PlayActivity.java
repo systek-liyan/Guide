@@ -312,12 +312,12 @@ public class PlayActivity extends BaseActivity implements IConstants{
             }else if(msg.what==MSG_WHAT_PAUSE_MUSIC){
                 /**暂停播放*//*
                 if (mediaServiceManager != null && mediaServiceManager.isPlaying()) {
-                    music_play_and_ctrl.setBackgroundResource(R.mipmap.media_stop);
+                    music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_stop);
                     mediaServiceManager.pause();
                 }*/
             }else if(msg.what==MSG_WHAT_CONTINUE_MUSIC){
                /* *//**继续播放*//*
-                music_play_and_ctrl.setBackgroundResource(R.mipmap.media_play);
+                music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_play);
                 mediaServiceManager.toContinue();*/
             }
         }

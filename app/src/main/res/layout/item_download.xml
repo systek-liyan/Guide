@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_weight="4"
         android:gravity="center_vertical"
-        android:background="@mipmap/progress_bar_background"
+        android:background="@mipmap/bg_progress_bar"
         android:layout_height="30dp"
         android:orientation="horizontal">
         <ProgressBar
@@ -51,8 +51,7 @@
             android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/iv_download_ctrl_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            style="@style/normal_image_view"/>
     </FrameLayout>
 
 </LinearLayout>

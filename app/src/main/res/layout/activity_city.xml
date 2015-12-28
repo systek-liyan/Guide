@@ -22,21 +22,18 @@
 
         <ImageView
             android:id="@+id/iv_city_drawer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_centerVertical="true"
             android:layout_marginLeft="4dp"
             android:src="@mipmap/setting" />
 
         <ImageView
             android:id="@+id/iv_searching"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
+            android:layout_marginEnd="10dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="4dp"
-            android:src="@mipmap/switch_tab" />
+            android:src="@mipmap/iv_switch_tab" />
     </RelativeLayout>
 
 

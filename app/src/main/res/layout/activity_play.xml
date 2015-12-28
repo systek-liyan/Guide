@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:alpha="0.25"
-        android:src="@mipmap/bowuguan"/>
+        android:src="@mipmap/other_bowuguan"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:alpha="0.7"
                 android:scaleType="fitXY"
-                android:src="@mipmap/bowuguan"/>
+                android:src="@mipmap/other_bowuguan"/>
             <ListView
                 android:id="@+id/lvLyric"
                 android:layout_margin="30dp"
@@ -43,18 +43,33 @@
             android:minHeight="5dp"
             android:max="10"
             android:progress="5"
-            android:progressDrawable="@drawable/bg_seek_bar"
-            android:thumb="@drawable/thumb_bar"/>
+            android:progressDrawable="@drawable/seek_bar_bg"
+            android:thumb="@drawable/thumb_bar_selector"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tvPlayTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:textSize="10sp"
+            android:layout_marginStart="10dp"
+            android:text="1:32"/>
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
+            android:textSize="10sp"
             android:text="2:42"/>
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             android:layout_marginEnd="@dimen/simple_margin_4dp"
             android:layout_marginStart="@dimen/simple_margin_4dp"
             android:clickable="false"
@@ -62,7 +77,7 @@
             android:layout_marginTop="4dp"
             android:focusableInTouchMode="false"
             android:descendantFocusability="blocksDescendants"
-            android:background="@color/lightGray"/>
+            android:background="@color/darkGray"/>
 
 
         <android.support.v7.widget.RecyclerView
@@ -70,6 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:scrollbars="none"/>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -78,18 +95,16 @@
             android:layout_weight="1.5">
             <ImageView
                 android:id="@+id/ivPlayCtrl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/normal_image_view"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/play_state_close_big"/>
+                android:src="@mipmap/iv_play_state_close_big"/>
             <ImageView
                 android:id="@+id/imgWordCtrl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
-                android:src="@mipmap/word_ctrl_play"/>
+                android:src="@mipmap/iv_word_ctrl_play"/>
         </RelativeLayout>
     </LinearLayout>
 

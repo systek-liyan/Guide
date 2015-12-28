@@ -240,9 +240,9 @@ public class GuideFragment extends Fragment implements IConstants {
         /**加载多角度图片*/
         initMultiImgs();
         if(mediaServiceManager.isPlaying()){
-            music_play_and_ctrl.setBackgroundResource(R.mipmap.media_play);
+            music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_play);
         }else{
-            music_play_and_ctrl.setBackgroundResource(R.mipmap.media_stop);
+            music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_stop);
         }
         long costTime=System.currentTimeMillis()-time;
         LogUtil.i("ZHANG", "GuideFragment_refreshView耗时" + costTime);
@@ -479,11 +479,11 @@ public class GuideFragment extends Fragment implements IConstants {
                 case R.id.iv_lyric_ctrl:
                     if (isLyricShowing) {
                         lyricShow.setVisibility(View.GONE);
-                        iv_lyric_ctrl.setBackgroundResource(R.mipmap.lyric_ctrl_btn_open);
+                        iv_lyric_ctrl.setBackgroundResource(R.mipmap.iv_lyric_ctrl_btn_open);
                         isLyricShowing = false;
                     } else {
                         lyricShow.setVisibility(View.VISIBLE);
-                        iv_lyric_ctrl.setBackgroundResource(R.mipmap.lyric_ctrl_btn_close);
+                        iv_lyric_ctrl.setBackgroundResource(R.mipmap.iv_lyric_ctrl_btn_close);
                         isLyricShowing = true;
                     }
                     break;
@@ -826,12 +826,12 @@ public class GuideFragment extends Fragment implements IConstants {
             }else if(msg.what==MSG_WHAT_PAUSE_MUSIC){
                 /**暂停播放*/
                 if (mediaServiceManager != null && mediaServiceManager.isPlaying()) {
-                    music_play_and_ctrl.setBackgroundResource(R.mipmap.media_stop);
+                    music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_stop);
                     mediaServiceManager.pause();
                 }
             }else if(msg.what==MSG_WHAT_CONTINUE_MUSIC){
                 /**继续播放*/
-                music_play_and_ctrl.setBackgroundResource(R.mipmap.media_play);
+                music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_play);
                 mediaServiceManager.toContinue();
             }
         }

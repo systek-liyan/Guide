@@ -49,7 +49,7 @@ import android.widget.AbsListView;
  * will notify the listener each and every time the gesture is completed again;
  * the listener is responsible for correctly determining when to actually
  * initiate a refresh of its content. If the listener determines there should
- * not be a refresh, it must call setRefreshing(false) to cancel any visual
+ * not be a refresh, it must call setRefreshing(false) to btn_cancel any visual
  * indication of a refresh. If an activity wishes to show just the progress
  * animation, it should call setRefreshing(true). To disable the gesture and
  * progress animation, call setEnabled(false) on the view.
@@ -890,7 +890,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         if (overscrollTop > mTotalDragDistance) {
             setRefreshing(true, true /* notify */);
         } else {
-            // cancel refresh
+            // btn_cancel refresh
             mRefreshing = false;
             mProgress.setStartEndTrim(0f, 0f);
             AnimationListener listener = null;

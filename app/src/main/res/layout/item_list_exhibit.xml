@@ -13,7 +13,7 @@
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
         android:orientation="horizontal"
-        android:background="@drawable/bg_item_exhibit_list_inner">
+        android:background="@drawable/item_bg_exhibit_list_inner">
         <com.systekcn.guide.custom.RoundImageView
             android:id="@+id/iv_exhibit_icon"
             android:layout_width="100dp"
@@ -49,7 +49,7 @@
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="14dp"
-                        android:src="@mipmap/heart_empty" />
+                        android:src="@mipmap/iv_heart_empty" />
                     <TextView
                         android:textSize="10sp"
                         android:text="收藏"
@@ -81,9 +81,8 @@
                     android:id="@+id/iv_exhibit_sound"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="@dimen/simple_margin_4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/sound_sign"/>
+                    style="@style/normal_image_view"
+                    android:src="@mipmap/iv_sound_sign"/>
             </RelativeLayout>
 
             <View

@@ -291,7 +291,7 @@ public class BluetoothCrashResolver {
             LogManager.d(TAG, "startDiscovery commanded.  isDiscovering()=%s", adapter.isDiscovering());
             // We don't actually need to do a discovery -- we just need to kick one off so the
             // mac list will be pared back to 256.  Because discovery is an expensive operation in
-            // terms of battery, we will cancel it.
+            // terms of battery, we will btn_cancel it.
             if (TIME_TO_LET_DISCOVERY_RUN_MILLIS > 0 ) {
                 LogManager.d(TAG, "We will be cancelling this discovery in %s milliseconds.", TIME_TO_LET_DISCOVERY_RUN_MILLIS);
                 cancelDiscovery();
@@ -460,7 +460,7 @@ public class BluetoothCrashResolver {
                 adapter.cancelDiscovery();
             }
             else {
-                LogManager.d(TAG, "Discovery not running.  Won't cancel it");
+                LogManager.d(TAG, "Discovery not running.  Won't btn_cancel it");
             }
         } catch (InterruptedException e) {
             LogManager.d(TAG, "DiscoveryCanceller sleep interrupted.");

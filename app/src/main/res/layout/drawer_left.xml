@@ -21,10 +21,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/download_center" />
+            android:src="@mipmap/iv_download_center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,10 +43,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/collect" />
+            android:src="@mipmap/iv_collect" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,10 +65,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/city_choose" />
+            android:src="@mipmap/iv_city_choose" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,10 +87,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/about_us" />
+            android:src="@mipmap/iv_about_us" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -113,10 +109,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/drawer_setting" />
+            android:src="@mipmap/iv_drawer_setting" />
 
         <TextView
             android:layout_width="wrap_content"

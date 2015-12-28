@@ -15,24 +15,22 @@
 
         <ImageView
             android:id="@+id/iv_titleBar_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_alignTop="@id/textView"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/title_bar_margin"
-            android:background="@mipmap/title_bar_backkkk" />
+            android:layout_marginStart="@dimen/title_bar_margin"
+            android:background="@mipmap/iv_title_bar_backkkk" />
 
         <TextView
             android:id="@+id/iv_titleBar_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/title_bar_margin"
-            android:background="@mipmap/title_bar_more"
+            android:layout_marginEnd="@dimen/title_bar_margin"
+            android:background="@mipmap/iv_title_bar_more"
             android:gravity="center_vertical|center_horizontal"
-            android:src="@mipmap/switch_tab"/>
+            android:src="@mipmap/iv_switch_tab"/>
 
         <RadioGroup
             android:id="@+id/rg_guide_page_title"
@@ -47,12 +45,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/selected_guide_btn_left"
+                android:background="@drawable/btn_guide_left_selector"
                 android:button="@null"
                 android:checked="true"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="导览"
-                android:textColor="@drawable/selector_text_color_guide_map"
+                android:textColor="@drawable/text_color_guide_map_selector"
                 android:textSize="12sp" />
 
             <RadioButton
@@ -60,11 +58,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/selected_map_btn_right"
+                android:background="@drawable/btn_map_right_selector"
                 android:button="@null"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="地图"
-                android:textColor="@drawable/selector_text_color_guide_map"
+                android:textColor="@drawable/text_color_guide_map_selector"
                 android:textSize="12sp" />
         </RadioGroup>
     </RelativeLayout>

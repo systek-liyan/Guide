@@ -93,8 +93,8 @@ public class BeaconParser {
      * offsets to bytes within a BLE advertisement.</p>
      *
      * <p>If you want to see examples of how other folks have set up BeaconParsers for different
-     * kinds of beacons, try doing a Google search for "getBeaconParsers" (include the quotes in
-     * the search.)</p>
+     * kinds of beacons, try doing a Google iv_search for "getBeaconParsers" (include the quotes in
+     * the iv_search.)</p>
      *
      * <p>Four prefixes are allowed in the string:</p>
      *

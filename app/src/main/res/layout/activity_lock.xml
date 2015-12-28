@@ -42,7 +42,7 @@
                 android:id="@+id/fullscreen_image"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:src="@mipmap/bowuguan"
+                android:src="@mipmap/other_bowuguan"
                 android:layout_weight="5"
                 android:layout_height="0dp"/>
             <LinearLayout
@@ -60,16 +60,15 @@
                     android:minHeight="5dp"
                     android:max="10"
                     android:progress="5"
-                    android:progressDrawable="@drawable/bg_seek_bar"
-                    android:thumb="@drawable/thumb_bar"/>
+                    android:progressDrawable="@drawable/seek_bar_bg"
+                    android:thumb="@drawable/thumb_bar_selector"/>
 
                 <ImageView
                     android:id="@+id/iv_play_ctrl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/normal_image_view"
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/play_state_stop_lock"/>
+                    android:src="@mipmap/iv_play_state_stop_lock"/>
 
             </LinearLayout>
 
@@ -82,9 +81,8 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/unlock_img_lock_screen"/>
+                    style="@style/normal_image_view"
+                    android:src="@mipmap/iv_unlock_img_lock_screen"/>
 
                 <TextView
                     android:text="滑动解锁"

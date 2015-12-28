@@ -31,11 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="164dp"/>
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/home_page_text_open"/>
+            android:src="@mipmap/iv_home_page_text_open"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,14 +46,13 @@
 
         <ImageView
             android:id="@+id/iv_museum_searching"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/normal_image_view"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/standard_item_left_right_margin"
             android:paddingBottom="10dp"
-            android:src="@mipmap/search" />
+            android:src="@mipmap/iv_search" />
 
         <EditText
             android:id="@+id/ed_museum_search"

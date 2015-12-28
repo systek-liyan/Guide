@@ -177,7 +177,7 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
         super.onStop();
         if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             mediaPlayer.pause();
-            iv_home_page_ctrl_sound.setBackgroundResource(R.mipmap.headset_off);
+            iv_home_page_ctrl_sound.setBackgroundResource(R.mipmap.iv_headset_off);
         }
     }
 
@@ -189,13 +189,13 @@ public class MuseumHomePageActivity extends BaseActivity implements IConstants{
                 ImageView imageView=(ImageView)v;
                 if(mediaPlayer.isPlaying()){
                     mediaPlayer.pause();
-                    imageView.setBackgroundResource(R.mipmap.headset_off);
+                    imageView.setBackgroundResource(R.mipmap.iv_headset_off);
                 }else{
                     if(application.mServiceManager!=null&&application.mServiceManager.isPlaying()){
                         application.mServiceManager.pause();
                     }
                     mediaPlayer.start();
-                    imageView.setBackgroundResource(R.mipmap.headset_on);
+                    imageView.setBackgroundResource(R.mipmap.iv_headset_on);
                 }
             }
         });
