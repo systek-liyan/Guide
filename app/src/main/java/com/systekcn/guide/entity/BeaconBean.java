@@ -13,6 +13,16 @@ public class BeaconBean extends BaseEntity {
 	private String minor;
 	private String museumId;
 	private String museumAreaId;
+	private double distance;
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
 
 	public String getId() {
 		return id;

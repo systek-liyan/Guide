@@ -39,6 +39,7 @@ public class MyApplication extends Application implements IConstants{
 
     /**当前展品*/
     public ExhibitBean currentExhibitBean;
+    /**当前博物馆*/
     public MuseumBean currentMuseum;
     /**展品总集合*/
     public List<ExhibitBean> totalExhibitBeanList;

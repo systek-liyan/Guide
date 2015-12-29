@@ -32,6 +32,11 @@ public class GetBeansFromLocal implements IGetBeanBiz {
     }
 
     @Override
+    public <T> List<T> getAllBeans(int type, String url, String Id) {
+        return null;
+    }
+
+    @Override
     public <T> T getBeanById(Context context, int type, String url, String id) {
         Class clazz= Tools.checkTypeForClass(type);
         DbUtils db=DbUtils.create(context);

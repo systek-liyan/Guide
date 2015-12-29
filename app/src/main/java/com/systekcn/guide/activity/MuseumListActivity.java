@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.MuseumAdapter;
-import com.systekcn.guide.biz.BeansManageBiz;
 import com.systekcn.guide.biz.BizFactory;
+import com.systekcn.guide.biz.GetDataBiz;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.ViewUtils;
@@ -130,7 +130,7 @@ public class MuseumListActivity extends BaseActivity implements IConstants{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MuseumBean bean =  adapter.getItem(position);
                 application.currentMuseum=bean;
-                Intent intent = new Intent(MuseumListActivity.this, MuseumHomePageActivity.class);
+                Intent intent = new Intent(MuseumListActivity.this, MuseumHomeActivity.class);
                 intent.putExtra(INTENT_MUSEUM_ID, bean.getId());
                 startActivity(intent);
             }
@@ -158,8 +158,9 @@ public class MuseumListActivity extends BaseActivity implements IConstants{
             city = getIntent().getStringExtra("city");
             new Thread() {
                 public void run() {
-                    BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(MuseumListActivity.this);
-                    museumList = biz.getAllBeans(URL_TYPE_GET_MUSEUM_LIST, MuseumBean.class, "");
+                   // BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(MuseumListActivity.this);
+                    GetDataBiz biz = (GetDataBiz) BizFactory.getDataBiz();
+                    museumList = (List<MuseumBean>) biz.getAllBeans(MuseumListActivity.this,URL_TYPE_GET_MUSEUM_LIST, "");
                     while (museumList == null) {
                     }
                     handler.sendEmptyMessage(MSG_WHAT_MUSEUMS);

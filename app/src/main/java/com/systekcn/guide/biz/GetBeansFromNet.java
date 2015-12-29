@@ -9,6 +9,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.MyHttpUtil;
 import com.systekcn.guide.common.utils.Tools;
 
 import java.util.List;
@@ -21,7 +22,6 @@ public class GetBeansFromNet implements IGetBeanBiz {
     private List<?> list;
     private Object obj;
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> List<T> getAllBeans(Context context, int type, String url, String id) {
 
@@ -62,6 +62,14 @@ public class GetBeansFromNet implements IGetBeanBiz {
             }
         }
         return (List<T>) list;
+    }
+
+
+    public List<?> getAllBeans(int type, String url, String id) {
+        Class clazz = Tools.checkTypeForClass(type);
+        String response=MyHttpUtil.get(url+id);
+        list = JSON.parseArray(response, clazz);
+        return list;
     }
 
     @Override

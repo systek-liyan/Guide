@@ -67,6 +67,7 @@ public class NearlyExhibitAdapter extends BaseAdapter implements IConstants{
             viewHolder.tv_exhibit_years = (TextView) convertView.findViewById(R.id.tv_exhibit_years);
             viewHolder.tv_exhibit_position = (TextView) convertView.findViewById(R.id.tv_exhibit_position);
             viewHolder.iv_exhibit_icon = (RoundImageView) convertView.findViewById(R.id.iv_exhibit_icon);
+            viewHolder.tvExhibitDistance = (TextView) convertView.findViewById(R.id.tvExhibitDistance);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -76,6 +77,11 @@ public class NearlyExhibitAdapter extends BaseAdapter implements IConstants{
         viewHolder.tv_exhibit_name.setText(exhibitBean.getName());
         viewHolder.tv_exhibit_years.setText(exhibitBean.getLabels());
         viewHolder.tv_exhibit_position.setText(exhibitBean.getAddress());
+        String distance=String.valueOf(exhibitBean.getDistance());
+        if(distance.length()>6){
+            distance=distance.substring(0,6);
+        }
+        viewHolder.tvExhibitDistance.setText(distance);
 
         // 显示图片
         String iconUrl = exhibitBean.getIconurl();
@@ -100,7 +106,7 @@ public class NearlyExhibitAdapter extends BaseAdapter implements IConstants{
 
 
     class ViewHolder{
-        TextView tv_exhibit_name,tv_exhibit_years,tv_exhibit_position;
+        TextView tv_exhibit_name,tv_exhibit_years,tv_exhibit_position,tvExhibitDistance;
         RoundImageView iv_exhibit_icon;
     }
 }

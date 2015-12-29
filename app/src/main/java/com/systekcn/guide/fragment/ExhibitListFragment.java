@@ -20,7 +20,6 @@ import com.systekcn.guide.R;
 import com.systekcn.guide.activity.PlayActivity;
 import com.systekcn.guide.adapter.NearlyExhibitAdapter;
 import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.LogUtil;
 import com.systekcn.guide.entity.ExhibitBean;
 
 import java.util.ArrayList;
@@ -120,7 +119,6 @@ public class ExhibitListFragment extends Fragment implements IConstants{
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            LogUtil.i("ZHANG", "ListChangeReceiver");
             handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA);
         }
     }

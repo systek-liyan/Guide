@@ -18,4 +18,7 @@ public class BizFactory {
     public static IConstants getDownloadBiz(Context context){
         return  new DownloadBiz(context);
     }
+    public static IConstants getDataBiz(){
+        return  new GetDataBiz();
+    }
 }

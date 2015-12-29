@@ -35,9 +35,9 @@ public class BeginActivity extends BaseActivity implements IConstants {
 
     private void initData() {
         /*默认跳转界面为城市选择*/
-        targetClass=CityActivity.class;
+        targetClass=CityChooseActivity.class;
         AlphaAnimation startAnimation = new AlphaAnimation(1.0f, 1.0f);
-        startAnimation.setDuration(3000);
+        startAnimation.setDuration(2500);
         view.startAnimation(startAnimation);
         startAnimation.setAnimationListener(new Animation.AnimationListener() {
 
@@ -74,7 +74,9 @@ public class BeginActivity extends BaseActivity implements IConstants {
                 museumId=beaconBean.getMuseumId();
                 BeansManageBiz biz= (BeansManageBiz) BizFactory.getBeansManageBiz(BeginActivity.this);
                 application.currentMuseum= (MuseumBean) biz.getBeanById(IConstants.URL_TYPE_GET_MUSEUM_BY_ID,museumId);
-                targetClass=CityChooseActivity.class;
+
+                targetClass=MuseumHomeActivity.class;
+                //targetClass=CityChooseActivity.class;
             }
             return museumId;
         }

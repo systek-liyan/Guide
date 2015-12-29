@@ -48,6 +48,7 @@
                         android:layout_below="@id/iv_home_circle_guide" />
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/rl_map_home"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
@@ -64,6 +65,7 @@
                         android:layout_below="@id/iv_home_circle_map"/>
                 </RelativeLayout>
                 <RelativeLayout
+                    android:id="@+id/rl_topic_home"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">

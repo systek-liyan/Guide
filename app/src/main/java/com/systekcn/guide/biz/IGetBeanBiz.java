@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface IGetBeanBiz {
     <T>List<T> getAllBeans(Context context, int type, String url, String Id);
+    <T>List<T> getAllBeans(int type, String url, String Id);
     <T> T  getBeanById(Context context, int type, String url, String Id);
 }

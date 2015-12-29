@@ -10,9 +10,9 @@
 
     <com.systekcn.guide.custom.ClearEditText
         android:id="@+id/filter_edit"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/search_bar_edit_selector"
         android:drawableLeft="@drawable/search_bar_icon_normal"
         android:hint="请输入关键字"

@@ -98,7 +98,7 @@
     <!--tv_home_menu -->
     <style name="tv_home_menu" >
         <item name="android:textSize">@dimen/text_size_home_menu</item>
-        <item name="android:textColor">@color/lightGray</item>
+        <item name="android:textColor">@color/black_overlay</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

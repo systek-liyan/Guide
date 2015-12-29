@@ -22,16 +22,13 @@ public class ExhibitBean extends BaseEntity {
     private String rexhibit;
     private int version;
     private int priority;
+    private double distance;
+
 
     public ExhibitBean() {
     }
 
-    public ExhibitBean(String id, String name, String museumId,
-                       String beaconId, String introduce, String address,
-                       float mapx, float mapy, int floor, String iconurl,
-                       String imgsurl, String audiourl, String texturl,
-                       String labels, String lexhibit, String rexhibit,
-                       int version, int priority) {
+    public ExhibitBean(String id, String name, String museumId, String beaconId, String introduce, String address, float mapx, float mapy, int floor, String iconurl, String imgsurl, String audiourl, String texturl, String labels, String lexhibit, String rexhibit, int version, int priority, double distance) {
         this.id = id;
         this.name = name;
         this.museumId = museumId;
@@ -50,6 +47,7 @@ public class ExhibitBean extends BaseEntity {
         this.rexhibit = rexhibit;
         this.version = version;
         this.priority = priority;
+        this.distance = distance;
     }
 
     public String getId() {
@@ -196,28 +194,12 @@ public class ExhibitBean extends BaseEntity {
         this.priority = priority;
     }
 
-    @Override
-    public String toString() {
-        return "ExhibitBean{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", museumId='" + museumId + '\'' +
-                ", beaconId='" + beaconId + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", address='" + address + '\'' +
-                ", mapx=" + mapx +
-                ", mapy=" + mapy +
-                ", floor=" + floor +
-                ", iconurl='" + iconurl + '\'' +
-                ", imgsurl='" + imgsurl + '\'' +
-                ", audiourl='" + audiourl + '\'' +
-                ", texturl='" + texturl + '\'' +
-                ", labels='" + labels + '\'' +
-                ", lexhibit='" + lexhibit + '\'' +
-                ", rexhibit='" + rexhibit + '\'' +
-                ", version=" + version +
-                ", priority=" + priority +
-                '}';
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     @Override

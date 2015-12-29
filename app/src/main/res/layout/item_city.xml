@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lightGray"
-        android:textColor="@color/darkGray"
+        android:textColor="@color/red"
         android:layout_weight="1.0"
         android:paddingLeft="5dip"
         android:paddingTop="5dip"

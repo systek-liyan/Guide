@@ -17,10 +17,18 @@ import android.widget.TextView;
 import com.systekcn.guide.MyApplication;
 import com.systekcn.guide.R;
 import com.systekcn.guide.activity.base.BaseActivity;
+import com.systekcn.guide.biz.BizFactory;
+import com.systekcn.guide.biz.GetDataBiz;
 import com.systekcn.guide.common.IConstants;
+import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.ImageLoaderUtil;
 import com.systekcn.guide.common.utils.Tools;
 import com.systekcn.guide.common.utils.ViewUtils;
+import com.systekcn.guide.custom.DrawerView;
+import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
+import com.systekcn.guide.entity.ExhibitBean;
+
+import java.util.List;
 
 public class MuseumHomeActivity extends BaseActivity implements IConstants{
 
@@ -35,6 +43,10 @@ public class MuseumHomeActivity extends BaseActivity implements IConstants{
     private LinearLayout ll_museum_largest_icon;
     private TextView tv_museum_introduce;
     private RelativeLayout rl_guide_home;
+    /**侧滑菜单*/
+    private SlidingMenu side_drawer;
+    private DrawerView drawerView;
+    private RelativeLayout rl_topic_home;
 
     @Override
     protected void initialize() {
@@ -49,31 +61,69 @@ public class MuseumHomeActivity extends BaseActivity implements IConstants{
         screenWidth = display.getWidth();
         handler=new MyHandler();
         initView();
+        //initSlidingMenu();
         addListener();
         /**数据初始化好之前显示加载对话框*/
         showProgressDialog();
         initData();
     }
 
+
+    private void initSlidingMenu() {
+        drawerView =new DrawerView(this);
+        side_drawer = drawerView.initSlidingMenu();
+    }
+
     private void addListener() {
         rl_guide_home.setOnClickListener(onClickListener);
+        rl_topic_home.setOnClickListener(onClickListener);
+        iv_Drawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Intent intent=null;
             switch (v.getId()){
                 case R.id.rl_guide_home:
-                    Intent intent=new Intent(MuseumHomeActivity.this,ListAndMapActivity.class);
+                     intent=new Intent(MuseumHomeActivity.this,ListAndMapActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.rl_topic_home:
+                    intent=new Intent(MuseumHomeActivity.this,TopicActivity.class);
+                    startActivity(intent);
+                    break;
             }
         }
     };
 
     private void initData() {
-        if(application.currentMuseum!=null){
-            currentMuseumId=application.currentMuseum.getId();
-            handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA);
+
+        try{
+            new Thread(){
+                @Override
+                public void run() {
+                    if(application.currentMuseum!=null){
+                        currentMuseumId=application.currentMuseum.getId();
+                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA);
+                    }
+                    GetDataBiz biz= (GetDataBiz) BizFactory.getDataBiz();
+                    List<ExhibitBean> exhibitBeans= (List<ExhibitBean>) biz.getAllBeans(MuseumHomeActivity.this,
+                            IConstants.URL_TYPE_GET_EXHIBITS_BY_MUSEUM_ID, "deadccf89ef8412a9c8a2628cee28e18");
+                    if(exhibitBeans!=null&&exhibitBeans.size()>0){
+                        application.totalExhibitBeanList=exhibitBeans;
+                    }
+                }
+            }.start();
+
+        }catch (Exception e) {
+            showToast("抱歉，数据获取失败！");
+            ExceptionUtil.handleException(e);
         }
     }
 
@@ -94,6 +144,7 @@ public class MuseumHomeActivity extends BaseActivity implements IConstants{
         ll_museum_largest_icon = (LinearLayout) findViewById(R.id.ll_museum_largest_icon);
         tv_museum_introduce = (TextView) findViewById(R.id.tv_museum_introduce);
         rl_guide_home = (RelativeLayout) findViewById(R.id.rl_guide_home);
+        rl_topic_home = (RelativeLayout) findViewById(R.id.rl_topic_home);
 
 
     }
