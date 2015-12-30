@@ -102,7 +102,6 @@ public class BluetoothManager implements IConstants{
     /**
      * 实现beacon搜索监听，或得BeaconSearcher搜索到的beacon对象
      */
-    long recordTime=0;
     private BeaconSearcher.OnNearestBeaconListener onNearestBeaconListener=new BeaconSearcher.OnNearestBeaconListener(){
 
         BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(context);
@@ -114,17 +113,17 @@ public class BluetoothManager implements IConstants{
                 LogUtil.i("ZHANG", beacon.getId2() + "   " + beacon.getId3());
                 try{
                     Identifier major = beacon.getId2();
-                            Identifier minor = beacon.getId3();
-                            LogUtil.i("ZHANG","major===="+major+","+"minor==="+minor);
-                            BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(context);
-                            BeaconBean b = biz.getBeaconMinorAndMajor(minor, major);
-                            if (b != null) {
-                                if(getBeaconCallBack!=null){
-                                    getBeaconCallBack.getMuseumByBeaconCallBack(b);
-                                }
-                                String beaconId = b.getId();
-                                LogUtil.i("ZHANG", beaconId);
-                                if (beaconId != null && !(application.getCurrentBeaconId().equals(""))) {
+                    Identifier minor = beacon.getId3();
+                    LogUtil.i("ZHANG","major===="+major+","+"minor==="+minor);
+                    BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(context);
+                    BeaconBean b = biz.getBeaconMinorAndMajor(minor, major);
+                    if (b != null) {
+                        if(getBeaconCallBack!=null){
+                            getBeaconCallBack.getMuseumByBeaconCallBack(b);
+                        }
+                        String beaconId = b.getId();
+                        LogUtil.i("ZHANG", beaconId);
+                        if (beaconId != null && !(application.getCurrentBeaconId().equals(""))) {
                             if(!beaconId.equals(application.getCurrentBeaconId())){
                                 List<ExhibitBean> nearlyExhibitsList = biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
                                 if (nearlyExhibitsList != null && nearlyExhibitsList.size() > 0) {
@@ -148,64 +147,53 @@ public class BluetoothManager implements IConstants{
 
         List<BeaconBean> beaconBeanList;
         List<ExhibitBean> exhibitBeansList;
+        long recordTime=0;
+        int count=0;
         /**当接受到多个beacon时，根据beacon查找展品，更新附近列表*/
         @Override
         public void getNearestBeacons(int type, List<BeaconForSort> beaconsForSortList) {
-
-                beaconBeanList=new ArrayList<>();
-                exhibitBeansList=new ArrayList<>();
-                if (beaconsForSortList != null&&beaconsForSortList.size()>0) {
-                    for (int i = 0; i < beaconsForSortList.size(); i++) {
-                        Beacon beacon = beaconsForSortList.get(i).getBeacon();
+            if(System.currentTimeMillis()-recordTime<2000){return;}
+            recordTime=System.currentTimeMillis();
+            if (beaconsForSortList == null||beaconsForSortList.size()<=0) {return;}
+            beaconBeanList=new ArrayList<>();
+            exhibitBeansList=new ArrayList<>();
+            for (int i = 0; i < beaconsForSortList.size(); i++) {
+                Beacon beacon = beaconsForSortList.get(i).getBeacon();
                        /* if(i==0){
                             LogUtil.i("ZHANG",beacon.getId3());
                         }*/
-                        double distance=beaconsForSortList.get(i).getDistance();
-                        Identifier major = beacon.getId2();
-                        Identifier minor = beacon.getId3();
-                        BeaconBean beaconBean=biz.getBeaconMinorAndMajor(minor, major);
-                        if(beaconBean!=null&&distance<1.5){//
-                            beaconBean.setDistance(distance);
-                            beaconBeanList.add(beaconBean);
-                        }
-                    }
-                    if(beaconBeanList.size()>0){
-                        BeaconBean b=beaconBeanList.get(0);
-                        if(nearestBeaconListener!=null){
-                            nearestBeaconListener.nearestBeaconCallBack(b);
-                        }
-                        if(getBeaconCallBack!=null){
-                            getBeaconCallBack.getMuseumByBeaconCallBack(b);
-                        }
-                        for(int i=0;i<beaconBeanList.size();i++){
-                            String beaconId=beaconBeanList.get(i).getId();
-                            List<ExhibitBean> list= biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
-                            if(list!=null&&list.size()>0){
-                                for(ExhibitBean beaconBean:list){
-                                    beaconBean.setDistance(beaconBeanList.get(i).getDistance());
-                                }
-                                exhibitBeansList.removeAll(list);
-                                exhibitBeansList.addAll(list);
-                            }
-                        }
-                    }
-
-                    if(System.currentTimeMillis()-recordTime>3000){
-                        recordTime=System.currentTimeMillis();
-                    if(application.currentExhibitBeanList.size()==0){
-                        application.currentExhibitBeanList=exhibitBeansList;
-                        Intent intent =new Intent();
-                        intent.setAction(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE);
-                        context.sendBroadcast(intent);
-                    }else {
-                        if(!exhibitBeansList.equals(application.nearlyExhibitBeanList)){
-                            application.currentExhibitBeanList=exhibitBeansList;
-                            Intent intent =new Intent();
-                            intent.setAction(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE);
-                            context.sendBroadcast(intent);
-                        }
-                    }}
+                double distance=beaconsForSortList.get(i).getDistance();
+                Identifier major = beacon.getId2();
+                Identifier minor = beacon.getId3();
+                BeaconBean beaconBean=biz.getBeaconMinorAndMajor(minor, major);
+                if(beaconBean!=null&&distance<1.5){//
+                    beaconBean.setDistance(distance);
+                    beaconBeanList.add(beaconBean);
                 }
+            }
+            if(beaconBeanList.size()==0){return;}
+            BeaconBean b=beaconBeanList.get(0);
+            if(nearestBeaconListener!=null){
+                nearestBeaconListener.nearestBeaconCallBack(b);
+            }
+            if(getBeaconCallBack!=null){
+                getBeaconCallBack.getMuseumByBeaconCallBack(b);
+            }
+            for(int i=0;i<beaconBeanList.size();i++){
+                String beaconId=beaconBeanList.get(i).getId();
+                List<ExhibitBean> list= biz.getExhibitListByBeaconId(application.getCurrentMuseumId(), beaconId);
+                if(list!=null&&list.size()>0){
+                    for(ExhibitBean beaconBean:list){
+                        beaconBean.setDistance(beaconBeanList.get(i).getDistance());
+                    }
+                    exhibitBeansList.removeAll(list);
+                    exhibitBeansList.addAll(list);
+                }
+            }
+            application.currentExhibitBeanList=exhibitBeansList;
+            Intent intent =new Intent();
+            intent.setAction(ACTION_NOTIFY_NEARLY_EXHIBIT_LIST_CHANGE);
+            context.sendBroadcast(intent);
         }
     };
 

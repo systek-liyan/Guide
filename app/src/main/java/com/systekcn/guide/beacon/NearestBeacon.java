@@ -2,6 +2,8 @@ package com.systekcn.guide.beacon;
 
 import android.util.Log;
 
+import com.systekcn.guide.common.utils.LogUtil;
+
 import org.altbeacon.beacon.Beacon;
 
 import java.util.ArrayList;
@@ -25,22 +27,22 @@ import java.util.Map;
  *   (1)与当前播放展品对应的beacon相同，则忽略之，继续播放该展品。
  *   (2)与当前播放展品对应的beacon不同，则停止当前播放，转而播放收到beacon对应的展品。
  *   (3)返回null,处理方式同(1)
- * 
+ *
  * 二、游客定位
  *   返回距离最近(m)的beacon
  *   NearestBeacon mNearestBeacon = new NearestBeacon();
  *   // 在RangeNotifier接口的回调函数didRangeBeaconsInRegion()中执行：
  *   Beacon beacon = mNearestBeacon.getNeaestBeacon(NearestBeacon.GET_LOCATION_BEACON,beacons);
  * @author Dun
- * 
+ *
  */
 public class NearestBeacon {
 
 	/** 默认最近距离(m),用于展品定位 **/
 	public static double NEAREST_DISTANCE = 1.5; // Can we change its to
-													// DISTANCE_THRESHOLD, and
-													// should we set a less
-													// number.
+	// DISTANCE_THRESHOLD, and
+	// should we set a less
+	// number.
 
 	/** 默认最小停留时间(ms),用于展品定位 */
 	public static long MIN_STAY_MILLISECONDS = 3000L; // 3s
@@ -91,7 +93,7 @@ public class NearestBeacon {
 	 * 展品定位使用默认最小距离和最小停留时间<br>
 	 * 默认最小距离,NearestBeacon.NEAREST_DISTANCE
 	 * 默认最小停留时间(ms)，NearestBeacon.MIN_STAY_MILLISECONDS
-	 * 
+	 *
 	 * @see NearestBeacon#NEAREST_DISTANCE
 	 * @see NearestBeacon#MIN_STAY_MILLISECONDS
 	 */
@@ -102,7 +104,7 @@ public class NearestBeacon {
 
 	/**
 	 * 参数设定展品定位时的最小距离和最小停留时间
-	 * 
+	 *
 	 * @param nearest_distance最小距离
 	 *            (m), min_stay_time最小停留时间(ms)
 	 */
@@ -113,7 +115,7 @@ public class NearestBeacon {
 
 	/**
 	 * 获得当前设定用于展品定位的最小距离(m)
-	 * 
+	 *
 	 * @return the mExhibit_distance
 	 */
 	public double getExhizibit_distance() {
@@ -122,7 +124,7 @@ public class NearestBeacon {
 
 	/**
 	 * 设定用于展品定位的最小距离(m)
-	 * 
+	 *
 	 * @param Exhibit_distance
 	 *            the mExhibit_distance to set
 	 */
@@ -132,7 +134,7 @@ public class NearestBeacon {
 
 	/**
 	 * 获得当前设定用于展品定位的最小停留时间(ms)
-	 * 
+	 *
 	 * @return the mMin_stay_milliseconds
 	 */
 	public long getMin_stay_milliseconds() {
@@ -141,7 +143,7 @@ public class NearestBeacon {
 
 	/**
 	 * 设定用于展品定位的最小停留时间(ms)
-	 * 
+	 *
 	 * @param Min_stay_milliseconds
 	 *            the mMin_stay_milliseconds to set
 	 */
@@ -156,7 +158,7 @@ public class NearestBeacon {
 	 * 应该没有同时要求返回两种beacon的情况存在。因此，用type区分返回beacon的类型是可行的。<br>
 	 * 在RangeNotifier接口的回调函数didRangeBeaconsInRegion()中调用此函数。<br>
 	 * 每个扫描周期结束，根据20秒内各beacon的RSSI平均值计算它的距离，该回调获取这些beacon的距离值。<br>
-	 * 
+	 *
 	 * @param type
 	 *            NearestBeacon.GET_LOCATION_BEACON:返回游客定位beacon;
 	 *            NearestBeacon.GET_EXHIBIT_BEACON:返回展品定位beacon
@@ -180,7 +182,7 @@ public class NearestBeacon {
 	 * 多次扫描后，根据beaconId(也就是同一个信标)计算距离(Beacon.distance)的平均值<br>
 	 * 获得距离(Beacon.distance)的平均值后,然后将一组平均值进行比较，获取最小的平均值<br>
 	 * 最小的平均值对应的信标(Beacon)即为最近的信标<br>
-	 * 
+	 *
 	 * @param beacons
 	 * <br>
 	 * @return 距离最近的beacon; 如果本次扫描，没有beacon发现，返回null<br>
@@ -243,12 +245,12 @@ public class NearestBeacon {
 						//展品在设定距离范围内(1.5米)时，将其放入List
 						//由于定位不能将范围限定为1.5米，这里取消范围限定，只按顺序返回检索到的信标，由使用者处理"范围"  2015-12-17 by sa
 						//if(ave<=mExhibit_distance) {
-							// 将平均值和Beacon对象存入List，通过该List即可获取最近信标
-							BeaconForSort bfs = new BeaconForSort();
-							bfs.beacon = beaconList.get(i);
-							bfs.distance = ave;
-							mBeaconList.add(bfs);
-							//Log.i("zz", bfs.getDistance() + "--------------" + bfs.getBeacon().getId3());
+						// 将平均值和Beacon对象存入List，通过该List即可获取最近信标
+						BeaconForSort bfs = new BeaconForSort();
+						bfs.beacon = beaconList.get(i);
+						bfs.distance = ave;
+						mBeaconList.add(bfs);
+						//Log.i("zz", bfs.getDistance() + "--------------" + bfs.getBeacon().getId3());
 						//}
 					}
 				}
@@ -273,7 +275,7 @@ public class NearestBeacon {
 			return null;
 	}
 
-	
+
 
 	/**
 	 * 符合条件的信标列表
@@ -282,7 +284,9 @@ public class NearestBeacon {
 	 * @author sa
 	 * 2015-11-26
 	 */
+	int count=0;
 	private List<BeaconForSort> exhibitBeacon() {
+		count++;
 		return mBeaconList;
 	}
 

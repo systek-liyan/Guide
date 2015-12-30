@@ -134,7 +134,7 @@ public class ExhibitListFragment extends Fragment implements IConstants{
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==MSG_WHAT_UPDATE_DATA){
-                if(nearlyExhibitAdapter!=null){
+                if(nearlyExhibitAdapter!=null&&application.currentExhibitBeanList.size()>0){
                     nearlyExhibitAdapter.updateData(application.currentExhibitBeanList);
                 }
             }
