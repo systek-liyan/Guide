@@ -76,7 +76,9 @@ public class NearlyExhibitAdapter extends BaseAdapter implements IConstants{
         ExhibitBean exhibitBean = list.get(position);
         viewHolder.tv_exhibit_name.setText(exhibitBean.getName());
         viewHolder.tv_exhibit_years.setText(exhibitBean.getLabels());
-        viewHolder.tv_exhibit_position.setText(exhibitBean.getAddress());
+        String beaconId=exhibitBean.getBeaconId();
+        String disId=beaconId.substring(beaconId.length()-6,beaconId.length());
+        viewHolder.tv_exhibit_position.setText(disId);// TODO: 2015/12/30 改为展厅
         String distance=String.valueOf(exhibitBean.getDistance());
         if(distance.length()>6){
             distance=distance.substring(0,6);
