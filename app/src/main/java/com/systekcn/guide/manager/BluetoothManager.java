@@ -157,6 +157,9 @@ public class BluetoothManager implements IConstants{
                 if (beaconsForSortList != null&&beaconsForSortList.size()>0) {
                     for (int i = 0; i < beaconsForSortList.size(); i++) {
                         Beacon beacon = beaconsForSortList.get(i).getBeacon();
+                       /* if(i==0){
+                            LogUtil.i("ZHANG",beacon.getId3());
+                        }*/
                         double distance=beaconsForSortList.get(i).getDistance();
                         Identifier major = beacon.getId2();
                         Identifier minor = beacon.getId3();

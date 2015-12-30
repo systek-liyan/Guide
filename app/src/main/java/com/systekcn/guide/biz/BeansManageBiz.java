@@ -16,6 +16,7 @@ import com.systekcn.guide.MyApplication;
 import com.systekcn.guide.common.IConstants;
 import com.systekcn.guide.common.utils.ExceptionUtil;
 import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.common.utils.MyHttpUtil;
 import com.systekcn.guide.common.utils.Tools;
 import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.entity.ExhibitBean;
@@ -101,51 +102,29 @@ public class BeansManageBiz implements IConstants{
 
 
     List<BeaconBean> beaconBeans=null;
-    BeaconBean b=null;
-    boolean isGetBeaconOver=false;
-
 
     public BeaconBean getBeaconMinorAndMajor(Identifier minor,Identifier major){
-
-        long startTime=System.currentTimeMillis();
+        BeaconBean b=null;
         if(context==null){
             context=MyApplication.get().getApplicationContext();
         }
         DbUtils db=DbUtils.create(context);
         try {
             beaconBeans= db.findAll(Selector.from(BeaconBean.class).where("minor", "=", minor).and("major","=",major));
-            isGetBeaconOver=true;
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
         }
         if(beaconBeans==null||beaconBeans.size()<=0){
-
-            HttpUtils http=new HttpUtils();
-            http.send(HttpRequest.HttpMethod.GET, URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major, new RequestCallBack<String>() {
-                @Override
-                public void onSuccess(ResponseInfo<String> responseInfo) {
-                    isGetBeaconOver=true;
-                    try{
-                        beaconBeans= JSON.parseArray(responseInfo.result, BeaconBean.class);
-                        if(beaconBeans!=null&&beaconBeans.size()>0){
-                            b=beaconBeans.get(0);
-                        }
-                    }catch (Exception e){ExceptionUtil.handleException(e);}
-                }
-
-                @Override
-                public void onFailure(HttpException error, String msg) {
-                    isGetBeaconOver=true;
-                }
-            });
+            String url=URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major;
+            String response=MyHttpUtil.get(url);
+            beaconBeans=JSON.parseArray(response, BeaconBean.class);
+            b=beaconBeans.get(0);
         }else{
             b=beaconBeans.get(0);
-        }
-        db.close();
-        while(!isGetBeaconOver){
-            if(System.currentTimeMillis()-startTime>5000){
-                break;
-            }
         }
         return b;
     }

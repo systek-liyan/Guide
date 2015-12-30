@@ -141,4 +141,20 @@ public class BeaconBean extends BaseEntity {
 		result = 31 * result + (museumAreaId != null ? museumAreaId.hashCode() : 0);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "BeaconBean{" +
+				"id='" + id + '\'' +
+				", uuid='" + uuid + '\'' +
+				", personx=" + personx +
+				", persony=" + persony +
+				", type=" + type +
+				", major='" + major + '\'' +
+				", minor='" + minor + '\'' +
+				", museumId='" + museumId + '\'' +
+				", museumAreaId='" + museumAreaId + '\'' +
+				", distance=" + distance +
+				'}';
+	}
 }
