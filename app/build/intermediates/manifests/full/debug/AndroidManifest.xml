@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.systekcn.guide"
-    android:versionCode="462"
-    android:versionName="4.6.2" >
+    android:versionCode="1"
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -122,7 +122,7 @@
             android:theme="@style/MyFullTheme" />
         <activity
             android:name="com.systekcn.guide.activity.LockScreenActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity

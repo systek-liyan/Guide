@@ -34,4 +34,14 @@ public class TimeUtil {
         String[] timeArr = timeString.split(":");
         return timeArr[0] + ":" + timeArr[1];
     }
+
+
+    public static String changeToTime(long time) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        return formatter.format(time);
+    }
+
+
+
+
 }

@@ -33,6 +33,7 @@ import com.systekcn.guide.manager.MediaServiceManager;
 import com.systekcn.guide.utils.ExceptionUtil;
 import com.systekcn.guide.utils.ImageLoaderUtil;
 import com.systekcn.guide.utils.LogUtil;
+import com.systekcn.guide.utils.TimeUtil;
 import com.systekcn.guide.utils.Tools;
 import com.systekcn.guide.utils.ViewUtils;
 
@@ -56,7 +57,6 @@ public class PlayActivity extends BaseActivity {
     private ArrayList<Integer> imgsTimeList;
     private ImageView ivPlayCtrl;
     private TextView tvPlayTime;
-    private boolean hasMultiImg;
     private SeekBar seekBarProgress;
     private int currentProgress;
     private int currentDuration;
@@ -67,6 +67,7 @@ public class PlayActivity extends BaseActivity {
     private String currentIconUrl;
 
     private MediaServiceManager mediaServiceManager;
+    private TextView tvTotalTime;
 
 
     @Override
@@ -104,7 +105,7 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        LogUtil.i("ZHANG","执行了onNewIntent");
+        LogUtil.i("ZHANG", "执行了onNewIntent");
         super.onNewIntent(intent);
 
         String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
@@ -185,9 +186,9 @@ public class PlayActivity extends BaseActivity {
         mulTiAngleImgAdapter.setOnItemClickListener(new MultiAngleImgAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                MultiAngleImg multiAngleImg=multiAngleImgs.get(position);
-                String url=multiAngleImg.getUrl();
-                initIcon(url);
+                MultiAngleImg multiAngleImg = multiAngleImgs.get(position);
+                currentIconUrl = multiAngleImg.getUrl();
+                initIcon();
             }
         });
     }
@@ -207,17 +208,18 @@ public class PlayActivity extends BaseActivity {
     }
 
     private void refreshView() {
-        LogUtil.i("ZHANG","执行了refreshView");
+        LogUtil.i("ZHANG", "执行了refreshView");
         initMultiImgs();
         loadLyricByHand();
-        initIcon(currentExhibit.getIconurl());
+        initIcon();
     }
 
-    private void initIcon(String iconUrl) {
-        if(currentExhibit==null||TextUtils.isEmpty(iconUrl)){return;}
-        if(currentIconUrl!=null&&currentIconUrl.equals(iconUrl)){return;}
-        currentIconUrl=iconUrl;
-        String imageName = Tools.changePathToName(iconUrl);
+    private void initIcon() {
+        if(currentExhibit==null){return;}
+        if(currentIconUrl==null){
+            currentIconUrl=currentExhibit.getIconurl();
+        }
+        String imageName = Tools.changePathToName(currentIconUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
         File file = new File(imgLocalUrl);
         // 判断sdcard上有没有图片
@@ -225,8 +227,7 @@ public class PlayActivity extends BaseActivity {
             // 显示sdcard
             ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, imgExhibitIcon);
         } else {
-            iconUrl = BASE_URL + iconUrl;
-            ImageLoaderUtil.displayNetworkImage(this, iconUrl, imgExhibitIcon);
+            ImageLoaderUtil.displayNetworkImage(this, BASE_URL + currentIconUrl, imgExhibitIcon);
         }
     }
 
@@ -236,6 +237,7 @@ public class PlayActivity extends BaseActivity {
         imgExhibitIcon=(ImageView)findViewById(R.id.imgExhibitIcon);
         seekBarProgress=(SeekBar)findViewById(R.id.seekBarProgress);
         tvPlayTime=(TextView)findViewById(R.id.tvPlayTime);
+        tvTotalTime=(TextView)findViewById(R.id.tvTotalTime);
         recycleMultiAngle = (RecyclerView) findViewById(R.id.recycleMultiAngle);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
         imgWordCtrl=(ImageView)findViewById(R.id.imgWordCtrl);
@@ -412,15 +414,11 @@ public class PlayActivity extends BaseActivity {
                     seekBarProgress.setMax(currentDuration);
                     seekBarProgress.setProgress(currentProgress);
                     mLyricLoadHelper.notifyTime(currentProgress);
-                    break;
-                case MSG_WHAT_PAUSE_MUSIC:
-                    break;
-                case MSG_WHAT_CONTINUE_MUSIC:
+                    tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
+                    tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
                     break;
                 case MSG_WHAT_CHANGE_EXHIBIT:
                     refreshView();
-                    break;
-                case MSG_WHAT_CHANGE_ICON:
                     break;
                 case MSG_WHAT_CHANGE_PLAY_START:
                     ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_open_big));

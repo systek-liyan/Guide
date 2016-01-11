@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.systekcn.guide"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <application
+        android:name="com.systekcn.guide.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/iv_app_logo"
+        android:label="@string/app_name" >
+
+        <!-- android:supportsRtl="true" -->
+        <activity
+            android:name="com.systekcn.guide.activity.model.DrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.CompactHeaderDrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/CustomTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.PersistentDrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MaterialDrawerTheme.Light.TranslucentStatus" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.ActionBarActivity"
+            android:theme="@style/MaterialDrawerTheme.ActionBar" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.MenuDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.NonTranslucentDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.MultiDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme.TranslucentStatus" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.AdvancedActivity"
+            android:theme="@style/MaterialDrawerTheme.TranslucentStatus" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.KeyboardUtilActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.EmbeddedDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.MiniDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.FullscreenDrawerActivity"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.CustomContainerActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.FragmentActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.CollapsingToolbarActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" />
+        <activity
+            android:name="com.systekcn.guide.activity.model.CrossfadeDrawerLayoutActvitiy"
+            android:theme="@style/MaterialDrawerTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.BeginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.systekcn.guide.activity.CityChooseActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.MuseumListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.MuseumHomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.ListAndMapActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.TopicActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.PlayActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.LockScreenActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.WelcomeActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.CollectionActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.SearchActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.DownloadActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+        <activity
+            android:name="com.systekcn.guide.activity.SettingActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme" />
+
+        <service
+            android:name="com.systekcn.guide.service.MediaPlayService"
+            android:enabled="true"
+            android:exported="false"
+            android:isolatedProcess="false" />
+        <service
+            android:name="org.altbeacon.beacon.service.BeaconService"
+            android:enabled="true"
+            android:exported="false"
+            android:isolatedProcess="false"
+            android:label="beacon" />
+        <service
+            android:name="org.altbeacon.beacon.BeaconIntentProcessor"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:permission="android.permission.BAIDU_LOCATION_SERVICE"
+            android:process=":remote" />
+        <service android:name="com.systekcn.guide.service.MuseumDownloadService" />
+
+        <activity android:name="com.mikepenz.aboutlibraries.ui.LibsActivity" />
+    </application>
+
+</manifest>

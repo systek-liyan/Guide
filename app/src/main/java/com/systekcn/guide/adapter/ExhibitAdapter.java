@@ -15,6 +15,7 @@ import com.lidroid.xutils.exception.DbException;
 import com.systekcn.guide.IConstants;
 import com.systekcn.guide.R;
 import com.systekcn.guide.custom.RoundImageView;
+import com.systekcn.guide.custom.gif.GifView;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.utils.ExceptionUtil;
 import com.systekcn.guide.utils.ImageLoaderUtil;
@@ -31,11 +32,13 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     private Context context;
     private List<ExhibitBean> list;
     private LayoutInflater inflater;
-    private  boolean scrollState=false;
+    private int  selectItem=-1;
 
+    private  boolean scrollState=false;
     public void setScrollState(boolean scrollState) {
         this.scrollState = scrollState;
     }
+
     public ExhibitAdapter(Context context, List<ExhibitBean> list) {
         super();
         this.context = context;
@@ -46,6 +49,9 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     public void updateData(List<ExhibitBean> list){
         this.list=list;
         notifyDataSetChanged();
+    }
+    public  void setSelectItem(int selectItem) {
+        this.selectItem = selectItem;
     }
 
     @Override
@@ -81,11 +87,16 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
             viewHolder.tvExhibitDistance = (TextView) convertView.findViewById(R.id.tvExhibitDistance);
             viewHolder.llCollectionBtn = (LinearLayout) convertView.findViewById(R.id.llCollectionBtn);
             viewHolder.ivCollection = (ImageView) convertView.findViewById(R.id.ivCollection);
-
-
+            viewHolder.ivExhibitSound = (GifView) convertView.findViewById(R.id.ivExhibitSound);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+        }
+        if (position == selectItem) {
+            viewHolder.ivExhibitSound.setGifImage(R.drawable.iv_music);
+            viewHolder.ivExhibitSound.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.ivExhibitSound.setVisibility(View.GONE);
         }
         // 取数据
         final ExhibitBean exhibitBean = list.get(position);
@@ -157,5 +168,6 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         RoundImageView ivExhibitIcon;
         LinearLayout llCollectionBtn;
         ImageView ivCollection;
+        GifView ivExhibitSound;
     }
 }

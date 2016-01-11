@@ -21,6 +21,7 @@ import com.systekcn.guide.R;
 import com.systekcn.guide.activity.PlayActivity;
 import com.systekcn.guide.adapter.ExhibitAdapter;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.manager.MediaServiceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     private ListChangeReceiver listChangeReceiver;
     private List<ExhibitBean> currentExhibitList;
     private OnFragmentInteractionListener mListener;
+    private MediaServiceManager mediaServiceManager;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -54,6 +56,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         exhibitListFragment=this;
+        mediaServiceManager=MediaServiceManager.getInstance(activity);
         handler=new MyHandler();
         registerReceiver();
     }
@@ -75,7 +78,6 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         return view;
     }
 
-
     private void initData() {
         currentExhibitList=new ArrayList<>();
         exhibitAdapter =new ExhibitAdapter(activity,currentExhibitList);
@@ -87,16 +89,21 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExhibitBean exhibitBean = currentExhibitList.get(position);
-                mListener.onFragmentInteraction(exhibitBean);
-                Intent intent = new Intent();
-                String str = JSON.toJSONString(exhibitBean);
-                intent.setAction(INTENT_EXHIBIT);
-                intent.putExtra(INTENT_EXHIBIT, str);
-                activity.sendBroadcast(intent);
-                Intent intent1 = new Intent(activity, PlayActivity.class);
-                intent1.putExtra(INTENT_EXHIBIT, str);
-                activity.startActivity(intent1);
+
+                ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
+                ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
+                Intent intent1 =new Intent(activity,PlayActivity.class);
+                if(bean==null||!bean.equals(exhibitBean)){
+                    mListener.onFragmentInteraction(exhibitBean);
+
+                    String str= JSON.toJSONString(exhibitBean);
+                    Intent intent =new Intent();
+                    intent.setAction(INTENT_EXHIBIT);
+                    intent.putExtra(INTENT_EXHIBIT, str);
+                    activity.sendBroadcast(intent);
+                    intent1.putExtra(INTENT_EXHIBIT, str);
+                }
+                startActivity(intent1);
             }
         });
     }

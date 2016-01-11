@@ -86,8 +86,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"/>
 
-                <ImageView
-                    android:id="@+id/iv_exhibit_sound"
+                <com.systekcn.guide.custom.gif.GifView
+                    android:id="@+id/ivExhibitSound"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="@dimen/simple_4dp"
                     style="@style/normal_image_view"

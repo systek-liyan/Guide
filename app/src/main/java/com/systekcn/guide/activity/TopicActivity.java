@@ -148,6 +148,8 @@ public class TopicActivity extends BaseActivity {
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                exhibitAdapter.setSelectItem(position);
                 ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
                 ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
                 Intent intent1 =new Intent(TopicActivity.this,PlayActivity.class);
@@ -160,8 +162,6 @@ public class TopicActivity extends BaseActivity {
                     intent1.putExtra(INTENT_EXHIBIT, str);
                 }
                 startActivity(intent1);
-
-                //finish();
             }
         });
 
@@ -194,6 +194,7 @@ public class TopicActivity extends BaseActivity {
             switch (scrollState){
                 case  AbsListView.OnScrollListener.SCROLL_STATE_IDLE://停止滚动
                     exhibitAdapter.setScrollState(false);
+                    exhibitAdapter.notifyDataSetChanged();
                     break;
                 case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动做出了抛的动作
                     //设置为正在滚动
@@ -203,13 +204,11 @@ public class TopicActivity extends BaseActivity {
                     //设置为正在滚动
                     exhibitAdapter.setScrollState(true);
                     break;
-
             }
         }
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
         }
     };
 

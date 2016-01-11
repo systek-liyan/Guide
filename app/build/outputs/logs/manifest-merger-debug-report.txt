@@ -274,7 +274,7 @@ ADDED from D:\Android\Guide\Guide\app\src\main\AndroidManifest.xml:120:9-124:49
 	android:screenOrientation
 		ADDED from D:\Android\Guide\Guide\app\src\main\AndroidManifest.xml:123:13-49
 	android:launchMode
-		ADDED from D:\Android\Guide\Guide\app\src\main\AndroidManifest.xml:122:13-43
+		ADDED from D:\Android\Guide\Guide\app\src\main\AndroidManifest.xml:122:13-48
 	android:theme
 		ADDED from D:\Android\Guide\Guide\app\src\main\AndroidManifest.xml:124:13-47
 	android:name

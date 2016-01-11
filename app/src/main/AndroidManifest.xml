@@ -119,7 +119,7 @@
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.LockScreenActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme"/>
         <activity
