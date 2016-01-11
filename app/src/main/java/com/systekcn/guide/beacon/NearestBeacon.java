@@ -1,8 +1,6 @@
 package com.systekcn.guide.beacon;
 
-import android.util.Log;
 
-import com.systekcn.guide.common.utils.LogUtil;
 
 import org.altbeacon.beacon.Beacon;
 

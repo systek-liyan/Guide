@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.systekcn.guide.fragment.base.BaseFragment;
+import com.systekcn.guide.fragment.BaseFragment;
 
 import java.util.ArrayList;
 

@@ -3,29 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:background="@drawable/title_bar_bg">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_height="48dp">
             <ImageView
-                android:id="@+id/title_bar_more"
+                android:id="@+id/titleBarDrawer"
                 style="@style/normal_image_view"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/simple_4dp"
-                android:src="@mipmap/setting"/>
+                android:src="@drawable/setting"/>
             <TextView
-                android:id="@+id/title_bar_topic"
-                android:text="标题"
+                android:id="@+id/titleBarTopic"
+                android:textSize="15sp"
                 style="@style/text_view_title_bar"/>
             <ImageView
-                android:id="@+id/title_bar_search"
+                android:id="@+id/titleBarRightImg"
                 style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/simple_4dp"
-                android:src="@mipmap/iv_search"/>
+                android:src="@drawable/iv_search"/>
         </RelativeLayout>
 
 

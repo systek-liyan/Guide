@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context="com.systekcn.guide.activity.WelcomeActivity">
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
@@ -24,7 +25,7 @@
         android:id="@+id/btn_into_app"
         android:visibility="gone"
         android:background="@drawable/btn_bg_green"
-        android:textColor="@color/white"
+        android:textColor="@color/md_white_1000"
         android:layout_marginBottom="65dp"
         android:layout_gravity="bottom|center_horizontal" />
 </FrameLayout>

@@ -1,76 +1,58 @@
 package com.systekcn.guide.activity;
 
-import android.view.KeyEvent;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.Tools;
-import com.systekcn.guide.common.utils.ViewUtils;
-import com.systekcn.guide.custom.DrawerView;
-import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
+import com.systekcn.guide.utils.ViewUtils;
 
-public class SettingActivity extends BaseActivity implements IConstants{
+public class SettingActivity extends BaseActivity {
 
-    private ImageView iv_setting_drawer;
-    private SlidingMenu side_drawer;
+    private Drawer drawer;
 
     @Override
-    public void initialize(){
-        ViewUtils.setStateBarColor(this, R.color.orange);
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_setting);
-        init();
+        initDraewr();
+
     }
 
-    private void init() {
-        initViews();
-        addListener();
-        initSlidingMenu();
+    private void initDraewr() {
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(SettingActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
     }
-
-    public void doClick(View view){
-        if(view.getId()==R.id.button_test1){
-            String test=String.valueOf(Tools.getValue(this, "test", "false"));
-            Toast.makeText(this,test,Toast.LENGTH_SHORT).show();
-        }else if(view.getId()==R.id.button_test2){
-            Tools.saveValue(this, "test", "true");
-            Toast.makeText(this,"数据已保存",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void initSlidingMenu() {
-        DrawerView dv =new DrawerView(this);
-        side_drawer = dv.initSlidingMenu();
-    }
-
-    private void addListener() {
-        iv_setting_drawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (side_drawer.isMenuShowing()) {
-                    side_drawer.showContent();
-                } else {
-                    side_drawer.showMenu();
-                }
-            }
-        });
-    }
-
-    private void initViews() {
-        iv_setting_drawer=(ImageView)findViewById(R.id.iv_setting_drawer);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(side_drawer.isMenuShowing() ||side_drawer.isSecondaryMenuShowing()){
-                side_drawer.showContent();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
 }

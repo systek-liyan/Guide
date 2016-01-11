@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/ivBeginImg"
-    android:scaleType="centerCrop"
-    android:src="@mipmap/iv_begin_activty"
+    android:scaleType="fitXY"
+    android:src="@drawable/iv_begin_activty"
     tools:context="com.systekcn.guide.activity.BeginActivity"/>

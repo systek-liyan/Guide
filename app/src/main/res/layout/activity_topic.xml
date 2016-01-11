@@ -3,61 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.systekcn.guide.activity.TopicActivity">
-
-    <RelativeLayout
-        android:id="@+id/titleBar"
-        style="@style/action_titleBar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/textView"
-            style="@style/text_view_title_bar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/title_activity_filter" />
-
-        <ImageView
-            android:id="@+id/iv_topic_drawer"
-            style="@style/normal_image_view"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
-            android:src="@mipmap/setting" />
-
-        <TextView
-            android:id="@+id/iv_titlebar_toGuide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="4dp"
-            android:background="@mipmap/iv_home_page_guide_button"
-            android:text="@string/home_page_guide_button_text"
-            android:textColor="@color/white" />
-    </RelativeLayout>
-
+    <include layout="@layout/layout_title_bar"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/simple_48dp"
-        android:background="@color/gray"
+        android:layout_height="@dimen/simple40dp"
+        android:background="@color/md_grey_300"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-
+        <LinearLayout
+            android:background="@color/md_grey_300"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/simple_10dp"
-            android:layout_marginRight="@dimen/simple_10dp"
+            android:layout_width="77dp"
+            android:layout_height="@dimen/simple38dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:gravity="center"
+            android:background="@color/md_white_1000"
             android:text="@string/activity_collection_has_choose"
-            android:textColor="@color/red"
-            android:textSize="11sp" />
-
+            android:textColor="@color/md_red_400"
+            android:textSize="14sp" />
+            </LinearLayout>
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -66,7 +37,7 @@
                 android:id="@+id/ll_collection_has_choose"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/gray"
+                android:background="@color/md_grey_300"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"/>
         </HorizontalScrollView>
@@ -77,338 +48,156 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="37dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="77dp"
-                android:layout_height="37dp"
-                android:gravity="center"
-                android:text="@string/activity_collection_hot" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="false">
-
-                <LinearLayout
-                    android:id="@+id/ll_collection_hot"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_collection_pig"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:gravity="center"
-                        android:text="圆明园猪首" />
-
-                    <TextView
-                        android:id="@+id/tv_collection_monkey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:gravity="center"
-                        android:text="圆明园猴首" />
-
-                    <TextView
-                        android:id="@+id/tv_collection_tiger"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="圆明园虎首" />
-
-                    <TextView
-                        android:id="@+id/tv_collection_bull"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:gravity="center"
-                        android:text="圆明园牛首" />
-                </LinearLayout>
-            </HorizontalScrollView>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="@dimen/simple40dp"
             android:orientation="horizontal">
+            <LinearLayout
+                android:background="@color/md_grey_300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="77dp"
+                    android:layout_height="@dimen/simple38dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:background="@color/md_white_1000"
+                    android:text="@string/activity_collection_years" />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="77dp"
-                android:layout_height="37dp"
-                android:gravity="center"
-                android:text="@string/activity_collection_years" />
 
             <HorizontalScrollView
+                android:scrollbars="none"
+                android:background="@color/md_grey_400"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/ll_collection_years"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_collection_dongwei"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="东魏" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_dongwei" />
 
                     <TextView
                         android:id="@+id/tv_collection_beiqi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="北齐" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_beiqi" />
 
                     <TextView
                         android:id="@+id/tv_collection_beiwei"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="北魏" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_beiwei" />
 
                     <TextView
                         android:id="@+id/tv_collection_xizhou"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="西周" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_xizhou" />
 
                     <TextView
                         android:id="@+id/tv_collection_shang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="商" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_shang" />
 
                     <TextView
                         android:id="@+id/tv_collection_sui"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="隋" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_sui" />
 
                     <TextView
                         android:id="@+id/tv_collection_tangdai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="唐代" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_tang" />
 
                     <TextView
                         android:id="@+id/tv_collection_handai"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="汉代" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_han" />
 
                     <TextView
                         android:id="@+id/tv_collection_chunqiu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="春秋" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_chunqiu" />
 
                     <TextView
                         android:id="@+id/tv_collection_zhanguo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="战国" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_zhanguo" />
 
                     <TextView
                         android:id="@+id/tv_collection_qing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="清" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_qing" />
                 </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="@dimen/simple40dp"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="77dp"
-                android:layout_height="37dp"
-                android:gravity="center"
-                android:text="@string/activity_collection_material" />
+            <LinearLayout
+                android:background="@color/md_grey_300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="77dp"
+                    android:layout_height="@dimen/simple38dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:background="@color/md_white_1000"
+                    android:text="@string/activity_collection_material" />
+            </LinearLayout>
 
             <HorizontalScrollView
+                android:scrollbars="none"
+                android:background="@color/md_grey_400"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
                     android:id="@+id/ll_collection_material"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tv_collection_shixiang"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="石像" />]
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_shixiang" />]
 
                     <TextView
                         android:id="@+id/tv_collection_qingtong"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="青铜" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_qingtong" />
 
                     <TextView
                         android:id="@+id/tv_collection_tongqi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="铜器" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_tongqi" />
 
                     <TextView
                         android:id="@+id/tv_collection_shike"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="石刻" />
+                        style="@style/tv_topic_label"
+                        android:text="@string/label_activity_collection_shike" />
                 </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="37dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="77dp"
-                android:layout_height="37dp"
-                android:gravity="center"
-                android:text="@string/activity_collection_use" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/ll_collection_use"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:gravity="center"
-                        android:text="暂无分类" />]
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center"
-                        android:text="暂无分类" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="2dp"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:gravity="center"
-                        android:text="暂无分类" />
-                </LinearLayout>
-            </HorizontalScrollView>
-        </LinearLayout>
-
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/gray" />
+            android:layout_height="6dp"
+            android:background="@color/md_grey_300" />
     </LinearLayout>
 
     <ListView

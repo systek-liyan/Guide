@@ -4,7 +4,7 @@
     android:layout_height="@dimen/height_exhibit_item"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
-    android:background="@color/lightGray"
+    android:background="@color/md_grey_300"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:background="@drawable/item_bg_exhibit_list_inner">
         <com.systekcn.guide.custom.RoundImageView
-            android:id="@+id/iv_exhibit_icon"
+            android:id="@+id/ivExhibitIcon"
             android:layout_width="100dp"
             android:layout_height="76dp"
             android:scaleType="fitXY"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/ll_collection_btn"
+                    android:id="@+id/llCollectionBtn"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="2dp"
@@ -42,10 +42,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:id="@+id/ivCollection"
                         style="@style/normal_image_view"
-                        android:src="@mipmap/iv_heart_empty" />
+                        android:src="@drawable/iv_heart_empty" />
                     <TextView
-                        android:textSize="10sp"
+                        android:textSize="@dimen/normal_textSize"
                         android:text="收藏"
                         android:layout_marginLeft="@dimen/simple_4dp"
                         android:layout_marginRight="@dimen/simple_4dp"
@@ -53,10 +54,10 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/tv_exhibit_name"
+                    android:id="@+id/tvExhibitName"
                     android:textSize="13sp"
-                    android:textColor="@color/red"
-                    android:layout_toStartOf="@id/ll_collection_btn"
+                    android:textColor="@color/md_red_400"
+                    android:layout_toStartOf="@id/llCollectionBtn"
                     android:layout_width="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
@@ -65,19 +66,19 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_exhibit_years"
+                android:id="@+id/tvExhibitYears"
                 android:layout_width="wrap_content"
-                android:textSize="10sp"
+                android:textSize="@dimen/normal_textSize"
                 android:layout_height="wrap_content"
                 android:text="唐朝末年"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/tv_exhibit_position"
+                    android:id="@+id/tvExhibitPosition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/normal_textSize"
                     android:text="瓷器厅 B3 02"/>
                 <TextView
                     android:id="@+id/tvExhibitDistance"
@@ -90,7 +91,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="@dimen/simple_4dp"
                     style="@style/normal_image_view"
-                    android:src="@mipmap/iv_sound_sign"/>
+                    android:src="@drawable/iv_sound_sign"/>
             </RelativeLayout>
 
             <View
@@ -102,7 +103,7 @@
                 android:layout_marginTop="4dp"
                 android:focusableInTouchMode="false"
                 android:descendantFocusability="blocksDescendants"
-                android:background="@color/lightGray"/>
+                android:background="@color/md_grey_300"/>
 
         </LinearLayout>
 

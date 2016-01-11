@@ -1,106 +1,242 @@
 package com.systekcn.guide.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.MultiAngleImgAdapter;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.ImageLoaderUtil;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.Tools;
-import com.systekcn.guide.common.utils.ViewUtils;
+import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.entity.MultiAngleImg;
 import com.systekcn.guide.lyric.LyricAdapter;
 import com.systekcn.guide.lyric.LyricDownloadManager;
 import com.systekcn.guide.lyric.LyricLoadHelper;
 import com.systekcn.guide.lyric.LyricSentence;
+import com.systekcn.guide.manager.MediaServiceManager;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.ImageLoaderUtil;
+import com.systekcn.guide.utils.LogUtil;
+import com.systekcn.guide.utils.Tools;
+import com.systekcn.guide.utils.ViewUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayActivity extends BaseActivity implements IConstants{
+public class PlayActivity extends BaseActivity {
 
-
-    private ImageView ivPlayBack;
     private ListView lvLyric;
     private ImageView imgExhibitIcon;
-    private SeekBar seekBarProgress;
-    private TextView tvPlayTime;
-    private RecyclerView recycleMultiAngle;
-    private ImageView ivPlayCtrl;
     private ImageView imgWordCtrl;
-    private final int MSG_WHAT_CHANGE_ICON=2;
-    private final int MSG_WHAT_CHANGE_EXHIBIT=3;
-    private final int MSG_WHAT_PAUSE_MUSIC=4;
-    private final int MSG_WHAT_CONTINUE_MUSIC=5;
     private MyHandler handler;
     private ArrayList<MultiAngleImg> multiAngleImgs;
-    private ArrayList<Integer> imgsTimeList;
-    private boolean hasMultiImg;
     private MultiAngleImgAdapter mulTiAngleImgAdapter;
-    private int mScreenWidth;
-    /*当前歌词路径*/
-    private String currentLyricUrl;
+    private String currentLyricUrl;/*当前歌词路径*/
     private LyricLoadHelper mLyricLoadHelper;
     private LyricAdapter mLyricAdapter;
-    private boolean mIsLyricDownloading;
-    private LyricDownloadManager mLyricDownloadManager;
+    private String currentMuseumId;
+    private ExhibitBean currentExhibit;
+    private ArrayList<Integer> imgsTimeList;
+    private ImageView ivPlayCtrl;
+    private TextView tvPlayTime;
+    private boolean hasMultiImg;
+    private SeekBar seekBarProgress;
+    private int currentProgress;
+    private int currentDuration;
+    private PlayStateReceiver playStateReceiver;
+    private RecyclerView recycleMultiAngle;
+    private Drawer drawer;
+    private String currentExhibitStr;
+    private String currentIconUrl;
+
+    private MediaServiceManager mediaServiceManager;
+
 
     @Override
-    protected void initialize() {
-        ViewUtils.setStateBarToAlpha(this);
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_play);
-        //LogUtil.i("ZHANG",ViewUtils.getScreenWidth(this));
         handler =new MyHandler();
+        mediaServiceManager=MediaServiceManager.getInstance(this);
+        initDrawer();
         initView();
-        initData();
-        refreshView();
+        addListener();
+        registerReceiver();
+        Intent intent=getIntent();
+        String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
+        if(!TextUtils.isEmpty(exhibitStr)){
+            ExhibitBean bean=JSON.parseObject(exhibitStr,ExhibitBean.class);
+            if(currentExhibit==null){
+                currentExhibit=bean;
+                initData();
+            }else{
+                if(currentExhibit.equals(bean)){
+                    refreshView();
+                }else {
+                    initData();
+                }
+            }
+
+        }else{
+            currentExhibit=mediaServiceManager.getCurrentExhibit();
+            refreshView();
+        }
+        LogUtil.i("ZHANG","执行了initialize");
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        LogUtil.i("ZHANG","执行了onNewIntent");
+        super.onNewIntent(intent);
+
+        String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
+        if(!TextUtils.isEmpty(exhibitStr)){
+            ExhibitBean bean=JSON.parseObject(exhibitStr,ExhibitBean.class);
+            if(currentExhibit==null){
+                currentExhibit=bean;
+                initData();
+            }else{
+                if(currentExhibit.equals(bean)){
+                    refreshView();
+                }else {
+                    initData();
+                }
+            }
+
+        }else{
+            currentExhibit=mediaServiceManager.getCurrentExhibit();
+            refreshView();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LogUtil.i("ZHANG", "执行了onStart");
+    }
+
+    @Override
+    protected void onResume() {
+        LogUtil.i("ZHANG","执行了onResume");
+        super.onResume();
+        if(mediaServiceManager.isPlaying()){
+            handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+        }else{
+            handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+        }
+
+    }
+
+    private void initDrawer() {
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(PlayActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
+    }
+
+    private void addListener() {
+        ivPlayCtrl.setOnClickListener(onClickListener);
+        seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        mulTiAngleImgAdapter.setOnItemClickListener(new MultiAngleImgAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                MultiAngleImg multiAngleImg=multiAngleImgs.get(position);
+                String url=multiAngleImg.getUrl();
+                initIcon(url);
+            }
+        });
+    }
+
+
+
+    private void registerReceiver() {
+        playStateReceiver=new PlayStateReceiver();
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(INTENT_EXHIBIT);
+        filter.addAction(INTENT_EXHIBIT_PROGRESS);
+        filter.addAction(INTENT_EXHIBIT_DURATION);
+        filter.addAction(INTENT_CHANGE_PLAY_PLAY);
+        filter.addAction(INTENT_CHANGE_PLAY_STOP);
+        registerReceiver(playStateReceiver, filter);
+
     }
 
     private void refreshView() {
-        initIcon();
+        LogUtil.i("ZHANG","执行了refreshView");
         initMultiImgs();
         loadLyricByHand();
+        initIcon(currentExhibit.getIconurl());
     }
 
-    private void initIcon() {
-        if(application.currentExhibitBean==null){return;}
-        String iconUrl=application.currentExhibitBean.getIconurl();
+    private void initIcon(String iconUrl) {
+        if(currentExhibit==null||TextUtils.isEmpty(iconUrl)){return;}
+        if(currentIconUrl!=null&&currentIconUrl.equals(iconUrl)){return;}
+        currentIconUrl=iconUrl;
         String imageName = Tools.changePathToName(iconUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+application.getCurrentMuseumId() + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
+        String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
         File file = new File(imgLocalUrl);
         // 判断sdcard上有没有图片
         if (file.exists()) {
             // 显示sdcard
             ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, imgExhibitIcon);
-            ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, ivPlayBack);
         } else {
-            // 服务器上存的imageUrl有域名如http://www.systek.com.cn/1.png
-            iconUrl = BASEURL+ iconUrl;
+            iconUrl = BASE_URL + iconUrl;
             ImageLoaderUtil.displayNetworkImage(this, iconUrl, imgExhibitIcon);
-            ImageLoaderUtil.displayNetworkImage(this, iconUrl, ivPlayBack);
-        }}
+        }
+    }
 
     /*初始化界面控件*/
     private void initView() {
-        ivPlayBack=(ImageView)findViewById(R.id.ivPlayBack);
         lvLyric=(ListView)findViewById(R.id.lvLyric);
         imgExhibitIcon=(ImageView)findViewById(R.id.imgExhibitIcon);
         seekBarProgress=(SeekBar)findViewById(R.id.seekBarProgress);
         tvPlayTime=(TextView)findViewById(R.id.tvPlayTime);
-        recycleMultiAngle=(RecyclerView)findViewById(R.id.recycleMultiAngle);
+        recycleMultiAngle = (RecyclerView) findViewById(R.id.recycleMultiAngle);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
         imgWordCtrl=(ImageView)findViewById(R.id.imgWordCtrl);
         multiAngleImgs=new ArrayList<>();
@@ -110,27 +246,59 @@ public class PlayActivity extends BaseActivity implements IConstants{
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycleMultiAngle.setLayoutManager(linearLayoutManager);
         recycleMultiAngle.setAdapter(mulTiAngleImgAdapter);
-
         mLyricLoadHelper = new LyricLoadHelper();
         mLyricAdapter = new LyricAdapter(this);
         mLyricLoadHelper.setLyricListener(mLyricListener);
         lvLyric.setAdapter(mLyricAdapter);
-
-
-        imgWordCtrl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(lvLyric.getVisibility()!=View.GONE){
-                    lvLyric.setVisibility(View.GONE);
-                    imgExhibitIcon.setAlpha(1.0f);
-                }else{
-                    lvLyric.setVisibility(View.VISIBLE);
-                    imgExhibitIcon.setAlpha(0.7f);
-                }
-
-            }
-        });
+        imgWordCtrl.setOnClickListener(onClickListener);
     }
+
+
+    SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if(!fromUser){return;}
+            Intent intent=new Intent();
+            intent.setAction(INTENT_SEEK_BAR_CHANG);
+            intent.putExtra(INTENT_SEEK_BAR_CHANG,progress);
+            sendBroadcast(intent);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+    View.OnClickListener onClickListener=new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.imgWordCtrl:
+                    if(lvLyric.getVisibility()!=View.GONE){
+                        lvLyric.setVisibility(View.GONE);
+                        imgExhibitIcon.setAlpha(1.0f);
+                    }else{
+                        lvLyric.setVisibility(View.VISIBLE);
+                        imgExhibitIcon.setAlpha(0.7f);
+                    }
+                    break;
+                case R.id.ivPlayCtrl:
+                    Intent intent=new Intent();
+                    intent.setAction(INTENT_CHANGE_PLAY_STATE);
+                    sendBroadcast(intent);
+            }
+
+        }
+    };
+
+
     private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
 
         @Override
@@ -150,46 +318,46 @@ public class PlayActivity extends BaseActivity implements IConstants{
         }
     };
 
-
     /*加载数据*/
     private void initData() {
-        if(application.currentExhibitBean==null){return;}
-        /**加载歌词*/
-        currentLyricUrl = application.currentExhibitBean.getTexturl();
+        if(currentExhibit==null){return;}
+        currentMuseumId=currentExhibit.getMuseumId();
         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
     }
 
     private void loadLyricByHand() {
-        long time =System.currentTimeMillis();
+        if(currentExhibit==null){return;}
         try{
+            currentLyricUrl = currentExhibit.getTexturl();
             String name = currentLyricUrl.replaceAll("/", "_");
             // 取得歌曲同目录下的歌词文件绝对路径
-            String lyricFilePath = application.getCurrentLyricDir() + name;
+            String lyricFilePath = LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_LYRIC+"/"+ name;
             File lyricFile = new File(lyricFilePath);
             if (lyricFile.exists()) {
                 // 本地有歌词，直接读取
                 mLyricLoadHelper.loadLyric(lyricFilePath);
             } else {
-                mIsLyricDownloading = true;
+                //mIsLyricDownloading = true;
                 // 尝试网络获取歌词
-                LogUtil.i("ZHANG", "loadLyric()--->本地无歌词，尝试从网络获取");
+                //LogUtil.i("ZHANG", "loadLyric()--->本地无歌词，尝试从网络获取");
                 new LyricDownloadAsyncTask().execute(currentLyricUrl);
             }
-            long costTime=System.currentTimeMillis()-time;
-            LogUtil.i("ZHANG", "GuideActivity_loadLyricByHand耗时" + costTime);
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
     }
+
+
     private class LyricDownloadAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            mLyricDownloadManager = new LyricDownloadManager(PlayActivity.this);
+            LyricDownloadManager mLyricDownloadManager = new LyricDownloadManager(PlayActivity.this);
             // 从网络获取歌词，然后保存到本地
-            String lyricFilePath = mLyricDownloadManager.searchLyricFromWeb(params[0],application.getCurrentLyricDir());
+            String lyricFilePath = mLyricDownloadManager.searchLyricFromWeb(params[0],
+                    LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_LYRIC);
             // 返回本地歌词路径
-            mIsLyricDownloading = false;
+            // mIsLyricDownloading = false;
             return lyricFilePath;
         }
 
@@ -201,78 +369,37 @@ public class PlayActivity extends BaseActivity implements IConstants{
         }
     }
 
-    /*加载多角度图片*/
+
+    //加载多角度图片
     private void initMultiImgs() {
-        long startT=System.currentTimeMillis();
-        /*当前展品为空，返回*/
-        if(application.currentExhibitBean==null){return;}
-        String imgStr=application.currentExhibitBean.getImgsurl();
-        /*没有多角度图片，返回*/
-        if(imgStr==null||imgStr.equals("")){return;}
-        imgsTimeList=new ArrayList<>();
-        /*获取多角度图片地址数组*/
-        String[] imgs = imgStr.split(",");
-        if (imgs[0].equals("") && imgs.length != 0) {return;}
-
-        for (String singleUrl : imgs) {
-            String[] nameTime = singleUrl.split("\\*");
+        multiAngleImgs.clear();
+        //当前展品为空，返回
+        if(currentExhibit==null){return;}
+        String imgStr=currentExhibit.getImgsurl();
+        // 没有多角度图片，返回
+        if(TextUtils.isEmpty(imgStr)){
             MultiAngleImg multiAngleImg=new MultiAngleImg();
-            int time=Integer.valueOf(nameTime[1]);
-            multiAngleImg.setTime(time);
-            multiAngleImg.setUrl(nameTime[0]);
-            imgsTimeList.add(time);
+            multiAngleImg.setUrl(currentExhibit.getIconurl());
             multiAngleImgs.add(multiAngleImg);
-        }
-        mulTiAngleImgAdapter.notifyDataSetChanged();
-
-
-           /* Iterator<Map.Entry<Integer, String>> multiImgIterator = multiImgMap.entrySet().iterator();
-            while (multiImgIterator.hasNext()) {
-                Map.Entry<Integer, String> e = multiImgIterator.next();
-                String imgPath = e.getValue();
-                int time=e.getKey();
+        }else{//获取多角度图片地址数组
+            String[] imgs = imgStr.split(",");
+            imgsTimeList=new ArrayList<>();
+            for (String singleUrl : imgs) {
+                String[] nameTime = singleUrl.split("\\*");
+                MultiAngleImg multiAngleImg=new MultiAngleImg();
+                int time=Integer.valueOf(nameTime[1]);
+                multiAngleImg.setTime(time);
+                multiAngleImg.setUrl(nameTime[0]);
                 imgsTimeList.add(time);
-                ImageView imageView = new ImageView(activity);
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                imageView.setTag(e);
-                ll_multi_angle_img.addView(imageView, new LinearLayout.LayoutParams(mScreenWidth / 3, LinearLayout.LayoutParams.MATCH_PARENT));
-                String imgLocalPath = application.getCurrentImgDir() + Tools.changePathToName(imgPath);
-                if (Tools.isFileExist(imgLocalPath)) {
-                    ImageLoaderUtil.displaySdcardImage(activity, imgLocalPath, imageView);
-                } else {
-                    String httpPath = BASEURL + imgPath;
-                    ImageLoaderUtil.displayNetworkImage(activity, httpPath, imageView);
-                }
-                imageView.setOnClickListener(multiImgListener);
+                multiAngleImgs.add(multiAngleImg);
             }
-
-            if (imgsTimeList.size() > 1) {
-
-                Collections.sort(imgsTimeList, new Comparator<Integer>() {
-                    @Override
-                    public int compare(Integer lhs, Integer rhs) {
-                        return lhs - rhs;
-                    }
-                });
-            }
-            hasMultiImg=true;
-        } else {
-            ImageView imageView = new ImageView(activity);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            ll_multi_angle_img.addView(imageView, new LinearLayout.LayoutParams(mScreenWidth / 3, LinearLayout.LayoutParams.MATCH_PARENT));
-            String path = (String) iv_frag_largest_img.getTag();
-            if (path.startsWith("http")) {
-                ImageLoaderUtil.displayNetworkImage(activity, path, imageView);
-            } else {
-                ImageLoaderUtil.displaySdcardImage(activity, path, imageView);
-            }*/
-        long costTime=System.currentTimeMillis()-startT;
-        LogUtil.i("ZHANG", "GuideFragment_initMultiImgs耗时" + costTime);
+        }
+        mulTiAngleImgAdapter.updateData(multiAngleImgs);
     }
-
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(playStateReceiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
@@ -280,47 +407,51 @@ public class PlayActivity extends BaseActivity implements IConstants{
     private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            /**当信息类型为更换歌词背景*/
-            if (msg.what == MSG_WHAT_CHANGE_ICON) {
-                /*String imgPath = (String) msg.obj;
-                String currentIconPath=(String)iv_frag_largest_img.getTag();
-                String imgLocalPath = application.getCurrentImgDir() + Tools.changePathToName(imgPath);
-                *//**若歌词路径不为空，判断图片url,加载图片*//*
-                if(currentIconPath!=null&&!imgPath.equals(currentIconPath)&&!imgPath.equals(imgLocalPath)){
-                    if (Tools.isFileExist(imgLocalPath)) {
-                        iv_frag_largest_img.setTag(imgLocalPath);
-                        ImageLoaderUtil.displaySdcardImage(activity, imgLocalPath, iv_frag_largest_img);
-                    } else {
-                        String httpPath = BASEURL + imgPath;
-                        iv_frag_largest_img.setTag(httpPath);
-                        ImageLoaderUtil.displayNetworkImage(activity, httpPath, iv_frag_largest_img);
-                    }
-                }else{
-                    currentIconPath=null;
-                    imgPath=null;
-                }*/
-                /**若信息类型为展品切换，刷新数据，刷新界面*/
-            } else if (msg.what == MSG_WHAT_CHANGE_EXHIBIT) {
-                /**数据初始化好之前显示加载对话框*/
-               /* showProgressDialog();
-                refreshData();
-                refreshView();
-                mediaServiceManager.notifyAllDataChange();
-                if(progressDialog!=null&&progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }*/
-            }else if(msg.what==MSG_WHAT_PAUSE_MUSIC){
-                /**暂停播放*//*
-                if (mediaServiceManager != null && mediaServiceManager.isPlaying()) {
-                    music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_stop);
-                    mediaServiceManager.pause();
-                }*/
-            }else if(msg.what==MSG_WHAT_CONTINUE_MUSIC){
-               /* *//**继续播放*//*
-                music_play_and_ctrl.setBackgroundResource(R.mipmap.iv_media_play);
-                mediaServiceManager.toContinue();*/
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_PROGRESS:
+                    seekBarProgress.setMax(currentDuration);
+                    seekBarProgress.setProgress(currentProgress);
+                    mLyricLoadHelper.notifyTime(currentProgress);
+                    break;
+                case MSG_WHAT_PAUSE_MUSIC:
+                    break;
+                case MSG_WHAT_CONTINUE_MUSIC:
+                    break;
+                case MSG_WHAT_CHANGE_EXHIBIT:
+                    refreshView();
+                    break;
+                case MSG_WHAT_CHANGE_ICON:
+                    break;
+                case MSG_WHAT_CHANGE_PLAY_START:
+                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_open_big));
+                    break;
+                case MSG_WHAT_CHANGE_PLAY_STOP:
+                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_close_big));
+                    break;
             }
         }
     }
 
+    class PlayStateReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(INTENT_EXHIBIT_PROGRESS)){
+                currentDuration=intent.getIntExtra(INTENT_EXHIBIT_DURATION,0);
+                currentProgress =intent.getIntExtra(INTENT_EXHIBIT_PROGRESS,0);
+                handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+            }else if(action.equals(INTENT_EXHIBIT)){
+                String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
+                if(TextUtils.isEmpty(exhibitStr)){return;}
+                ExhibitBean exhibitBean=JSON.parseObject(exhibitStr, ExhibitBean.class);
+                if(currentExhibit.equals(exhibitBean)){return;}
+                handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+            }else if(action.equals(INTENT_CHANGE_PLAY_PLAY)){
+                handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+            }else if(action.equals(INTENT_CHANGE_PLAY_STOP)){
+                handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+            }
+        }
+    }
 }

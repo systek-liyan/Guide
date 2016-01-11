@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.CityChooseActivity">
-
+    tools:context="com.systekcn.guide.activity.CityChooseActivity">
     <include layout="@layout/layout_title_bar"/>
 
     <com.systekcn.guide.custom.ClearEditText
@@ -17,7 +16,7 @@
         android:drawableLeft="@drawable/search_bar_icon_normal"
         android:hint="请输入关键字"
         android:singleLine="true"
-        android:textSize="15dp" />
+        android:textSize="15sp" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -45,6 +44,4 @@
             android:layout_height="match_parent"
             android:layout_gravity="right|center" />
     </FrameLayout>
-
-
 </LinearLayout>

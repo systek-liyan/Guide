@@ -31,7 +31,7 @@ public class LyricLoadHelper {
          * @param indexOfCurSentence 正在播放的句子在句子集合中的索引号
          */
         void onLyricLoaded(List<LyricSentence> lyricSentences,
-                                           int indexOfCurSentence);
+                           int indexOfCurSentence);
 
         /**
          * 歌词变化时调用

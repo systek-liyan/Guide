@@ -1,204 +1,156 @@
 package com.systekcn.guide.activity;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
-import com.systekcn.guide.adapter.SearchAdapter;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.ViewUtils;
-import com.systekcn.guide.custom.SearchView;
+import com.systekcn.guide.adapter.ExhibitAdapter;
+import com.systekcn.guide.custom.ClearEditText;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends BaseActivity implements SearchView.SearchViewListener,IConstants{
+public class SearchActivity extends BaseActivity {
 
-    private static final String TAG = SearchActivity.class.getSimpleName();
-
-    ///////////////////////// 搜索结果 ListView+data+adapter
-    /**
-     * 搜索结果list view
-     */
-    private ListView lvResults;
-    /**
-     * 搜索结果列表数据
-     */
-    private List<ExhibitBean> resultData;
-    /**
-     * 结果adapter
-     */
-    private SearchAdapter resultAdapter;
-
-    //////////////////////////////////////////////////
-    /**
-     * 自定义的搜索view
-     */
-    private SearchView searchView;
-
-    ///////////////////////// 自定义搜索SearchView 提示框 data+adapter
-    /**
-     * 热搜版数据（推荐精品）
-     */
-    private List<String> hintData;
-    /**
-     * 热搜版adapter
-     */
-    private ArrayAdapter<String> hintAdapter;
-
-    ///////////////////////// 自定义搜索SearchView 提示框 data+adapter
-    /**
-     * 搜索过程中自动补全数据
-     */
-    private List<String> autoCompleteData;
-    /**
-     * 自动补全adapter
-     */
-    private ArrayAdapter<String> autoCompleteAdapter;
-
-    /**
-     * 默认提示列表的数据项个数
-     */
-    private static int DEFAULT_HINT_SIZE = 6;
-
-    /**
-     * 提示列表的数据项个数
-     */
-    private static int mHintSize = DEFAULT_HINT_SIZE;
-
-    /**
-     * 设置提示列表数据项个数
-     *
-     * @param hintSize
-     */
-    public static void setHintSize(int hintSize) {
-        mHintSize = hintSize;
-    }
+    private ListView listViewExhibit;
+    private Drawer result;
+    private Handler handler;
+    private ClearEditText mClearEditText;
+    private List<ExhibitBean> exhibitBeanList;
+    private ExhibitAdapter exhibitAdapter;
 
     @Override
-    protected void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.orange);
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_search);
-        initViews();
+        initDrawer();
+        initView();
+        addListener();
     }
 
-    private void initViews() {
-        // 搜索结果
-        lvResults = (ListView) findViewById(R.id.search_lv_results);
-        // 自定义SearchView应该包含两个结构：输入栏+弹出框。
-        searchView = (SearchView) findViewById(R.id.search_view);
-        // 设置搜索监听回调
-        searchView.setSearchViewListener(this);
-        // 从服务端中获取到数据库 ，再从数据库中获得 获取精品推荐数据(热度搜索)
-        getHintData();
-        // 设置热度adapter,精品推荐，热度搜索
-        searchView.setTipsHintAdapter(hintAdapter);
-        // 自动补全提示框：数据+adapter
-        autoCompleteData = new ArrayList<>(mHintSize);
-        autoCompleteAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, autoCompleteData);
-        searchView.setAutoCompleteAdapter(autoCompleteAdapter);
-        // 搜索结果ListView: 数据+adapter
-        resultData = new ArrayList<>();
-        resultAdapter = new SearchAdapter(this, resultData);
 
-        lvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void addListener() {
+        mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view,
-                                    int position, long l) {
-                application.currentExhibitBean= resultAdapter.getItem(position);
-                application.refreshData();
-                Intent intent =new Intent(SearchActivity.this,GuideActivity.class);
-                startActivity(intent);
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+                filterData(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        listViewExhibit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ExhibitBean exhibitBean=exhibitBeanList.get(position);
+                String str= JSON.toJSONString(exhibitBean);
+                Intent intent =new Intent();
+                intent.setAction(INTENT_EXHIBIT);
+                intent.putExtra(INTENT_EXHIBIT, str);
+                sendBroadcast(intent);
+                Intent intent1 =new Intent(SearchActivity.this,PlayActivity.class);
+                intent1.putExtra(INTENT_EXHIBIT,str);
+                startActivity(intent1);
                 finish();
             }
         });
 
     }
 
-    /**
-     * TODO 从服务端中获取到数据库 ，再从数据库中获得 获取精品推荐数据(热度搜索)
-     */
-    private void getHintData() {
-        hintData = new ArrayList<>(mHintSize);
-        for (int i = 0; i < mHintSize; i++) {
-            hintData.add("分类/精品" + (i + 1));
-        }
-        hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
-    }
-
-    /**
-     * 获取所有的exhibitBean 匹配每个的name 获取自动补全data 和adapter
-     * 当有文字输入时:
-     * 在提示框显示自动补全的茶品名称，最多mHintSize个
-     * 填充resultData，提供搜索结果展品
-     */
-    private void getAutoCompleteData(String text) {
-        // 清除上次匹配的数据
-        autoCompleteData.clear();
-        resultData.clear();
-        DbUtils db= DbUtils.create(this);
-        List<ExhibitBean> list=null;
-        try {
-            list=  db.findAll(Selector.from(ExhibitBean.class).where("name","like","%"+text+"%"));
-        } catch (DbException e) {
-            ExceptionUtil.handleException(e);
-        }
-        List<String> nameList=new ArrayList<>();
-        if(list!=null&&list.size()>0){
-            for(ExhibitBean bean : list){
-                nameList.add(bean.getName());
+    private void filterData(final String s) {
+        new Thread(){
+            @Override
+            public void run() {
+                //exhibitBeanList=new ArrayList<>();
+                if(TextUtils.isEmpty(s)){
+                    exhibitBeanList=new ArrayList<>();
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    return;
+                }
+                DbUtils db=DbUtils.create(SearchActivity.this);
+                try {
+                    exhibitBeanList= db.findAll(Selector.from(ExhibitBean.class).where(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
+                } catch (DbException e) {
+                    ExceptionUtil.handleException(e);
+                }finally {
+                    if(db!=null){
+                        db.close();
+                    }
+                }
+                if(exhibitBeanList==null){
+                    exhibitBeanList=new ArrayList<>();
+                }
+                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
             }
-            autoCompleteAdapter.addAll(nameList);
+        }.start();
+
+    }
+
+    private void initDrawer() {
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.example_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawerItem instanceof Nameable) {
+                        }
+
+                        return false;
+                    }
+                }).build();
+    }
+
+    private void initView() {
+        handler=new MyHandler();
+        exhibitBeanList=new ArrayList<>();
+        mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
+        listViewExhibit=(ListView)findViewById(R.id.listViewExhibit);
+        exhibitAdapter=new ExhibitAdapter(this,exhibitBeanList);
+        listViewExhibit.setAdapter(exhibitAdapter);
+    }
+
+    class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
+                exhibitAdapter.updateData(exhibitBeanList);
+            }
         }
-
-        // 通知提示框数据改变
-        autoCompleteAdapter.notifyDataSetChanged();
-        // 通知搜索结果数据改变，在点击软键盘的serarch按键时触发，见onSearch()
-        resultAdapter.updateData(list);
     }
 
-    /**
-     * 当 edit text 文本改变时 触发的回调,自动匹配展品名称
-     *
-     * @param text
-     */
     @Override
-    public void onAutoRefreshComplete(String text) {
-        getAutoCompleteData(text);
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
-    /**
-     * 点击软键盘的搜索键时edit text触发的回调
-     *
-     * @param text
-     */
-    @Override
-    public void onSearch(String text) {
-        // 在onAutoRefreshComplete(text)中，已经填充了lvResults,这里仅使用即可。
-        lvResults.setVisibility(View.VISIBLE);
-        // 第一次获取结果 还未配置适配器
-        if (lvResults.getAdapter() == null) {
-            // 获取搜索数据 设置适配器
-            lvResults.setAdapter(resultAdapter);
-        } else {
-            // 更新搜索数据
-            resultAdapter.notifyDataSetChanged();
-        }
-        // Toast.makeText(this, "完成搜索", Toast.LENGTH_SHORT).show();
-        // 隐藏软键盘
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
 }

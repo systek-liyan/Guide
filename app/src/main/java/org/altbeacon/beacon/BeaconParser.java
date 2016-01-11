@@ -3,7 +3,7 @@ package org.altbeacon.beacon;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
 
-import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.utils.ExceptionUtil;
 
 import org.altbeacon.beacon.logging.LogManager;
 import org.altbeacon.bluetooth.BleAdvertisement;

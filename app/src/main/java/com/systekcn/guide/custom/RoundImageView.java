@@ -79,7 +79,6 @@ public class RoundImageView extends ImageView {
                 R.styleable.RoundImageView_borderRadius, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                         BORDER_RADIUS_DEFAULT, getResources().getDisplayMetrics()));// 默认为10dp
         type = a.getInt(R.styleable.RoundImageView_type, TYPE_ROUND);// 默认为Round
-
         a.recycle();
     }
 

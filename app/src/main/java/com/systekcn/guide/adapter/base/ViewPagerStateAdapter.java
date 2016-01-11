@@ -4,9 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.systekcn.guide.fragment.base.BaseFragment;
+import com.systekcn.guide.fragment.BaseFragment;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by Qiang on 2015/11/26.

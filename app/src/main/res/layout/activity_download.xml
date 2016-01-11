@@ -1,49 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context="com.systekcn.guide.activity.DownloadActivity"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/rl_download_titleBar"
-        style="@style/action_titleBar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/text_view_title_bar"
-            android:text="@string/title_activity_download"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
-
-        <ImageView
-            android:id="@+id/iv_download_drawer"
-            style="@style/normal_image_view"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="4dp"
-            android:src="@mipmap/setting" />
-    </RelativeLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <ListView
-        android:id="@+id/lv_download"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.DownloadActivity">
+    <include layout="@layout/layout_title_bar"/>
+    <ListView
+        android:id="@+id/listViewDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
-        <TextView
-            android:id="@+id/tv_download_btn_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:text="点击刷新"
-            android:textSize="12sp" />
-    </FrameLayout>
 </LinearLayout>

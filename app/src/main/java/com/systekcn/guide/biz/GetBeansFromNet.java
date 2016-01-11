@@ -8,9 +8,9 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.MyHttpUtil;
-import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.utils.LogUtil;
+import com.systekcn.guide.utils.MyHttpUtil;
+import com.systekcn.guide.utils.Tools;
 
 import java.util.List;
 
@@ -29,6 +29,8 @@ public class GetBeansFromNet implements IGetBeanBiz {
         final Class clazz = Tools.checkTypeForClass(type);
         HttpUtils http = new HttpUtils();
         url=url+id;
+
+
         http.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
 
             @Override
@@ -67,7 +69,7 @@ public class GetBeansFromNet implements IGetBeanBiz {
 
     public List<?> getAllBeans(int type, String url, String id) {
         Class clazz = Tools.checkTypeForClass(type);
-        String response=MyHttpUtil.get(url+id);
+        String response= MyHttpUtil.sendGet(url + id);
         list = JSON.parseArray(response, clazz);
         return list;
     }

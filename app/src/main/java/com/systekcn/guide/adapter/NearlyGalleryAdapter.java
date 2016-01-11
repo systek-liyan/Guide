@@ -8,18 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.systekcn.guide.IConstants;
 import com.systekcn.guide.R;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ImageLoaderUtil;
-import com.systekcn.guide.common.utils.Tools;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.utils.ImageLoaderUtil;
+import com.systekcn.guide.utils.Tools;
 
 import java.util.List;
 
 /**
  * Created by Qiang on 2015/12/10.
  */
-public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdapter.ViewHolder> implements IConstants{
+public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdapter.ViewHolder> implements IConstants {
 
     private LayoutInflater inflater;
     private List<ExhibitBean> exhibitBeanList;
@@ -70,9 +70,9 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         String imageName=path.replaceAll("/", "_");
         String imgLocalUrl = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE +"/"+ imageName;
         if(Tools.isFileExist(imgLocalUrl)){
-            ImageLoaderUtil.displaySdcardImage(context,imgLocalUrl,holder.mImg);
+            ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, holder.mImg);
         }else{
-            ImageLoaderUtil.displayNetworkImage(context,BASEURL+path,holder.mImg);
+            ImageLoaderUtil.displayNetworkImage(context, BASE_URL +path,holder.mImg);
         }
 
         holder.mTxt.setText(exhibitBean.getName());

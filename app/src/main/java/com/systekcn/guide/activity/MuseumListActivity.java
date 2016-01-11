@@ -1,215 +1,260 @@
 package com.systekcn.guide.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.systekcn.guide.MyApplication;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.MuseumAdapter;
-import com.systekcn.guide.biz.BizFactory;
-import com.systekcn.guide.biz.GetDataBiz;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.ViewUtils;
-import com.systekcn.guide.custom.DrawerView;
-import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
+import com.systekcn.guide.biz.DataBiz;
+import com.systekcn.guide.entity.CityBean;
 import com.systekcn.guide.entity.MuseumBean;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.LogUtil;
+import com.systekcn.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MuseumListActivity extends BaseActivity implements IConstants{
+public class MuseumListActivity extends BaseActivity {
 
-    private ListView lvMuseum;
+    private boolean isDataShow;
+    private ListView museumListView;
     /*当前所在城市*/
     private String city;
-    /*侧滑菜单*/
-    private SlidingMenu side_drawer;
-    private ImageView iv_titleBar_switch;
     private List<MuseumBean> museumList;
     private MuseumAdapter adapter;
-    private final int MSG_WHAT_MUSEUMS = 1;
-    /**
-     * 侧滑菜单按钮
-     */
-    private ImageView iv_drawer;
-    private MyHandler handler;
-
-    private ImageView home_page_guide_flower;
-    private TextView tv_museum_search;
-    private Dialog progressDialog;
+    private Handler handler;
+    private Drawer drawer;
+    private Receiver receiver;
+    private TextView titleBarTopic;
+    private ImageView titleBarDrawer;
+    private ImageView titleBarTab;
 
     @Override
-    public void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.orange);
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_museum_list);
-        try{
-            initHandler();
-            // 初始化数据
-            initData();
-            // 初始化视图
-            initViews();
-            //添加监听器
-            addListener();
-            //初始化侧滑菜单
-            initSlidingMenu();
-            //数据初始化好之前显示加载对话框
-            showProgressDialog();
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-        }
-    }
-
-    private void initHandler() {
         handler=new MyHandler();
+        setIntent(getIntent());
+        initView();
+        addListener();
+        initDrawer();
+        addReceiver();
     }
 
-
-    private void showProgressDialog() {
-        progressDialog = new AlertDialog.Builder(MuseumListActivity.this).create();
-        progressDialog.show();
-        Window window = progressDialog.getWindow();
-        window.setContentView(R.layout.dialog_progress);
-        TextView dialog_title=(TextView)window.findViewById(R.id.dialog_title);
-        dialog_title.setText("正在加载...");
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        LogUtil.i("ZHANG", "onNewIntent");
     }
 
-    private void initSlidingMenu() {
-        DrawerView dv =new DrawerView(this);
-        side_drawer = dv.initSlidingMenu();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
+        LogUtil.i("ZHANG","执行了onStart");
     }
 
-    private void initViews() {
-        // 初始化头部
-        iv_drawer = (ImageView) findViewById(R.id.iv_setting);
-        iv_titleBar_switch = (ImageView) findViewById(R.id.iv_titleBar_switch);
-        home_page_guide_flower = (ImageView) findViewById(R.id.home_page_guide_flower);
-        lvMuseum = (ListView) findViewById(R.id.lv_museum_list);
-        tv_museum_search=(TextView)findViewById(R.id.ed_museum_search);
-        if (museumList == null) {
-            museumList = new ArrayList<>();
-        }
-        adapter = new MuseumAdapter(museumList, this);
-        lvMuseum.setAdapter(adapter);
+    /*@Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initData();
+        LogUtil.i("ZHANG", "执行了onNewIntent");
+    }*/
+
+    private void addReceiver() {
+        receiver=new Receiver();
+        IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMMING);
+        filter.addAction(ACTION_NET_IS_OUT);
+        registerReceiver(receiver,filter);
+    }
+
+    private void initDrawer() {
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(MuseumListActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
     }
 
     private void addListener() {
-        tv_museum_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(MuseumListActivity.this,SearchMuseumActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        iv_drawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (side_drawer.isMenuShowing()) {
-                    side_drawer.showContent();
-                } else {
-                    side_drawer.showMenu();
-                }
-            }
-        });
-        lvMuseum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MuseumBean bean =  adapter.getItem(position);
-                application.currentMuseum=bean;
-                Intent intent = new Intent(MuseumListActivity.this, MuseumHomeActivity.class);
-                intent.putExtra(INTENT_MUSEUM_ID, bean.getId());
-                startActivity(intent);
-            }
-        });
-        iv_titleBar_switch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MuseumListActivity.this, CityActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        home_page_guide_flower.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"popupwindow",Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        museumListView.setOnItemClickListener(onItemClickListener);
+        titleBarDrawer.setOnClickListener(onClickListener);
+        titleBarTab.setOnClickListener(onClickListener);
     }
+
+
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.titleBarDrawer:
+                    if(drawer==null){return;}
+                    if(drawer.isDrawerOpen()){
+                        drawer.closeDrawer();
+                    }else {
+                        drawer.openDrawer();
+                    }
+                    break;
+                case R.id.titleBarRightImg:
+                    Intent intent=new Intent(MuseumListActivity.this,CityChooseActivity.class);
+                    startActivity(intent);
+                    break;
+
+            }
+        }
+    }
+            ;
+
+
+    private AdapterView.OnItemClickListener  onItemClickListener= new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            MuseumBean museumBean = museumList.get(position - 1);
+            Intent intent = new Intent(MuseumListActivity.this, MuseumHomeActivity.class);
+            String museumStr=JSON.toJSONString(museumBean);
+            intent.putExtra(INTENT_MUSEUM,museumStr);
+            startActivity(intent);
+            finish();
+        }
+    };
 
     private void initData() {
-
-        try{
-            city = getIntent().getStringExtra("city");
-            new Thread() {
-                public void run() {
-                   // BeansManageBiz biz = (BeansManageBiz) BizFactory.getBeansManageBiz(MuseumListActivity.this);
-                    GetDataBiz biz = (GetDataBiz) BizFactory.getDataBiz();
-                    museumList = (List<MuseumBean>) biz.getAllBeans(MuseumListActivity.this,URL_TYPE_GET_MUSEUM_LIST, "");
-                    while (museumList == null) {
-                    }
-                    handler.sendEmptyMessage(MSG_WHAT_MUSEUMS);
-                }
-            }.start();
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
+        Intent intent=getIntent();
+        String cityStr=intent.getStringExtra(INTENT_CITY);
+        CityBean bean=JSON.parseObject(cityStr,CityBean.class);
+        if(bean!=null){
+            city=bean.getName();
+        }else{
+            city="北京市";
         }
-    }
+        titleBarTopic.setText(city);
+        LogUtil.i("ZHANG","当前城市为"+city);
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+                    if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE){
+                        museumList=DataBiz.getEntityListFromNet(MuseumBean.class,URL_MUSEUM_LIST);
+                    }
+                    if(museumList!=null&&museumList.size()>0){
+                        LogUtil.i("ZHANG", "数据获取成功");
+                        boolean isSaveTrue=DataBiz.deleteSQLiteDataFromClass(MuseumBean.class);
+                        LogUtil.i("ZHANG","数据删除"+isSaveTrue);
+                        boolean isSaveTrue2=DataBiz.saveListToSQLite(museumList);
+                        LogUtil.i("ZHANG","数据保存"+isSaveTrue2);
+                    }
+                    museumList=DataBiz.getEntityListLocalByColumn(CITY,city,MuseumBean.class);
 
-    /*用于计算点击返回键时间*/
-    private long mExitTime=0;
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(side_drawer.isMenuShowing() ||side_drawer.isSecondaryMenuShowing()){
-                side_drawer.showContent();
-            }else {
-                if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                    Toast.makeText(this, "在按一次退出", Toast.LENGTH_SHORT).show();
-                    mExitTime = System.currentTimeMillis();
-                } else {
-                    application.exit();
+                }catch (Exception e){
+                    ExceptionUtil.handleException(e);
+                }finally {
+                    if(museumList==null){
+                        onDataError();
+                    }else if(museumList.size()==0){
+                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_NO_DATA);
+                    } else{
+                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    }
                 }
             }
-            return true;
-        }
-        //拦截MENU按钮点击事件，让他无任何操作
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+        }.start();
+    }
+
+    private void initView() {
+        titleBarTopic=(TextView)findViewById(R.id.titleBarTopic);
+        titleBarTab=(ImageView)findViewById(R.id.titleBarRightImg);
+        titleBarTab.setImageDrawable(getResources().getDrawable(R.drawable.iv_tab));
+        titleBarDrawer=(ImageView)findViewById(R.id.titleBarDrawer);
+        museumListView=(ListView)findViewById(R.id.museumListView);
+        View header=getLayoutInflater().inflate(R.layout.header_museum_list,null);
+        museumListView.addHeaderView(header,null,false);
+        museumList=new ArrayList<>();
+        adapter=new MuseumAdapter(this,museumList);
+        museumListView.setAdapter(adapter);
     }
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(receiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
-    class MyHandler extends Handler{
+    class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == MSG_WHAT_MUSEUMS) {
-                if(progressDialog!=null&&progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
-                adapter.updateData(museumList);
+           switch (msg.what){
+               case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                   if(museumList==null||museumList.size()==0){return;}
+                   adapter.updateData(museumList);
+                   isDataShow=true;
+                   break;
+               case MSG_WHAT_UPDATE_DATA_FAIL:
+                   showToast("数据获取失败，请检查网络...");
+                   break;
+               case MSG_WHAT_REFRESH_DATA:
+                   initData();
+                   break;
+               case MSG_WHAT_UPDATE_NO_DATA:
+                   adapter.updateData(museumList);
+                   showToast("暂无改城市数据...");
+                   break;
+           }
+        }
+    }
+
+    class Receiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            if(action.equals(ACTION_NET_IS_COMMING)){
+                handler.sendEmptyMessage(MSG_WHAT_REFRESH_DATA);
             }
         }
     }
+
 }

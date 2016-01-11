@@ -3,7 +3,7 @@ package com.systekcn.guide.beacon;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.utils.ExceptionUtil;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.logging.LogManager;

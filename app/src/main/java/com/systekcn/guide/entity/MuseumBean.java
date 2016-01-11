@@ -19,7 +19,17 @@ public class MuseumBean extends BaseEntity {
 	private String city;
 	private int version;
 	private int priority ;
-	public String getId() {
+    private boolean isDownload;
+    private int state;
+
+    public int getState() {
+        return state;
+    }
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getId() {
 		return id;
 	}
 	public void setId(String id) {
@@ -110,7 +120,15 @@ public class MuseumBean extends BaseEntity {
 		this.priority = priority;
 	}
 
-	@Override
+    public boolean isDownload() {
+        return isDownload;
+    }
+
+    public void setIsDownload(boolean isDownload) {
+        this.isDownload = isDownload;
+    }
+
+    @Override
 	public String toString() {
 		return "MuseumBean [id=" + id + ", name=" + name + ", longitudX=" + longitudX + ", longitudY=" + longitudY
 				+ ", iconUrl=" + iconUrl + ", address=" + address + ", opentime=" + opentime + ", isOpen=" + isOpen

@@ -1,6 +1,5 @@
 package com.systekcn.guide.service;
 
-import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,118 +12,190 @@ import android.os.IBinder;
 import android.os.Message;
 import android.widget.Toast;
 
-import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.IConstants;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.entity.MuseumBean;
 import com.systekcn.guide.receiver.LockScreenReceiver;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.MyHttpUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MediaPlayService extends Service implements IConstants{
+public class MediaPlayService extends Service implements IConstants {
 
-    /** 播放器*/
-    private MediaPlayer mediaPlayer;
-    /*是否正在播放*/
-    private boolean isPlaying = false;
-    /**服务Binder*/
-    private Binder mediaServiceBinder = new MediaServiceBinder();
-    /**
-     * 当前展品
-     */
-    private ExhibitBean currentExhibit;
-    /**
-     * 当前位置
-     */
-    private int currentPosition;
-    /**
-     * message类型之更新进度
-     */
-    private static final int updateProgress = 1;
-    /**
-     * message类型之更新展品
-     */
-    private static final int updateCurrentMusic = 2;
-    /**
-     * message类型之更新播放长度
-     */
-    private static final int updateDuration = 3;
-    private MyApplication application;
-    private int duration;
-    private DownloadAudioTask downloadAudioTask;
-    private LockScreenReceiver mReceiver;
-    private KeyguardManager.KeyguardLock kl;
 
-    public static final String ACTION_UPDATE_PROGRESS = "com.systekcn.guide.UPDATE_PROGRESS";
-    public static final String ACTION_UPDATE_DURATION = "com.systekcn.guide.UPDATE_DURATION";
-    public static final String ACTION_UPDATE_CURRENT_EXHIBIT = "com.systekcn.guide.UPDATE_CURRENT_MUSIC";
+    private MediaPlayer mediaPlayer; // 播放器*/
+    private boolean isPlaying = false; //是否正在播放*/
+    private Binder mediaServiceBinder = new MediaServiceBinder();///服务Binder*/
+    private ExhibitBean currentExhibit; //当前展品*/
+    private String  currentMuseumId;//当前博物馆id*/
+    private int currentPosition;//当前位置*/
+    private int duration;//当前展品总时长
+    private LockScreenReceiver mReceiver;//锁屏监听器
+    private Handler handler ;
+    private List<ExhibitBean> recordExhibitList;
+    private List<ExhibitBean> playExhibitList;
+    private int playMode = PLAY_MODE_HAND; //默认设置手动点击播放
+    private boolean isSendProgress;
 
-    private Handler handler = new Handler() {
-
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case updateProgress:
-                    toUpdateProgress();
-                    break;
-                case updateDuration:
-                    toUpdateDuration(duration);
-                    break;
-                case updateCurrentMusic:
-                    toNotifyAllDataChange();
-                    break;
-            }
-        }
-    };
-
-    private void toUpdateProgress() {
-        if (mediaPlayer != null && isPlaying) {
-            int progress = mediaPlayer.getCurrentPosition();
-            Intent intent = new Intent();
-            intent.setAction(ACTION_UPDATE_PROGRESS);
-            intent.putExtra(ACTION_UPDATE_PROGRESS, progress);
-            sendBroadcast(intent);
-            handler.sendEmptyMessageDelayed(updateProgress, 1000);
-            //System.gc();
-        }
-    }
-
-    private void toUpdateDuration(int time) {
-        Intent intent = new Intent();
-        intent.setAction(ACTION_UPDATE_DURATION);
-        intent.putExtra(ACTION_UPDATE_DURATION, time);
-        sendBroadcast(intent);
-    }
-
-    private void toNotifyAllDataChange() {
-        currentExhibit = application.currentExhibitBean;
-        if(application.currentExhibitBean!=null){
-            play(application.currentExhibitBean);
-        }
-    }
+    //private boolean hasPlay; /*是否播放过*/
+    //private int errorCount;
 
     public void onCreate() {
         super.onCreate();
-        application= (MyApplication) getApplication();
+        handler=new MyHandler();
+        recordExhibitList=new ArrayList<>();
+        playExhibitList=new ArrayList<>();
         initMediaPlayer();
-        // 禁用系统锁屏页
-        KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
-        kl = km.newKeyguardLock("IN");
-        kl.disableKeyguard();
-        /**锁屏广播接收器*/
+        registerReceiver();
+    }
+
+    public int toGetDuration() {
+        return duration;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mediaServiceBinder;
+    }
+    /**
+     * 锁屏广播接收器
+     * */
+    private void registerReceiver() {
+
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         mReceiver = new LockScreenReceiver();
         registerReceiver(mReceiver, filter);
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
+    public int toGetPlayMode() {
+        return playMode;
+    }
+
+    public void toSetPlayMode(int playMode) {
+        this.playMode = playMode;
+    }
+
+    /**初始化播放器*/
+    private void initMediaPlayer() {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.setOnPreparedListener(preparedListener);
+        mediaPlayer.setOnCompletionListener(completionListener);
+        mediaPlayer.setOnErrorListener(errorListener);
+
+    }
+    /**
+     * 播放完成监听器
+     */
+    private MediaPlayer.OnCompletionListener completionListener=new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if(playMode==PLAY_MODE_AUTO){
+                toStartPlay();
+            }
+            mp.pause();
+            Intent intent=new Intent();
+            intent.setAction(INTENT_CHANGE_PLAY_STOP);
+            sendBroadcast(intent);
+        }
+    };
+
+    /**
+     * 资源准备监听器
+     */
+    private  MediaPlayer.OnPreparedListener preparedListener=new MediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            //if(playMode==PLAY_MODE_AUTO){// TODO: 2016/1/6  }
+            toStartPlay();
+
+
+        }
+    };
+
+    private boolean toStartPlay() {
+        boolean flag=false;
+        if(mediaPlayer==null){return false;}
+        try {
+            mediaPlayer.start();
+            Intent intent=new Intent();
+            intent.setAction(INTENT_CHANGE_PLAY_PLAY);
+            sendBroadcast(intent);
+            isPlaying=true;
+            addRecord(currentExhibit);
+            duration = mediaPlayer.getDuration();
+            handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+            isSendProgress=true;
+            flag=true;
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }
+        return flag;
+    }
+
+    /**
+     * 异常监听器
+     */
+    private MediaPlayer.OnErrorListener errorListener=new MediaPlayer.OnErrorListener() {
+        @Override
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            return false;
+        }
+    };
+
+    /**
+     * 设置当前展品
+     * @param bean
+     */
+    private void  setCurrentExhibit(ExhibitBean bean) {
+        currentExhibit = bean;
+    }
+
+    private void toUpdateProgress() {
+        if (mediaPlayer == null ) {return;}
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+    }
+    private void toUpdateDuration(int time) {
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DURATION);
+    }
+
+    public boolean toPause(){
+        if(!isPlaying||mediaPlayer==null){return false;}
+        mediaPlayer.pause();
+        isPlaying=false;
+        return true;
+    }
+
+    private void play(ExhibitBean bean) {
+        setCurrentExhibit(bean);
+        currentMuseumId=bean.getMuseumId();
+        isPlaying=false;
+        currentPosition=0;
+        mediaPlayer.reset();
+        handler.removeCallbacksAndMessages(null);
+        String url = "";
+        String exURL = currentExhibit.getAudiourl();
+        String localName = exURL.replaceAll("/", "_");
+        String localUrl = getCurrentAudioPath()+"/"+ localName;
+        File file = new File(localUrl);
+        if (file.exists()) {
+            try {
+                mediaPlayer.setDataSource(localUrl);
+            } catch (IOException e) {
+                ExceptionUtil.handleException(e);
+            }
+            mediaPlayer.prepareAsync();
+        } else {
+            url = BASE_URL + exURL;
+            DownloadAudioTask downloadAudioTask = new DownloadAudioTask();
+            downloadAudioTask.execute(url, localName);// TODO: 2016/1/6 修改加载地址
+            Toast.makeText(this,"正在加载...",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onDestroy() {
@@ -132,157 +203,44 @@ public class MediaPlayService extends Service implements IConstants{
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        handler.removeCallbacksAndMessages(null);
         unregisterReceiver(mReceiver);
+        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
-    /**
-     * initialize the MediaPlayer
-     */
-    private void initMediaPlayer() {
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
-                try {
-                    duration = mediaPlayer.getDuration();
-                    handler.sendEmptyMessage(updateDuration);
-                    handler.sendEmptyMessage(updateProgress);
-                } catch (Exception e) {
-                    ExceptionUtil.handleException(e);
-                }
-            }
-        });
-        mediaPlayer.setOnCompletionListener(
-                new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-
-                        if (isPlaying&&hasPlay) {// TODO: 2015/11/9
-                            hasPlay=false;
-                            int index = application.currentExhibitBeanList.indexOf(currentExhibit) + 1;
-                            if (index == application.currentExhibitBeanList.size()) {
-                                index = 0;
-                            }
-                            try {
-                                application.currentExhibitBean = application.currentExhibitBeanList.get(index);
-                                play(application.currentExhibitBean);
-                                Intent intent = new Intent();
-                                intent.setAction(ACTION_UPDATE_CURRENT_EXHIBIT);
-                                sendBroadcast(intent);
-                            } catch (Exception e) {
-                                ExceptionUtil.handleException(e);
-                            }
-                        }
-                    }
-
-                }
-        );
-
-        mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                return false;
-            }
-        });
-
+    public void toContinuePlay(){
+        toStartPlay();
     }
 
-    private void  setCurrentExhibit(ExhibitBean bean) {
-        currentExhibit = bean;
-    }
-    private boolean hasPlay;
-
-    private void play(ExhibitBean bean) {
-        setCurrentExhibit(bean);
-        isPlaying=false;
-        mediaPlayer.reset();
-        String url = "";
-        String exURL = currentExhibit.getAudiourl();
-        String localName = exURL.replaceAll("/", "_");
-        String localUrl = LOCAL_ASSETS_PATH +application.getCurrentMuseumId() + "/"+LOCAL_FILE_TYPE_AUDIO+"/"+ localName;
-        File file = new File(localUrl);
-        if (!file.exists()) {
-            url = BASEURL + exURL;
-            downloadAudioTask=new DownloadAudioTask();
-            downloadAudioTask.execute(url,localName);
+    public void toSeekTo(int progress){
+        if (mediaPlayer == null) {return;}
+        if (isPlaying) {
+            mediaPlayer.seekTo(progress);
         } else {
-            url = localUrl;
-            completePlay(bean, url);
+            play(currentExhibit);
         }
     }
 
-    private int errorCount;
-
-
-    /**完成播放*/
-    private void completePlay(ExhibitBean bean, String url) {
-        try {
-            LogUtil.i("ZHANG", url);
-            if(Tools.isFileExist(url)){
-                mediaPlayer.setDataSource(url);
-                mediaPlayer.prepareAsync();
-                addRecord(bean);
-                isPlaying = true;
-                hasPlay=true;
-                errorCount=0;
-            }
-        } catch (IOException e) {
-            ExceptionUtil.handleException(e);
-            errorCount++;
-            if(errorCount<=5){
-                play(currentExhibit);
-            }else{
-                Toast.makeText(this,"数据获取异常",Toast.LENGTH_SHORT).show();
-            }
-        }
+    public int toGetCurrentPosition(){
+        return currentPosition;
     }
-
-    /**
-     * 用于下载音频类
-     */
-    class DownloadAudioTask extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String audioUrl=params[0];
-            String audioName=params[1];
-            String saveDir=application.getCurrentAudioDir();
-            try {
-                Tools.downLoadFromUrl(audioUrl,audioName,saveDir);
-            } catch (IOException e) {
-                ExceptionUtil.handleException(e);
-            }
-            return saveDir+audioName;
-        }
-
-        @Override
-        protected void onPostExecute(String aVoid) {
-            try{
-                completePlay(currentExhibit,aVoid);
-            }catch (Exception e){
-                ExceptionUtil.handleException(e);
-            }
-        }
+    private String  getCurrentAudioPath(){
+        return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_AUDIO;
     }
 
     /**播放博物馆讲解*/
-    private void pMuseum(MuseumBean museumBean){
+    private void playMuseum(MuseumBean museumBean){
         mediaPlayer.reset();
         try {
             String url = "";
             String exURL = museumBean.getAudioUrl();
             String localName = exURL.replaceAll("/", "_");
-            String localUrl = LOCAL_ASSETS_PATH + application.getCurrentMuseumId() + "/" + LOCAL_FILE_TYPE_AUDIO + "/" + localName;
+            String localUrl = getCurrentAudioPath()+ "/" + localName;
             File file = new File(localUrl);
             if (file.exists()) {
                 url = localUrl;
             } else {
-                url = BASEURL + exURL;
+                url = BASE_URL + exURL;
             }
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepare();
@@ -294,69 +252,146 @@ public class MediaPlayService extends Service implements IConstants{
 
     /**添加讲解过的记录*/
     private void addRecord(ExhibitBean bean) {
-        if(!application.everSeenExhibitBeanList.contains(bean)){
-            application.everSeenExhibitBeanList.add(bean);
-        }
+        if(recordExhibitList.contains(bean)){return;}
+        recordExhibitList.add(bean);
     }
 
     /**停止播放*/
     private void stop() {
-        mediaPlayer.stop();
-        isPlaying = false;
+        if(mediaPlayer!=null&&isPlaying){
+            mediaPlayer.stop();
+            isPlaying = false;
+        }
     }
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mediaServiceBinder;
+
+    public void toSetPlayList(List<ExhibitBean> list){
+        this.playExhibitList=list;
+    }
+    public List<ExhibitBean> toGetPlayList(){
+        return playExhibitList;
+    }
+
+    class MyHandler extends Handler{
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_WHAT_UPDATE_PROGRESS:
+                    doUpdateProgress();
+                    break;
+                /*case MSG_WHAT_UPDATE_DURATION:
+                    doUpdateDuration();
+                    break;*/
+            }
+        }
+    }
+
+    private void doUpdateDuration(){
+        if(mediaPlayer==null||!isSendProgress){ return;}
+        duration=mediaPlayer.getDuration();
+        Intent intent=new Intent();
+        intent.setAction(INTENT_EXHIBIT_DURATION);
+        intent.putExtra(INTENT_EXHIBIT_DURATION,duration);
+        sendBroadcast(intent);
+    }
+
+    private void doUpdateProgress() {
+        if(mediaPlayer==null||!isSendProgress){ return;}
+        currentPosition = mediaPlayer.getCurrentPosition();
+        duration=mediaPlayer.getDuration();
+        Intent intent=new Intent();
+        intent.setAction(INTENT_EXHIBIT_PROGRESS);
+        intent.putExtra(INTENT_EXHIBIT_PROGRESS, currentPosition);
+        intent.putExtra(INTENT_EXHIBIT_DURATION,duration);
+        sendBroadcast(intent);
+        handler.sendEmptyMessageDelayed(MSG_WHAT_UPDATE_PROGRESS,800);
     }
 
     public class MediaServiceBinder extends Binder {
-        /**播放博物馆*/
-        public void playMuseum(MuseumBean museumBean){
-            pMuseum(museumBean);
-        }
 
         public void stopPlay() {
             stop();
         }
         public boolean isPlaying() {
-            if(mediaPlayer!=null){
-                return mediaPlayer.isPlaying();
-            }else{
-                return false;
-            }
+            return mediaPlayer != null && isPlaying;
         }
         /**暂停后开始播放*/
-        public void toContinue(){
-            mediaPlayer.start();
-            isPlaying=true;
-            handler.sendEmptyMessage(updateProgress);
+        public void continuePlay(){
+            toContinuePlay();
         }
         /**暂停*/
-        public void pause(){
-            mediaPlayer.pause();
-            isPlaying=false;
-        }
-        /**通知切换展品*/
-        public void notifyAllDataChange() {
-            toNotifyAllDataChange();
+        public boolean pause(){
+            return toPause();
         }
         /**获取当前播放时长*/
         public int getCurrentPosition(){
-            return mediaPlayer.getCurrentPosition();
+            return toGetCurrentPosition();
         }
         /**播放时长跳至参数中时间*/
         public void seekTo(int progress) {
-            if (mediaPlayer != null) {
-                currentPosition = progress;
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.seekTo(currentPosition);
-                } else {
-                    play(currentExhibit);
-                }
-            }
+            toSeekTo(progress);
+        }
+        /**设置播放列表*/
+        public void setPlayList(List<ExhibitBean> list) {
+            toSetPlayList(list);
+        }
+        /**获得播放列表*/
+        public List<ExhibitBean>  getPlayList() {
+            return toGetPlayList();
+        }
+
+        /**通知切换展品*/
+        public void notifyExhibitChange(ExhibitBean exhibitBean) {
+            setCurrentExhibit(exhibitBean);
+            play(exhibitBean);
+        }
+
+        public int getPlayMode() {
+            return toGetPlayMode();
+        }
+
+        public void setPlayMode(int mode) {
+            toSetPlayMode(mode);
+        }
+
+        public boolean startPlay(){
+            return toStartPlay();
+        }
+
+        public int getDuration(){
+            return toGetDuration();
+        }
+
+        public ExhibitBean getCurrentExhibit(){
+            return currentExhibit;
+        }
+
+        public boolean next(){
+            // TODO: 2016/1/6  
+            return false;
         }
     }
+    /**
+     * 用于下载音频类
+     */
+    class DownloadAudioTask extends AsyncTask<String,Void,String>{
 
-
+        @Override
+        protected String doInBackground(String... params) {
+            String audioUrl=params[0];
+            String audioName=params[1];
+            String saveDir=getCurrentAudioPath();
+            try {
+                MyHttpUtil.downLoadFromUrl(audioUrl, audioName,saveDir );
+            } catch (IOException e) {
+                ExceptionUtil.handleException(e);
+            }
+            return saveDir+audioName;
+        }
+        @Override
+        protected void onPostExecute(String savePath) {
+            play(currentExhibit);
+        }
+    }
 
 }

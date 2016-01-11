@@ -12,14 +12,14 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.systekcn.guide.IConstants;
 import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.MyHttpUtil;
-import com.systekcn.guide.common.utils.Tools;
 import com.systekcn.guide.entity.BeaconBean;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.LogUtil;
+import com.systekcn.guide.utils.MyHttpUtil;
+import com.systekcn.guide.utils.Tools;
 
 import org.altbeacon.beacon.Identifier;
 
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by Qiang on 2015/10/22.
  */
-public class BeansManageBiz implements IConstants{
+public class BeansManageBiz implements IConstants {
 
     Context context;
     IGetBeanBiz iGetBeanBiz;
@@ -120,7 +120,7 @@ public class BeansManageBiz implements IConstants{
         }
         if(beaconBeans==null||beaconBeans.size()<=0){
             String url=URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major;
-            String response=MyHttpUtil.get(url);
+            String response= MyHttpUtil.sendGet(url);
             beaconBeans=JSON.parseArray(response, BeaconBean.class);
             b=beaconBeans.get(0);
         }else{

@@ -9,14 +9,14 @@
             android:layout_alignParentBottom="true"
             android:layout_height="48dp">
             <ImageView
-                android:id="@+id/title_bar_more"
+                android:id="@+id/titleBarDrawer"
                 style="@style/normal_image_view"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/simple_4dp"
-                android:src="@mipmap/setting"/>
+                android:src="@drawable/setting"/>
             <RadioGroup
-                android:id="@+id/rg_nearly_page_title"
+                android:id="@+id/radioGroupTitle"
                 android:layout_width="123dp"
                 android:layout_height="30dp"
                 android:layout_centerHorizontal="true"
@@ -24,8 +24,8 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/rb_guide_list"
-                    android:layout_width="0dp"
+                    android:id="@+id/radioButtonList"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/btn_guide_left_selector"
@@ -34,11 +34,11 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:text="列表"
                     android:textColor="@drawable/text_color_guide_map_selector"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <RadioButton
-                    android:id="@+id/rb_guide_map"
-                    android:layout_width="0dp"
+                    android:id="@+id/radioButtonMap"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/btn_map_right_selector"
@@ -46,15 +46,15 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:text="地图"
                     android:textColor="@drawable/text_color_guide_map_selector"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
             </RadioGroup>
             <ImageView
-                android:id="@+id/title_bar_search"
+                android:id="@+id/titleBarRightImg"
                 style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/simple_4dp"
-                android:src="@mipmap/iv_search"/>
+                android:src="@drawable/iv_search"/>
         </RelativeLayout>
 
 

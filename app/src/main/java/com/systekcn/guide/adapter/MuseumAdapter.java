@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.systekcn.guide.IConstants;
 import com.systekcn.guide.R;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ImageLoaderUtil;
+import com.systekcn.guide.custom.RoundImageView;
 import com.systekcn.guide.entity.MuseumBean;
+import com.systekcn.guide.utils.ImageLoaderUtil;
 
 import java.io.File;
 import java.util.List;
@@ -19,14 +19,13 @@ import java.util.List;
 /**
  * Created by Qiang on 2015/10/23.
  */
-public class MuseumAdapter extends BaseAdapter implements IConstants{
+public class MuseumAdapter extends BaseAdapter implements IConstants {
 
     private List<MuseumBean> museumList;
     private Context context;
     private LayoutInflater inflater;
 
-    public MuseumAdapter(List<MuseumBean> museumList, Context context) {
-        super();
+    public MuseumAdapter(Context context,List<MuseumBean> museumList) {
         this.museumList = museumList;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -58,44 +57,53 @@ public class MuseumAdapter extends BaseAdapter implements IConstants{
         if (convertView == null || convertView.getTag() == null) {
             convertView = inflater.inflate(R.layout.item_museum, null);
             viewHolder = new ViewHolder();
-            viewHolder.museum_name = (TextView) convertView.findViewById(R.id.museum_name);
-            viewHolder.museum_address = (TextView) convertView.findViewById(R.id.museum_address);
-            viewHolder.museum_list_openTime = (TextView) convertView.findViewById(R.id.museum_list_openTime);
-            viewHolder.museum_list_icon = (ImageView) convertView.findViewById(R.id.museum_list_icon);
-            viewHolder.museum_flag_isDownload = (TextView) convertView.findViewById(R.id.museum_flag_isDownload);
-            viewHolder.museum_important_alert = (TextView) convertView.findViewById(R.id.museum_important_alert);
+            viewHolder.museumName = (TextView) convertView.findViewById(R.id.museumName);
+            viewHolder.museumAddress = (TextView) convertView.findViewById(R.id.museumAddress);
+            viewHolder.museumListOpenTime = (TextView) convertView.findViewById(R.id.museumListOpenTime);
+            viewHolder.museumListIcon = (RoundImageView) convertView.findViewById(R.id.museumListIcon);
+            viewHolder.museumFlagIsDownload = (TextView) convertView.findViewById(R.id.museumFlagIsDownload);
+            viewHolder.museumImportantAlert = (TextView) convertView.findViewById(R.id.museumImportantAlert);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.museum_important_alert.setVisibility(View.INVISIBLE);
+        viewHolder.museumImportantAlert.setVisibility(View.INVISIBLE);
+
         // 取数据
-        MuseumBean museumModel = museumList.get(position);
-        viewHolder.museum_name.setText(museumModel.getName());
-        viewHolder.museum_address.setText(museumModel.getAddress());
-        viewHolder.museum_list_openTime.setText(museumModel.getOpentime());
+        MuseumBean museumBean = museumList.get(position);
+        viewHolder.museumName.setText(museumBean.getName());
+        String address=museumBean.getAddress();
+        if(address.length()>10){
+            address=address.substring(0,10)+"...";
+        }
+        viewHolder.museumAddress.setText(address);
+        String openTime=museumBean.getOpentime();
+        if(openTime.length()>10){
+            openTime=openTime.substring(0,10)+"...";
+        }
+        viewHolder.museumListOpenTime.setText(openTime);
         // 显示图片
-        String imageUrl = museumModel.getIconUrl();
+        String imageUrl = museumBean.getIconUrl();
         //每个博物馆的资源以ID为目录
-        String museumId = museumModel.getId();
+        String museumId = museumBean.getId();
         // 判断sdcard上有没有图片
         String imageName = imageUrl.replaceAll("/", "_");
         String imgLocalUrl = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE +"/"+ imageName;
         File file = new File(imgLocalUrl);
         if (file.exists()) {
             // 显示sdcard
-            ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, viewHolder.museum_list_icon);
+            ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, viewHolder.museumListIcon);
         } else {
             // 服务器上存的imageUrl有域名如http://www.systek.com.cn/1.png
-            imageUrl = BASEURL + imageUrl;
-            ImageLoaderUtil.displayNetworkImage(context, imageUrl, viewHolder.museum_list_icon);
+            imageUrl = BASE_URL + imageUrl;
+            ImageLoaderUtil.displayNetworkImage(context, imageUrl, viewHolder.museumListIcon);
         }
         return convertView;
     }
 
     class ViewHolder {
-        TextView museum_name, museum_address, museum_list_openTime, museum_important_alert, museum_flag_isDownload;
-        ImageView museum_list_icon;
+        TextView museumName, museumAddress, museumListOpenTime, museumImportantAlert, museumFlagIsDownload;
+        RoundImageView museumListIcon;
     }
 
 

@@ -45,7 +45,7 @@ public class CityAdapter extends BaseAdapter implements SectionIndexer {
     }
 
     @Override
-    public Object getItem(int position) {
+    public CityBean getItem(int position) {
         return cityList.get(position);
     }
 

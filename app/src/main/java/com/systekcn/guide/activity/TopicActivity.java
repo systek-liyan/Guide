@@ -1,6 +1,10 @@
 package com.systekcn.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,35 +15,47 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.ExhibitAdapter;
-import com.systekcn.guide.adapter.OnListViewScrollListener;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.Tools;
-import com.systekcn.guide.common.utils.ViewUtils;
-import com.systekcn.guide.custom.DrawerView;
-import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
+import com.systekcn.guide.biz.DataBiz;
 import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.manager.MediaServiceManager;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TopicActivity extends BaseActivity {
 
-    private TextView tv_collection_pig,tv_collection_tiger,tv_collection_bull,
-            tv_collection_monkey, tv_collection_dongwei,tv_collection_beiqi,
+    private Drawer drawer;
+    private String currentMuseumId;
+    private Handler handler;
+    private ImageView titleBarSkip;
+
+    @Override
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
+        setContentView(R.layout.activity_topic);
+        Intent intent=getIntent();
+        currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
+        init();
+    }
+    private TextView  tv_collection_dongwei,tv_collection_beiqi,
             tv_collection_beiwei, tv_collection_xizhou, tv_collection_shang,
             tv_collection_sui, tv_collection_tangdai, tv_collection_handai,
             tv_collection_chunqiu, tv_collection_zhanguo, tv_collection_qing,
             tv_collection_shixiang, tv_collection_qingtong,tv_collection_tongqi,
             tv_collection_shike;
     /**展品总列表*/
-    private  List<ExhibitBean> totalExhibitList;
+    private List<ExhibitBean> totalExhibitList;
     /**单个标签搜索结果列表*/
     private  List<ExhibitBean> checkExhibitList;
     /**展示列表*/
@@ -50,54 +66,81 @@ public class TopicActivity extends BaseActivity {
     private ListView lv_collection_listView;
     /**适配器*/
     private ExhibitAdapter exhibitAdapter;
-    /**滚动监听*/
-    private OnListViewScrollListener onListViewScrollListener;
-    /**图片是否显示标签*/
-    private boolean isPictureShow=true;
     /**已选标签控件集合*/
     private List<TextView> tvList;
     /**右上角导览按钮*/
-    private TextView iv_titleBar_toGuide;
-    /**侧边栏*/
-    private SlidingMenu side_drawer;
+    //private TextView iv_titleBar_toGuide;
     /**侧边栏按钮*/
-    private ImageView iv_topic_drawer;
+    private ImageView titleBarDrawer;
 
-    public void setOnListViewScrollListener(OnListViewScrollListener onListViewScrollListener) {
-        this.onListViewScrollListener = onListViewScrollListener;
-    }
+    private MediaServiceManager mediaServiceManager;
 
-    @Override
-    public void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.orange);
-        setContentView(R.layout.activity_topic);
-        totalExhibitList =application.totalExhibitBeanList;
-        /*初始化*/
-        init();
-    }
     private void init() {
         initViews();
-        initSlidingMenu();
-        exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
-        setOnListViewScrollListener(exhibitAdapter);
-        lv_collection_listView.setAdapter(exhibitAdapter);
+        initDrawer();
         addListener();
+        initData();
     }
 
-    private void initSlidingMenu() {
-        DrawerView dv =new DrawerView(this);
-        side_drawer = dv.initSlidingMenu();
+    private void initData() {
+        new Thread(){
+            @Override
+            public void run() {
+                if(TextUtils.isEmpty(currentMuseumId)){return;}
+                totalExhibitList=DataBiz.getLocalListById(ExhibitBean.class, currentMuseumId);
+                if(totalExhibitList!=null&&totalExhibitList.size()>0){
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                }
+            }
+        }.start();
+
+    }
+
+    private void initDrawer() {
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(TopicActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
     }
 
     private void addListener() {
 
-        iv_topic_drawer.setOnClickListener(new View.OnClickListener() {
+        titleBarDrawer.setOnClickListener(onClickListener);
+        lv_collection_listView.setOnScrollListener(onScrollListener);
+        titleBarDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (side_drawer.isMenuShowing()) {
-                    side_drawer.showContent();
+                if (drawer.isDrawerOpen()) {
+                    drawer.closeDrawer();
                 } else {
-                    side_drawer.showMenu();
+                    drawer.openDrawer();
                 }
             }
         });
@@ -105,19 +148,27 @@ public class TopicActivity extends BaseActivity {
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                application.currentExhibitBean= exhibitAdapter.getItem(position);
-                application.refreshData();
-                Intent intent =new Intent(TopicActivity.this,GuideActivity.class);
-                application.dataFrom=application.DATA_FROM_HOME;
-                startActivity(intent);
-                finish();
+                ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
+                ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
+                Intent intent1 =new Intent(TopicActivity.this,PlayActivity.class);
+                if(bean==null||!bean.equals(exhibitBean)){
+                    String str= JSON.toJSONString(exhibitBean);
+                    Intent intent =new Intent();
+                    intent.setAction(INTENT_EXHIBIT);
+                    intent.putExtra(INTENT_EXHIBIT, str);
+                    sendBroadcast(intent);
+                    intent1.putExtra(INTENT_EXHIBIT, str);
+                }
+                startActivity(intent1);
+
+                //finish();
             }
         });
 
-        iv_titleBar_toGuide.setOnClickListener(new View.OnClickListener() {
+        /*iv_titleBar_toGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**点击导览时，判断，如果当前筛选列表不为为空，向专题列表赋值，启动导览界面*/
+                *//**点击导览时，判断，如果当前筛选列表不为为空，向专题列表赋值，启动导览界面*//*
                 if (disPlayCheckExhibitList == null || disPlayCheckExhibitList.size() <= 0) {
                     application.topicExhibitBeanList = new ArrayList<>();
                     application.currentExhibitBean = application.totalExhibitBeanList.get(0);
@@ -130,43 +181,52 @@ public class TopicActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
 
-        lv_collection_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                isPictureShow = false;
-                switch (scrollState) {
-                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                        isPictureShow = true;
-                        LogUtil.i("OnScrollListener", "停止滚动:SCROLL_STATE_IDLE" + isPictureShow);
-                        onListViewScrollListener.onScroll(isPictureShow);
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        LogUtil.i("OnScrollListener", "手指离开屏幕，屏幕惯性滚动:SCROLL_STATE_FLING");
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        LogUtil.i("OnScrollListener", "屏幕手指正在滚动：SCROLL_STATE_TOUCH_SCROLL");
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            }
-        });
-
+        lv_collection_listView.setOnScrollListener(onScrollListener);
         setManyBtnListener();
-
     }
+
+
+    private AbsListView.OnScrollListener onScrollListener=new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            switch (scrollState){
+                case  AbsListView.OnScrollListener.SCROLL_STATE_IDLE://停止滚动
+                    exhibitAdapter.setScrollState(false);
+                    break;
+                case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动做出了抛的动作
+                    //设置为正在滚动
+                    exhibitAdapter.setScrollState(true);
+                    break;
+                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://正在滚动
+                    //设置为正在滚动
+                    exhibitAdapter.setScrollState(true);
+                    break;
+
+            }
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(side_drawer.isMenuShowing() ||side_drawer.isSecondaryMenuShowing()){
-                side_drawer.showContent();
+            if(drawer.isDrawerOpen()){
+                drawer.closeDrawer();
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     private View.OnClickListener labelClickListener =new View.OnClickListener() {
@@ -203,6 +263,22 @@ public class TopicActivity extends BaseActivity {
         }
     };
 
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.titleBarDrawer:
+                    if (drawer.isDrawerOpen()) {
+                        drawer.closeDrawer();
+                    } else {
+                        drawer.openDrawer();
+                    }
+                    break;
+            }
+
+        }
+    };
+
     private View.OnClickListener deleteLabelClickListener=new View.OnClickListener() {
 
         @Override
@@ -231,7 +307,7 @@ public class TopicActivity extends BaseActivity {
             }else{
                 disPlayCheckExhibitList=new ArrayList<>();
                 //disPlayCheckExhibitList=totalExhibitList;
-                Tools.showMessage(TopicActivity.this,"抱歉，没有符合您筛选条件的展品！");
+                showToast("抱歉，没有符合您筛选条件的展品！");
             }
             /*List<ExhibitBean> removeList=getList((String)charsTop);
             if(removeList!=null&&removeList.size()>0){
@@ -263,16 +339,13 @@ public class TopicActivity extends BaseActivity {
 
     private void initViews() {
         tvList=new ArrayList<>();
-        iv_topic_drawer=(ImageView)findViewById(R.id.iv_topic_drawer);
-
+        mediaServiceManager=MediaServiceManager.getInstance(this);
+        titleBarDrawer =(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarSkip =(ImageView)findViewById(R.id.titleBarRightImg);
+        titleBarSkip.setImageDrawable(getResources().getDrawable(R.drawable.iv_skip));
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
         lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
-        iv_titleBar_toGuide =(TextView)findViewById(R.id.iv_titlebar_toGuide);
-
-        tv_collection_pig=(TextView)findViewById(R.id.tv_collection_pig);
-        tv_collection_tiger=(TextView)findViewById(R.id.tv_collection_tiger);
-        tv_collection_bull=(TextView)findViewById(R.id.tv_collection_bull);
-        tv_collection_monkey=(TextView)findViewById(R.id.tv_collection_monkey);
+        //iv_titleBar_toGuide =(TextView)findViewById(R.id.iv_titlebar_toGuide);
 
         tv_collection_dongwei=(TextView)findViewById(R.id.tv_collection_dongwei);
         tv_collection_beiqi=(TextView)findViewById(R.id.tv_collection_beiqi);
@@ -291,10 +364,6 @@ public class TopicActivity extends BaseActivity {
         tv_collection_tongqi=(TextView)findViewById(R.id.tv_collection_tongqi);
         tv_collection_shike=(TextView)findViewById(R.id.tv_collection_shike);
 
-        //tvList.add(tv_collection_pig);
-        //tvList.add(tv_collection_tiger);
-        //tvList.add(tv_collection_bull);
-        //tvList.add(tv_collection_monkey);
         tvList.add(tv_collection_dongwei);
         tvList.add(tv_collection_beiqi);
         tvList.add(tv_collection_xizhou);
@@ -309,13 +378,12 @@ public class TopicActivity extends BaseActivity {
         tvList.add(tv_collection_qingtong);
         tvList.add(tv_collection_tongqi);
         tvList.add(tv_collection_shike);
+        totalExhibitList=new ArrayList<>();
+        exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
+        lv_collection_listView.setAdapter(exhibitAdapter);
     }
 
     private void setManyBtnListener() {
-        //tv_collection_pig.setOnClickListener(labelClickListener);
-        //tv_collection_tiger.setOnClickListener(labelClickListener);
-        //tv_collection_bull.setOnClickListener(labelClickListener);
-        //tv_collection_monkey.setOnClickListener(labelClickListener);
         tv_collection_dongwei.setOnClickListener(labelClickListener);
         tv_collection_beiqi.setOnClickListener(labelClickListener);
         tv_collection_beiwei.setOnClickListener(labelClickListener);
@@ -331,5 +399,20 @@ public class TopicActivity extends BaseActivity {
         tv_collection_qingtong.setOnClickListener(labelClickListener);
         tv_collection_tongqi.setOnClickListener(labelClickListener);
         tv_collection_shike.setOnClickListener(labelClickListener);
+        handler=new MyHandler();
     }
+
+    class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_WHAT_UPDATE_DATA_SUCCESS) {
+                refreshView();
+            }
+        }
+    }
+
+    private void refreshView() {
+        exhibitAdapter.updateData(totalExhibitList);// TODO: 2016/1/3
+    }
+
 }

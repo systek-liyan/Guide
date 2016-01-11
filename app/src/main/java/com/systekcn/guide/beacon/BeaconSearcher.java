@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.RemoteException;
 
-import com.systekcn.guide.listener.NearestBeaconListener;
 
 import org.altbeacon.beacon.AltBeaconParser;
 import org.altbeacon.beacon.Beacon;
@@ -560,9 +559,7 @@ public class BeaconSearcher {
 	public void enableBluetooth() {
 		if (android.os.Build.VERSION.SDK_INT < 18)
 			return;
-		((BluetoothManager) mContext
-				.getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter()
-				.enable();
+		((BluetoothManager) mContext.getSystemService(Context.BLUETOOTH_SERVICE)).getAdapter().enable();
 	}
 	
 	/**

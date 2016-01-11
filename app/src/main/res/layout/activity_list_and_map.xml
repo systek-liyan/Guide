@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <include layout="@layout/layout_title_radio_btn_bar"
-        android:id="@+id/lv_list_map_exhibit"/>
-
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.systekcn.guide.activity.ListAndMapActivity">
+    <include
+        android:id="@+id/lvListMapExhibit"
+        layout="@layout/layout_title_radio_btn_bar"/>
     <LinearLayout
-        android:id="@+id/ll_tab_control_play"
+        android:id="@+id/llTabControlPlay"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
         android:orientation="horizontal"
-        android:background="@color/lightGray"
+        android:background="@color/md_grey_300"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
         <ImageView
             style="@style/normal_image_view"
             android:layout_gravity="center_vertical|start"
             android:layout_marginStart="@dimen/simple_4dp"
-            android:src="@mipmap/iv_left_gray_line"/>
+            android:src="@drawable/iv_left_gray_line"/>
         <ImageView
-            android:src="@mipmap/iv_app_logo"
+            android:id="@+id/exhibitIcon"
+            android:src="@drawable/iv_app_logo"
             android:layout_margin="@dimen/simple_4dp"
             android:layout_width="@dimen/simple40dp"
             android:layout_height="@dimen/simple40dp" />
@@ -31,6 +35,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <SeekBar
+                android:id="@+id/seekBarProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -38,8 +43,6 @@
                 android:paddingEnd="8dp"
                 android:maxHeight="5dp"
                 android:minHeight="5dp"
-                android:max="10"
-                android:progress="5"
                 android:progressDrawable="@drawable/seek_bar_bg"
                 android:thumb="@drawable/thumb_bar_selector"/>
 
@@ -49,28 +52,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/exhibitName"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="双龙耳盘口壶"
-                    android:textSize="10sp"
-                    android:textColor="@color/red"
-                    />
+                    android:text="暂无展品"
+                    android:textSize="@dimen/normal_textSize"
+                    android:textColor="@color/md_red_400" />
                 <ImageView
+                    android:id="@+id/ivPlayCtrl"
                     style="@style/normal_image_view"
                     android:layout_marginEnd="8dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/iv_play_state_stop"/>
+                    android:src="@drawable/iv_play_state_stop"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
-        android:id="@+id/ll_exhibit_list_content"
+        android:id="@+id/llExhibitListContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/lv_list_map_exhibit"
         android:orientation="vertical"
-        android:layout_above="@id/ll_tab_control_play"/>
+        android:layout_below="@id/lvListMapExhibit"
+        android:layout_above="@id/llTabControlPlay"/>
+
 </RelativeLayout>

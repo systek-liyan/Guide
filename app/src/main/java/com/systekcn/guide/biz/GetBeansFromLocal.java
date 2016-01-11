@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.Tools;
 
 import java.util.List;
 
@@ -14,13 +14,15 @@ import java.util.List;
  */
 public class GetBeansFromLocal implements IGetBeanBiz {
 
+
+
     @Override
-    public <T> List<T> getAllBeans(Context context, int type, String url, String Id) {
+    public <T> List<T> getAllBeans(Context context, int type, String url, String id) {
         Class clazz= Tools.checkTypeForClass(type);
         DbUtils db=DbUtils.create(context);
         List<T> list=null;
         try {
-            list=db.findAll(clazz);
+            list = db.findAll(clazz);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally{

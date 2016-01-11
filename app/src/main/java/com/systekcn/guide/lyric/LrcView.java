@@ -12,7 +12,7 @@ import android.widget.ScrollView;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.systekcn.guide.common.utils.LogUtil;
+import com.systekcn.guide.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;

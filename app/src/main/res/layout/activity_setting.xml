@@ -1,68 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context="com.systekcn.guide.activity.SettingActivity"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/titleBar"
-        style="@style/action_titleBar"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.systekcn.guide.activity.SettingActivity">
+    <include layout="@layout/layout_title_bar"/>
+    <TextView
+        android:text="设置"
+        android:textSize="20sp"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:id="@+id/tv_setting"
-            style="@style/text_view_title_bar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/title_activity_setting" />
-
-        <ImageView
-            android:id="@+id/iv_setting_drawer"
-            style="@style/normal_image_view"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
-            android:src="@mipmap/setting" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_weight="1" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="设置"
-            android:id="@+id/tv_btn_setting" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="save"
-            android:id="@+id/button_test2"
-            android:onClick="doClick"
-            android:layout_gravity="bottom"
-            android:layout_weight="1" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="get"
-            android:onClick="doClick"
-            android:id="@+id/button_test1"
-            android:layout_gravity="bottom"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

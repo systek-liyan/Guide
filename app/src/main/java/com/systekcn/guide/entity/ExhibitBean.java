@@ -23,32 +23,9 @@ public class ExhibitBean extends BaseEntity {
     private int version;
     private int priority;
     private double distance;
+    private boolean saveForPerson;
 
-
-    public ExhibitBean() {
-    }
-
-    public ExhibitBean(String id, String name, String museumId, String beaconId, String introduce, String address, float mapx, float mapy, int floor, String iconurl, String imgsurl, String audiourl, String texturl, String labels, String lexhibit, String rexhibit, int version, int priority, double distance) {
-        this.id = id;
-        this.name = name;
-        this.museumId = museumId;
-        this.beaconId = beaconId;
-        this.introduce = introduce;
-        this.address = address;
-        this.mapx = mapx;
-        this.mapy = mapy;
-        this.floor = floor;
-        this.iconurl = iconurl;
-        this.imgsurl = imgsurl;
-        this.audiourl = audiourl;
-        this.texturl = texturl;
-        this.labels = labels;
-        this.lexhibit = lexhibit;
-        this.rexhibit = rexhibit;
-        this.version = version;
-        this.priority = priority;
-        this.distance = distance;
-    }
+    public ExhibitBean(){}
 
     public String getId() {
         return id;
@@ -202,16 +179,24 @@ public class ExhibitBean extends BaseEntity {
         this.distance = distance;
     }
 
+    public boolean isSaveForPerson() {
+        return saveForPerson;
+    }
+
+    public void setSaveForPerson(boolean saveForPerson) {
+        this.saveForPerson = saveForPerson;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ExhibitBean)) return false;
+
         ExhibitBean that = (ExhibitBean) o;
+
         if (Float.compare(that.mapx, mapx) != 0) return false;
         if (Float.compare(that.mapy, mapy) != 0) return false;
         if (floor != that.floor) return false;
-        if (version != that.version) return false;
-        if (priority != that.priority) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (museumId != null ? !museumId.equals(that.museumId) : that.museumId != null)
@@ -221,15 +206,7 @@ public class ExhibitBean extends BaseEntity {
         if (introduce != null ? !introduce.equals(that.introduce) : that.introduce != null)
             return false;
         if (address != null ? !address.equals(that.address) : that.address != null) return false;
-        if (iconurl != null ? !iconurl.equals(that.iconurl) : that.iconurl != null) return false;
-        if (imgsurl != null ? !imgsurl.equals(that.imgsurl) : that.imgsurl != null) return false;
-        if (audiourl != null ? !audiourl.equals(that.audiourl) : that.audiourl != null)
-            return false;
-        if (texturl != null ? !texturl.equals(that.texturl) : that.texturl != null) return false;
-        if (labels != null ? !labels.equals(that.labels) : that.labels != null) return false;
-        if (lexhibit != null ? !lexhibit.equals(that.lexhibit) : that.lexhibit != null)
-            return false;
-        return !(rexhibit != null ? !rexhibit.equals(that.rexhibit) : that.rexhibit != null);
+        return !(labels != null ? !labels.equals(that.labels) : that.labels != null);
 
     }
 
@@ -244,15 +221,7 @@ public class ExhibitBean extends BaseEntity {
         result = 31 * result + (mapx != +0.0f ? Float.floatToIntBits(mapx) : 0);
         result = 31 * result + (mapy != +0.0f ? Float.floatToIntBits(mapy) : 0);
         result = 31 * result + floor;
-        result = 31 * result + (iconurl != null ? iconurl.hashCode() : 0);
-        result = 31 * result + (imgsurl != null ? imgsurl.hashCode() : 0);
-        result = 31 * result + (audiourl != null ? audiourl.hashCode() : 0);
-        result = 31 * result + (texturl != null ? texturl.hashCode() : 0);
         result = 31 * result + (labels != null ? labels.hashCode() : 0);
-        result = 31 * result + (lexhibit != null ? lexhibit.hashCode() : 0);
-        result = 31 * result + (rexhibit != null ? rexhibit.hashCode() : 0);
-        result = 31 * result + version;
-        result = 31 * result + priority;
         return result;
     }
 

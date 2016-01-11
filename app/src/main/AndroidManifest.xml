@@ -1,174 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.systekcn.guide">
+<manifest package="com.systekcn.guide"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- map -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    /**百度地图相关权限*/
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+
+
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/iv_app_logo"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="nSY8MzX4Gv7MFCiD9MECwxrb" />
+        android:icon="@drawable/iv_app_logo"
+        android:label="@string/app_name">
+
+        <!-- android:supportsRtl="true" -->
+        <activity
+            android:name=".activity.model.DrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
+        <activity
+            android:name=".activity.model.CompactHeaderDrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/CustomTheme"/>
+        <activity
+            android:name=".activity.model.PersistentDrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/MaterialDrawerTheme.Light.TranslucentStatus"/>
+        <activity
+            android:name=".activity.model.ActionBarActivity"
+            android:theme="@style/MaterialDrawerTheme.ActionBar"/>
+        <activity
+            android:name=".activity.model.MenuDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
+        <activity
+            android:name=".activity.model.NonTranslucentDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme"/>
+        <activity
+            android:name=".activity.model.MultiDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme.TranslucentStatus"/>
+        <activity
+            android:name=".activity.model.AdvancedActivity"
+            android:theme="@style/MaterialDrawerTheme.TranslucentStatus"/>
+        <activity
+            android:name=".activity.model.KeyboardUtilActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activity.model.EmbeddedDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme"/>
+        <activity
+            android:name=".activity.model.MiniDrawerActivity"
+            android:theme="@style/MaterialDrawerTheme"/>
+        <activity
+            android:name=".activity.model.FullscreenDrawerActivity"
+            android:theme="@style/FullscreenTheme"/>
+        <activity
+            android:name=".activity.model.CustomContainerActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar"/>
+        <activity
+            android:name=".activity.model.FragmentActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar"/>
+        <activity
+            android:name=".activity.model.CollapsingToolbarActivity"
+            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
+        <activity
+            android:name=".activity.model.CrossfadeDrawerLayoutActvitiy"
+            android:theme="@style/MaterialDrawerTheme"/>
+
 
         <activity
-            android:name=".activity.WelcomeActivity"
-            android:clipToPadding="true"
-            android:fitsSystemWindows="true"
+            android:name=".activity.BeginActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@style/MyFullTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".activity.CityActivity"
-            android:label="@string/title_activity_city"
+            android:name=".activity.CityChooseActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.MuseumListActivity"
-            android:label="@string/title_activity_museum"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:launchMode="singleTop"
+            android:theme="@style/MyFullTheme"/>
         <activity
-            android:name=".activity.MuseumHomePageActivity"
-            android:clipToPadding="true"
-            android:fitsSystemWindows="true"
-            android:label="@string/title_activity_museum_home_page"
+            android:name=".activity.MuseumHomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme"/>
+        <activity
+            android:name=".activity.ListAndMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity
-            android:name=".activity.GuideActivity"
-            android:label="@string/title_activity_guide"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity
-            android:name=".activity.SettingActivity"
-            android:label="@string/title_activity_setting"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity
-            android:name=".activity.DownloadActivity"
-            android:label="@string/title_activity_download"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity
-            android:name=".activity.AboutUsActivity"
-            android:clipToPadding="true"
-            android:fitsSystemWindows="true"
-            android:label="@string/title_activity_about_us"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.TopicActivity"
-            android:clipToPadding="true"
-            android:label="@string/title_activity_filter"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@style/MyFullTheme"/>
         <activity
-            android:name=".activity.SearchActivity"
-            android:clipToPadding="true"
-            android:label="@string/title_activity_search_exhibit"
+            android:name=".activity.PlayActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@style/MyFullTheme"/>
+        <activity
+            android:name=".activity.LockScreenActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme"/>
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.CollectionActivity"
-            android:clipToPadding="true"
-            android:label="@string/title_activity_filter"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
+            android:theme="@style/MyFullTheme"/>
+        <activity
+            android:name=".activity.SearchActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme"/>
+        <activity
+            android:name=".activity.DownloadActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme"/>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyFullTheme"/>
 
-        <receiver android:name=".receiver.NetworkStateChangedReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
+        <service
+            android:name=".service.MediaPlayService"
+            android:enabled="true"
+            android:exported="false"
+            android:isolatedProcess="false"/>
         <service
             android:name="org.altbeacon.beacon.service.BeaconService"
             android:enabled="true"
             android:exported="false"
             android:isolatedProcess="false"
-            android:label="beacon" />
+            android:label="beacon"/>
         <service
             android:name="org.altbeacon.beacon.BeaconIntentProcessor"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:permission="android.permission.BAIDU_LOCATION_SERVICE"
-            android:process=":remote" />
-        <service android:name=".service.MuseumDownloadService" />
-        <service android:name=".service.MediaPlayService" />
+            android:process=":remote"/>
+        <service android:name=".service.MuseumDownloadService"/>
 
-        <activity
-            android:name=".activity.LockScreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_lock_screen"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".activity.SearchMuseumActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ListAndMapActivity"
-            android:clipToPadding="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity
-            android:name=".activity.MuseumHomeActivity"
-            android:clipToPadding="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name=".activity.PlayActivity" />
-        <activity
-            android:name=".activity.BeginActivity"
-            android:clipToPadding="true"
-            android:fitsSystemWindows="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.CityChooseActivity"></activity>
     </application>
 
 </manifest>

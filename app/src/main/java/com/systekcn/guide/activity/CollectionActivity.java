@@ -1,68 +1,134 @@
 package com.systekcn.guide.activity;
 
-import android.view.KeyEvent;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.alibaba.fastjson.JSON;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
-import com.systekcn.guide.common.utils.ViewUtils;
-import com.systekcn.guide.custom.DrawerView;
-import com.systekcn.guide.custom.slidingmenu.SlidingMenu;
+import com.systekcn.guide.adapter.ExhibitAdapter;
+import com.systekcn.guide.biz.DataBiz;
+import com.systekcn.guide.entity.ExhibitBean;
+import com.systekcn.guide.utils.ViewUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionActivity extends BaseActivity {
 
-    private ImageView iv_collection_drawer;
-    private SlidingMenu side_drawer;
+
+    private ListView collectionListView;
+    private List<ExhibitBean> collectionExhibitList;
+    private ExhibitAdapter exhibitAdapter;
+    private MyHandler handler;
+    private String museumId;
+    private Drawer drawer;
 
     @Override
-    protected void initialize() {
-        ViewUtils.setStateBarColor(this, R.color.orange);
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_collection);
-        init();
-    }
-
-    private void init() {
+        initDrawer();
         initView();
+        initData();
         addListener();
-        initSlidingMenu();
-    }
-    private void initSlidingMenu() {
-        DrawerView dv =new DrawerView(this);
-        side_drawer = dv.initSlidingMenu();
     }
 
     private void addListener() {
-        iv_collection_drawer.setOnClickListener(new View.OnClickListener() {
+        collectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                iv_collection_drawer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (side_drawer.isMenuShowing()) {
-                            side_drawer.showContent();
-                        } else {
-                            side_drawer.showMenu();
-                        }
-                    }
-                });
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
+                String str= JSON.toJSONString(exhibitBean);
+                Intent intent =new Intent();
+                intent.setAction(INTENT_EXHIBIT);
+                intent.putExtra(INTENT_EXHIBIT, str);
+                sendBroadcast(intent);
+                Intent intent1 =new Intent(CollectionActivity.this,PlayActivity.class);
+                intent1.putExtra(INTENT_EXHIBIT,str);
+                startActivity(intent1);
+               // finish();
             }
         });
     }
 
-    private void initView() {
-        iv_collection_drawer=(ImageView)findViewById(R.id.iv_collection_drawer);
+    private void initDrawer() {
+        drawer=new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(CollectionActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(side_drawer.isMenuShowing() ||side_drawer.isSecondaryMenuShowing()){
-                side_drawer.showContent();
+    private void initData() {
+        museumId =getIntent().getStringExtra(INTENT_MUSEUM_ID);
+        new Thread(){
+            @Override
+            public void run() {
+                if(!TextUtils.isEmpty(museumId)){
+                    collectionExhibitList=DataBiz.getCollectionExhibitListFromDBById(museumId);
+                }else{
+                    collectionExhibitList=DataBiz.getCollectionExhibitListFromDB();
+                }
+                if(collectionExhibitList==null){return;}
+                if(collectionExhibitList.size()==0){
+                    showToast("您暂未收藏展品。");
+                }else{
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                }
+            }
+        }.start();
+    }
+
+    private void initView() {
+        collectionListView=(ListView)findViewById(R.id.collectionListView);
+        collectionExhibitList=new ArrayList<>();
+        exhibitAdapter=new ExhibitAdapter(this,collectionExhibitList);
+        collectionListView.setAdapter(exhibitAdapter);
+        handler=new MyHandler();
+    }
+
+    class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
+                exhibitAdapter.updateData(collectionExhibitList);
             }
         }
-        return super.onKeyDown(keyCode, event);
     }
+
 }

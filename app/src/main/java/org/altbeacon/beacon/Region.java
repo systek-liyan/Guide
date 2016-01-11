@@ -26,7 +26,7 @@ package org.altbeacon.beacon;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.systekcn.guide.common.utils.ExceptionUtil;
+import com.systekcn.guide.utils.ExceptionUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.systekcn.guide.IConstants;
 import com.systekcn.guide.MyApplication;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.Tools;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.LogUtil;
+import com.systekcn.guide.utils.Tools;
 
 import java.util.List;
 
@@ -40,6 +40,14 @@ public class GetDataBiz implements IConstants {
             boolean isSaveSuccess=saveAllBeans(context,list);
             LogUtil.i("ZHANG", "getAllBeans数据保存" + isSaveSuccess);
         }
+        return list;
+    }
+    public List<?> getAllBeansFromNet(int type,String id){
+        List<?> list = null;
+        if (MyApplication.currentNetworkType == INTERNET_TYPE_NONE) return null;
+        setIGetBeanBiz(new GetBeansFromNet());
+        String url= Tools.checkTypeForNetUrl(type);
+        list = iGetBeanBiz.getAllBeans(type, url,id);
         return list;
     }
 

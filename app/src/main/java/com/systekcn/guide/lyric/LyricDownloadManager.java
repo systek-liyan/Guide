@@ -3,7 +3,7 @@ package com.systekcn.guide.lyric;
 import android.content.Context;
 import android.util.Log;
 
-import com.systekcn.guide.common.IConstants;
+import com.systekcn.guide.IConstants;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,7 +45,7 @@ public class LyricDownloadManager implements IConstants {
         BufferedReader br = null;
         StringBuilder content = null;
         String temp = null;
-        String lyricURL = BASEURL+lyricName;
+        String lyricURL = BASE_URL +lyricName;
         Log.i(TAG, "歌词的真实下载地址:" + lyricURL);
         try {
             mUrl = new URL(lyricURL);

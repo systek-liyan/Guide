@@ -1,6 +1,7 @@
 package com.systekcn.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -12,28 +13,32 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systekcn.guide.R;
-import com.systekcn.guide.activity.base.BaseActivity;
 import com.systekcn.guide.adapter.CityAdapter;
-import com.systekcn.guide.biz.BizFactory;
-import com.systekcn.guide.biz.GetDataBiz;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.PinyinComparator;
-import com.systekcn.guide.common.utils.ViewUtils;
+import com.systekcn.guide.biz.DataBiz;
 import com.systekcn.guide.custom.ClearEditText;
 import com.systekcn.guide.custom.SideBar;
 import com.systekcn.guide.entity.CityBean;
 import com.systekcn.guide.parser.CharacterParser;
+import com.systekcn.guide.utils.ExceptionUtil;
+import com.systekcn.guide.utils.PinyinComparator;
+import com.systekcn.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CityChooseActivity extends BaseActivity implements IConstants{
+public class CityChooseActivity extends BaseActivity{
+
+    private Drawer drawer;
+
 
     private ListView cityListView;
     private SideBar sideBar;
@@ -41,16 +46,7 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
     private CityAdapter adapter;
     private ClearEditText mClearEditText;
     private List<CityBean> cities;
-    private  final int MSG_WHAT_CITIES=1;
-    private  final int MSG_WHAT_FAIL_TO_GET_DATA=2;
-    /**
-     * 汉字转换成拼音的类
-     */
     private CharacterParser characterParser;
-
-    /**
-     * 根据拼音来排列ListView里面的数据类
-     */
     private PinyinComparator pinyinComparator;
     private Handler handler;
     private TextView title_bar_topic;
@@ -58,56 +54,15 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
     /**定位连接*/
     private LocationClient mLocationClient;
 
-
     @Override
-    protected void initialize() {
-        ViewUtils.setStateBarToAlpha(this);
+    protected void initialize(Bundle savedInstanceState) {
+        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_city_choose);
-        initViews();
-        initData();
-    }
-
-    long startTime;
-    private void initData() {
-        try{
-            new Thread(){
-                public void run() {
-                    int msg=MSG_WHAT_CITIES;
-                    GetDataBiz getDataBiz= (GetDataBiz) BizFactory.getDataBiz();
-                    //BeansManageBiz biz=(BeansManageBiz) BizFactory.getBeansManageBiz(CityChooseActivity.this);
-                    cities= (List<CityBean>) getDataBiz.getAllBeans(CityChooseActivity.this,URL_TYPE_GET_CITY,"");
-                    while(cities==null){
-                        if(System.currentTimeMillis()-startTime>5){
-                            msg=MSG_WHAT_FAIL_TO_GET_DATA;
-                            break;
-                        }
-                    }
-                    handler.sendEmptyMessage(msg);
-                }
-            }.start();
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-            showToast("抱歉，数据获取失败");
-        }
-    }
-
-    private void initViews() {
-        handler=new MyHandler();
-        //实例化汉字转拼音类
-        characterParser = CharacterParser.getInstance();
-        pinyinComparator = new PinyinComparator();
-        sideBar = (SideBar) findViewById(R.id.sidrbar);
-        dialog = (TextView) findViewById(R.id.dialog);
-        title_bar_topic = (TextView) findViewById(R.id.title_bar_topic);
-        sideBar.setTextView(dialog);
-        cityListView = (ListView) findViewById(R.id.country_lvcountry);
-        mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
-        cities = new ArrayList<>();
-        // 根据a-z进行排序源数据
-        Collections.sort(cities, pinyinComparator);
-        adapter = new CityAdapter(this, cities);
-        cityListView.setAdapter(adapter);
+        initDrawer();
+        initView();
         addListener();
+        initData();
+
     }
 
     private void addListener() {
@@ -118,22 +73,19 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
                 int position = adapter.getPositionForSection(s.charAt(0));
-                if(position != -1){
+                if (position != -1) {
                     cityListView.setSelection(position);
                 }
             }
         });
         cityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                //这里要利用adapter.getItem(position)来获取当前position所对应的对象
-                Toast.makeText(getApplication(), ((CityBean) adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    CityBean city = (CityBean) cityListView.getAdapter().getItem(position);
+                    CityBean city = adapter.getItem(position);
                     // 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-                    currentCity = city.getName();
-                    Toast.makeText(getApplication(), currentCity, Toast.LENGTH_SHORT).show();
+                    currentCity = JSON.toJSONString(city);
+                    Toast.makeText(getApplication(), city.getName(), Toast.LENGTH_SHORT).show();
                     gotoMuseumActivity();
                     finish();
                 } catch (Exception e) {
@@ -150,9 +102,11 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
                 //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
                 filterData(s.toString());
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -161,9 +115,10 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
     }
 
 
+
     private void gotoMuseumActivity() {
         Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
-        intent.putExtra("city", currentCity);
+        intent.putExtra(INTENT_CITY, currentCity);
         startActivity(intent);
         disConnectBaiduSDK();
         finish();
@@ -182,6 +137,7 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
         }
     }
 
+
     BDLocationListener bdLocationListener=new BDLocationListener() {
 
         @Override
@@ -197,7 +153,7 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
                 if (currentCity == null) {
                     //locationButton.setEnabled(false);
                     //Toast.makeText(CityActivity.this, "定位失败，请手动选择城市", Toast.LENGTH_SHORT).show();
-                   // mLocationClient.stop();
+                    // mLocationClient.stop();
                 } else {
                     //locationButton.setText(currentCity);
                     //buildDialog();
@@ -208,7 +164,6 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
 
         }
     };
-
 
     /**
      * 根据输入框中的值来过滤数据并更新ListView
@@ -233,18 +188,89 @@ public class CityChooseActivity extends BaseActivity implements IConstants{
         adapter.updateListView(filterDateList);
     }
 
-    @Override
-    protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
-        super.onDestroy();
+
+    private void initView() {
+        handler=new MyHandler();
+        //实例化汉字转拼音类
+        characterParser = CharacterParser.getInstance();
+        pinyinComparator = new PinyinComparator();
+        sideBar = (SideBar) findViewById(R.id.sidrbar);
+        dialog = (TextView) findViewById(R.id.dialog);
+        title_bar_topic = (TextView) findViewById(R.id.titleBarTopic);
+        sideBar.setTextView(dialog);
+        cityListView = (ListView) findViewById(R.id.country_lvcountry);
+        mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
+        cities = new ArrayList<>();
+        // 根据a-z进行排序源数据
+        Collections.sort(cities, pinyinComparator);
+        adapter = new CityAdapter(this, cities);
+        cityListView.setAdapter(adapter);
+    }
+
+    private void initData() {
+        new Thread(){
+            @Override
+            public void run() {
+                cities=DataBiz.getEntityListLocal(CityBean.class);
+                if(cities==null||cities.size()==0){
+                    cities=DataBiz.getEntityListFromNet(CityBean.class,URL_CITY_LIST);
+                    if(cities!=null&&cities.size()>0){DataBiz.saveListToSQLite(cities);}
+                }
+                int msg=MSG_WHAT_UPDATE_DATA_SUCCESS;
+                if(cities==null||cities.size()==0){
+                    msg=MSG_WHAT_UPDATE_DATA_FAIL;
+                }
+                handler.sendEmptyMessage(msg);
+            }
+        }.start();
+    }
+
+    private void initDrawer() {
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(CityChooseActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
     }
 
     class MyHandler extends  Handler{
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==MSG_WHAT_CITIES){
+            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
                 adapter.updateListView(cities);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 }

@@ -4,7 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.systekcn.guide.common.utils.NetworkUtil;
+import com.systekcn.guide.utils.NetworkUtil;
+
 
 /**
  * Created by Qiang on 2015/10/28.

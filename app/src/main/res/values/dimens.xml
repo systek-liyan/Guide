@@ -1,49 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="material_drawer_padding_half">4dp</dimen>
+    <dimen name="material_drawer_persistent_height">48dp</dimen>
+    <dimen name="material_drawer_persistent_height_icon">32dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="simple_4dp">4dp</dimen>
     <dimen name="simple_10dp">10dp</dimen>
+    <dimen name="simple38dp">38dp</dimen>
     <dimen name="simple40dp">40dp</dimen>
     <dimen name="simple_48dp">48dp</dimen>
-
-    <dimen name="activity_horizontal_margin">4dp</dimen>//主页左右间距
-    <dimen name="height_home_page_hamburger">15dp</dimen>//主页中简介夹层的高度
-    <dimen name="activity_vertical_margin">16dp</dimen>//像上下间距
-    <dimen name="fab_margin">16dp</dimen>
-
-
-    <dimen name="fm_home_page_flower_bottom_instance">25dp</dimen>//主页中右下角花瓣距离底部距离
-    <dimen name="tv_home_page_museum_introduce_height">100dp</dimen>//主页中简介夹层的高度
-    <dimen name="iv_home_page_exhibit_icon_height">110dp</dimen>//主页中展品图片的高度
-    <dimen name="iv_home_page_exhibit_icon_width">135dp</dimen>//主页中展品图片的宽度
     <dimen name="largest_icon_height">188dp</dimen>//app 中最大图片的高度
-
-
-    /**侧滑菜单*/
-    <dimen name="sliding_top_bar_height">74dp</dimen>
-    <dimen name="shadow_width">15dp</dimen>
-    <dimen name="slidingmenu_offset">90dp</dimen>
-    /*博物馆列表item*/
-    <dimen name="item_museum_flag_isDownload_textSize">7sp</dimen>
-    <dimen name="item_museum_list_content">9sp</dimen>
-    <dimen name="museum_name">11sp</dimen>
-    <dimen name="ed_museum_search_textSize">13sp</dimen>
-    /**导览界面*/
-    <dimen name="iv_frag_guide_largest_img_height">267dp</dimen>
-    <dimen name="guide_frag_lyric_ctrl_margin">10dp</dimen>
-    <dimen name="guide_frag_hamburger_height">25dp</dimen>
-    <dimen name="guide_frag_hamburger_textSize">10sp</dimen>
-    <dimen name="guide_frag_hamburger_text_margin">5dp</dimen>
-    <dimen name="guide_frag_multi_angle_img_height">108dp</dimen>
-    <dimen name="seekBar_height">10dp</dimen>
-    <dimen name="seekBar_margin_right">15dp</dimen>
-    <dimen name="title_bar_margin">15dp</dimen>
-    <!--主页 -->
-    <dimen name="text_size_home_menu">11sp</dimen>
-    <!--展品item -->
-    <dimen name="height_exhibit_item">94dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-
 
     <dimen name="dialog_content_textSize">11sp</dimen>//对话框中内容字体的大小
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
@@ -52,4 +21,12 @@
     <dimen name="tv_home_page_exhibit_introduce_size">11sp</dimen>//主页中展品图片的宽度
     <dimen name="dialog_title_textSize">14sp</dimen>//对话框中标题字体的大小
     <dimen name="dialog_button_textSize">13sp</dimen>//对话框中内容字体的大小
+    <dimen name="normal_textSize">10sp</dimen>
+    <dimen name="topic_label_textSize">12sp</dimen>
+
+    <!--展品item -->
+    <dimen name="height_exhibit_item">94dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+
 </resources>

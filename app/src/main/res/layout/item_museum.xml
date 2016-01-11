@@ -1,139 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@color/md_grey_300"
+    android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/museum_list_icon"
-        android:layout_width="135dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:scaleType="fitXY"
-        android:layout_marginLeft="@dimen/simple_4dp"
-        android:layout_marginRight="@dimen/simple_4dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="horizontal"
+        android:background="@drawable/item_bg_exhibit_list_inner">
 
-    <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toRightOf="@id/museum_list_icon"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@id/museum_list_icon"
-        android:layout_alignBottom="@id/museum_list_icon">
+        <com.systekcn.guide.custom.RoundImageView
+            android:id="@+id/museumListIcon"
+            android:layout_width="50dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_margin="5dp" />
+        <TextView
+            android:layout_width="2dp"
+            android:background="@color/md_grey_200"
+            android:layout_margin="4dp"
+            android:layout_height="match_parent" />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical">
-                    <TextView
-                        android:id="@+id/museum_name"
-                        android:layout_marginLeft="@dimen/simple_4dp"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/orange"
-                        android:textSize="@dimen/museum_name"
-                        android:layout_width="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_height="wrap_content" />
-                    <TextView android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/simple_4dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/simple_4dp"
-                        android:textSize="@dimen/item_museum_list_content"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/museumName"
+                            android:layout_marginLeft="@dimen/simple_4dp"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/md_red_400"
+                            style="@style/normal_text_view"
+                            android:layout_alignParentLeft="true" />
+                        <TextView
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/simple_4dp"
+                            style="@style/normal_text_view"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/museumFlagIsDownload"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:text="时间:"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/museum_has_downloaded"
-                        android:id="@+id/museum_flag_isDownload"/>
-                </RelativeLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:text="@string/museum_open_time"/>
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/simple_4dp"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/museum_list_openTime"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:text="@string/museum_important_alert"/>
+                        style="@style/normal_text_view"/>
+                    <TextView
+                        android:layout_marginLeft="@dimen/simple_4dp"
+                        android:id="@+id/museumListOpenTime"
+                        style="@style/normal_text_view"
+                        android:layout_gravity="center_vertical" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:text="提示:"
+                        style="@style/normal_text_view"
+                        android:layout_gravity="center_vertical"/>
 
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:layout_marginLeft="@dimen/simple_4dp"
-                    android:id="@+id/museum_important_alert"
-                    android:textColor="@color/orange"
-                    android:layout_gravity="center_vertical"/>
+                    <TextView
+                        android:id="@+id/museumImportantAlert"
+                        style="@style/normal_text_view"
+                        android:layout_marginLeft="@dimen/simple_4dp"
+                        android:textColor="@color/md_red_400"
+                        android:layout_gravity="center_vertical"/>
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/simple_4dp"
-                android:layout_weight="1">
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/museum_address"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:layout_gravity="center_vertical"/>
+                    <TextView
+                        android:text="地址:"
+                        style="@style/normal_text_view"
+                        android:layout_gravity="center_vertical"/>
 
-                <TextView android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/museum_address"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/museumAddress"
+                        android:layout_width="match_parent"
+                        style="@style/normal_text_view"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:text="@string/museum_consumption_per"
-                    android:layout_gravity="center_vertical"/>
+                    <TextView
+                        android:text="价格:"
+                        style="@style/normal_text_view"
+                        android:layout_gravity="center_vertical"/>
 
-                <TextView android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/museum_consumption_per"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="right">
-                <TextView android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/museum_book_ticket"
-                    android:textColor="@color/orange"
-                    android:textSize="@dimen/item_museum_list_content"
-                    android:layout_marginRight="@dimen/simple_4dp"
-                    android:layout_gravity="center_vertical"/>
+                    <TextView
+                        android:id="@+id/museum_consumption_per"
+                        style="@style/normal_text_view"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right">
+                    <TextView
+                        android:textColor="@color/md_red_400"
+                        style="@style/normal_text_view"
+                        android:visibility="invisible"
+                        android:text="book_ticket"
+                        android:layout_marginRight="@dimen/simple_4dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

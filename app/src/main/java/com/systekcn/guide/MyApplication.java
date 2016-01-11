@@ -1,181 +1,86 @@
 package com.systekcn.guide;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
-import com.baidu.mapapi.SDKInitializer;
-import com.systekcn.guide.common.IConstants;
-import com.systekcn.guide.common.utils.ExceptionUtil;
-import com.systekcn.guide.common.utils.LogUtil;
-import com.systekcn.guide.common.utils.NetworkUtil;
-import com.systekcn.guide.entity.ExhibitBean;
-import com.systekcn.guide.entity.MuseumBean;
-import com.systekcn.guide.manager.BluetoothManager;
+import com.bumptech.glide.Glide;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerUIUtils;
+import com.systekcn.guide.biz.DataBiz;
 import com.systekcn.guide.manager.MediaServiceManager;
+import com.systekcn.guide.receiver.NetworkStateChangedReceiver;
+import com.systekcn.guide.utils.ExceptionUtil;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+
 
 /**
- * Created by Qiang on 2015/11/26.
+ * Created by Qiang on 2015/12/30.
  */
 public class MyApplication extends Application implements IConstants{
 
     private static MyApplication myApplication;
     /*软件是否开发完毕*/
     public static final boolean isRelease = false;
-    /*所有的activity都放入此集合中*/
-    public static ArrayList<Activity> listActivity = new ArrayList<>();
+    public MediaServiceManager mServiceManager;
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
-    public static final int GUIDE_MODEL_AUTO=2;
-    public static final int GUIDE_MODEL_HAND=3;
-    //public static int guideModel=GUIDE_MODEL_HAND;
-    public MediaServiceManager mServiceManager;
-
-    /**当前展品*/
-    public ExhibitBean currentExhibitBean;
-    /**当前博物馆*/
-    public MuseumBean currentMuseum;
-    /**展品总集合*/
-    public List<ExhibitBean> totalExhibitBeanList;
-    /**当前要加入展品（蓝牙扫描周边等）集合*/
-    public List<ExhibitBean> currentExhibitBeanList;
-    /**看过的展品集合*/
-    public List<ExhibitBean> everSeenExhibitBeanList;
-    /**专题展品集合*/
-    public List<ExhibitBean> topicExhibitBeanList;
-    /***/
-    public List<ExhibitBean> recordExhibitBeanList;
-    /**附近展品框中显示的展品*/
-    public List<ExhibitBean> nearlyExhibitBeanList;
-
-    public String currentMuseumId;
-    public String currentBeaconId;
-    public String currentExhibitId;
-
-    private MyApplication application;
-
-    public final int  DATA_FROM_HOME =1;
-    public final int  DATA_FROM_COLLECTION =2;
-    public final int DATA_FROM_BEACON =3;
-    public int dataFrom;
-
-    public boolean isTopicOpen=false;
-    private BluetoothManager bluetoothManager;
+    //public List<ExhibitBean> totalExhibitBeanList; /**展品总集合*/
+   // public List<ExhibitBean> currentExhibitBeanList;/**当前要加入展品（蓝牙扫描周边等）集合*/
+   // public String currentMuseumId;
 
     @Override
     public void onCreate() {
         super.onCreate();
         myApplication = this;
+        if (!isSameAppName()) {return;}
         // 防止重启两次,非相同名字的则返回
-        if (!isSameAppName()) {
-            return;
-        }
-        try{
-            currentExhibitBeanList=new ArrayList<>();
-            totalExhibitBeanList=new ArrayList<>();
-            everSeenExhibitBeanList=new ArrayList<>();
-            topicExhibitBeanList=new ArrayList<>();
-            recordExhibitBeanList=new ArrayList<>();
-            nearlyExhibitBeanList=new ArrayList<>();
-            initConfig();
-            mServiceManager = new MediaServiceManager(getApplicationContext());
-            bluetoothManager=BluetoothManager.newInstance(getApplicationContext());
-            bluetoothManager.initBeaconSearcher();
-            initBaiduSDK();
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-        }
-    }
-    private void initBaiduSDK() {
-        try {
-            // 初始化百度地图
-            SDKInitializer.initialize(getApplicationContext());
-        } catch (Exception e) {
-            ExceptionUtil.handleException(e);
-        }
+        mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
+        mServiceManager.connectService();
+        initDrawerImageLoader();
+        registerNetWorkReceiver();
     }
 
+    private void initDrawerImageLoader() {
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
+            }
+            @Override
+            public void cancel(ImageView imageView) {
+                Glide.clear(imageView);
+            }
+            @Override
+            public Drawable placeholder(Context ctx, String tag) {
+                if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
+                    return DrawerUIUtils.getPlaceHolder(ctx);
+                } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
+                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.primary).sizeDp(56);
+                } else if ("customUrlItem".equals(tag)) {
+                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
+                }
+                return super.placeholder(ctx, tag);
+            }
+        });
+    }
     public  static Context getAppContext(){
         return myApplication.getApplicationContext();
     }
-    public void refreshData(){
-        if(currentExhibitBean!=null){
-            currentExhibitId=currentExhibitBean.getId();
-        }
-        currentMuseumId=currentExhibitBean.getMuseumId();
-        currentBeaconId=currentExhibitBean.getBeaconId();
-    }
 
-    public  String getCurrentLyricDir(){
-        return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_LYRIC+"/";
-    }
-
-    public String getCurrentAudioDir(){
-        return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_AUDIO+"/";
-    }
-    public  String getCurrentMuseumId(){
-        if(currentExhibitBean!=null){
-            return currentExhibitBean.getMuseumId();
-        }else{
-            return "";
-        }
-    }
-    public  String getCurrentImgDir(){
-        return LOCAL_ASSETS_PATH+currentExhibitBean.getMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/";
-    }
-    private void initConfig() {
-        NetworkUtil.checkNet(this);
-        /*SharedPreferences settings = getSharedPreferences(APP_SETTING, 0);
-        String mGuideModel=settings.getString(GUIDE_MODEL_KEY, IConstants.GUIDE_MODEL_HAND);
-        LogUtil.i("ZHANG", mGuideModel);
-        if(mGuideModel.equals(IConstants.GUIDE_MODEL_HAND)){
-            guideModel=GUIDE_MODEL_HAND;
-        }else if(mGuideModel.equals(IConstants.GUIDE_MODEL_AUTO)){
-            guideModel=GUIDE_MODEL_AUTO;
-        }
-        LogUtil.i("测试数据模式", "guideModel----" + guideModel);*/
-    }
-
-    public String getCurrentBeaconId(){
-        if(currentExhibitBean!=null){
-            currentBeaconId=currentExhibitBean.getBeaconId();
-            return currentBeaconId;
-        }else{
-            return "";
-        }
-    }
-
-    /*退出程序 */
-    public  void exit() {
-        for (Activity activity : listActivity) {
-            if(activity!=null){
-                try {
-                    activity.finish();
-                    LogUtil.i("退出", activity.toString() + "退出了");
-                } catch (Exception e) {
-                    ExceptionUtil.handleException(e);
-                }
-            }
-        }
-        if(bluetoothManager!=null){
-            bluetoothManager.disConnectBluetoothService();
-        }
-        System.exit(0);
-    }
-
-    /**
-     * 获取application对象
-     *
-     * @return JApplication
-     */
-    public static MyApplication get() {
-        return myApplication;
+    public void registerNetWorkReceiver(){
+        NetworkStateChangedReceiver networkStateChangedReceiver = new NetworkStateChangedReceiver();
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(networkStateChangedReceiver,intentFilter);
     }
 
     /**
@@ -198,7 +103,7 @@ public class MyApplication extends Application implements IConstants{
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         Iterator<ActivityManager.RunningAppProcessInfo> iterator = activityManager.getRunningAppProcesses().iterator();
         while (iterator.hasNext()) {
-            ActivityManager.RunningAppProcessInfo runningAppProcessInfo = (ActivityManager.RunningAppProcessInfo) (iterator.next());
+            ActivityManager.RunningAppProcessInfo runningAppProcessInfo =iterator.next();
             try {
                 if (runningAppProcessInfo.pid == pid) {
                     return runningAppProcessInfo.processName;
@@ -209,4 +114,28 @@ public class MyApplication extends Application implements IConstants{
         }
         return "";
     }
+    private void initBaiduSDK() {
+        try {
+            // 初始化百度地图
+            //SDKInitializer.initialize(getApplicationContext());
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }
+    }
+    /*退出程序*/
+    public  void exit() {
+        mServiceManager.disConnectService();
+        DataBiz.clearTempValues(getAppContext());
+        System.exit(0);
+    }
+
+    /**
+     * 获取application对象
+     *
+     * @return JApplication
+     */
+    public static MyApplication get() {
+        return myApplication;
+    }
+
 }
