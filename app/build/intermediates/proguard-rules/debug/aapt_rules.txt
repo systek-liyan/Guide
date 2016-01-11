@@ -1,0 +1,258 @@
+# view res/layout/design_navigation_item.xml #generated:17
+-keep class android.support.design.internal.NavigationMenuItemView { <init>(...); }
+
+# view res/layout/design_navigation_menu.xml #generated:17
+-keep class android.support.design.internal.NavigationMenuView { <init>(...); }
+
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:24
+-keep class android.support.design.widget.AppBarLayout { <init>(...); }
+
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:31
+-keep class android.support.design.widget.CollapsingToolbarLayout { <init>(...); }
+
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:17
+-keep class android.support.design.widget.CoordinatorLayout { <init>(...); }
+
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:169
+-keep class android.support.design.widget.FloatingActionButton { <init>(...); }
+
+# view res/layout/design_layout_snackbar.xml #generated:18
+# view sw600dp-v13\res/layout-sw600dp-v13/design_layout_snackbar.xml #generated:18
+-keep class android.support.design.widget.Snackbar$SnackbarLayout { <init>(...); }
+
+# view res/layout/activity_welcome.xml #generated:7
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view res/layout/material_drawer.xml #generated:2
+-keep class android.support.v4.widget.DrawerLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_material.xml #generated:75
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:63
+-keep class android.support.v4.widget.NestedScrollView { <init>(...); }
+
+# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:40
+-keep class android.support.v4.widget.Space { <init>(...); }
+
+# view res/layout/abc_action_menu_item_layout.xml #generated:17
+-keep class android.support.v7.view.menu.ActionMenuItemView { <init>(...); }
+
+# view res/layout/abc_expanded_menu_layout.xml #generated:17
+-keep class android.support.v7.view.menu.ExpandedMenuView { <init>(...); }
+
+# view res/layout/abc_list_menu_item_layout.xml #generated:17
+# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+-keep class android.support.v7.view.menu.ListMenuItemView { <init>(...); }
+
+# view res/layout/abc_screen_toolbar.xml #generated:27
+-keep class android.support.v7.widget.ActionBarContainer { <init>(...); }
+
+# view res/layout/abc_action_mode_bar.xml #generated:19
+# view res/layout/abc_screen_toolbar.xml #generated:43
+-keep class android.support.v7.widget.ActionBarContextView { <init>(...); }
+
+# view res/layout/abc_screen_toolbar.xml #generated:17
+-keep class android.support.v7.widget.ActionBarOverlayLayout { <init>(...); }
+
+# view res/layout/abc_action_menu_layout.xml #generated:17
+-keep class android.support.v7.widget.ActionMenuView { <init>(...); }
+
+# view res/layout/abc_activity_chooser_view.xml #generated:19
+-keep class android.support.v7.widget.ActivityChooserView$InnerLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_button_bar_material.xml #generated:18
+-keep class android.support.v7.widget.ButtonBarLayout { <init>(...); }
+
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:103
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:134
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:74
+# view res/layout/listitem_opensource.xml #generated:2
+-keep class android.support.v7.widget.CardView { <init>(...); }
+
+# view res/layout/abc_screen_content_include.xml #generated:19
+-keep class android.support.v7.widget.ContentFrameLayout { <init>(...); }
+
+# view res/layout/abc_alert_dialog_material.xml #generated:48
+-keep class android.support.v7.widget.DialogTitle { <init>(...); }
+
+# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:23
+-keep class android.support.v7.widget.FitWindowsFrameLayout { <init>(...); }
+
+# view res/layout/abc_dialog_title_material.xml #generated:22
+# view res/layout/abc_screen_simple.xml #generated:17
+-keep class android.support.v7.widget.FitWindowsLinearLayout { <init>(...); }
+
+# view res/layout/activity_lock_screen.xml #generated:39
+# view res/layout/activity_play.xml #generated:50
+# view res/layout/fragment_opensource.xml #generated:1
+# view res/layout/material_drawer_recycler_view.xml #generated:2
+-keep class android.support.v7.widget.RecyclerView { <init>(...); }
+
+# view res/layout/abc_search_view.xml #generated:78
+-keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
+
+# view res/layout/material_drawer_item_secondary_switch.xml #generated:58
+# view res/layout/material_drawer_item_switch.xml #generated:58
+-keep class android.support.v7.widget.SwitchCompat { <init>(...); }
+
+# view res/layout/abc_screen_toolbar.xml #generated:36
+# view res/layout/activity_embedded.xml #generated:7
+# view res/layout/activity_mini_drawer.xml #generated:7
+# view res/layout/activity_opensource.xml #generated:7
+# view res/layout/activity_persistent_drawer.xml #generated:20
+# view res/layout/activity_sample.xml #generated:6
+# view res/layout/activity_sample_collapsing_toolbar.xml #generated:51
+# view res/layout/activity_sample_custom_container_dark_toolbar.xml #generated:7
+# view res/layout/activity_sample_dark_toolbar.xml #generated:7
+# view res/layout/activity_sample_fragment_dark_toolbar.xml #generated:7
+# view res/layout/activity_sample_fullscreen_dark_toolbar.xml #generated:22
+# view res/layout/activity_sample_nontranslucent.xml #generated:6
+-keep class android.support.v7.widget.Toolbar { <init>(...); }
+
+# view res/layout/abc_screen_simple.xml #generated:25
+# view res/layout/abc_screen_simple_overlay_action_mode.xml #generated:32
+-keep class android.support.v7.widget.ViewStubCompat { <init>(...); }
+
+# view AndroidManifest.xml #generated:167
+-keep class com.baidu.location.f { <init>(...); }
+
+# view AndroidManifest.xml #generated:174
+-keep class com.mikepenz.aboutlibraries.ui.LibsActivity { <init>(...); }
+
+# view res/layout/crossfader_base.xml #generated:1
+-keep class com.mikepenz.crossfader.view.CrossFadeSlidingPaneLayout { <init>(...); }
+
+# view res/layout/crossfader_gmail_style.xml #generated:1
+-keep class com.mikepenz.crossfader.view.GmailStyleCrossFadeSlidingPaneLayout { <init>(...); }
+
+# view res/layout/material_drawer_compact_header.xml #generated:16
+# view res/layout/material_drawer_compact_header.xml #generated:22
+# view res/layout/material_drawer_compact_header.xml #generated:28
+# view res/layout/material_drawer_compact_header.xml #generated:34
+# view res/layout/material_drawer_compact_persistent_header.xml #generated:22
+# view res/layout/material_drawer_compact_persistent_header.xml #generated:28
+# view res/layout/material_drawer_compact_persistent_header.xml #generated:34
+# view res/layout/material_drawer_compact_persistent_header.xml #generated:53
+# view res/layout/material_drawer_header.xml #generated:16
+# view res/layout/material_drawer_header.xml #generated:35
+# view res/layout/material_drawer_header.xml #generated:44
+# view res/layout/material_drawer_header.xml #generated:53
+# view res/layout/material_drawer_item_mini_profile.xml #generated:6
+# view res/layout/material_drawer_item_profile.xml #generated:22
+-keep class com.mikepenz.materialdrawer.view.BezelImageView { <init>(...); }
+
+# view res/layout/materialize.xml #generated:5
+-keep class com.mikepenz.materialize.view.ScrimInsetsFrameLayout { <init>(...); }
+
+# view AndroidManifest.xml #generated:21
+-keep class com.systekcn.guide.MyApplication { <init>(...); }
+
+# view AndroidManifest.xml #generated:80
+-keep class com.systekcn.guide.activity.BeginActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:91
+-keep class com.systekcn.guide.activity.CityChooseActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:131
+-keep class com.systekcn.guide.activity.CollectionActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:141
+-keep class com.systekcn.guide.activity.DownloadActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:106
+-keep class com.systekcn.guide.activity.ListAndMapActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:121
+-keep class com.systekcn.guide.activity.LockScreenActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:101
+-keep class com.systekcn.guide.activity.MuseumHomeActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:96
+-keep class com.systekcn.guide.activity.MuseumListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:116
+-keep class com.systekcn.guide.activity.PlayActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:136
+-keep class com.systekcn.guide.activity.SearchActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:146
+-keep class com.systekcn.guide.activity.SettingActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:111
+-keep class com.systekcn.guide.activity.TopicActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:126
+-keep class com.systekcn.guide.activity.WelcomeActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:40
+-keep class com.systekcn.guide.activity.model.ActionBarActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:52
+-keep class com.systekcn.guide.activity.model.AdvancedActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:74
+-keep class com.systekcn.guide.activity.model.CollapsingToolbarActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:32
+-keep class com.systekcn.guide.activity.model.CompactHeaderDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:77
+-keep class com.systekcn.guide.activity.model.CrossfadeDrawerLayoutActvitiy { <init>(...); }
+
+# view AndroidManifest.xml #generated:68
+-keep class com.systekcn.guide.activity.model.CustomContainerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:28
+-keep class com.systekcn.guide.activity.model.DrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:59
+-keep class com.systekcn.guide.activity.model.EmbeddedDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:71
+-keep class com.systekcn.guide.activity.model.FragmentActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:65
+-keep class com.systekcn.guide.activity.model.FullscreenDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:55
+-keep class com.systekcn.guide.activity.model.KeyboardUtilActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:43
+-keep class com.systekcn.guide.activity.model.MenuDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:62
+-keep class com.systekcn.guide.activity.model.MiniDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:49
+-keep class com.systekcn.guide.activity.model.MultiDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:46
+-keep class com.systekcn.guide.activity.model.NonTranslucentDrawerActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:36
+-keep class com.systekcn.guide.activity.model.PersistentDrawerActivity { <init>(...); }
+
+# view res/layout/activity_city_choose.xml #generated:10
+# view res/layout/activity_search.xml #generated:10
+-keep class com.systekcn.guide.custom.ClearEditText { <init>(...); }
+
+# view res/layout/item_list_exhibit.xml #generated:17
+# view res/layout/item_museum.xml #generated:18
+-keep class com.systekcn.guide.custom.RoundImageView { <init>(...); }
+
+# view res/layout/activity_city_choose.xml #generated:41
+-keep class com.systekcn.guide.custom.SideBar { <init>(...); }
+
+# view AndroidManifest.xml #generated:152
+-keep class com.systekcn.guide.service.MediaPlayService { <init>(...); }
+
+# view AndroidManifest.xml #generated:172
+-keep class com.systekcn.guide.service.MuseumDownloadService { <init>(...); }
+
+# view AndroidManifest.xml #generated:163
+-keep class org.altbeacon.beacon.BeaconIntentProcessor { <init>(...); }
+
+# view AndroidManifest.xml #generated:157
+-keep class org.altbeacon.beacon.service.BeaconService { <init>(...); }
+

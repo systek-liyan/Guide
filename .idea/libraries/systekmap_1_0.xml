@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="systekmap_1_0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/systekmap_1_0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

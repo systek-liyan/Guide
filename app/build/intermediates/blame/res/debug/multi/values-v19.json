@@ -1,0 +1,857 @@
+[
+    {
+        "outputFile": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\values-v19\\values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 51,
+                    "endOffset": 102
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 51,
+                        "endOffset": 102
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 107,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 404
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\src\\main\\res\\values-v19\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endLine": 7,
+                        "endColumn": 12,
+                        "endOffset": 360
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 409,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 576
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 107,
+                        "endLine": 5,
+                        "endColumn": 12,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 581,
+                    "endLine": 13,
+                    "endColumn": 12,
+                    "endOffset": 760
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 458
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 765,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 968
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 463,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 666
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 973,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 1156
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1161,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1320
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 1018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1325,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1472
+                },
+                "from": {
+                    "file": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1023,
+                        "endLine": 20,
+                        "endColumn": 12,
+                        "endOffset": 1170
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\values-v19\\values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 51,
+                    "endOffset": 102
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 51,
+                        "endOffset": 102
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 107,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 404
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\values-v19\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endLine": 7,
+                        "endColumn": 12,
+                        "endOffset": 360
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 409,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 576
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 107,
+                        "endLine": 5,
+                        "endColumn": 12,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 581,
+                    "endLine": 13,
+                    "endColumn": 12,
+                    "endOffset": 760
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 458
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 765,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 968
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 463,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 666
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 973,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 1156
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1161,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1320
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 1018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1325,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1472
+                },
+                "from": {
+                    "file": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1023,
+                        "endLine": 20,
+                        "endColumn": 12,
+                        "endOffset": 1170
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\values-v19\\values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 51,
+                    "endOffset": 102
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 51,
+                        "endOffset": 102
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 107,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 404
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\src\\main\\res\\values-v19\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endLine": 7,
+                        "endColumn": 12,
+                        "endOffset": 360
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 409,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 576
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 107,
+                        "endLine": 5,
+                        "endColumn": 12,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 581,
+                    "endLine": 13,
+                    "endColumn": 12,
+                    "endOffset": 760
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 458
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 765,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 968
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 463,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 666
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 973,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 1156
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1161,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1320
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 1018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1325,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1472
+                },
+                "from": {
+                    "file": "D:\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1023,
+                        "endLine": 20,
+                        "endColumn": 12,
+                        "endOffset": 1170
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\values-v19\\values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 51,
+                    "endOffset": 102
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 51,
+                        "endOffset": 102
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 107,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 404
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\values-v19\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endLine": 7,
+                        "endColumn": 12,
+                        "endOffset": 360
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 409,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 576
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 107,
+                        "endLine": 5,
+                        "endColumn": 12,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 581,
+                    "endLine": 13,
+                    "endColumn": 12,
+                    "endOffset": 760
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 458
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 765,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 968
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 463,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 666
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 973,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 1156
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1161,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1320
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 1018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1325,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1472
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1023,
+                        "endLine": 20,
+                        "endColumn": 12,
+                        "endOffset": 1170
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\values-v19\\values-v19.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 51,
+                    "endOffset": 102
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 51,
+                        "endOffset": 102
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 107,
+                    "endLine": 7,
+                    "endColumn": 12,
+                    "endOffset": 404
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\values-v19\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 59,
+                        "endLine": 7,
+                        "endColumn": 12,
+                        "endOffset": 360
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 409,
+                    "endLine": 10,
+                    "endColumn": 12,
+                    "endOffset": 576
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 107,
+                        "endLine": 5,
+                        "endColumn": 12,
+                        "endOffset": 274
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 581,
+                    "endLine": 13,
+                    "endColumn": 12,
+                    "endOffset": 760
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 279,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 458
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 765,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 968
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 463,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 666
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 973,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 1156
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 671,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1161,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1320
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 1018
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1325,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1472
+                },
+                "from": {
+                    "file": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialize\\0.5.1\\res\\values-v19\\values-v19.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1023,
+                        "endLine": 20,
+                        "endColumn": 12,
+                        "endOffset": 1170
+                    }
+                }
+            }
+        ]
+    }
+]
