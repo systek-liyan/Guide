@@ -68,6 +68,7 @@ public class MediaPlayService extends Service implements IConstants {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
         mReceiver = new LockScreenReceiver();
         registerReceiver(mReceiver, filter);
     }
@@ -214,10 +215,8 @@ public class MediaPlayService extends Service implements IConstants {
 
     public void toSeekTo(int progress){
         if (mediaPlayer == null) {return;}
-        if (isPlaying) {
+        if (mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(progress);
-        } else {
-            play(currentExhibit);
         }
     }
 
@@ -279,9 +278,6 @@ public class MediaPlayService extends Service implements IConstants {
                 case MSG_WHAT_UPDATE_PROGRESS:
                     doUpdateProgress();
                     break;
-                /*case MSG_WHAT_UPDATE_DURATION:
-                    doUpdateDuration();
-                    break;*/
             }
         }
     }

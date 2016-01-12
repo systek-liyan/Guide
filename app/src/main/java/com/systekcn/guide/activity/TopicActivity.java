@@ -96,6 +96,12 @@ public class TopicActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        exhibitAdapter.notifyDataSetChanged();
+    }
+
     private void initDrawer() {
         drawer = new DrawerBuilder()
                 .withActivity(this)
@@ -150,6 +156,7 @@ public class TopicActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 exhibitAdapter.setSelectItem(position);
+                exhibitAdapter.notifyDataSetInvalidated();
                 ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
                 ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
                 Intent intent1 =new Intent(TopicActivity.this,PlayActivity.class);

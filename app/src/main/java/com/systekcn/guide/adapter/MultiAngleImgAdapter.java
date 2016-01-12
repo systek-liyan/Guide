@@ -54,10 +54,9 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
         MultiAngleImg multiAngleImg=list.get(position);
         String url = multiAngleImg.getUrl();
         String name = Tools.changePathToName(url);
-        //MyApplication application = MyApplication.get();
         String currentMuseumId = (String) DataBiz.getTempValue(context,SP_MUSEUM_ID,"");
         if (currentMuseumId != null) {
-            String path = SDCARD_ROOT + "/Guide/" + currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE + "/" + name;
+            String path = LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE + "/" + name;
             if (Tools.isFileExist(path)) {
                 ImageLoaderUtil.displaySdcardImage(context, path, holder.ivMultiAngle);
             } else {

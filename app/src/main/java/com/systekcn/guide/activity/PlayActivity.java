@@ -435,20 +435,29 @@ public class PlayActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(action.equals(INTENT_EXHIBIT_PROGRESS)){
-                currentDuration=intent.getIntExtra(INTENT_EXHIBIT_DURATION,0);
-                currentProgress =intent.getIntExtra(INTENT_EXHIBIT_PROGRESS,0);
-                handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
-            }else if(action.equals(INTENT_EXHIBIT)){
-                String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
-                if(TextUtils.isEmpty(exhibitStr)){return;}
-                ExhibitBean exhibitBean=JSON.parseObject(exhibitStr, ExhibitBean.class);
-                if(currentExhibit.equals(exhibitBean)){return;}
-                handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
-            }else if(action.equals(INTENT_CHANGE_PLAY_PLAY)){
-                handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
-            }else if(action.equals(INTENT_CHANGE_PLAY_STOP)){
-                handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+            switch (action) {
+                case INTENT_EXHIBIT_PROGRESS:
+                    currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
+                    currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+                    break;
+                case INTENT_EXHIBIT:
+                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
+                    if (TextUtils.isEmpty(exhibitStr)) {
+                        return;
+                    }
+                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
+                    if (currentExhibit.equals(exhibitBean)) {
+                        return;
+                    }
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+                    break;
+                case INTENT_CHANGE_PLAY_PLAY:
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+                    break;
+                case INTENT_CHANGE_PLAY_STOP:
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+                    break;
             }
         }
     }

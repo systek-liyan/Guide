@@ -93,7 +93,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (position == selectItem) {
-            viewHolder.ivExhibitSound.setGifImage(R.drawable.iv_music);
+            viewHolder.ivExhibitSound.setGifImage(R.drawable.iv_playing);
             viewHolder.ivExhibitSound.setVisibility(View.VISIBLE);
         }else{
             viewHolder.ivExhibitSound.setVisibility(View.GONE);

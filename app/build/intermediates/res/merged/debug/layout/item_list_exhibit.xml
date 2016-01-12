@@ -18,7 +18,6 @@
             android:id="@+id/ivExhibitIcon"
             android:layout_width="100dp"
             android:layout_height="76dp"
-            android:scaleType="fitXY"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="@dimen/simple_4dp"
@@ -90,8 +89,8 @@
                     android:id="@+id/ivExhibitSound"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="@dimen/simple_4dp"
-                    style="@style/normal_image_view"
-                    android:src="@drawable/iv_sound_sign"/>
+                    android:src="@drawable/iv_sound_sign"
+                    style="@style/normal_image_view"/>
             </RelativeLayout>
 
             <View

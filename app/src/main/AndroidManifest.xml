@@ -95,7 +95,7 @@
         <activity
             android:name=".activity.MuseumListActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.MuseumHomeActivity"
@@ -119,9 +119,9 @@
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.LockScreenActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme"/>
+            android:theme="@style/FullscreenTheme"/>
         <activity
             android:name=".activity.WelcomeActivity"
             android:launchMode="singleInstance"

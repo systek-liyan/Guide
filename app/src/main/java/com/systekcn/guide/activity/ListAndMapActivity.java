@@ -243,6 +243,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     @Override
     protected void onDestroy() {
+        if(bluetoothManager!=null){
+            bluetoothManager.disConnectBluetoothService();
+        }
         unregisterReceiver(receiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();

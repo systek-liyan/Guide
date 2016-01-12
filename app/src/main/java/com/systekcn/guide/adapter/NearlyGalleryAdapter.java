@@ -77,13 +77,12 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
 
         holder.mTxt.setText(exhibitBean.getName());
 
-        if(position == selectIndex){
+       /* if(position == selectIndex){
             holder.itemView.setSelected(true);
         }else{
             holder.itemView.setSelected(false);
-        }
-        if (onItemClickListener != null)
-        {
+        }*/
+        if (onItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener()
             {
                 @Override

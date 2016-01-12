@@ -72,7 +72,7 @@ public class RoundImageView extends ImageView {
         mMatrix = new Matrix();
         mBitmapPaint = new Paint();
         mBitmapPaint.setAntiAlias(true);
-        scaleType=ScaleType.FIT_XY;
+        scaleType=ScaleType.CENTER_CROP;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);
 
         mBorderRadius = a.getDimensionPixelSize(
@@ -130,7 +130,7 @@ public class RoundImageView extends ImageView {
 
             if (!(bmp.getWidth() == getWidth() && bmp.getHeight() == getHeight()))
             {
-                if(scaleType==ScaleType.FIT_XY){
+                if(scaleType==ScaleType.CENTER_CROP){
                     // shader的变换矩阵，我们这里主要用于放大或者缩小
                     mMatrix.setScale(getWidth() * 1.0f / bmp.getWidth(), getHeight() * 1.0f / bmp.getHeight());
                 }else{
@@ -158,8 +158,7 @@ public class RoundImageView extends ImageView {
 
         if (type == TYPE_ROUND)
         {
-            canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius,
-                    mBitmapPaint);
+            canvas.drawRoundRect(mRoundRect, mBorderRadius, mBorderRadius, mBitmapPaint);
         } else
         {
             canvas.drawCircle(mRadius, mRadius, mRadius, mBitmapPaint);

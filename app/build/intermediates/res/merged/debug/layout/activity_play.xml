@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.7"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitCenter"/>
         <ListView
             android:id="@+id/lvLyric"
             android:layout_margin="30dp"
@@ -77,8 +77,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true"
                     android:textSize="@dimen/normal_textSize"
-                    android:layout_marginStart="10dp"
-                    android:text="1:32"/>
+                    android:layout_marginStart="10dp"/>
                 <TextView
                     android:id="@+id/tvTotalTime"
                     android:layout_width="wrap_content"
@@ -86,8 +85,7 @@
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="10dp"
-                    android:textSize="@dimen/normal_textSize"
-                    android:text="2:42"/>
+                    android:textSize="@dimen/normal_textSize"/>
             </RelativeLayout>
         </LinearLayout>
 
