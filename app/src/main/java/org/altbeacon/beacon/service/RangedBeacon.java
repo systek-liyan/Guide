@@ -16,7 +16,7 @@ public class RangedBeacon {
     //public static long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 20000; /* 20 seconds */
     //public static long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 10000; /* 10 seconds */
     //public static long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 5000; /* 5 seconds */
-    public static long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 3000; /* 3 seconds 时长 sa*/
+    public static long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 1500; /* 3 seconds 时长 sa*/
 
     private static long sampleExpirationMilliseconds = DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS;
     private boolean mTracked = true;

@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,11 +24,16 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
+import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.octicons_typeface_library.Octicons;
 import com.systekcn.guide.MyApplication;
 import com.systekcn.guide.R;
 import com.systekcn.guide.biz.DataBiz;
 import com.systekcn.guide.entity.MuseumBean;
+import com.systekcn.guide.manager.BluetoothManager;
+import com.systekcn.guide.manager.MediaServiceManager;
 import com.systekcn.guide.utils.ExceptionUtil;
 import com.systekcn.guide.utils.ImageLoaderUtil;
 import com.systekcn.guide.utils.LogUtil;
@@ -60,6 +67,9 @@ public class MuseumHomeActivity extends BaseActivity {
     private RelativeLayout rlCollectionHome;
     private ImageView titleBarSearch;
     private RelativeLayout rlNearlyHome;
+    private BluetoothManager bluetoothManager;
+    private SwitchCompat auto_switch;
+    private MediaServiceManager mediaServiceManager;
 
 
     @Override
@@ -74,6 +84,8 @@ public class MuseumHomeActivity extends BaseActivity {
     }
 
     private void init() {
+        bluetoothManager=BluetoothManager.newInstance(this);
+        mediaServiceManager=MediaServiceManager.getInstance(this);
         ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_museum_home);
         WindowManager windowManager = getWindowManager();
@@ -97,28 +109,33 @@ public class MuseumHomeActivity extends BaseActivity {
                 .withFullscreen(true)
                 .withHeader(R.layout.header)
                 .inflateMenu(R.menu.drawer_menu)
+                .addDrawerItems(new SwitchDrawerItem().withName("自动讲解").withIcon(Octicons.Icon.oct_tools).withChecked(false).withOnCheckedChangeListener(new OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
+                    }
+                }))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
+                        Class<?> targetClass = null;
+                        switch (position) {
                             case 1:
-                                targetClass=DownloadActivity.class;
+                                targetClass = DownloadActivity.class;
                                 break;
                             case 2:
-                                targetClass=CollectionActivity.class;
+                                targetClass = CollectionActivity.class;
                                 break;
                             case 3:
-                                targetClass=CityChooseActivity.class;
+                                targetClass = CityChooseActivity.class;
                                 break;
                             case 4:
-                                targetClass=MuseumListActivity.class;
+                                targetClass = MuseumListActivity.class;
                                 break;
                             case 5:
-                                targetClass=SettingActivity.class;
+                                targetClass = SettingActivity.class;
                                 break;
                         }
-                        Intent intent=new Intent(MuseumHomeActivity.this,targetClass);
+                        Intent intent = new Intent(MuseumHomeActivity.this, targetClass);
                         startActivity(intent);
                         return false;
                     }
@@ -149,7 +166,16 @@ public class MuseumHomeActivity extends BaseActivity {
         ivPlayStateCtrl.setOnClickListener(onClickListener);
         rlCollectionHome.setOnClickListener(onClickListener);
         rlNearlyHome.setOnClickListener(onClickListener);
-
+        auto_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mediaServiceManager.setIsAutoPlay(true);
+                }else{
+                    mediaServiceManager.setIsAutoPlay(false);
+                }
+            }
+        });
     }
 
 
@@ -158,11 +184,6 @@ public class MuseumHomeActivity extends BaseActivity {
         public void onClick(View v) {
             Intent intent=null;
             switch (v.getId()){
-               /* case R.id.rlNearlyHome:
-                    intent=new Intent(MuseumHomeActivity.this,DownloadActivity.class);
-                    intent.putExtra(INTENT_FLAG_GUIDE_MAP, INTENT_FLAG_GUIDE);
-                    startActivity(intent);
-                    break;*/
                 case R.id.rlGuideHome:
                     intent=new Intent(MuseumHomeActivity.this,ListAndMapActivity.class);
                     intent.putExtra(INTENT_FLAG_GUIDE_MAP, INTENT_FLAG_GUIDE);
@@ -267,6 +288,7 @@ public class MuseumHomeActivity extends BaseActivity {
         rlTopicHome = (RelativeLayout) findViewById(R.id.rlTopicHome);
         rlCollectionHome = (RelativeLayout) findViewById(R.id.rlCollectionHome);
         rlNearlyHome = (RelativeLayout) findViewById(R.id.rlNearlyHome);
+        auto_switch = (SwitchCompat) findViewById(R.id.auto_switch);
     }
 
     private void showData(){
@@ -355,6 +377,9 @@ public class MuseumHomeActivity extends BaseActivity {
                     Toast.makeText(this, "在按一次退出", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
                 } else {
+                    if(bluetoothManager!=null){
+                        bluetoothManager.disConnectBluetoothService();
+                    }
                     DataBiz.clearTempValues(this);
                     MyApplication.get().exit();
                 }

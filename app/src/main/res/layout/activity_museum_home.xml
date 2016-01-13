@@ -185,6 +185,16 @@
                 android:background="@color/md_grey_300"
                 android:gravity="center_vertical">
 
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/auto_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|end"
+                    android:paddingEnd="0dp"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="@dimen/material_drawer_padding"
+                    android:paddingRight="0dp"
+                    android:textSize="@dimen/material_drawer_item_primary_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

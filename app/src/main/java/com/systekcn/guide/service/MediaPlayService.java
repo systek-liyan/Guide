@@ -311,6 +311,10 @@ public class MediaPlayService extends Service implements IConstants {
         public boolean isPlaying() {
             return mediaPlayer != null && isPlaying;
         }
+        public boolean isPause() {
+            return mediaPlayer != null && isPlaying;
+        }
+
         /**暂停后开始播放*/
         public void continuePlay(){
             toContinuePlay();

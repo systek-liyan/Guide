@@ -144,7 +144,7 @@ public class BeaconManager {
      * The default duration in milliseconds of the Bluetooth scan cycle
      */
     //public static final long DEFAULT_FOREGROUND_SCAN_PERIOD = 1100;//前台扫描周期 by sa
-    public static final long DEFAULT_FOREGROUND_SCAN_PERIOD = 500;
+    public static final long DEFAULT_FOREGROUND_SCAN_PERIOD = 350;
     /**
      * The default duration in milliseconds spent not scanning between each Bluetooth scan cycle
      */

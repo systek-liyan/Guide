@@ -25,7 +25,6 @@ import com.systekcn.guide.R;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.fragment.ExhibitListFragment;
 import com.systekcn.guide.fragment.MapFragment;
-import com.systekcn.guide.manager.BluetoothManager;
 import com.systekcn.guide.manager.MediaServiceManager;
 import com.systekcn.guide.utils.ImageLoaderUtil;
 import com.systekcn.guide.utils.Tools;
@@ -50,7 +49,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private TextView exhibitName;
     private ImageView exhibitIcon;
     private ImageView ivPlayCtrl;
-    private BluetoothManager bluetoothManager;
     private ImageView titleBarDrawer;
     private MediaServiceManager mediaServiceManager;
 
@@ -60,13 +58,17 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_list_and_map);
         handler=new MyHandler();
-        mediaServiceManager=MediaServiceManager.getInstance(this);
-        initBlueTooth();
+        initMediaManager();
         initDrawer();
         initView();
         addListener();
         setDefaultFragment();
         registerReceiver();
+    }
+
+    private void initMediaManager() {
+        mediaServiceManager= MediaServiceManager.getInstance(this);
+        mediaServiceManager.setIsAutoPlay(true);
     }
 
     private void registerReceiver() {
@@ -79,10 +81,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         registerReceiver(receiver,filter);
     }
 
-    private void initBlueTooth() {
-        bluetoothManager = BluetoothManager.newInstance(this);
-        bluetoothManager.initBeaconSearcher();
-    }
 
     private void initDrawer() {
         drawer = new DrawerBuilder()
@@ -189,8 +187,10 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         mapFragment = new MapFragment();
         if(flag.equals(INTENT_FLAG_GUIDE)){
             transaction.replace(R.id.llExhibitListContent, exhibitListFragment);
+            radioButtonList.setChecked(true);
         }else{
             transaction.replace(R.id.llExhibitListContent, mapFragment);
+            radioButtonMap.setChecked(true);
         }
         transaction.commit();
     }
@@ -243,9 +243,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     @Override
     protected void onDestroy() {
-        if(bluetoothManager!=null){
-            bluetoothManager.disConnectBluetoothService();
-        }
         unregisterReceiver(receiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
@@ -300,7 +297,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        bluetoothManager.disConnectBluetoothService();
         finish();
     }
 

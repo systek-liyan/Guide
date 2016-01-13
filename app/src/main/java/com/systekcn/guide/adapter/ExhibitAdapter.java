@@ -119,17 +119,18 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         viewHolder.llCollectionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(exhibitBean.isSaveForPerson()){
-                    exhibitBean.setSaveForPerson(false);
-                    finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_empty));
-                    Toast.makeText(context, "取消收藏", Toast.LENGTH_LONG).show();
-                }else{
-                    exhibitBean.setSaveForPerson(true);
-                    finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_full));
-                    Toast.makeText(context, "已收藏", Toast.LENGTH_LONG).show();
-                }
-                DbUtils db=DbUtils.create(context);
+                DbUtils db=null;
                 try {
+                    if(exhibitBean.isSaveForPerson()){
+                        exhibitBean.setSaveForPerson(false);
+                        finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_empty));
+                        Toast.makeText(context, "取消收藏", Toast.LENGTH_LONG).show();
+                    }else{
+                        exhibitBean.setSaveForPerson(true);
+                        finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_full));
+                        Toast.makeText(context, "已收藏", Toast.LENGTH_LONG).show();
+                    }
+                    db=DbUtils.create(context);
                     db.saveOrUpdate(exhibitBean);
                     LogUtil.i("ZHANG", "收藏数据已更新至数据库");
                 } catch (DbException e) {

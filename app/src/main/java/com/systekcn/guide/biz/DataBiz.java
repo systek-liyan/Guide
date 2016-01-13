@@ -19,6 +19,8 @@ import com.systekcn.guide.entity.LabelBean;
 import com.systekcn.guide.utils.ExceptionUtil;
 import com.systekcn.guide.utils.MyHttpUtil;
 
+import org.altbeacon.beacon.Identifier;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -171,7 +173,7 @@ public class DataBiz implements IConstants{
         List<ExhibitBean> collectionList=null;
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON,"=", true).and(MUSEUM_ID, LIKE, "%" + museumId + "%"));
+            collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true).and(MUSEUM_ID, LIKE, "%" + museumId + "%"));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
@@ -317,5 +319,35 @@ public class DataBiz implements IConstants{
         }
         return isSave;
     }
+
+
+    public static BeaconBean getBeaconMinorAndMajor(Context context,Identifier minor,Identifier major){
+        List<BeaconBean> beaconBeans=null;
+        BeaconBean b=null;
+        DbUtils db=null;
+        if(context==null){
+            context=MyApplication.get().getApplicationContext();
+        }
+        try {
+            db=DbUtils.create(context);
+            beaconBeans= db.findAll(Selector.from(BeaconBean.class).where("minor", "=", minor).and("major","=",major));
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
+        }
+        if(beaconBeans==null||beaconBeans.size()<=0){
+            String url=URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major;
+            String response= MyHttpUtil.sendGet(url);
+            beaconBeans=JSON.parseArray(response, BeaconBean.class);
+            b=beaconBeans.get(0);
+        }else{
+            b=beaconBeans.get(0);
+        }
+        return b;
+    }
+
 
 }

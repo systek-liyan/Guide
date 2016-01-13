@@ -42,11 +42,17 @@ public class PhoneReceiver extends BroadcastReceiver{
                 case TelephonyManager.CALL_STATE_RINGING:
                     incomingFlag = true;
                     Log.i("PhoneReceiver", "CALL IN RINGING :" + incomingNumber);
+                    if(mediaServiceManager!=null&&mediaServiceManager.isPlaying()){
+                        mediaServiceManager.pause();
+                    }
                     break;
                 //电话接听
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     if (incomingFlag) {
                         Log.i("PhoneReceiver", "CALL IN ACCEPT :" + incomingNumber);
+                    }
+                    if(mediaServiceManager!=null&&mediaServiceManager.isPlaying()){
+                        mediaServiceManager.pause();
                     }
                     break;
                 //电话挂机
@@ -54,11 +60,11 @@ public class PhoneReceiver extends BroadcastReceiver{
                     if (incomingFlag) {
                         Log.i("PhoneReceiver", "CALL IDLE");
                     }
+                    /*if(mediaServiceManager!=null&&mediaServiceManager.is()){
+                        mediaServiceManager.pause();
+                    }*/
                     break;
 
-            }
-            if(mediaServiceManager!=null&&mediaServiceManager.isPlaying()){
-                mediaServiceManager.pause();
             }
 
         }

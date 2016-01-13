@@ -8,6 +8,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 import com.systekcn.guide.R;
+import com.systekcn.guide.manager.BluetoothManager;
 import com.systekcn.guide.utils.NetworkUtil;
 import com.systekcn.guide.utils.Tools;
 import com.systekcn.guide.utils.ViewUtils;
@@ -17,10 +18,12 @@ public class BeginActivity extends BaseActivity {
 
     private View view;
     private Class<?> targetClass;
+    private BluetoothManager bluetoothManager;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
         connectWIFI();
+        initBlueTooth();
         ViewUtils.setStateBarColor(this,R.color.md_red_200);
         view = View.inflate(this, R.layout.activity_begin, null);
         NetworkUtil.checkNet(this);
@@ -49,7 +52,10 @@ public class BeginActivity extends BaseActivity {
             }
         }.start();
     }
-
+    private void initBlueTooth() {
+        bluetoothManager = BluetoothManager.newInstance(this);
+        bluetoothManager.initBeaconSearcher();
+    }
 
     private void initData() {
         AlphaAnimation startAnimation = new AlphaAnimation(1.0f, 1.0f);

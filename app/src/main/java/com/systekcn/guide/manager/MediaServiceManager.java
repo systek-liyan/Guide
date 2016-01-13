@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -31,7 +29,18 @@ public class MediaServiceManager implements IConstants {
     private ServiceConnection mConn;
     public MediaPlayService.MediaServiceBinder mediaServiceBinder;
     private PlayCtrlReceiver playCtrlReceiver;
+    private boolean isAutoPlay;
     private static MediaServiceManager instance;
+
+    public boolean isAutoPlay() {
+        return isAutoPlay;
+    }
+
+    public void setIsAutoPlay(boolean isAutoPlay) {
+        this.isAutoPlay = isAutoPlay;
+    }
+
+
 
     public static MediaServiceManager getInstance(Context context){
         if(instance==null){
@@ -60,6 +69,7 @@ public class MediaServiceManager implements IConstants {
         filter.addAction(INTENT_EXHIBIT);
         filter.addAction(INTENT_CHANGE_PLAY_STATE);
         filter.addAction(INTENT_SEEK_BAR_CHANG);
+        filter.addAction(INTENT_EXHIBIT_LIST);
         mContext.registerReceiver(playCtrlReceiver, filter);
     }
 
@@ -100,6 +110,10 @@ public class MediaServiceManager implements IConstants {
 
     public boolean isPlaying() {
         return mediaServiceBinder != null && mediaServiceBinder.isPlaying();
+    }
+
+    public boolean isPause() {
+        return mediaServiceBinder != null && mediaServiceBinder.isPause();
     }
 
     public boolean pause() {
@@ -174,28 +188,6 @@ public class MediaServiceManager implements IConstants {
     }
 
 
-    PhoneStateListener listener=new PhoneStateListener(){
-
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-            //注意，方法必须写在super方法后面，否则incomingNumber无法获取到值。
-            super.onCallStateChanged(state, incomingNumber);
-            switch(state){
-                case TelephonyManager.CALL_STATE_IDLE:
-                    System.out.println("挂断");
-                    break;
-                case TelephonyManager.CALL_STATE_OFFHOOK:
-                    System.out.println("接听");
-                    break;
-                case TelephonyManager.CALL_STATE_RINGING:
-                    System.out.println("响铃:来电号码"+incomingNumber);
-                    //输出来电号码
-                    break;
-            }
-        }
-    };
-
-
     private class PlayCtrlReceiver extends BroadcastReceiver{
 
         @Override
@@ -205,13 +197,9 @@ public class MediaServiceManager implements IConstants {
             switch (action) {
                 case INTENT_EXHIBIT:
                     String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
-                    if (TextUtils.isEmpty(exhibitStr)) {
-                        return;
-                    }
+                    if (TextUtils.isEmpty(exhibitStr)) {return;}
                     ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (exhibitBean == null || mediaServiceBinder == null) {
-                        return;
-                    }
+                    if (exhibitBean == null || mediaServiceBinder == null) {return;}
                     mediaServiceBinder.notifyExhibitChange(exhibitBean);
                     break;
                 case INTENT_CHANGE_PLAY_STATE:
@@ -229,12 +217,27 @@ public class MediaServiceManager implements IConstants {
                     int progress = intent.getIntExtra(INTENT_SEEK_BAR_CHANG, 0);
                     mediaServiceBinder.seekTo(progress);
                     break;
-
+                case INTENT_EXHIBIT_LIST:
+                    if(!isAutoPlay){break;}
+                    String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
+                    List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
+                    if(currentExhibitList==null){return;}
+                    /*当展品只有一个，直接播放*/
+                    if(currentExhibitList.size()==1){
+                        ExhibitBean exhibit=currentExhibitList.get(0);
+                        ExhibitBean currentExhibit=getCurrentExhibit();
+                        if(currentExhibit==null||!currentExhibit.equals(exhibit)){
+                            String str= JSON.toJSONString(exhibit);
+                            Intent intent2 =new Intent();
+                            intent2.setAction(INTENT_EXHIBIT);
+                            intent2.putExtra(INTENT_EXHIBIT, str);
+                            context.sendBroadcast(intent2);
+                        }
+                    }
+                    break;
             }
         }
     }
-
-
 
 //暂无以下方法
     /*public boolean rePlay() {

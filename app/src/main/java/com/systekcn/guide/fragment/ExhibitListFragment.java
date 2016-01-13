@@ -37,6 +37,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     private List<ExhibitBean> currentExhibitList;
     private OnFragmentInteractionListener mListener;
     private MediaServiceManager mediaServiceManager;
+    private ExhibitBean currentExhibit;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,6 +60,12 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         mediaServiceManager=MediaServiceManager.getInstance(activity);
         handler=new MyHandler();
         registerReceiver();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        currentExhibit=mediaServiceManager.getCurrentExhibit();
     }
 
     private void registerReceiver() {
@@ -91,9 +98,9 @@ public class ExhibitListFragment extends Fragment implements IConstants {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
-                ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
+                currentExhibit=mediaServiceManager.getCurrentExhibit();
                 Intent intent1 =new Intent(activity,PlayActivity.class);
-                if(bean==null||!bean.equals(exhibitBean)){
+                if(currentExhibit==null||!currentExhibit.equals(exhibitBean)){
                     mListener.onFragmentInteraction(exhibitBean);
 
                     String str= JSON.toJSONString(exhibitBean);
@@ -129,6 +136,21 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         super.onDetach();
     }
 
+    @Override
+    public void onDestroy() {
+        activity.unregisterReceiver(listChangeReceiver);
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+    class MyHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
+                if(exhibitAdapter ==null||currentExhibitList==null){return;}
+                exhibitAdapter.updateData(currentExhibitList);
+            }
+        }
+    }
 
     private  class ListChangeReceiver extends BroadcastReceiver {
 
@@ -145,19 +167,4 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     }
 
 
-    @Override
-    public void onDestroy() {
-        activity.unregisterReceiver(listChangeReceiver);
-        handler.removeCallbacksAndMessages(null);
-        super.onDestroy();
-    }
-    class MyHandler extends Handler{
-        @Override
-        public void handleMessage(Message msg) {
-            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
-                if(exhibitAdapter ==null||currentExhibitList==null){return;}
-                exhibitAdapter.updateData(currentExhibitList);
-            }
-        }
-    }
 }

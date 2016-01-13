@@ -216,9 +216,7 @@ public class PlayActivity extends BaseActivity {
 
     private void initIcon() {
         if(currentExhibit==null){return;}
-        if(currentIconUrl==null){
-            currentIconUrl=currentExhibit.getIconurl();
-        }
+        currentIconUrl=currentExhibit.getIconurl();
         String imageName = Tools.changePathToName(currentIconUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
         File file = new File(imgLocalUrl);
@@ -324,7 +322,7 @@ public class PlayActivity extends BaseActivity {
     private void initData() {
         if(currentExhibit==null){return;}
         currentMuseumId=currentExhibit.getMuseumId();
-        handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+        handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
     }
 
     private void loadLyricByHand() {
@@ -418,6 +416,9 @@ public class PlayActivity extends BaseActivity {
                     tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
                     break;
                 case MSG_WHAT_CHANGE_EXHIBIT:
+                    initData();
+                    break;
+                case MSG_WHAT_REFRESH_VIEW:
                     refreshView();
                     break;
                 case MSG_WHAT_CHANGE_PLAY_START:
@@ -447,10 +448,10 @@ public class PlayActivity extends BaseActivity {
                         return;
                     }
                     ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (currentExhibit.equals(exhibitBean)) {
-                        return;
+                    if (currentExhibit==null||!currentExhibit.equals(exhibitBean)) {
+                        currentExhibit=exhibitBean;
+                        handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     }
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     break;
                 case INTENT_CHANGE_PLAY_PLAY:
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);

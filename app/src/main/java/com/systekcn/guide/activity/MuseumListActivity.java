@@ -7,11 +7,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.mikepenz.materialdrawer.Drawer;
@@ -68,7 +70,7 @@ public class MuseumListActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         initData();
-        LogUtil.i("ZHANG","执行了onStart");
+        LogUtil.i("ZHANG", "执行了onStart");
     }
 
     /*@Override
@@ -94,26 +96,30 @@ public class MuseumListActivity extends BaseActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
+                        Class<?> targetClass = null;
+                        switch (position) {
                             case 1:
-                                targetClass=DownloadActivity.class;
+                                targetClass = DownloadActivity.class;
                                 break;
                             case 2:
-                                targetClass=CollectionActivity.class;
+                                targetClass = CollectionActivity.class;
                                 break;
                             case 3:
-                                targetClass=CityChooseActivity.class;
+                                targetClass = CityChooseActivity.class;
                                 break;
                             case 4:
-                                targetClass=MuseumListActivity.class;
+                                targetClass = MuseumListActivity.class;
                                 break;
                             case 5:
-                                targetClass=SettingActivity.class;
+                                targetClass = SettingActivity.class;
                                 break;
+                            case 6:
+                                return true;
                         }
-                        Intent intent=new Intent(MuseumListActivity.this,targetClass);
-                        startActivity(intent);
+                        if (targetClass!=null) {
+                            Intent intent = new Intent(MuseumListActivity.this, targetClass);
+                            startActivity(intent);
+                        }
                         return false;
                     }
                 }).build();
@@ -222,6 +228,32 @@ public class MuseumListActivity extends BaseActivity {
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
+
+    /*用于计算点击返回键时间*/
+    private long mExitTime=0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(drawer.isDrawerOpen()){
+                drawer.closeDrawer();
+            }else {
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                    Toast.makeText(this, "在按一次退出", Toast.LENGTH_SHORT).show();
+                    mExitTime = System.currentTimeMillis();
+                } else {
+                    DataBiz.clearTempValues(this);
+                    MyApplication.get().exit();
+                }
+            }
+            return true;
+        }
+        //拦截MENU按钮点击事件，让他无任何操作
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     class MyHandler extends Handler {
         @Override
