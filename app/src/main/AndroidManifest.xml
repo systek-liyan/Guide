@@ -4,6 +4,8 @@
 
 
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
@@ -169,6 +171,16 @@
             android:permission="android.permission.BAIDU_LOCATION_SERVICE"
             android:process=":remote"/>
         <service android:name=".service.MuseumDownloadService"/>
+
+
+        <receiver android:name=".receiver.PhoneReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+
 
     </application>
 

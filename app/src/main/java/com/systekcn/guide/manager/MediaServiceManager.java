@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -171,38 +173,70 @@ public class MediaServiceManager implements IConstants {
         mContext.stopService(new Intent(mContext, MediaPlayService.class));
     }
 
+
+    PhoneStateListener listener=new PhoneStateListener(){
+
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            //注意，方法必须写在super方法后面，否则incomingNumber无法获取到值。
+            super.onCallStateChanged(state, incomingNumber);
+            switch(state){
+                case TelephonyManager.CALL_STATE_IDLE:
+                    System.out.println("挂断");
+                    break;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    System.out.println("接听");
+                    break;
+                case TelephonyManager.CALL_STATE_RINGING:
+                    System.out.println("响铃:来电号码"+incomingNumber);
+                    //输出来电号码
+                    break;
+            }
+        }
+    };
+
+
     private class PlayCtrlReceiver extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
             Intent intent1=null;
-            if(action.equals(INTENT_EXHIBIT)){
-                String exhibitStr= intent.getStringExtra(INTENT_EXHIBIT);
-                if(TextUtils.isEmpty(exhibitStr)){return;}
-                ExhibitBean exhibitBean= JSON.parseObject( exhibitStr,ExhibitBean.class);
-                if(exhibitBean==null||mediaServiceBinder==null){return;}
-                mediaServiceBinder.notifyExhibitChange(exhibitBean);
-            }else if(action.equals(INTENT_CHANGE_PLAY_STATE)){
-               intent1=new Intent();
-                if(mediaServiceBinder.isPlaying()){
-                    mediaServiceBinder.pause();
-                    intent1.setAction(INTENT_CHANGE_PLAY_STOP);
-                }else{
-                    mediaServiceBinder.continuePlay();
-                    intent1.setAction(INTENT_CHANGE_PLAY_PLAY);
-                }
-                context.sendBroadcast(intent1);
-            }else if(action.equals(INTENT_SEEK_BAR_CHANG)){
-                int progress=intent.getIntExtra(INTENT_SEEK_BAR_CHANG,0);
-                mediaServiceBinder.seekTo(progress);
+            switch (action) {
+                case INTENT_EXHIBIT:
+                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
+                    if (TextUtils.isEmpty(exhibitStr)) {
+                        return;
+                    }
+                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
+                    if (exhibitBean == null || mediaServiceBinder == null) {
+                        return;
+                    }
+                    mediaServiceBinder.notifyExhibitChange(exhibitBean);
+                    break;
+                case INTENT_CHANGE_PLAY_STATE:
+                    intent1 = new Intent();
+                    if (mediaServiceBinder.isPlaying()) {
+                        mediaServiceBinder.pause();
+                        intent1.setAction(INTENT_CHANGE_PLAY_STOP);
+                    } else {
+                        mediaServiceBinder.continuePlay();
+                        intent1.setAction(INTENT_CHANGE_PLAY_PLAY);
+                    }
+                    context.sendBroadcast(intent1);
+                    break;
+                case INTENT_SEEK_BAR_CHANG:
+                    int progress = intent.getIntExtra(INTENT_SEEK_BAR_CHANG, 0);
+                    mediaServiceBinder.seekTo(progress);
+                    break;
+
             }
         }
     }
 
 
 
-    //暂无以下方法
+//暂无以下方法
     /*public boolean rePlay() {
         if (mediaServiceBinder != null) {
             mediaServiceBinder.rePlay();
