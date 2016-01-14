@@ -43,12 +43,12 @@ import java.util.List;
 
 public class PlayActivity extends BaseActivity {
 
-    private ListView lvLyric;
-    private ImageView imgExhibitIcon;
-    private ImageView imgWordCtrl;
-    private MyHandler handler;
-    private ArrayList<MultiAngleImg> multiAngleImgs;
-    private MultiAngleImgAdapter mulTiAngleImgAdapter;
+    private Handler handler;
+    private ListView lvLyric;//歌词listview
+    private ImageView imgExhibitIcon;//歌词背景大图
+    private ImageView imgWordCtrl;//歌词imageview
+    private ArrayList<MultiAngleImg> multiAngleImgs;//多角度图片
+    private MultiAngleImgAdapter mulTiAngleImgAdapter;//多角度图片adapter
     private String currentLyricUrl;/*当前歌词路径*/
     private LyricLoadHelper mLyricLoadHelper;
     private LyricAdapter mLyricAdapter;
@@ -65,9 +65,9 @@ public class PlayActivity extends BaseActivity {
     private Drawer drawer;
     private String currentExhibitStr;
     private String currentIconUrl;
-
     private MediaServiceManager mediaServiceManager;
     private TextView tvTotalTime;
+    private boolean hasMultiImage;
 
 
     @Override
@@ -188,11 +188,14 @@ public class PlayActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 MultiAngleImg multiAngleImg = multiAngleImgs.get(position);
                 currentIconUrl = multiAngleImg.getUrl();
-                initIcon();
+                //initIcon();
+                Intent intent=new Intent();
+                intent.setAction(INTENT_SEEK_BAR_CHANG);
+                intent.putExtra(INTENT_SEEK_BAR_CHANG,multiAngleImg.getTime());
+                sendBroadcast(intent);
             }
         });
     }
-
 
 
     private void registerReceiver() {
@@ -211,12 +214,14 @@ public class PlayActivity extends BaseActivity {
         LogUtil.i("ZHANG", "执行了refreshView");
         initMultiImgs();
         loadLyricByHand();
+        if(currentExhibit!=null){
+            currentIconUrl=currentExhibit.getIconurl();
+        }
         initIcon();
     }
 
     private void initIcon() {
-        if(currentExhibit==null){return;}
-        currentIconUrl=currentExhibit.getIconurl();
+        if(currentIconUrl==null){return;}
         String imageName = Tools.changePathToName(currentIconUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
         File file = new File(imgLocalUrl);
@@ -378,6 +383,7 @@ public class PlayActivity extends BaseActivity {
         String imgStr=currentExhibit.getImgsurl();
         // 没有多角度图片，返回
         if(TextUtils.isEmpty(imgStr)){
+            hasMultiImage=false;
             MultiAngleImg multiAngleImg=new MultiAngleImg();
             multiAngleImg.setUrl(currentExhibit.getIconurl());
             multiAngleImgs.add(multiAngleImg);
@@ -414,6 +420,7 @@ public class PlayActivity extends BaseActivity {
                     mLyricLoadHelper.notifyTime(currentProgress);
                     tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
                     tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
+                    refreshIcon();
                     break;
                 case MSG_WHAT_CHANGE_EXHIBIT:
                     initData();
@@ -462,4 +469,27 @@ public class PlayActivity extends BaseActivity {
             }
         }
     }
+
+    public void refreshIcon(){
+        if (imgsTimeList==null||imgsTimeList.size() == 0) {return;}
+        for (int i = 0; i < imgsTimeList.size(); i++) {
+            int imgTime = imgsTimeList.get(i);
+            int overTime= 0;
+            if(i+1>=imgsTimeList.size()){
+                overTime=imgsTimeList.get(imgsTimeList.size()-1);
+            }else{
+                overTime=imgsTimeList.get(i+1);
+            }
+            if (currentProgress > imgTime && currentProgress < overTime) {
+                if(multiAngleImgs==null||multiAngleImgs.size()==0){return;}
+                for(MultiAngleImg angleImg:multiAngleImgs){
+                    if(angleImg.getTime()==imgTime){
+                        currentIconUrl=angleImg.getUrl();
+                        initIcon();
+                    }
+                }
+            }
+        }
+    }
+
 }

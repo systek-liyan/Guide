@@ -43,6 +43,8 @@
                     <ImageView
                         android:id="@+id/ivCollection"
                         style="@style/normal_image_view"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/iv_heart_empty" />
                     <TextView
                         android:textSize="@dimen/normal_textSize"

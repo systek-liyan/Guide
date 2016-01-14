@@ -25,6 +25,8 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     private List<MultiAngleImg> list;
     private LayoutInflater inflater;
 
+    private OnItemClickListener onItemClickListener;
+
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
     }
@@ -32,8 +34,6 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
-
-    private OnItemClickListener onItemClickListener;
 
     public MultiAngleImgAdapter(Context c, List<MultiAngleImg> list) {
         this.context = c;

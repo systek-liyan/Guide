@@ -118,7 +118,6 @@ public class LockScreenActivity extends BaseActivity {
 
     private void addListener() {
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
-
     }
 
 
@@ -148,21 +147,24 @@ public class LockScreenActivity extends BaseActivity {
         recycleNearly.setLayoutManager(linearLayoutManager);
         nearlyExhibitList=new ArrayList<>();
         nearlyGalleryAdapter=new NearlyGalleryAdapter(this,nearlyExhibitList);
-        /*nearlyGalleryAdapter.setOnItemClickLitener(new NearlyGalleryAdapter.OnItemClickListener() {
+        nearlyGalleryAdapter.setOnItemClickListener(new NearlyGalleryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                nearlyGalleryAdapter.setSelectIndex(position);
-                ExhibitBean exhibitBean= nearlyExhibitList.get(position);
-                ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
-                if(bean==null||!bean.equals(exhibitBean)){
-                    String str= JSON.toJSONString(exhibitBean);
-                    Intent intent =new Intent();
+
+                LogUtil.i("zhang", "setOnItemClickLitener被点击了");
+                nearlyGalleryAdapter.notifyItemChanged(position);
+                ExhibitBean exhibitBean = currentExhibitList.get(position);
+                ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+                nearlyGalleryAdapter.setSelectIndex(exhibitBean);
+                if (bean == null || !bean.equals(exhibitBean)) {
+                    String str = JSON.toJSONString(exhibitBean);
+                    Intent intent = new Intent();
                     intent.setAction(INTENT_EXHIBIT);
                     intent.putExtra(INTENT_EXHIBIT, str);
                     sendBroadcast(intent);
                 }
             }
-        });*/
+        });
         recycleNearly.setAdapter(nearlyGalleryAdapter);
         registerReceiver();// TODO: 2016/1/7
         ivPlayCtrl.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +283,8 @@ public class LockScreenActivity extends BaseActivity {
                     ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
                     if (currentExhibit.equals(exhibitBean)) {
                         return;
+                    }else{
+                        currentExhibit=exhibitBean;
                     }
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     break;

@@ -24,7 +24,7 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
     private LayoutInflater inflater;
     private List<ExhibitBean> exhibitBeanList;
     private Context context;
-    private int selectIndex;
+    private ExhibitBean selectIndex;
 
 
     public NearlyGalleryAdapter(Context c,List<ExhibitBean> exhibitBeans) {
@@ -47,7 +47,7 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
 
     private OnItemClickListener onItemClickListener;
 
-    public void setOnItemClickLitener(OnItemClickListener onItemClickListener)
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener)
     {
         this.onItemClickListener = onItemClickListener;
     }
@@ -77,14 +77,13 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
 
         holder.mTxt.setText(exhibitBean.getName());
 
-       /* if(position == selectIndex){
+        if(exhibitBean.equals(selectIndex)){
             holder.itemView.setSelected(true);
         }else{
             holder.itemView.setSelected(false);
-        }*/
+        }
         if (onItemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener()
-            {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(holder.itemView, position);
@@ -105,13 +104,13 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         {
             super(arg0);
         }
-
         ImageView mImg;
         TextView mTxt;
+
     }
 
-    public void setSelectIndex(int index){
-        selectIndex = index;
+    public void setSelectIndex(ExhibitBean exhibitBean){
+        selectIndex = exhibitBean;
     }
 
 }

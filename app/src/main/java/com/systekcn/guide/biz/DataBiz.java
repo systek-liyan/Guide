@@ -83,7 +83,7 @@ public class DataBiz implements IConstants{
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
             db.delete(clazz, WhereBuilder.b(ID, LIKE, "%" + id + "%"));
-        } catch (DbException e) {
+        } catch (Exception e) {
             ExceptionUtil.handleException(e);
             isSuccess=false;
         }finally {
@@ -97,8 +97,9 @@ public class DataBiz implements IConstants{
     public  static<T> boolean saveListToSQLite(List<T> list){
         boolean isSuccess=true;
         if(list==null){return false; }
-        DbUtils db=DbUtils.create(MyApplication.get());
+        DbUtils db=null;
         try {
+            db=DbUtils.create(MyApplication.get());
             db.saveOrUpdateAll(list);
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
@@ -157,8 +158,9 @@ public class DataBiz implements IConstants{
 
     public static List<ExhibitBean> getCollectionExhibitListFromDB() {
         List<ExhibitBean> collectionList=null;
-        DbUtils db=DbUtils.create(MyApplication.get());
+        DbUtils db=null;
         try {
+            db=DbUtils.create(MyApplication.get());
             collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON,"=", true));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
@@ -211,12 +213,13 @@ public class DataBiz implements IConstants{
 
     public static List<ExhibitBean> getExhibitListByBeaconId(String museumId,String beaconId){
 
-        DbUtils db=DbUtils.create(MyApplication.get());
-        List<ExhibitBean> list=null;
         if(TextUtils.isEmpty(beaconId)){return null;}
+        DbUtils db=null;
+        List<ExhibitBean> list=null;
         try {
+            db=DbUtils.create(MyApplication.get());
             list=db.findAll(Selector.from(ExhibitBean.class).where(BEACON_ID,LIKE,"%"+beaconId+"%"));
-        } catch (DbException e) {
+        } catch (Exception e) {
             ExceptionUtil.handleException(e);
         }
         if(list!=null){return list;}

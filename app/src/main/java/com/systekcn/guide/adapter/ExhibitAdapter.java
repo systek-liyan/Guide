@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.systekcn.guide.IConstants;
 import com.systekcn.guide.R;
 import com.systekcn.guide.custom.RoundImageView;
@@ -133,7 +132,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                     db=DbUtils.create(context);
                     db.saveOrUpdate(exhibitBean);
                     LogUtil.i("ZHANG", "收藏数据已更新至数据库");
-                } catch (DbException e) {
+                } catch (Exception e) {
                     ExceptionUtil.handleException(e);
                 }finally {
                     if(db!=null){

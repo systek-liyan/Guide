@@ -143,7 +143,7 @@ public class TopicActivity extends BaseActivity {
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                mediaServiceManager.setIsAutoPlay(false);
                 exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.notifyDataSetInvalidated();
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
