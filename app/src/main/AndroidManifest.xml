@@ -121,9 +121,13 @@
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.LockScreenActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/LockScreenBase"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:taskAffinity="com.systekcn.guide.lockscreen"
+            />
         <activity
             android:name=".activity.WelcomeActivity"
             android:launchMode="singleInstance"

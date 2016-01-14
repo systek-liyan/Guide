@@ -472,15 +472,10 @@ public class PlayActivity extends BaseActivity {
 
     public void refreshIcon(){
         if (imgsTimeList==null||imgsTimeList.size() == 0) {return;}
-        for (int i = 0; i < imgsTimeList.size(); i++) {
+        for (int i = 0; i < imgsTimeList.size()-1; i++) {
             int imgTime = imgsTimeList.get(i);
-            int overTime= 0;
-            if(i+1>=imgsTimeList.size()){
-                overTime=imgsTimeList.get(imgsTimeList.size()-1);
-            }else{
-                overTime=imgsTimeList.get(i+1);
-            }
-            if (currentProgress > imgTime && currentProgress < overTime) {
+            int overTime= imgsTimeList.get(i+1);
+            if (currentProgress > imgTime && currentProgress <= overTime) {
                 if(multiAngleImgs==null||multiAngleImgs.size()==0){return;}
                 for(MultiAngleImg angleImg:multiAngleImgs){
                     if(angleImg.getTime()==imgTime){
@@ -488,6 +483,9 @@ public class PlayActivity extends BaseActivity {
                         initIcon();
                     }
                 }
+            }else if(currentProgress>overTime){
+                currentIconUrl=multiAngleImgs.get(imgsTimeList.size()-1).getUrl();
+                initIcon();
             }
         }
     }

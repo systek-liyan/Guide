@@ -169,9 +169,9 @@ public class MuseumHomeActivity extends BaseActivity {
         auto_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     mediaServiceManager.setIsAutoPlay(true);
-                }else{
+                } else {
                     mediaServiceManager.setIsAutoPlay(false);
                 }
             }
@@ -243,27 +243,32 @@ public class MuseumHomeActivity extends BaseActivity {
     }
 
     private void initData() {
-        new Thread(){
-            @Override
-            public void run() {
-                if(!TextUtils.isEmpty(currentMuseumStr)){
-                    currentMuseum=JSON.parseObject(currentMuseumStr, MuseumBean.class);
-                    currentMuseumId=currentMuseum.getId();
-                    if(handler!=null){
-                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+        try{
+            new Thread(){
+                @Override
+                public void run() {
+                    if(!TextUtils.isEmpty(currentMuseumStr)){
+                        currentMuseum=JSON.parseObject(currentMuseumStr, MuseumBean.class);
+                        currentMuseumId=currentMuseum.getId();
+                        if(handler!=null){
+                            handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                        }
+                    }
+                    if(TextUtils.isEmpty(currentMuseumId)){return;}
+                    LogUtil.i("ZHANG",currentMuseumId);
+                    DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID,currentMuseumId);
+                    boolean flag=DataBiz.saveAllJsonData(currentMuseumId);
+                    if(flag){
+                        LogUtil.i("ZHANG","DataBiz.saveAllJsonData 数据更新成功");
+                    }else{
+                        showToast("抱歉，数据获取失败！");
                     }
                 }
-                if(TextUtils.isEmpty(currentMuseumId)){return;}
-                LogUtil.i("ZHANG",currentMuseumId);
-                DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID,currentMuseumId);
-                boolean flag=DataBiz.saveAllJsonData(currentMuseumId);
-                if(flag){
-                    LogUtil.i("ZHANG","DataBiz.saveAllJsonData 数据更新成功");
-                }else{
-                    showToast("抱歉，数据获取失败！");
-                }
-            }
-        }.start();
+            }.start();
+        }catch (Exception e){
+            ExceptionUtil.handleException(e);
+        }
+
 
     }
 

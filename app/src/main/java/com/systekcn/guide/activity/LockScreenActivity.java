@@ -21,7 +21,6 @@ import com.alibaba.fastjson.JSON;
 import com.systekcn.guide.R;
 import com.systekcn.guide.adapter.NearlyGalleryAdapter;
 import com.systekcn.guide.entity.ExhibitBean;
-import com.systekcn.guide.manager.BluetoothManager;
 import com.systekcn.guide.manager.MediaServiceManager;
 import com.systekcn.guide.utils.ImageLoaderUtil;
 import com.systekcn.guide.utils.LogUtil;
@@ -53,7 +52,6 @@ public class LockScreenActivity extends BaseActivity {
     private List<ExhibitBean> nearlyExhibitList;
     private NearlyGalleryAdapter nearlyGalleryAdapter;
     private List<ExhibitBean> currentExhibitList;
-    private BluetoothManager bluetoothManager;
 
     SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
         @Override
@@ -81,13 +79,12 @@ public class LockScreenActivity extends BaseActivity {
     protected void initialize(Bundle savedInstanceState) {
         ViewUtils.setStateBarToAlpha(this);
         setContentView(R.layout.activity_lock_screen);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         handler=new MyHandler();
         mediaServiceManager=MediaServiceManager.getInstance(this);
         initView();
         addListener();
-        registerReceiver();
-        initBlueTooth();
         Intent intent=getIntent();
         String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
         if(!TextUtils.isEmpty(exhibitStr)){
@@ -111,6 +108,21 @@ public class LockScreenActivity extends BaseActivity {
         initView();
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(listChangeReceiver==null){
+            registerReceiver();
+        }
+
+    }
+
     private void initData() {
         if(currentExhibit==null){return;}
         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
@@ -124,11 +136,6 @@ public class LockScreenActivity extends BaseActivity {
     private void refreshView() {
         LogUtil.i("ZHANG", "执行了refreshView");
         initIcon();
-    }
-
-    private void initBlueTooth() {
-        bluetoothManager = BluetoothManager.newInstance(this);
-        bluetoothManager.initBeaconSearcher();
     }
 
     private void initView() {
@@ -166,11 +173,12 @@ public class LockScreenActivity extends BaseActivity {
             }
         });
         recycleNearly.setAdapter(nearlyGalleryAdapter);
-        registerReceiver();// TODO: 2016/1/7
         ivPlayCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                unregisterReceiver(listChangeReceiver);
+                handler.removeCallbacksAndMessages(null);
+                finish();// TODO: 2016/1/14
             }
         });
     }
@@ -204,7 +212,6 @@ public class LockScreenActivity extends BaseActivity {
         if(keyCode==KeyEvent.KEYCODE_BACK){
             return true;
         }else if(keyCode==KeyEvent.KEYCODE_HOME){
-            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -227,10 +234,7 @@ public class LockScreenActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if(bluetoothManager!=null){
-            bluetoothManager.disConnectBluetoothService();
-        }
-        unregisterReceiver(listChangeReceiver);
+        //unregisterReceiver(listChangeReceiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }

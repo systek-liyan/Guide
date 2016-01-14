@@ -45,7 +45,7 @@ public class LyricAdapter extends BaseAdapter {
         mLyricSentences.clear();
         if (lyric != null) {
             mLyricSentences.addAll(lyric);
-            LogUtil.i(TAG, "歌词句子数目=" + mLyricSentences.size());
+            //LogUtil.i(TAG, "歌词句子数目=" + mLyricSentences.size());
         }
         mIndexOfCurrentSentence = 0;
     }
