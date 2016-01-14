@@ -30,6 +30,8 @@ import com.systekcn.guide.utils.ImageLoaderUtil;
 import com.systekcn.guide.utils.Tools;
 import com.systekcn.guide.utils.ViewUtils;
 
+import java.util.List;
+
 public class ListAndMapActivity extends BaseActivity implements ExhibitListFragment.OnFragmentInteractionListener{
 
     private Drawer drawer;
@@ -184,11 +186,16 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         exhibitListFragment = ExhibitListFragment.newInstance();
-        mapFragment = new MapFragment();
+        mapFragment = MapFragment.newInstance();
         if(flag.equals(INTENT_FLAG_GUIDE)){
             transaction.replace(R.id.llExhibitListContent, exhibitListFragment);
             radioButtonList.setChecked(true);
         }else{
+            String exhibitListStr=getIntent().getStringExtra(INTENT_EXHIBIT_LIST_STR);
+            if(!TextUtils.isEmpty(exhibitListStr)){
+                List<ExhibitBean> topicExhibitList=JSON.parseArray(exhibitListStr,ExhibitBean.class);
+                mapFragment.setTopicExhibitList(topicExhibitList);
+            }
             transaction.replace(R.id.llExhibitListContent, mapFragment);
             radioButtonMap.setChecked(true);
         }
@@ -214,7 +221,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     break;
                 case R.id.radioButtonMap:
                     if (mapFragment == null) {
-                        mapFragment = new MapFragment();
+                        mapFragment = MapFragment.newInstance();
                     }
                     transaction.replace(R.id.llExhibitListContent, mapFragment);
                     break;

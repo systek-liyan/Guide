@@ -140,29 +140,18 @@ public class TopicActivity extends BaseActivity {
 
         titleBarDrawer.setOnClickListener(onClickListener);
         lv_collection_listView.setOnScrollListener(onScrollListener);
-        titleBarDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawer.isDrawerOpen()) {
-                    drawer.closeDrawer();
-                } else {
-                    drawer.openDrawer();
-                }
-            }
-        });
-
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.notifyDataSetInvalidated();
-                ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
-                ExhibitBean bean=mediaServiceManager.getCurrentExhibit();
-                Intent intent1 =new Intent(TopicActivity.this,PlayActivity.class);
-                if(bean==null||!bean.equals(exhibitBean)){
-                    String str= JSON.toJSONString(exhibitBean);
-                    Intent intent =new Intent();
+                ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
+                ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+                Intent intent1 = new Intent(TopicActivity.this, PlayActivity.class);
+                if (bean == null || !bean.equals(exhibitBean)) {
+                    String str = JSON.toJSONString(exhibitBean);
+                    Intent intent = new Intent();
                     intent.setAction(INTENT_EXHIBIT);
                     intent.putExtra(INTENT_EXHIBIT, str);
                     sendBroadcast(intent);
@@ -171,6 +160,8 @@ public class TopicActivity extends BaseActivity {
                 startActivity(intent1);
             }
         });
+
+        titleBarSkip.setOnClickListener(onClickListener);
 
         /*iv_titleBar_toGuide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +271,14 @@ public class TopicActivity extends BaseActivity {
                         drawer.openDrawer();
                     }
                     break;
+                case  R.id.titleBarRightImg:
+                    if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()==0){return;}
+                    String exhibitListStr=JSON.toJSONString(disPlayCheckExhibitList);
+                    Intent intent=new Intent(TopicActivity.this,ListAndMapActivity.class);
+                    intent.putExtra(INTENT_FLAG_GUIDE_MAP, INTENT_FLAG_MAP);
+                    intent.putExtra(INTENT_EXHIBIT_LIST_STR,exhibitListStr);
+                    startActivity(intent);
+
             }
 
         }

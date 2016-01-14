@@ -65,6 +65,7 @@ public interface IConstants {
     String INTENT_FLAG_MAP="intent_flag_map";//数据标记--进入地图
     String INTENT_FLAG_GUIDE ="intent_flag_guide";//数据标记--进入附近列表
     String INTENT_EXHIBIT_LIST ="intent_exhibit_list";//展品列表
+    String INTENT_EXHIBIT_LIST_STR ="intent_exhibit_list_str";//展品列表json
 
 
     String INTENT_START_PLAY_SERVICE ="intent_start_play_service";//启动播放服务
