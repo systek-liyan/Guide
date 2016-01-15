@@ -40,8 +40,6 @@ public class MediaServiceManager implements IConstants {
         this.isAutoPlay = isAutoPlay;
     }
 
-
-
     public static MediaServiceManager getInstance(Context context){
         if(instance==null){
             synchronized (MyApplication.class){

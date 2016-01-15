@@ -178,7 +178,7 @@ public class BluetoothManager implements IConstants {
             Identifier major = beacon.getId2();
             Identifier minor = beacon.getId3();
                 /*根据beacon的minor和major参数获得beacon对象*/
-            BeaconBean beaconBean= DataBiz.getBeaconMinorAndMajor(MyApplication.get(), minor, major);
+            BeaconBean beaconBean= DataBiz.getBeaconMinorAndMajor( minor, major);
             if(beaconBean==null){continue;}
                 /*设定距离范围，暂定小于1米则放入列表*/
             if(distance<1.5){// TODO: 2016/1/3

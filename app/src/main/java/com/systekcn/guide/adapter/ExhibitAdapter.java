@@ -10,15 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lidroid.xutils.DbUtils;
 import com.systekcn.guide.IConstants;
 import com.systekcn.guide.R;
+import com.systekcn.guide.biz.DataBiz;
 import com.systekcn.guide.custom.RoundImageView;
 import com.systekcn.guide.custom.gif.GifView;
 import com.systekcn.guide.entity.ExhibitBean;
 import com.systekcn.guide.utils.ExceptionUtil;
 import com.systekcn.guide.utils.ImageLoaderUtil;
-import com.systekcn.guide.utils.LogUtil;
 
 import java.io.File;
 import java.util.List;
@@ -118,7 +117,6 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         viewHolder.llCollectionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbUtils db=null;
                 try {
                     if(exhibitBean.isSaveForPerson()){
                         exhibitBean.setSaveForPerson(false);
@@ -129,15 +127,9 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                         finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_full));
                         Toast.makeText(context, "已收藏", Toast.LENGTH_LONG).show();
                     }
-                    db=DbUtils.create(context);
-                    db.saveOrUpdate(exhibitBean);
-                    LogUtil.i("ZHANG", "收藏数据已更新至数据库");
+                    DataBiz.saveOrUpdate(exhibitBean);
                 } catch (Exception e) {
                     ExceptionUtil.handleException(e);
-                }finally {
-                    if(db!=null){
-                        db.close();
-                    }
                 }
             }
         });

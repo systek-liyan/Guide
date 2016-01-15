@@ -32,12 +32,12 @@
         "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.1.1\\res\\layout\\design_layout_tab_icon.xml"
     },
     {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
-        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_mode_bar.xml"
-    },
-    {
         "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_image.xml",
         "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\layout\\fragment_image.xml"
+    },
+    {
+        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
+        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_mode_bar.xml"
     },
     {
         "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_sample_actionbar.xml",
@@ -64,12 +64,12 @@
         "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\layout\\activity_persistent_drawer.xml"
     },
     {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
-        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_list_menu_item_checkbox.xml"
-    },
-    {
         "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_secondary_toggle.xml",
         "source": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\MyOwnGuide\\library\\unspecified\\res\\layout\\material_drawer_item_secondary_toggle.xml"
+    },
+    {
+        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
+        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_list_menu_item_checkbox.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_mini_drawer.xml",
@@ -100,12 +100,12 @@
         "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\layout\\activity_sample_fragment_dark_toolbar.xml"
     },
     {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_media.xml",
-        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\notification_template_media.xml"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_view.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_view.xml"
+    },
+    {
+        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_media.xml",
+        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\notification_template_media.xml"
     },
     {
         "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_secondary.xml",
@@ -196,20 +196,20 @@
         "source": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_bar_up_container.xml"
     },
     {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_persistent_drawer.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\layout\\activity_persistent_drawer.xml"
-    },
-    {
         "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item_separator.xml",
         "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.1.1\\res\\layout\\design_navigation_item_separator.xml"
     },
     {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
-        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
+        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_persistent_drawer.xml",
+        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\layout\\activity_persistent_drawer.xml"
     },
     {
         "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_header.xml",
         "source": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\exploded-aar\\MyOwnGuide\\library\\unspecified\\res\\layout\\material_drawer_header.xml"
+    },
+    {
+        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
+        "source": "D:\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
         "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_multichoice_material.xml",
@@ -300,16 +300,16 @@
         "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\layout\\activity_sample_dark_toolbar.xml"
     },
     {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\line_lyric.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\layout\\line_lyric.xml"
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_setting.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\activity_setting.xml"
     },
     {
         "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_embedded.xml",
         "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\layout\\activity_embedded.xml"
     },
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_setting.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\activity_setting.xml"
+        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\line_lyric.xml",
+        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\layout\\line_lyric.xml"
     },
     {
         "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_menu_item.xml",

@@ -2,11 +2,9 @@
 <manifest package="com.systekcn.guide"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
@@ -78,14 +76,13 @@
         <activity
             android:name=".activity.model.CrossfadeDrawerLayoutActvitiy"
             android:theme="@style/MaterialDrawerTheme"/>
-
-
         <activity
             android:name=".activity.BeginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -96,8 +93,8 @@
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.MuseumListActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.MuseumHomeActivity"
@@ -121,13 +118,12 @@
             android:theme="@style/MyFullTheme"/>
         <activity
             android:name=".activity.LockScreenActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LockScreenBase"
             android:excludeFromRecents="true"
             android:exported="false"
             android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
             android:taskAffinity="com.systekcn.guide.lockscreen"
-            />
+            android:theme="@style/LockScreenBase"/>
         <activity
             android:name=".activity.WelcomeActivity"
             android:launchMode="singleInstance"
@@ -176,16 +172,17 @@
             android:process=":remote"/>
         <service android:name=".service.MuseumDownloadService"/>
 
-
         <receiver android:name=".receiver.PhoneReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE"/>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".activity.UpdateActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -38,7 +38,7 @@ public class DataBiz implements IConstants{
         List<T> list=JSON.parseArray(response,clazz);
         return list;
     }
-    public  static<T> List<T> getEntityListLocal(Class<T> clazz){
+    public synchronized static<T> List<T> getEntityListLocal(Class<T> clazz){
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
         try {
@@ -51,7 +51,7 @@ public class DataBiz implements IConstants{
         return list;
     }
 
-    public  static<T> List<T> getEntityListLocalByColumn(String column,String value,Class<T> clazz){
+    public synchronized static<T> List<T> getEntityListLocalByColumn(String column,String value,Class<T> clazz){
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
         try {
@@ -64,10 +64,11 @@ public class DataBiz implements IConstants{
         return list;
     }
 
-    public static <T> boolean deleteSQLiteDataFromClass(Class<T> clazz){
+    public synchronized static <T> boolean deleteSQLiteDataFromClass(Class<T> clazz){
         boolean isSuccess=true;
-        DbUtils db=DbUtils.create(MyApplication.get());
+        DbUtils db=null;
         try {
+            db=DbUtils.create(MyApplication.get());
             db.deleteAll(clazz);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
@@ -78,7 +79,7 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
-    public static <T> boolean deleteSQLiteDataFromID(Class<T> clazz,String id){
+    public synchronized static <T> boolean deleteSQLiteDataFromID(Class<T> clazz,String id){
         boolean isSuccess=true;
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
@@ -94,7 +95,7 @@ public class DataBiz implements IConstants{
 
 
 
-    public  static<T> boolean saveListToSQLite(List<T> list){
+    public synchronized static<T>  boolean saveListToSQLite(List<T> list){
         boolean isSuccess=true;
         if(list==null){return false; }
         DbUtils db=null;
@@ -110,7 +111,7 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
-    public static boolean saveEntityToSQLite(Object obj){
+    public synchronized static boolean saveEntityToSQLite(Object obj){
         boolean isSuccess=true;
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
@@ -124,7 +125,7 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
-    public  static boolean deleteOldJsonData(String museumID){
+    public synchronized static boolean deleteOldJsonData(String museumID){
         boolean isSuccess=true;
         DbUtils db=DbUtils.create(MyApplication.get());
         try{
@@ -156,7 +157,7 @@ public class DataBiz implements IConstants{
 
 
 
-    public static List<ExhibitBean> getCollectionExhibitListFromDB() {
+    public synchronized static List<ExhibitBean> getCollectionExhibitListFromDB() {
         List<ExhibitBean> collectionList=null;
         DbUtils db=null;
         try {
@@ -171,7 +172,7 @@ public class DataBiz implements IConstants{
         }
         return collectionList;
     }
-    public static List<ExhibitBean> getCollectionExhibitListFromDBById(String museumId) {
+    public synchronized static List<ExhibitBean> getCollectionExhibitListFromDBById(String museumId) {
         List<ExhibitBean> collectionList=null;
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
@@ -186,7 +187,7 @@ public class DataBiz implements IConstants{
         return collectionList;
     }
 
-    public  static boolean saveAllJsonData(String museumID) {
+    public synchronized static boolean saveAllJsonData(String museumID) {
         List<BeaconBean> beaconList = getEntityListFromNet(BeaconBean.class, URL_BEACON_LIST + museumID);
         List<LabelBean> labelList = getEntityListFromNet(LabelBean.class, URL_LABELS_LIST + museumID);
         List<ExhibitBean> exhibitList = getEntityListFromNet(ExhibitBean.class, URL_EXHIBIT_LIST + museumID);
@@ -200,18 +201,36 @@ public class DataBiz implements IConstants{
     }
 
 
-    public  static<T>  List<T> getLocalListById(Class<T> clazz, String museumID) {
+    public synchronized static<T>  List<T> getLocalListById(Class<T> clazz, String museumID) {
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T>list=null;
         try {
             list =db.findAll(Selector.from(clazz).where(MUSEUM_ID,LIKE,"%"+museumID+"%"));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
         }
         return list;
     }
 
-    public static List<ExhibitBean> getExhibitListByBeaconId(String museumId,String beaconId){
+    public synchronized static void saveOrUpdate(Object obj) {
+        DbUtils db=DbUtils.create(MyApplication.get());
+        try {
+            db.saveOrUpdate(obj);
+        } catch (DbException e) {
+            ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
+        }
+    }
+
+
+    public synchronized static List<ExhibitBean> getExhibitListByBeaconId(String museumId,String beaconId){
 
         if(TextUtils.isEmpty(beaconId)){return null;}
         DbUtils db=null;
@@ -323,16 +342,18 @@ public class DataBiz implements IConstants{
         return isSave;
     }
 
-
-    public static BeaconBean getBeaconMinorAndMajor(Context context,Identifier minor,Identifier major){
+    /**
+     * 通过minor和major获取beacon
+     * @param minor beacon属性
+     * @param major beacon属性
+     * @return beacon对象
+     */
+    public synchronized static BeaconBean getBeaconMinorAndMajor(Identifier minor,Identifier major){
         List<BeaconBean> beaconBeans=null;
         BeaconBean b=null;
         DbUtils db=null;
-        if(context==null){
-            context=MyApplication.get().getApplicationContext();
-        }
         try {
-            db=DbUtils.create(context);
+            db=DbUtils.create(MyApplication.get());
             beaconBeans= db.findAll(Selector.from(BeaconBean.class).where("minor", "=", minor).and("major","=",major));
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
@@ -344,7 +365,7 @@ public class DataBiz implements IConstants{
         if(beaconBeans==null||beaconBeans.size()<=0){
             String url=URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major;
             String response= MyHttpUtil.sendGet(url);
-            beaconBeans=JSON.parseArray(response, BeaconBean.class);
+            beaconBeans=JSON.parseArray(response, BeaconBean.class);// TODO: 2016/1/15  
             b=beaconBeans.get(0);
         }else{
             b=beaconBeans.get(0);

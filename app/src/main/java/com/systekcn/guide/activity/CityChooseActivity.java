@@ -167,11 +167,11 @@ public class CityChooseActivity extends BaseActivity{
 
     /**
      * 根据输入框中的值来过滤数据并更新ListView
-     * @param filterStr
+     * @param filterStr edittext 输入的关键字
      */
     private void filterData(String filterStr){
         List<CityBean> filterDateList = new ArrayList<CityBean>();
-
+        if(cities==null){return;}
         if(TextUtils.isEmpty(filterStr)){
             filterDateList = cities;
         }else{

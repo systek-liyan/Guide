@@ -145,6 +145,8 @@ public class MediaPlayService extends Service implements IConstants {
     private MediaPlayer.OnErrorListener errorListener=new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            if(mp==null){return false;}
+            mp.reset();
             return false;
         }
     };
@@ -215,9 +217,7 @@ public class MediaPlayService extends Service implements IConstants {
 
     public void toSeekTo(int progress){
         if (mediaPlayer == null) {return;}
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.seekTo(progress);
-        }
+        mediaPlayer.seekTo(progress);
     }
 
     public int toGetCurrentPosition(){
@@ -321,6 +321,7 @@ public class MediaPlayService extends Service implements IConstants {
         }
         /**暂停*/
         public boolean pause(){
+            isSendProgress=false;
             return toPause();
         }
         /**获取当前播放时长*/

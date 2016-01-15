@@ -186,9 +186,9 @@ public class MuseumListActivity extends BaseActivity {
                         museumList=DataBiz.getEntityListFromNet(MuseumBean.class,URL_MUSEUM_LIST);
                     }
                     if(museumList!=null&&museumList.size()>0){
-                        LogUtil.i("ZHANG", "数据获取成功");
-                        boolean isSaveTrue=DataBiz.deleteSQLiteDataFromClass(MuseumBean.class);
-                        LogUtil.i("ZHANG","数据删除"+isSaveTrue);
+                        //LogUtil.i("ZHANG", "数据获取成功");
+                        //boolean isSaveTrue=DataBiz.deleteSQLiteDataFromClass(MuseumBean.class);
+                        //LogUtil.i("ZHANG","数据删除"+isSaveTrue);
                         boolean isSaveTrue2=DataBiz.saveListToSQLite(museumList);
                         LogUtil.i("ZHANG","数据保存"+isSaveTrue2);
                     }
