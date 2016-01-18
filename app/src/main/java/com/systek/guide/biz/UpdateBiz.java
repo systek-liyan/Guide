@@ -13,7 +13,7 @@ import com.systek.guide.utils.MyHttpUtil;
 /**
  * Created by Qiang on 2016/1/18.
  *
- * 
+ *
  */
 public class UpdateBiz implements IConstants {
 
