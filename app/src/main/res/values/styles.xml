@@ -1,39 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="CustomTheme" parent="MaterialDrawerTheme.TranslucentStatus">
-        <!-- ...and here we setting appcompat’s color theme attrs -->
-        <item name="colorPrimary">#F1433C</item>
-        <item name="colorPrimaryDark">#D03033</item>
-        <item name="colorAccent">#02A8F3</item>
-
-        <!-- MaterialDrawer specific values -->
-        <item name="material_drawer_background">@color/material_drawer_dark_background</item>
-        <item name="material_drawer_primary_text">@color/material_drawer_dark_primary_text</item>
-        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text
-        </item>
-        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
-        <item name="material_drawer_divider">@color/material_drawer_dark_divider</item>
-        <item name="material_drawer_selected">@color/material_drawer_dark_selected</item>
-        <item name="material_drawer_selected_text">#F1433C</item>
-        <item name="material_drawer_header_selection_text">
-            @color/material_drawer_dark_primary_text
-        </item>
-
-        <!-- CAB :D -->
-        <item name="windowActionModeOverlay">true</item>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-    <!--
-    Overwrite the Style of the BezelImageView for the whole MaterialDrawer
-    <style name="BezelImageView">
-        <item name="biv_maskDrawable">@drawable/material_drawer_square_mask</item>
-        <item name="biv_drawCircularShadow">false</item>
-        <item name="biv_selectorOnPress">@color/material_drawer_primary</item>
-    </style>
-    -->
-
-    <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
 
     <style name="base_image_view">
         <item name="android:layout_height">wrap_content</item>
@@ -45,6 +18,7 @@
         <item name="android:scaleType">fitXY</item>
     </style>
 
+    <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
 
     <style name="base_text_view">
         <item name="android:layout_height">wrap_content</item>
@@ -59,14 +33,6 @@
         <item name="android:layout_centerInParent">true</item>
     </style>
 
-    <!--标题 text view -->
-    <style name="text_view_title_bar">
-        <item name="android:textColor">@color/md_white_1000</item>
-        <item name="android:textSize">@dimen/normal_textSize</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerInParent">true</item>
-    </style>
 
 
     <!--tv_home_menu -->
@@ -89,6 +55,15 @@
         <item name="android:background">@drawable/tv_bg_topic_label</item>
     </style>
 
+    <!--标题 text view -->
+    <style name="text_view_title_bar">
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
     <style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -101,6 +76,7 @@
         <!-- Material specific values -->
     </style>
 
+
     <style name="LockScreenBase" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -110,7 +86,4 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-
-
-
 </resources>

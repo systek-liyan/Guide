@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.systekcn.guide.activity.CityChooseActivity">
+    tools:context=".activity.CityChooseActivity">
     <include layout="@layout/layout_title_bar"/>
 
-    <com.systekcn.guide.custom.ClearEditText
+    <com.systek.guide.custom.ClearEditText
         android:id="@+id/filter_edit"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.systekcn.guide.custom.SideBar
+        <com.systek.guide.custom.SideBar
             android:id="@+id/sidrbar"
             android:layout_width="30dp"
             android:layout_height="match_parent"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.systekcn.guide"
+    package="com.systek.guide"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -24,66 +24,16 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
-        android:name="com.systekcn.guide.MyApplication"
+        android:name="com.systek.guide.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/iv_app_logo"
-        android:label="@string/app_name" >
-
-        <!-- android:supportsRtl="true" -->
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name="com.systek.guide.MainActivity" >
+        </activity>
         <activity
-            android:name="com.systekcn.guide.activity.model.DrawerActivity"
-            android:label="@string/app_name"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.CompactHeaderDrawerActivity"
-            android:label="@string/app_name"
-            android:theme="@style/CustomTheme" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.PersistentDrawerActivity"
-            android:label="@string/app_name"
-            android:theme="@style/MaterialDrawerTheme.Light.TranslucentStatus" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.ActionBarActivity"
-            android:theme="@style/MaterialDrawerTheme.ActionBar" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.MenuDrawerActivity"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.NonTranslucentDrawerActivity"
-            android:theme="@style/MaterialDrawerTheme" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.MultiDrawerActivity"
-            android:theme="@style/MaterialDrawerTheme.TranslucentStatus" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.AdvancedActivity"
-            android:theme="@style/MaterialDrawerTheme.TranslucentStatus" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.KeyboardUtilActivity"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.EmbeddedDrawerActivity"
-            android:theme="@style/MaterialDrawerTheme" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.MiniDrawerActivity"
-            android:theme="@style/MaterialDrawerTheme" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.FullscreenDrawerActivity"
-            android:theme="@style/FullscreenTheme" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.CustomContainerActivity"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.FragmentActivity"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.CollapsingToolbarActivity"
-            android:theme="@style/MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus" />
-        <activity
-            android:name="com.systekcn.guide.activity.model.CrossfadeDrawerLayoutActvitiy"
-            android:theme="@style/MaterialDrawerTheme" />
-        <activity
-            android:name="com.systekcn.guide.activity.BeginActivity"
+            android:name="com.systek.guide.activity.BeginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" >
             <intent-filter>
@@ -93,37 +43,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.systekcn.guide.activity.CityChooseActivity"
+            android:name="com.systek.guide.activity.CityChooseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.MuseumListActivity"
+            android:name="com.systek.guide.activity.MuseumListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.MuseumHomeActivity"
+            android:name="com.systek.guide.activity.MuseumHomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.ListAndMapActivity"
+            android:name="com.systek.guide.activity.ListAndMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.TopicActivity"
+            android:name="com.systek.guide.activity.TopicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.PlayActivity"
+            android:name="com.systek.guide.activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.LockScreenActivity"
+            android:name="com.systek.guide.activity.LockScreenActivity"
             android:excludeFromRecents="true"
             android:exported="false"
             android:launchMode="singleInstance"
@@ -131,33 +81,33 @@
             android:taskAffinity="com.systekcn.guide.lockscreen"
             android:theme="@style/LockScreenBase" />
         <activity
-            android:name="com.systekcn.guide.activity.WelcomeActivity"
+            android:name="com.systek.guide.activity.WelcomeActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.CollectionActivity"
+            android:name="com.systek.guide.activity.CollectionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.SearchActivity"
+            android:name="com.systek.guide.activity.SearchActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.DownloadActivity"
+            android:name="com.systek.guide.activity.DownloadActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
         <activity
-            android:name="com.systekcn.guide.activity.SettingActivity"
+            android:name="com.systek.guide.activity.SettingActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/MyFullTheme" />
 
         <service
-            android:name="com.systekcn.guide.service.MediaPlayService"
+            android:name="com.systek.guide.service.MediaPlayService"
             android:enabled="true"
             android:exported="false"
             android:isolatedProcess="false" />
@@ -171,14 +121,9 @@
             android:name="org.altbeacon.beacon.BeaconIntentProcessor"
             android:enabled="true"
             android:exported="false" />
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:permission="android.permission.BAIDU_LOCATION_SERVICE"
-            android:process=":remote" />
-        <service android:name="com.systekcn.guide.service.MuseumDownloadService" />
+        <service android:name="com.systek.guide.service.MuseumDownloadService" />
 
-        <receiver android:name="com.systekcn.guide.receiver.PhoneReceiver" >
+        <receiver android:name="com.systek.guide.receiver.PhoneReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
@@ -187,7 +132,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.mikepenz.aboutlibraries.ui.LibsActivity" />
+        <activity android:name="com.systek.guide.activity.UpdateActivity" >
+        </activity>
     </application>
 
 </manifest>

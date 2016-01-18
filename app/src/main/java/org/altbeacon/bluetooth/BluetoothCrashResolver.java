@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.systekcn.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.ExceptionUtil;
 
 import org.altbeacon.beacon.logging.LogManager;
 

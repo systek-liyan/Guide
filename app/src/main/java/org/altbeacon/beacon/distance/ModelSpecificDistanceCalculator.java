@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import com.systekcn.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.ExceptionUtil;
 
 import org.altbeacon.beacon.logging.LogManager;
 import org.json.JSONArray;

@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:background="@drawable/item_bg_exhibit_list_inner">
 
-        <com.systekcn.guide.custom.RoundImageView
+        <com.systek.guide.custom.RoundImageView
             android:id="@+id/museumListIcon"
             android:layout_width="120dp"
             android:layout_height="120dp"

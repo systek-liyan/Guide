@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="30dp"
     android:background="@drawable/play_background"
-    tools:context="com.systekcn.guide.activity.LockScreenActivity">
+    tools:context=".activity.LockScreenActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

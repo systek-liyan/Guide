@@ -6,4 +6,4 @@
     android:id="@+id/ivBeginImg"
     android:scaleType="fitXY"
     android:src="@drawable/iv_begin_activty"
-    tools:context="com.systekcn.guide.activity.BeginActivity"/>
+    tools:context=".activity.BeginActivity"/>

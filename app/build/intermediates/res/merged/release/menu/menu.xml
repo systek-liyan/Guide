@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/zoomIn" android:title="Zoom In"/>
-    <item android:id="@+id/zoomOut" android:title="Zoom Out"/>
-    <item android:id="@+id/hidePersonLayer" android:title="Hide Person Layer"/>
-    <item android:id="@+id/showPersonLayer" android:title="ShowPerson Layer"/>
-    <item android:title="Scroll to next object" android:id="@+id/scroll_next"/>
-</menu>

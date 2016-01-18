@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.systekcn.guide.activity.SearchActivity">
+    tools:context=".activity.SearchActivity">
     <include layout="@layout/layout_title_bar"/>
-    <com.systekcn.guide.custom.ClearEditText
+    <com.systek.guide.custom.ClearEditText
         android:id="@+id/filter_edit"
         android:layout_margin="5dp"
         android:layout_width="match_parent"

@@ -1,138 +1,18 @@
 [
     {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
+        "merged": "D:\\android_project\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
+        "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     },
     {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\embedded.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\embedded.xml"
-    },
-    {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\fragment_menu.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\menu\\fragment_menu.xml"
-    },
-    {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\cab.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\cab.xml"
-    },
-    {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\example_menu.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\example_menu.xml"
-    },
-    {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\cab.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\cab.xml"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
     },
     {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\fragment_menu.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\fragment_menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\fragment_menu.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\fragment_menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\cab.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\cab.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\menu\\menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\embedded.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\menu\\embedded.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\example_menu.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\example_menu.xml"
-    },
-    {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\embedded.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\embedded.xml"
-    },
-    {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "D:\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\example_menu.xml",
-        "source": "D:\\MyOwnGuide\\app\\src\\main\\res\\menu\\example_menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\fragment_menu.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\fragment_menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\cab.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\menu\\cab.xml"
-    },
-    {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\example_menu.xml",
-        "source": "D:\\Android\\MyOwnGuide\\app\\src\\main\\res\\menu\\example_menu.xml"
-    },
-    {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\main.xml"
-    },
-    {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\example_menu.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\example_menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\embedded.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\embedded.xml"
-    },
-    {
-        "merged": "D:\\Guide\\MyOwnGuide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\embedded.xml",
-        "source": "D:\\Guide\\MyOwnGuide\\app\\src\\main\\res\\menu\\embedded.xml"
-    },
-    {
-        "merged": "D:\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\cab.xml",
-        "source": "D:\\Guide\\Guide\\app\\src\\main\\res\\menu\\cab.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\fragment_menu.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\fragment_menu.xml"
+        "merged": "D:\\android_project\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
+        "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
     }
 ]
