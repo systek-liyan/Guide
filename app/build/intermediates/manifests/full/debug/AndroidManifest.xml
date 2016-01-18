@@ -26,16 +26,16 @@
     <application
         android:name="com.systek.guide.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/iv_app_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/CustomTheme" >
         <activity android:name="com.systek.guide.MainActivity" >
         </activity>
         <activity
             android:name="com.systek.guide.activity.BeginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" >
+            android:theme="@style/CustomTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,32 +46,32 @@
             android:name="com.systek.guide.activity.CityChooseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.MuseumListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.MuseumHomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.ListAndMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.TopicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.LockScreenActivity"
             android:excludeFromRecents="true"
@@ -84,27 +84,33 @@
             android:name="com.systek.guide.activity.WelcomeActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.CollectionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.SearchActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.DownloadActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
         <activity
             android:name="com.systek.guide.activity.SettingActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/MyFullTheme" />
+            android:theme="@style/CustomTheme" />
+        <activity
+            android:name="com.systek.guide.activity.UpdateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomTheme" >
+        </activity>
 
         <service
             android:name="com.systek.guide.service.MediaPlayService"
@@ -131,9 +137,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
-        <activity android:name="com.systek.guide.activity.UpdateActivity" >
-        </activity>
     </application>
 
 </manifest>

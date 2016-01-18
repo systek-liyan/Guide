@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        app_config {
+            keyAlias 'android'
+            keyPassword 'android'
+            storeFile file('D:/Android/apk_key.jks')
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "com.systek.guide"
         minSdkVersion 18
@@ -12,9 +19,11 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.app_config
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.app_config
         }
     }
 }

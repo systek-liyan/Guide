@@ -16,33 +16,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TopicActivity extends BaseActivity {
 
-    private Drawer drawer;
     private String currentMuseumId;
     private Handler handler;
     private ImageView titleBarSkip;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_topic);
         Intent intent=getIntent();
         currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
@@ -68,8 +59,6 @@ public class TopicActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
     /**已选标签控件集合*/
     private List<TextView> tvList;
-    /**右上角导览按钮*/
-    //private TextView iv_titleBar_toGuide;
     /**侧边栏按钮*/
     private ImageView titleBarDrawer;
 
@@ -102,39 +91,6 @@ public class TopicActivity extends BaseActivity {
         exhibitAdapter.notifyDataSetChanged();
     }
 
-    private void initDrawer() {
-        drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
-                            case 1:
-                                targetClass=DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass=CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass=CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass=MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass=SettingActivity.class;
-                                break;
-                        }
-                        Intent intent=new Intent(TopicActivity.this,targetClass);
-                        startActivity(intent);
-                        return false;
-                    }
-                }).build();
-    }
 
     private void addListener() {
 
@@ -162,25 +118,6 @@ public class TopicActivity extends BaseActivity {
         });
 
         titleBarSkip.setOnClickListener(onClickListener);
-
-        /*iv_titleBar_toGuide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                *//**点击导览时，判断，如果当前筛选列表不为为空，向专题列表赋值，启动导览界面*//*
-                if (disPlayCheckExhibitList == null || disPlayCheckExhibitList.size() <= 0) {
-                    application.topicExhibitBeanList = new ArrayList<>();
-                    application.currentExhibitBean = application.totalExhibitBeanList.get(0);
-                } else {
-                    application.topicExhibitBeanList = disPlayCheckExhibitList;
-                    application.currentExhibitBean = application.topicExhibitBeanList.get(0);
-                }
-                application.isTopicOpen = true;
-                Intent intent = new Intent(TopicActivity.this, GuideActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });*/
-
         lv_collection_listView.setOnScrollListener(onScrollListener);
         setManyBtnListener();
     }
@@ -215,9 +152,12 @@ public class TopicActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if(drawer.isDrawerOpen()){
                 drawer.closeDrawer();
+                return true;
+            }else{
+                return super.onKeyDown(keyCode, event);
             }
         }
-        return super.onKeyDown(keyCode, event);
+        return super.onKeyDown(keyCode,event);
     }
 
     @Override
@@ -241,7 +181,7 @@ public class TopicActivity extends BaseActivity {
             ll_collection_has_choose.addView(textView, params);
             tv.setVisibility(View.GONE);
             try{
-                checkExhibitList=getList(label);
+                checkExhibitList=DataBiz.getExhibitListByLabel(label);
                 if(checkExhibitList!=null&&checkExhibitList.size()>0){
                     if(disPlayCheckExhibitList!=null&&disPlayCheckExhibitList.size()>0){
                         disPlayCheckExhibitList.removeAll(checkExhibitList);
@@ -303,7 +243,7 @@ public class TopicActivity extends BaseActivity {
                 for(int i=0;i<ll_collection_has_choose.getChildCount();i++){
                     TextView tvLabel= (TextView) ll_collection_has_choose.getChildAt(i);
                     String text= (String) tvLabel.getText();
-                    List<ExhibitBean> list=getList(text);
+                    List<ExhibitBean> list=DataBiz.getExhibitListByLabel(text);
                     if(list!=null&&list.size()>0){
                         disPlayCheckExhibitList.removeAll(list);
                         disPlayCheckExhibitList.addAll(list);
@@ -326,21 +266,6 @@ public class TopicActivity extends BaseActivity {
             exhibitAdapter.updateData(disPlayCheckExhibitList);
         }
     };
-
-    public List<ExhibitBean> getList(String label){
-        List<ExhibitBean> list = null;
-        DbUtils db=DbUtils.create(this);
-        try {
-            list=  db.findAll(Selector.from(ExhibitBean.class).where("labels","like","%"+label+"%"));
-        } catch (DbException e) {
-            ExceptionUtil.handleException(e);
-        }finally {
-            if(db!=null){
-                db.close();
-            }
-        }
-        return list;
-    }
 
     private void initViews() {
         tvList=new ArrayList<>();

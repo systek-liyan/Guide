@@ -10,14 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +26,9 @@ public class CollectionActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
     private MyHandler handler;
     private String museumId;
-    private Drawer drawer;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_collection);
         initDrawer();
         initView();
@@ -60,39 +54,6 @@ public class CollectionActivity extends BaseActivity {
         });
     }
 
-    private void initDrawer() {
-        drawer=new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
-                            case 1:
-                                targetClass=DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass=CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass=CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass=MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass=SettingActivity.class;
-                                break;
-                        }
-                        Intent intent=new Intent(CollectionActivity.this,targetClass);
-                        startActivity(intent);
-                        return false;
-                    }
-                }).build();
-    }
 
     private void initData() {
         museumId =getIntent().getStringExtra(INTENT_MUSEUM_ID);

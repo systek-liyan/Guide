@@ -362,15 +362,40 @@ public class DataBiz implements IConstants{
                 db.close();
             }
         }
-        if(beaconBeans==null||beaconBeans.size()<=0){
-            String url=URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major;
-            String response= MyHttpUtil.sendGet(url);
-            if(TextUtils.isEmpty(response)){return null;}
-            beaconBeans=JSON.parseArray(response, BeaconBean.class);// TODO: 2016/1/15
-            b=beaconBeans.get(0);
-        }else{
-            b=beaconBeans.get(0);
-        }
-        return b;
+        /*try{
+            if(beaconBeans==null||beaconBeans.size()<=0){
+                String url=URL_ALL_BEACON_LIST + "?minor=" + minor + "&major=" + major;
+                String response= MyHttpUtil.sendGet(url);
+                if(TextUtils.isEmpty(response)||response.equals("[]")){return null;}
+                beaconBeans=JSON.parseArray(response, BeaconBean.class);// TODO: 2016/1/15
+                if(beaconBeans==null||beaconBeans.size()==0){return null;}
+                b=beaconBeans.get(0);
+            }else{
+                b=beaconBeans.get(0);
+            }
+        }catch (Exception e){
+            ExceptionUtil.handleException(e);
+            return null;
+        }*/
+        if(beaconBeans==null||beaconBeans.size()<=0){return null;}
+        return beaconBeans.get(0);
+        //return b;
     }
+
+    public synchronized static List<ExhibitBean> getExhibitListByLabel(String label){
+        List<ExhibitBean> list = null;
+        DbUtils db=null;
+        try {
+            db=DbUtils.create(MyApplication.get());
+            list=  db.findAll(Selector.from(ExhibitBean.class).where("labels","like","%"+label+"%"));
+        } catch (DbException e) {
+            ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
+        }
+        return list;
+    }
+
 }

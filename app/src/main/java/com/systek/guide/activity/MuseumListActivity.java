@@ -16,9 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MuseumAdapter;
@@ -27,7 +24,6 @@ import com.systek.guide.entity.CityBean;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
-import com.systek.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +37,6 @@ public class MuseumListActivity extends BaseActivity {
     private List<MuseumBean> museumList;
     private MuseumAdapter adapter;
     private Handler handler;
-    private Drawer drawer;
     private Receiver receiver;
     private TextView titleBarTopic;
     private ImageView titleBarDrawer;
@@ -49,7 +44,6 @@ public class MuseumListActivity extends BaseActivity {
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_museum_list);
         handler=new MyHandler();
         setIntent(getIntent());
@@ -87,43 +81,6 @@ public class MuseumListActivity extends BaseActivity {
         registerReceiver(receiver,filter);
     }
 
-    private void initDrawer() {
-        drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?> targetClass = null;
-                        switch (position) {
-                            case 1:
-                                targetClass = DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass = CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass = CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass = MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass = SettingActivity.class;
-                                break;
-                            case 6:
-                                return true;
-                        }
-                        if (targetClass!=null) {
-                            Intent intent = new Intent(MuseumListActivity.this, targetClass);
-                            startActivity(intent);
-                        }
-                        return false;
-                    }
-                }).build();
-    }
 
     private void addListener() {
         museumListView.setOnItemClickListener(onItemClickListener);

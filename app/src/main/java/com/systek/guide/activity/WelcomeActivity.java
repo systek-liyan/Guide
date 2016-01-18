@@ -13,7 +13,6 @@ import com.systek.guide.custom.Dot;
 import com.systek.guide.fragment.BaseFragment;
 import com.systek.guide.fragment.ImageFragment;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ViewUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
     private Intent intent;
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarToAlpha(this);
         setContentView(R.layout.activity_welcome);
         targetClass=MuseumListActivity.class;
         initView();

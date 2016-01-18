@@ -4,10 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
+import com.systek.guide.R;
 import com.systek.guide.utils.ExceptionUtil;
 
 /**
@@ -20,18 +25,59 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     private String TAG = getClass().getSimpleName();
     public int netState;
     MyApplication application;
+    protected Drawer drawer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             application=MyApplication.get();
             netState=MyApplication.currentNetworkType;
-            //MyApplication.listActivity.add(this);
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
         }
         initialize(savedInstanceState);
     }
+
+    protected void initDrawer() {
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withFullscreen(true)
+                .withHeader(R.layout.header)
+                .inflateMenu(R.menu.drawer_menu)
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        Class<?>  targetClass=null;
+                        switch (position){
+                            case 1:
+                                targetClass=DownloadActivity.class;
+                                break;
+                            case 2:
+                                targetClass=CollectionActivity.class;
+                                break;
+                            case 3:
+                                targetClass=CityChooseActivity.class;
+                                break;
+                            case 4:
+                                targetClass=MuseumListActivity.class;
+                                break;
+                            case 5:
+                                targetClass=SettingActivity.class;
+                                break;
+                            case 6:
+                                targetClass=UpdateActivity.class;
+                                break;
+                        }
+                        Intent intent=new Intent(BaseActivity.this,targetClass);
+                        startActivity(intent);
+                        return false;
+                    }
+                }).build();
+    }
+
+
 
     public int getNetState(){
         return MyApplication.currentNetworkType;
@@ -85,6 +131,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     * 响应后退按键
     */
     public void keyBack() {
+        if(drawer!=null&&drawer.isDrawerOpen()){
+            drawer.closeDrawer();
+        }
         finish();
     }
 

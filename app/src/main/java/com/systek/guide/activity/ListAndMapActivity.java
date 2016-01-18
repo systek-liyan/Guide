@@ -18,9 +18,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.R;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.fragment.ExhibitListFragment;
@@ -28,13 +25,11 @@ import com.systek.guide.fragment.MapFragment;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.Tools;
-import com.systek.guide.utils.ViewUtils;
 
 import java.util.List;
 
 public class ListAndMapActivity extends BaseActivity implements ExhibitListFragment.OnFragmentInteractionListener{
 
-    private Drawer drawer;
     private RadioButton radioButtonList;
     private RadioButton radioButtonMap;
     private RadioGroup radioGroupTitle;
@@ -57,11 +52,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_list_and_map);
         handler=new MyHandler();
         initMediaManager();
-        initDrawer();
         initView();
         addListener();
         setDefaultFragment();
@@ -84,40 +77,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     }
 
 
-    private void initDrawer() {
-        drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
-                            case 1:
-                                targetClass=DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass=CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass=CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass=MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass=SettingActivity.class;
-                                break;
-                        }
-                        Intent intent=new Intent(ListAndMapActivity.this,targetClass);
-                        startActivity(intent);
-                        return false;
-                    }
-                }).build();
-    }
-
     private void addListener() {
         radioGroupTitle.setOnCheckedChangeListener(radioButtonCheckListener);
         ivPlayCtrl.setOnClickListener(onClickListener);
@@ -135,6 +94,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         exhibitIcon=(ImageView)findViewById(R.id.exhibitIcon);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
         titleBarDrawer=(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarDrawer.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
     }
 
     View.OnClickListener onClickListener=new View.OnClickListener() {
@@ -146,16 +106,12 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     intent.setAction(INTENT_CHANGE_PLAY_STATE);
                     sendBroadcast(intent);
                     break;
-                case R.id.titleBarDrawer:
-                    if (drawer.isDrawerOpen()) {
-                        drawer.closeDrawer();
-                    } else {
-                        drawer.openDrawer();
-                    }
-                    break;
                 case R.id.exhibitIcon:
                     Intent intent1=new Intent(ListAndMapActivity.this,PlayActivity.class);
                     startActivity(intent1);
+                    break;
+                case R.id.titleBarDrawer:
+                    finish();
                     break;
             }
         }
@@ -187,7 +143,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         FragmentTransaction transaction = fm.beginTransaction();
         exhibitListFragment = ExhibitListFragment.newInstance();
         mapFragment = MapFragment.newInstance();
-        if(flag.equals(INTENT_FLAG_GUIDE)){
+        if (flag.equals(INTENT_FLAG_GUIDE)){
             transaction.replace(R.id.llExhibitListContent, exhibitListFragment);
             radioButtonList.setChecked(true);
         }else{
@@ -298,13 +254,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         }else{
             ImageLoaderUtil.displayNetworkImage(ListAndMapActivity.this, BASE_URL + iconPath, exhibitIcon);
         }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
 

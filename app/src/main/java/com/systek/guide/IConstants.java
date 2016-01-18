@@ -41,6 +41,7 @@ public interface IConstants {
     String URL_MUSEUM_MAP_LIST ="http://182.92.82.70/api/museumMapService/museumMapList?museumId=";//地图列表
     String URL_BEACON_LIST ="http://182.92.82.70/api/beaconService/beaconList?museumId=";//beacon列表
     String URL_LABELS_LIST ="http://182.92.82.70/api/labelsService/labelsList?museumId=";//标签列表
+    String URL_CHECK_FOR_UPDATE ="http://182.92.82.70/api/version/latest";//检查更新
 
 
     /**网络相关*/

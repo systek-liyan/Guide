@@ -14,9 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.R;
 import com.systek.guide.adapter.CityAdapter;
 import com.systek.guide.biz.DataBiz;
@@ -26,15 +23,12 @@ import com.systek.guide.entity.CityBean;
 import com.systek.guide.parser.CharacterParser;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.PinyinComparator;
-import com.systek.guide.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class CityChooseActivity extends BaseActivity{
-
-    private Drawer drawer;
 
 
     private ListView cityListView;
@@ -53,7 +47,6 @@ public class CityChooseActivity extends BaseActivity{
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_city_choose);
         initDrawer();
         initView();
@@ -222,39 +215,6 @@ public class CityChooseActivity extends BaseActivity{
         }.start();
     }
 
-    private void initDrawer() {
-        drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
-                            case 1:
-                                targetClass=DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass=CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass=CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass=MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass=SettingActivity.class;
-                                break;
-                        }
-                        Intent intent=new Intent(CityChooseActivity.this,targetClass);
-                        startActivity(intent);
-                        return false;
-                    }
-                }).build();
-    }
 
     class MyHandler extends  Handler{
         @Override

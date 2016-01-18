@@ -18,9 +18,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MultiAngleImgAdapter;
 import com.systek.guide.entity.ExhibitBean;
@@ -35,7 +32,6 @@ import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
 import com.systek.guide.utils.Tools;
-import com.systek.guide.utils.ViewUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,7 +58,6 @@ public class PlayActivity extends BaseActivity {
     private int currentDuration;
     private PlayStateReceiver playStateReceiver;
     private RecyclerView recycleMultiAngle;
-    private Drawer drawer;
     private String currentExhibitStr;
     private String currentIconUrl;
     private MediaServiceManager mediaServiceManager;
@@ -72,11 +67,9 @@ public class PlayActivity extends BaseActivity {
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_play);
         handler =new MyHandler();
         mediaServiceManager=MediaServiceManager.getInstance(this);
-        initDrawer();
         initView();
         addListener();
         registerReceiver();
@@ -94,7 +87,6 @@ public class PlayActivity extends BaseActivity {
                     initData();
                 }
             }
-
         }else{
             currentExhibit=mediaServiceManager.getCurrentExhibit();
             refreshView();
@@ -144,40 +136,6 @@ public class PlayActivity extends BaseActivity {
             handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
         }
 
-    }
-
-    private void initDrawer() {
-        drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?>  targetClass=null;
-                        switch (position){
-                            case 1:
-                                targetClass=DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass=CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass=CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass=MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass=SettingActivity.class;
-                                break;
-                        }
-                        Intent intent=new Intent(PlayActivity.this,targetClass);
-                        startActivity(intent);
-                        return false;
-                    }
-                }).build();
     }
 
     private void addListener() {
@@ -291,7 +249,7 @@ public class PlayActivity extends BaseActivity {
                         imgExhibitIcon.setAlpha(1.0f);
                     }else{
                         lvLyric.setVisibility(View.VISIBLE);
-                        imgExhibitIcon.setAlpha(0.7f);
+                        imgExhibitIcon.setAlpha(0.4f);
                     }
                     break;
                 case R.id.ivPlayCtrl:

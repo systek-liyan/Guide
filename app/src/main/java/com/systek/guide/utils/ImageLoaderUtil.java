@@ -27,8 +27,6 @@ public class ImageLoaderUtil implements IConstants{
 	{
 		if (configuration==null)
 		{
-			//configuration=new ImageLoaderConfiguration.Builder(context).diskCacheSize(1024*1024*100).diskCacheFileCount(100).build();
-
 			configuration = new ImageLoaderConfiguration
 					.Builder(context)
 					.memoryCacheExtraOptions(480, 800) // max width, max height，即保存的每个缓存文件的最大长宽
@@ -72,7 +70,7 @@ public class ImageLoaderUtil implements IConstants{
 
 				@Override
 				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-					imageView.setImageBitmap(loadedImage);
+					//imageView.setImageBitmap(loadedImage);
                     try{
                         if(!imageUri.startsWith(BASE_URL)){return;}
                         String path=imageUri.substring(imageUri.indexOf(BASE_URL) + BASE_URL.length());
@@ -94,8 +92,7 @@ public class ImageLoaderUtil implements IConstants{
 			ExceptionUtil.handleException(e);
 		}
 	}
-	public static void displaySdcardImage(Context context, String filePathName,
-										  ImageView ivImage) {
+	public static void displaySdcardImage(Context context, String filePathName, ImageView ivImage) {
 		ImageLoader imageLoader=ImageLoader.getInstance();
 		configuration=newConfiguration(context);
 		imageLoader.init(configuration);

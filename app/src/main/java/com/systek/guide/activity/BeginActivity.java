@@ -11,7 +11,6 @@ import com.systek.guide.R;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
-import com.systek.guide.utils.ViewUtils;
 import com.systek.guide.utils.WifiAdmin;
 
 public class BeginActivity extends BaseActivity {
@@ -24,7 +23,6 @@ public class BeginActivity extends BaseActivity {
     protected void initialize(Bundle savedInstanceState) {
         connectWIFI();
         initBlueTooth();
-        ViewUtils.setStateBarColor(this, R.color.md_red_200);
         view = View.inflate(this, R.layout.activity_begin, null);
         NetworkUtil.checkNet(this);
         setContentView(view);
@@ -36,6 +34,11 @@ public class BeginActivity extends BaseActivity {
             /*默认跳转界面为城市选择*/
             targetClass=MuseumListActivity.class;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 

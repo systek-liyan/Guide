@@ -22,9 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
@@ -35,14 +32,11 @@ import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.Tools;
-import com.systek.guide.utils.ViewUtils;
 
 import java.io.IOException;
 
 public class MuseumHomeActivity extends BaseActivity {
 
-    /*抽屉*/
-    private Drawer drawer;
     /*当前博物馆ID*/
     private String currentMuseumId;
     private MuseumBean currentMuseum;
@@ -83,7 +77,6 @@ public class MuseumHomeActivity extends BaseActivity {
     private void init() {
         bluetoothManager=BluetoothManager.newInstance(this);
         mediaServiceManager=MediaServiceManager.getInstance(this);
-        ViewUtils.setStateBarColor(this, R.color.md_red_400);
         setContentView(R.layout.activity_museum_home);
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
@@ -100,39 +93,6 @@ public class MuseumHomeActivity extends BaseActivity {
         initData();
     }
 
-    private void initDrawer() {
-        drawer = new DrawerBuilder()
-                .withActivity(this)
-                .withFullscreen(true)
-                .withHeader(R.layout.header)
-                .inflateMenu(R.menu.drawer_menu)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Class<?> targetClass = null;
-                        switch (position) {
-                            case 1:
-                                targetClass = DownloadActivity.class;
-                                break;
-                            case 2:
-                                targetClass = CollectionActivity.class;
-                                break;
-                            case 3:
-                                targetClass = CityChooseActivity.class;
-                                break;
-                            case 4:
-                                targetClass = MuseumListActivity.class;
-                                break;
-                            case 5:
-                                targetClass = SettingActivity.class;
-                                break;
-                        }
-                        Intent intent = new Intent(MuseumHomeActivity.this, targetClass);
-                        startActivity(intent);
-                        return false;
-                    }
-                }).build();
-    }
 
     @Override
     protected void onRestart() {
@@ -384,7 +344,7 @@ public class MuseumHomeActivity extends BaseActivity {
             return true;
         }
         //拦截MENU按钮点击事件，让他无任何操作
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
+       else if (keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
         }
         return super.onKeyDown(keyCode, event);

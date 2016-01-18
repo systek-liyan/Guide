@@ -10,16 +10,13 @@ import java.io.StringWriter;
  */
 public class ExceptionUtil {
     public static void handleException(Exception e) {
+        if(MyApplication.isRelease){return;}
         // 把异常信息变成字符串，发给开发人员
-        String str = "";
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
         e.printStackTrace(printWriter);
-        str = stringWriter.toString();
-        if (!MyApplication.isRelease) {
-            // 开发中
-             LogUtil.e("ZHANG", str);
-        }
-
+        String str = stringWriter.toString();
+        // 开发中
+        LogUtil.e("ZHANG", str);
     }
 }

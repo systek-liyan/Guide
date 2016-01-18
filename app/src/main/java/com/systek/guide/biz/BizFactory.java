@@ -1,7 +1,5 @@
 package com.systek.guide.biz;
 
-import android.content.Context;
-
 import com.systek.guide.IConstants;
 
 
@@ -11,15 +9,15 @@ import com.systek.guide.IConstants;
 public class BizFactory {
 
 
-    public static IConstants getBeansManageBiz(Context context){
-
-        return new BeansManageBiz(context);
-    }
-
     public static IConstants getDownloadBiz(){
         return  new DownloadBiz();
     }
+
+    /*public static IConstants getBeansManageBiz(Context context){
+
+        return new BeansManageBiz(context);
+    }
     public static IConstants getDataBiz(){
         return  new GetDataBiz();
-    }
+    }*/
 }

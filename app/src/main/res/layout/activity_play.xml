@@ -15,7 +15,7 @@
             android:id="@+id/imgExhibitIcon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.7"
+            android:alpha="0.4"
             android:scaleType="fitCenter"/>
         <ListView
             android:id="@+id/lvLyric"

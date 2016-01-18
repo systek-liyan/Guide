@@ -26,7 +26,6 @@ import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
 import com.systek.guide.utils.Tools;
-import com.systek.guide.utils.ViewUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -77,7 +76,6 @@ public class LockScreenActivity extends BaseActivity {
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        ViewUtils.setStateBarToAlpha(this);
         setContentView(R.layout.activity_lock_screen);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);

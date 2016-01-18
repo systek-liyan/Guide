@@ -69,7 +69,6 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     private Activity activity;
     private Location points[];
     private int currentPoint;
-    private MyApplication application;
     private BluetoothManager bluetoothManager;
     private BeaconBean beacon;
     private static MapFragment mapFragment;
@@ -93,7 +92,6 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     @Override
     public void onAttach(Activity activity) {
         this.activity = activity;
-        application = MyApplication.get();
         bluetoothManager = BluetoothManager.newInstance(activity);
         bluetoothManager.setNearestBeaconListener(nearestBeaconListener);
         hander = new MyHandler();
@@ -222,11 +220,12 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     private void addNotScalableMapObject(int x, int y, Layer layer) {
         try{
             // Getting the drawable of the map object
-            Drawable drawable = getResources().getDrawable(R.drawable.maps_blue_dot);
+            //Drawable drawable = getResources().getDrawable(R.drawable.maps_blue_dot);
+            Drawable drawable =activity.getResources().getDrawable(R.drawable.maps_blue_dot);
             //绘制人员位置时，先清除改图层上的所有地图对象
             if (map.getLayerById(PERSON_LAYER) == layer){
                 layer.clearAll();
-                drawable = getResources().getDrawable(R.drawable.icon_map_object);
+                drawable = activity.getResources().getDrawable(R.drawable.icon_map_object);
             }
 
             pinHeight = drawable.getIntrinsicHeight();
