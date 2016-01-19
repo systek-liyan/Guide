@@ -36,12 +36,16 @@ public class BeginActivity extends BaseActivity {
         }
     }
 
+    private void initBlueTooth() {
+        bluetoothManager = BluetoothManager.newInstance(this);
+        bluetoothManager.initBeaconSearcher();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         initData();
     }
-
     private void connectWIFI() {
 
         new Thread(){
@@ -54,10 +58,6 @@ public class BeginActivity extends BaseActivity {
                 WifiAdmin.connectWifi(BeginActivity.this,WIFI_SSID,WIFI_PASSWORD);
             }
         }.start();
-    }
-    private void initBlueTooth() {
-        bluetoothManager = BluetoothManager.newInstance(this);
-        bluetoothManager.initBeaconSearcher();
     }
 
     private void initData() {

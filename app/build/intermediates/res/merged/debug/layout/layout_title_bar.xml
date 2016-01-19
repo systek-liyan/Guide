@@ -16,7 +16,7 @@
                 android:src="@drawable/setting"/>
             <TextView
                 android:id="@+id/titleBarTopic"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 style="@style/text_view_title_bar"/>
             <ImageView
                 android:id="@+id/titleBarRightImg"
