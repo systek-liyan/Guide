@@ -119,8 +119,16 @@ public class BluetoothManager implements IConstants {
             if (beaconsForSortList == null||beaconsForSortList.size()<=0) {return;}
             List<BeaconBean> beaconBeanList=null;
             List<ExhibitBean> exhibitBeansList=null;
+
+            if(beaconsForSortList.size()>2){
+                List<BeaconForSort> beaconSort=new ArrayList<>();
+                beaconSort.add(beaconsForSortList.get(0));
+                beaconSort.add(beaconsForSortList.get(1));
+                beaconBeanList=changeToBeaconList(beaconSort);
+            }else{
+                beaconBeanList=changeToBeaconList(beaconsForSortList);
+            }
             /*遍历BeaconForSort集合*/
-            beaconBeanList=changeToBeaconList(beaconsForSortList);
             /*获得最近的beacon给地图回调和首页跳转回调*/
             if(beaconBeanList==null||beaconBeanList.size()==0){return;}
             BeaconBean nearestBeacon=beaconBeanList.get(0);
@@ -166,6 +174,7 @@ public class BluetoothManager implements IConstants {
                 /*去重复*/
             exhibitList.removeAll(tempList);
             exhibitList.addAll(tempList);
+
         }
         return exhibitList;
     }
