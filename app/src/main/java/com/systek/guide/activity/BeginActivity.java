@@ -21,7 +21,7 @@ public class BeginActivity extends BaseActivity {
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        connectWIFI();
+        //connectWIFI();
         initBlueTooth();
         view = View.inflate(this, R.layout.activity_begin, null);
         NetworkUtil.checkNet(this);
