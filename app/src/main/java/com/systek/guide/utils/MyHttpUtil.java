@@ -35,7 +35,7 @@ public class MyHttpUtil {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept-Encoding", "gzip");	//设置头参数
             //设置请求方式和响应时间
-            conn.setConnectTimeout(15000);
+            conn.setConnectTimeout(5000);
             /*设置允许输出*/
             conn.setDoOutput(true);
             conn.setRequestProperty("encoding", "UTF-8"); //可以指定编码

@@ -112,10 +112,6 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_list_menu_item_layout.xml"
     },
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_update.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\activity_update.xml"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_view.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_view.xml"
     },
@@ -682,6 +678,10 @@
     {
         "merged": "D:\\android_project\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_map.xml",
         "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\layout\\fragment_map.xml"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\dialog_app_update.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\dialog_app_update.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",

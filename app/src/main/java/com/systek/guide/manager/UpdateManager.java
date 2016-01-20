@@ -1,27 +1,49 @@
 package com.systek.guide.manager;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ProgressBar;
+
+import com.alibaba.fastjson.JSON;
+import com.systek.guide.IConstants;
+import com.systek.guide.R;
+import com.systek.guide.entity.base.VersionBean;
+import com.systek.guide.utils.MyHttpUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * Created by Qiang on 2016/1/19.
+ *
  */
-public class UpdateManager {
+public class UpdateManager implements IConstants {
 
-   /* private Context mContext;
+    private Context mContext;
 
     //提示语
     private String updateMsg = "有最新的软件包哦，亲快下载吧~";
 
-    //返回的安装包url
-    private String apkUrl = "http://softfile.3g.qq.com:8080/msoft/179/24659/43549/qq_hd_mini_1.4.apk";
+    // 下载包安装路径
+    private static final String savePath = "/sdcard/Guide/";
+    private static final String saveFileName = savePath + "Guide.apk";
 
-    private Dialog noticeDialog;
-
-    private Dialog downloadDialog;
-    *//* 下载包安装路径 *//*
-    private static final String savePath = "/sdcard/updatedemo/";
-
-    private static final String saveFileName = savePath + "UpdateDemoRelease.apk";
-
-    *//* 进度条与通知ui刷新的handler和msg常量 *//*
+     //进度条与通知ui刷新的handler和msg常量
     private ProgressBar mProgress;
 
     private static final int DOWN_UPDATE = 1;
@@ -30,9 +52,18 @@ public class UpdateManager {
 
     private int progress;
 
-    private Thread downLoadThread;
+    //返回的安装包url
+    private String apkUrl;
 
     private boolean interceptFlag = false;
+
+    public UpdateManager(Context context) {
+        this.mContext = context;
+    }
+
+    public void setApkUrl(String apkUrl) {
+        this.apkUrl = apkUrl;
+    }
 
     private Handler mHandler = new Handler(){
         public void handleMessage(Message msg) {
@@ -41,23 +72,45 @@ public class UpdateManager {
                     mProgress.setProgress(progress);
                     break;
                 case DOWN_OVER:
-
                     installApk();
                     break;
                 default:
                     break;
             }
-        };
+        }
     };
-
-    public UpdateManager(Context context) {
-        this.mContext = context;
-    }
 
     //外部接口让主Activity调用
     public void checkUpdateInfo(){
         showNoticeDialog();
     }
+
+
+    /**
+     * 检查最新版本号
+     * @return 版本号
+     */
+    public  VersionBean checkVersion(){
+        String response= MyHttpUtil.sendGet(URL_CHECK_FOR_UPDATE);
+        if(TextUtils.isEmpty(response)||response.equals("[]")){return null;}
+        return JSON.parseObject(response, VersionBean.class);
+    }
+
+    /**
+     2  * 获取版本号
+     3  * @return 当前应用的版本号
+     4  */
+    public String getVersion(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            return info.versionName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
 
     private void showNoticeDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -76,7 +129,7 @@ public class UpdateManager {
                 dialog.dismiss();
             }
         });
-        noticeDialog = builder.create();
+        Dialog noticeDialog = builder.create();
         noticeDialog.show();
     }
 
@@ -85,7 +138,7 @@ public class UpdateManager {
         builder.setTitle("软件版本更新");
 
         final LayoutInflater inflater = LayoutInflater.from(mContext);
-        View v = inflater.inflate(R.layout.progress, null);
+        View v = inflater.inflate(R.layout.dialog_app_update, null);
         mProgress = (ProgressBar)v.findViewById(R.id.progress);
 
         builder.setView(v);
@@ -96,9 +149,8 @@ public class UpdateManager {
                 interceptFlag = true;
             }
         });
-        downloadDialog = builder.create();
+        Dialog downloadDialog = builder.create();
         downloadDialog.show();
-
         downloadApk();
     }
 
@@ -107,7 +159,6 @@ public class UpdateManager {
         public void run() {
             try {
                 URL url = new URL(apkUrl);
-
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.connect();
                 int length = conn.getContentLength();
@@ -120,10 +171,8 @@ public class UpdateManager {
                 String apkFile = saveFileName;
                 File ApkFile = new File(apkFile);
                 FileOutputStream fos = new FileOutputStream(ApkFile);
-
                 int count = 0;
                 byte buf[] = new byte[1024];
-
                 do{
                     int numread = is.read(buf);
                     count += numread;
@@ -140,28 +189,23 @@ public class UpdateManager {
 
                 fos.close();
                 is.close();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch(IOException e){
                 e.printStackTrace();
             }
-
+            mHandler.removeCallbacksAndMessages(null);
         }
     };
 
-    *//**
+    /**
      * 下载apk
-     * @param url
-     *//*
-
+     */
     private void downloadApk(){
-        downLoadThread = new Thread(mdownApkRunnable);
+        Thread downLoadThread = new Thread(mdownApkRunnable);
         downLoadThread.start();
     }
-    *//**
+    /**
      * 安装apk
-     * @param url
-     *//*
+     */
     private void installApk(){
         File apkfile = new File(saveFileName);
         if (!apkfile.exists()) {
@@ -171,7 +215,6 @@ public class UpdateManager {
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
         mContext.startActivity(i);
 
-    }*/
-
+    }
 
 }

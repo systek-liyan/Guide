@@ -66,9 +66,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                             case 5:
                                 targetClass=SettingActivity.class;
                                 break;
-                            case 6:
-                                targetClass=UpdateActivity.class;
-                                break;
                         }
                         Intent intent=new Intent(BaseActivity.this,targetClass);
                         startActivity(intent);

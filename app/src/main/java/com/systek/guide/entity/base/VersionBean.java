@@ -6,16 +6,6 @@ package com.systek.guide.entity.base;
 public class VersionBean extends BaseEntity {
 
     private int id;
-    private String version;
-    private String url;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public int getId() {
         return id;
@@ -33,13 +23,27 @@ public class VersionBean extends BaseEntity {
         this.version = version;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    private String version;
+    private String url;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VersionBean)) return false;
+
         VersionBean that = (VersionBean) o;
+
         if (version != null ? !version.equals(that.version) : that.version != null) return false;
         return !(url != null ? !url.equals(that.url) : that.url != null);
+
     }
 
     @Override
