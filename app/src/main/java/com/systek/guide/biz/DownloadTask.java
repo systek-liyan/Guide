@@ -6,6 +6,7 @@ import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
+import com.systek.guide.utils.StorageUtil;
 import com.systek.guide.utils.Tools;
 
 import java.util.Vector;
@@ -56,9 +57,11 @@ public class DownloadTask extends Thread implements  IConstants {
         //* 创建下载业务对象，并开始下载
         downloadBiz = (DownloadBiz) BizFactory.getDownloadBiz();
         String assetsJson=downloadBiz.getAssetsJSON(museumId);
-        if(TextUtils.isEmpty(assetsJson)){return;}
+        if(TextUtils.isEmpty(assetsJson)){return;}// TODO: 2016/1/20 获取资源数据失败
+        long size=downloadBiz.parseAssetsSize(assetsJson);
+        if(StorageUtil.getAvailableInternalMemorySize()<size){return;}// TODO: 2016/1/20 内部存储空间不足 下载失败
         assetsList = downloadBiz.parseAssetsJson(assetsJson);
-        if(assetsList==null||assetsList.size()==0){return;}
+        if(assetsList==null||assetsList.size()==0){return;}// TODO: 2016/1/20 解析后没有资源数据
         totalCount=assetsList.size();
         downloadCount = totalCount;
         sendProgress();
@@ -77,6 +80,7 @@ public class DownloadTask extends Thread implements  IConstants {
     public void pause(){
         downloadBiz.pause();
     }
+
     public void toContinue(){
         downloadBiz.toContinue();
     }

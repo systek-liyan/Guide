@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.entity.base.VersionBean;
+import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.MyHttpUtil;
 
 import java.io.File;
@@ -43,7 +44,7 @@ public class UpdateManager implements IConstants {
     private static final String savePath = "/sdcard/Guide/";
     private static final String saveFileName = savePath + "Guide.apk";
 
-     //进度条与通知ui刷新的handler和msg常量
+    //进度条与通知ui刷新的handler和msg常量
     private ProgressBar mProgress;
 
     private static final int DOWN_UPDATE = 1;
@@ -154,6 +155,31 @@ public class UpdateManager implements IConstants {
         downloadApk();
     }
 
+
+    private void deleteAllFiles(File root) {
+        File files[] = root.listFiles();
+        if (files == null){return;}
+        for (File f : files) {
+            if (f.isDirectory()) { // 判断是否为文件夹
+                deleteAllFiles(f);
+                try {
+                    f.delete();
+                } catch (Exception e) {
+                    ExceptionUtil.handleException(e);
+                }
+            } else {
+                if (f.exists()) { // 判断是否存在
+                    deleteAllFiles(f);
+                    try {
+                        f.delete();
+                    } catch (Exception e) {
+                        ExceptionUtil.handleException(e);
+                    }
+                }
+            }
+        }
+    }
+
     private Runnable mdownApkRunnable = new Runnable() {
         @Override
         public void run() {
@@ -186,13 +212,11 @@ public class UpdateManager implements IConstants {
                     }
                     fos.write(buf,0,numread);
                 }while(!interceptFlag);//点击取消就停止下载.
-
                 fos.close();
                 is.close();
             } catch(IOException e){
                 e.printStackTrace();
             }
-            mHandler.removeCallbacksAndMessages(null);
         }
     };
 
@@ -200,6 +224,10 @@ public class UpdateManager implements IConstants {
      * 下载apk
      */
     private void downloadApk(){
+        File file=new File(savePath);
+        if(file.isDirectory()){
+            deleteAllFiles(file);
+        }
         Thread downLoadThread = new Thread(mdownApkRunnable);
         downLoadThread.start();
     }

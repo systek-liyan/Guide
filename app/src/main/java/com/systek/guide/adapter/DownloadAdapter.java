@@ -124,7 +124,7 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
             @Override
             public void onClick(View v) {
                 if(isDownload){return;}
-                else if(bean.getState()==0){
+                if(bean.getState()==0){
                     task=new DownloadTask(bean.getId());
                     viewHolder.setNewTask(task);
                     task.start();

@@ -49,12 +49,21 @@ public class DownloadBiz implements IConstants {
     }
 
     /** 解析assets资源json */
-    public Vector<String> parseAssetsJson(String assetsJson2) {
-        JSONObject jsonObj = JSON.parseObject(assetsJson2);
+    public Vector<String> parseAssetsJson(String assetsJson) {
+        JSONObject jsonObj = JSON.parseObject(assetsJson);
         String jsonString = jsonObj.getString("url");
         List<String> list = JSON.parseArray(jsonString, String.class);
         return new Vector<>(list);
     }
+
+    /** 解析assets资源json */
+    public long parseAssetsSize(String assetsJson) {
+        JSONObject jsonObj = JSON.parseObject(assetsJson);
+        String size = jsonObj.getString("size");
+        if(size==null){return 0;}
+        return Long.valueOf(size);
+    }
+
 
     public void pause(){
         downloadPause=true;

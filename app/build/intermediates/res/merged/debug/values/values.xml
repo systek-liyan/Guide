@@ -1674,7 +1674,7 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
     <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
-    <style name="LockScreenBase" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="LockScreenBase" parent="FullscreenTheme"><!--Theme.AppCompat.Light.NoActionBar-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
