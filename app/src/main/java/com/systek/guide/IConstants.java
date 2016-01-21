@@ -55,7 +55,7 @@ public interface IConstants {
     /**播放模式*/
     int PLAY_MODE_HAND=1;
     int PLAY_MODE_AUTO=2;
-
+    int PLAY_MODE_AUTO_PAUSE=3;
 
     /**intent 传递数据*/
     String INTENT_CITY="intent_city";//城市对象

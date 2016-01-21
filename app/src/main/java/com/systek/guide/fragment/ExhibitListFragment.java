@@ -103,6 +103,9 @@ public class ExhibitListFragment extends Fragment implements IConstants {
                 if(currentExhibit==null||!currentExhibit.equals(exhibitBean)){
                     mListener.onFragmentInteraction(exhibitBean);
 
+                    if(mediaServiceManager.getPlayMode()==PLAY_MODE_AUTO){
+                        mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
+                    }
                     String str= JSON.toJSONString(exhibitBean);
                     Intent intent =new Intent();
                     intent.setAction(INTENT_EXHIBIT);
