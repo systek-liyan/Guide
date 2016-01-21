@@ -63,7 +63,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     private void initMediaManager() {
         mediaServiceManager= MediaServiceManager.getInstance(this);
-        mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+        //mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
     }
 
     private void registerReceiver() {

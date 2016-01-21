@@ -38,7 +38,7 @@ public class MediaPlayService extends Service implements IConstants {
     private Handler handler ;
     private List<ExhibitBean> recordExhibitList;
     private List<ExhibitBean> playExhibitList;
-    private int playMode = PLAY_MODE_HAND; //默认设置自动点击播放
+    private int playMode ; //默认设置自动点击播放
     private boolean isSendProgress;
 
     //private boolean hasPlay; /*是否播放过*/
@@ -47,6 +47,7 @@ public class MediaPlayService extends Service implements IConstants {
     public void onCreate() {
         super.onCreate();
         handler=new MyHandler();
+        playMode= PLAY_MODE_HAND;
         recordExhibitList=new ArrayList<>();
         playExhibitList=new ArrayList<>();
         initMediaPlayer();
@@ -107,7 +108,6 @@ public class MediaPlayService extends Service implements IConstants {
                 intent.setAction(INTENT_CHANGE_PLAY_STOP);
                 sendBroadcast(intent);
             }
-
         }
     };
 
