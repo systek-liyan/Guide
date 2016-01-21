@@ -442,8 +442,10 @@ public class PlayActivity extends BaseActivity {
                     }
                 }
             }else if(currentProgress>overTime){
-                currentIconUrl=multiAngleImgs.get(imgsTimeList.size()-1).getUrl();
-                initIcon();
+                try{
+                    currentIconUrl=multiAngleImgs.get(imgsTimeList.size()-1).getUrl();
+                    initIcon();
+                }catch (Exception e){ExceptionUtil.handleException(e);}
             }
         }
     }

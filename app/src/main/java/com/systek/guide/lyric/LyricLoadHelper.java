@@ -106,7 +106,7 @@ public class LyricLoadHelper {
                     String line = null;
                     // 逐行分析歌词文本
                     while ((line = br.readLine()) != null) {
-                        Log.i(TAG, "lyric line:" + line);
+                        //Log.i(TAG, "lyric line:" + line);
                         parseLine(line);
                     }
                     // 按时间排序句子集合
@@ -140,11 +140,11 @@ public class LyricLoadHelper {
         if (mLyricListener != null) {
             mLyricListener.onLyricLoaded(mLyricSentences,mIndexOfCurrentSentence);
         }
-        if (mHasLyric) {
+        /*if (mHasLyric) {
             Log.i(TAG, "Lyric file existed.Lyric has " + mLyricSentences.size()+ " Sentences");
         } else {
             Log.i(TAG, "Lyric file does not existed");
-        }
+        }*/
         return mHasLyric;
     }
 
@@ -183,8 +183,7 @@ public class LyricLoadHelper {
                 }
                 int new_index = findStart + 1;
                 // 找到第一句开始时间大于输入时间的歌词
-                while (new_index < mLyricSentences.size()
-                        && mLyricSentences.get(new_index).getStartTime() <= millisecond) {
+                while (new_index < mLyricSentences.size() && mLyricSentences.get(new_index).getStartTime() <= millisecond) {
                     ++new_index;
                 }
                 // 这句歌词的前一句就是我们要找的了。
@@ -196,8 +195,7 @@ public class LyricLoadHelper {
 
                 int new_index = findStart - 1;
                 // 找到开始时间小于输入时间的歌词
-                while (new_index > 0
-                        && mLyricSentences.get(new_index).getStartTime() > millisecond) {
+                while (new_index > 0 && mLyricSentences.get(new_index).getStartTime() > millisecond) {
                     --new_index;
                 }
                 // 就是它了。
@@ -240,13 +238,12 @@ public class LyricLoadHelper {
             if (lastIndex != -1 && index - lastIndex > lastLength + 2) {
                 // 如果大于上次的大小，则中间夹了别的内容在里面
                 // 这个时候就要分段了
-                content = trimBracket(line.substring(
-                        lastIndex + lastLength + 2, index));
+                content = trimBracket(line.substring(lastIndex + lastLength + 2, index));
                 for (String string : times) {
                     // 将每个时间戳对应的一份句子存入句子集合
                     long t = parseTime(string);
                     if (t != -1) {
-                        Log.i(TAG, "line content match-->" + content);
+                        //Log.i(TAG, "line content match-->" + content);
                         mLyricSentences.add(new LyricSentence(t, content));
                     }
                 }
@@ -256,7 +253,7 @@ public class LyricLoadHelper {
             lastIndex = index;
             lastLength = s.length();
 
-            Log.i(TAG, "time match--->" + s);
+            //Log.i(TAG, "time match--->" + s);
         }
         // 如果列表为空，则表示本行没有分析出任何标签
         if (times.isEmpty()) {
@@ -269,7 +266,7 @@ public class LyricLoadHelper {
         } else {
             content = trimBracket(line.substring(timeLength));
         }
-        Log.i(TAG, "line content match-->" + content);
+        //Log.i(TAG, "line content match-->" + content);
         // 将每个时间戳对应的一份句子存入句子集合
         for (String s : times) {
             long t = parseTime(s);
@@ -319,8 +316,7 @@ public class LyricLoadHelper {
             try {
                 if (colonPos > 0) {// 找到冒号了。
                     intSeconds *= 60;
-                    intSeconds += Integer.valueOf(beforeDot.substring(0,
-                            colonPos));
+                    intSeconds += Integer.valueOf(beforeDot.substring(0, colonPos));
                     beforeDot = beforeDot.substring(colonPos + 1);
                 } else if (colonPos < 0) {// 没找到，剩下都当一个数处理了。
                     intSeconds *= 60;

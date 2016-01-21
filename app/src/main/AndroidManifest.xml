@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.systek.guide">
-
+<manifest package="com.systek.guide"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
@@ -22,14 +21,12 @@
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/iv_app_logo"
+        android:installLocation="internalOnly"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme">
-
-
         <activity android:name=".MainActivity">
         </activity>
-
         <activity
             android:name=".activity.BeginActivity"
             android:screenOrientation="portrait"
@@ -39,6 +36,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
         <activity
             android:name=".activity.CityChooseActivity"
@@ -76,7 +74,7 @@
             android:exported="false"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:taskAffinity="com.systekcn.guide.lockscreen"
+            android:taskAffinity="com.systek.guide.lockscreen"
             android:theme="@style/LockScreenBase"/>
         <activity
             android:name=".activity.WelcomeActivity"
@@ -104,14 +102,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomTheme"/>
         <activity
-            android:name=".activity.UpdateActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/CustomTheme">
+
+
         </activity>
-
-
-
 
         <service
             android:name=".service.MediaPlayService"
@@ -138,17 +135,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
-
-
-
-
-
-
-
-
-
-
-
     </application>
 
 </manifest>

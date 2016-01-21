@@ -120,10 +120,12 @@ public class BluetoothManager implements IConstants {
             List<BeaconBean> beaconBeanList=null;
             List<ExhibitBean> exhibitBeansList=null;
 
-            if(beaconsForSortList.size()>2){
+            if(beaconsForSortList.size()>4){
                 List<BeaconForSort> beaconSort=new ArrayList<>();
                 beaconSort.add(beaconsForSortList.get(0));
                 beaconSort.add(beaconsForSortList.get(1));
+                beaconSort.add(beaconsForSortList.get(2));
+                beaconSort.add(beaconsForSortList.get(3));
                 beaconBeanList=changeToBeaconList(beaconSort);
             }else{
                 beaconBeanList=changeToBeaconList(beaconsForSortList);
@@ -190,7 +192,7 @@ public class BluetoothManager implements IConstants {
             BeaconBean beaconBean= DataBiz.getBeaconMinorAndMajor( minor, major);
             if(beaconBean==null){continue;}
                 /*设定距离范围，暂定小于1米则放入列表*/
-            if(distance<1.5){// TODO: 2016/1/3
+            if(distance<50.5){// TODO: 2016/1/3
                 beaconBean.setDistance(distance);
                 beaconBeans.add(beaconBean);
             }
@@ -198,7 +200,6 @@ public class BluetoothManager implements IConstants {
         return beaconBeans;
 
     }
-
 
     public interface GetBeaconCallBack{
         String getMuseumByBeaconCallBack(BeaconBean beaconBean);

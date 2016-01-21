@@ -10,7 +10,9 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -20,6 +22,8 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.adapter.NearlyGalleryAdapter;
+import com.systek.guide.custom.swipeback.SwipeBackActivity;
+import com.systek.guide.custom.swipeback.SwipeBackLayout;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ImageLoaderUtil;
@@ -31,7 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LockScreenActivity extends BaseActivity {
+public class LockScreenActivity extends SwipeBackActivity {
 
 
     private ImageView fullscreenImage;
@@ -51,6 +55,33 @@ public class LockScreenActivity extends BaseActivity {
     private List<ExhibitBean> nearlyExhibitList;
     private NearlyGalleryAdapter nearlyGalleryAdapter;
     private List<ExhibitBean> currentExhibitList;
+
+    // 定义一个GestureDetector(手势识别类)对象的引用
+    private GestureDetector myGestureDetector;
+    private float mPosX;
+    private float mPosY;
+    private float mCurPosX;
+    private float mCurPosY;
+    View.OnTouchListener onTouchListener=new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            switch (event.getAction()) {
+
+                case MotionEvent.ACTION_DOWN:
+                    mPosX = event.getX();
+                    mPosY = event.getY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    mCurPosX = event.getX();
+                    mCurPosY = event.getY();
+
+                    break;
+            }
+            return true;
+        }
+    };
+
 
     SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
         @Override
@@ -76,7 +107,12 @@ public class LockScreenActivity extends BaseActivity {
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
+       // View view =getLayoutInflater().inflate(R.layout.activity_lock_screen,null);
         setContentView(R.layout.activity_lock_screen);
+        //myGestureDetector=new GestureDetector(this);
+        //view.setOnTouchListener(onTouchListener);
+        setDragEdge(SwipeBackLayout.DragEdge.LEFT);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         handler=new MyHandler();
@@ -174,9 +210,13 @@ public class LockScreenActivity extends BaseActivity {
         ivPlayCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unregisterReceiver(listChangeReceiver);
+                /*unregisterReceiver(listChangeReceiver);
                 handler.removeCallbacksAndMessages(null);
-                finish();// TODO: 2016/1/14
+                finish();// TODO: 2016/1/14*/
+                Intent intent=new Intent();
+                intent.setAction(INTENT_CHANGE_PLAY_STATE);
+                sendBroadcast(intent);
+
             }
         });
     }
@@ -232,10 +272,40 @@ public class LockScreenActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        //unregisterReceiver(listChangeReceiver);
+        unregisterReceiver(listChangeReceiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
+
+   /* @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }*/
 
 
     class MyHandler extends Handler {
@@ -243,10 +313,10 @@ public class LockScreenActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_WHAT_UPDATE_PROGRESS:
-                    seekBarProgress.setMax(currentDuration);
-                    seekBarProgress.setProgress(currentProgress);
-                    tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
-                    tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
+                    //seekBarProgress.setMax(currentDuration);
+                    //seekBarProgress.setProgress(currentProgress);
+                    //tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
+                    //tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
                     break;
                 case MSG_WHAT_CHANGE_EXHIBIT:
                     refreshView();
