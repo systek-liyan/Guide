@@ -221,7 +221,7 @@ public class MediaServiceManager implements IConstants {
                     List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
                     if(currentExhibitList==null){return;}
                     /*当展品只有一个，直接播放*/
-                    if(currentExhibitList.size()>0){
+                    if(currentExhibitList.size()>0&&mediaServiceBinder.getPlayMode()==PLAY_MODE_AUTO){
                         ExhibitBean exhibit=currentExhibitList.get(0);
                         ExhibitBean currentExhibit=getCurrentExhibit();
                         if(currentExhibit==null||!currentExhibit.equals(exhibit)){
