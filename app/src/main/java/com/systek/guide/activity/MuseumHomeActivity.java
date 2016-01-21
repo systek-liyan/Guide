@@ -122,9 +122,9 @@ public class MuseumHomeActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    mediaServiceManager.setIsAutoPlay(true);
+                    mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
                 } else {
-                    mediaServiceManager.setIsAutoPlay(false);
+                    mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
                 }
             }
         });

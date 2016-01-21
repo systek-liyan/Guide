@@ -29,16 +29,7 @@ public class MediaServiceManager implements IConstants {
     private ServiceConnection mConn;
     public MediaPlayService.MediaServiceBinder mediaServiceBinder;
     private PlayCtrlReceiver playCtrlReceiver;
-    private boolean isAutoPlay;
     private static MediaServiceManager instance;
-
-    public boolean isAutoPlay() {
-        return isAutoPlay;
-    }
-
-    public void setIsAutoPlay(boolean isAutoPlay) {
-        this.isAutoPlay = isAutoPlay;
-    }
 
     public static MediaServiceManager getInstance(Context context){
         if(instance==null){
@@ -216,7 +207,7 @@ public class MediaServiceManager implements IConstants {
                     mediaServiceBinder.seekTo(progress);
                     break;
                 case INTENT_EXHIBIT_LIST:
-                    if(!isAutoPlay){break;}
+                    if(mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO){break;}
                     String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
                     List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
                     if(currentExhibitList==null){return;}

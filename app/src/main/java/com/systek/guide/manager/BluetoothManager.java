@@ -74,9 +74,9 @@ public class BluetoothManager implements IConstants {
             mBeaconSearcher = BeaconSearcher.getInstance(context);
             // NearestBeacon.GET_EXHIBIT_BEACON：展品定位beacon
             // NearestBeacon.GET_EXHIBIT_BEACON：游客定位beacon。可以不用设置上述的最小停留时间和最小距离
-            mBeaconSearcher.setMin_stay_milliseconds(1500);
+            //mBeaconSearcher.setMin_stay_milliseconds(1500);
             // 设定用于展品定位的最小距离(m)
-            mBeaconSearcher.setExhibit_distance(0.5);
+           // mBeaconSearcher.setExhibit_distance(0.5);
             // 设置获取距离最近的beacon类型
             mBeaconSearcher.setNearestBeaconType(NearestBeacon.GET_EXHIBIT_BEACON);
             // 当蓝牙打开时，打开beacon搜索器，开始搜索距离最近的Beacon
@@ -192,7 +192,7 @@ public class BluetoothManager implements IConstants {
             BeaconBean beaconBean= DataBiz.getBeaconMinorAndMajor( minor, major);
             if(beaconBean==null){continue;}
                 /*设定距离范围，暂定小于1米则放入列表*/
-            if(distance<50.5){// TODO: 2016/1/3
+            if(distance<2.0){// TODO: 2016/1/3
                 beaconBean.setDistance(distance);
                 beaconBeans.add(beaconBean);
             }
