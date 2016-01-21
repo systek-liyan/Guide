@@ -47,8 +47,8 @@
       <file leaf-file-name="PlayActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/PlayActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6289855">
-              <caret line="258" column="13" selection-start-line="258" selection-start-column="13" selection-end-line="258" selection-end-column="13" />
+            <state vertical-scroll-proportion="2.7971015">
+              <caret line="259" column="0" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
               <folding>
                 <element signature="e#8505#9250#0" expanded="true" />
                 <element signature="e#9249#9250#0" expanded="true" />
@@ -1762,7 +1762,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/WelcomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/ListAndMapActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_title_radio_btn_bar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/PlayActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/BizFactory.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/IConstants.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/BeginActivity.java" />
@@ -1794,6 +1793,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/LockScreenActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/swipeback/SwipeBackActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/swipeback/SwipeBackLayout.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/PlayActivity.java" />
       </list>
     </option>
   </component>
@@ -1882,6 +1882,24 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="drawable" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2291,9 +2309,9 @@
       <recent name="com.systek.guide.activity" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android\Guide\Guide\app\src\main\res\drawable-xhdpi" />
       <recent name="D:\Android\Guide\Guide\app\src\main\res\anim" />
       <recent name="D:\Android\Guide\Guide\app\src\main\res\layout" />
-      <recent name="D:\Android\Guide\Guide\app\src\main\res\drawable-xhdpi" />
       <recent name="D:\android_project\Guide\app\src\main\res\menu" />
       <recent name="D:\android_project\Guide\app\src\main\res\drawable" />
     </key>
@@ -2908,8 +2926,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/PlayActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6289855">
-          <caret line="258" column="13" selection-start-line="258" selection-start-column="13" selection-end-line="258" selection-end-column="13" />
+        <state vertical-scroll-proportion="2.7971015">
+          <caret line="259" column="0" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
           <folding>
             <element signature="e#8505#9250#0" expanded="true" />
             <element signature="e#9249#9250#0" expanded="true" />
