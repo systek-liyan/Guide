@@ -575,7 +575,7 @@
     <dimen name="materialize_typography_headline">24sp</dimen>
     <dimen name="materialize_typography_subheading">16sp</dimen>
     <dimen name="materialize_typography_title">20sp</dimen>
-    <dimen name="normal_textSize">10sp</dimen>
+    <dimen name="normal_textSize">13sp</dimen>
     <dimen name="notification_large_icon_height">64dp</dimen>
     <dimen name="notification_large_icon_width">64dp</dimen>
     <dimen name="notification_subtext_size">12dp</dimen>
@@ -586,10 +586,10 @@
     <dimen name="simple_4dp">4dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="titleBar_small_textSize">13dp</dimen>
-    <dimen name="titleBar_textSize">16sp</dimen>
+    <dimen name="titleBar_textSize">18sp</dimen>
     <dimen name="tool_bar_top_padding">0dp</dimen>
-    <dimen name="topic_label_textSize">12sp</dimen>
-    <dimen name="tv_home_page_exhibit_introduce_size">11sp</dimen>
+    <dimen name="topic_label_textSize">15sp</dimen>
+    <dimen name="tv_home_page_exhibit_introduce_size">15sp</dimen>
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <item name="action_bar_activity_content" type="id"/>

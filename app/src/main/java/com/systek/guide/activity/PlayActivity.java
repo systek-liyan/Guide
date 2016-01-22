@@ -170,6 +170,7 @@ public class PlayActivity extends BaseActivity {
 
     private void refreshView() {
         LogUtil.i("ZHANG", "执行了refreshView");
+        currentMuseumId=currentExhibit.getMuseumId();
         initMultiImgs();
         loadLyricByHand();
         if(currentExhibit!=null){
