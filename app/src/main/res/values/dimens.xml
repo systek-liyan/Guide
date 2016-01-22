@@ -12,13 +12,13 @@
 
     <dimen name="dialog_content_textSize">11sp</dimen>//对话框中内容字体的大小
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
-    <dimen name="titleBar_textSize">16sp</dimen>//标题栏中间字体大小
+    <dimen name="titleBar_textSize">18sp</dimen>//标题栏中间字体大小
     <dimen name="titleBar_small_textSize">13dp</dimen>//标题栏左右等小字体大小
-    <dimen name="tv_home_page_exhibit_introduce_size">11sp</dimen>//主页中展品图片的宽度
+    <dimen name="tv_home_page_exhibit_introduce_size">15sp</dimen>//主页中展品图片的宽度
     <dimen name="dialog_title_textSize">14sp</dimen>//对话框中标题字体的大小
     <dimen name="dialog_button_textSize">13sp</dimen>//对话框中内容字体的大小
-    <dimen name="normal_textSize">10sp</dimen>
-    <dimen name="topic_label_textSize">12sp</dimen>
+    <dimen name="normal_textSize">13sp</dimen>
+    <dimen name="topic_label_textSize">15sp</dimen>
 
     <!--展品item -->
     <dimen name="height_exhibit_item">94dp</dimen>

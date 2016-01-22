@@ -31,13 +31,27 @@ import java.util.List;
  */
 public class DataBiz implements IConstants{
 
-    public static <T> List<T> getEntityListFromNet(Class<T> clazz,String url){
 
+    /**
+     * 根据实体类，url获取对象集合
+     * @param clazz
+     * @param url
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> getEntityListFromNet(Class<T> clazz,String url){
         String response= MyHttpUtil.sendGet(url);
         if(TextUtils.isEmpty(response)){return null;}
-        List<T> list=JSON.parseArray(response,clazz);
+        List<T> list= JSON.parseArray(response, clazz);
         return list;
     }
+
+    /**
+     * 根据实体类从本地数据数据库查询实体类集合
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public synchronized static<T> List<T> getEntityListLocal(Class<T> clazz){
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
@@ -51,6 +65,14 @@ public class DataBiz implements IConstants{
         return list;
     }
 
+    /**
+     * 查询数据库下某column列下值为value的集合
+     * @param column
+     * @param value
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public synchronized static<T> List<T> getEntityListLocalByColumn(String column,String value,Class<T> clazz){
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
@@ -64,6 +86,12 @@ public class DataBiz implements IConstants{
         return list;
     }
 
+    /**
+     * 删除数据库内clazz类的所有数据
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public synchronized static <T> boolean deleteSQLiteDataFromClass(Class<T> clazz){
         boolean isSuccess=true;
         DbUtils db=null;
@@ -79,6 +107,13 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
+    /**
+     * 删除数据库内class类id值为id的数据
+     * @param clazz
+     * @param id
+     * @param <T>
+     * @return
+     */
     public synchronized static <T> boolean deleteSQLiteDataFromID(Class<T> clazz,String id){
         boolean isSuccess=true;
         DbUtils db=DbUtils.create(MyApplication.get());
@@ -93,8 +128,12 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
-
-
+    /**
+     * 保存或更新数据集合
+     * @param list
+     * @param <T>
+     * @return
+     */
     public synchronized static<T>  boolean saveListToSQLite(List<T> list){
         boolean isSuccess=true;
         if(list==null){return false; }
@@ -111,6 +150,11 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
+    /**
+     * 保存对象至数据库
+     * @param obj
+     * @return
+     */
     public synchronized static boolean saveEntityToSQLite(Object obj){
         boolean isSuccess=true;
         DbUtils db=DbUtils.create(MyApplication.get());
@@ -125,6 +169,11 @@ public class DataBiz implements IConstants{
         return isSuccess;
     }
 
+    /**
+     * 删除旧的博物馆数据
+     * @param museumID 博物馆id
+     * @return 是否删除成功
+     */
     public synchronized static boolean deleteOldJsonData(String museumID){
         boolean isSuccess=true;
         DbUtils db=DbUtils.create(MyApplication.get());
@@ -156,7 +205,10 @@ public class DataBiz implements IConstants{
     }
 
 
-
+    /**
+     * 获取收藏展品集合
+     * @return
+     */
     public synchronized static List<ExhibitBean> getCollectionExhibitListFromDB() {
         List<ExhibitBean> collectionList=null;
         DbUtils db=null;
@@ -172,6 +224,12 @@ public class DataBiz implements IConstants{
         }
         return collectionList;
     }
+
+    /**
+     * 获取博物馆id值为 museumId 的展品结合
+     * @param museumId
+     * @return
+     */
     public synchronized static List<ExhibitBean> getCollectionExhibitListFromDBById(String museumId) {
         List<ExhibitBean> collectionList=null;
         DbUtils db=DbUtils.create(MyApplication.get());
@@ -187,6 +245,11 @@ public class DataBiz implements IConstants{
         return collectionList;
     }
 
+    /**
+     * 保存博物馆下展品，beacon，label数据
+     * @param museumID
+     * @return
+     */
     public synchronized static boolean saveAllJsonData(String museumID) {
         List<BeaconBean> beaconList = getEntityListFromNet(BeaconBean.class, URL_BEACON_LIST + museumID);
         List<LabelBean> labelList = getEntityListFromNet(LabelBean.class, URL_LABELS_LIST + museumID);
@@ -200,7 +263,13 @@ public class DataBiz implements IConstants{
         return saveListToSQLite(beaconList) && saveListToSQLite(labelList) && saveListToSQLite(exhibitList);// && saveEntityToSQLite(mapList)
     }
 
-
+    /**
+     * 获取 博物馆id值为museumid的 class类数据集合
+     * @param clazz
+     * @param museumID
+     * @param <T>
+     * @return
+     */
     public synchronized static<T>  List<T> getLocalListById(Class<T> clazz, String museumID) {
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T>list=null;
@@ -216,6 +285,10 @@ public class DataBiz implements IConstants{
         return list;
     }
 
+    /**
+     * 保存或更新对象数据至数据库
+     * @param obj
+     */
     public synchronized static void saveOrUpdate(Object obj) {
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
@@ -229,7 +302,12 @@ public class DataBiz implements IConstants{
         }
     }
 
-
+    /**
+     * 通过beacon id 获取展品集合
+     * @param museumId
+     * @param beaconId
+     * @return
+     */
     public synchronized static List<ExhibitBean> getExhibitListByBeaconId(String museumId,String beaconId){
 
         if(TextUtils.isEmpty(beaconId)){return null;}
@@ -382,7 +460,12 @@ public class DataBiz implements IConstants{
         //return b;
     }
 
-    public synchronized static List<ExhibitBean> getExhibitListByLabel(String label){
+    /**
+     * 通过展品label获取展品集合
+     * @param label
+     * @return
+     */
+    public synchronized static List<ExhibitBean> getExhibitListByLabel(String label){// TODO: 2016/1/21 应加入博物馆id
         List<ExhibitBean> list = null;
         DbUtils db=null;
         try {
