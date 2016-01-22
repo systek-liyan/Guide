@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
@@ -25,6 +26,7 @@ public class DownloadActivity extends BaseActivity {
     private List<MuseumBean> museumList;
     private DownloadAdapter downloadAdapter;
     private Handler handler;
+    private TextView titleBarTopic;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -82,6 +84,8 @@ public class DownloadActivity extends BaseActivity {
 
     private void initView() {
         handler=new MyHandler();
+        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
+        titleBarTopic.setText(R.string.title_bar_download_center);
         museumList=new ArrayList<>();
         downloadAdapter=new DownloadAdapter(this,museumList);
         listViewDownload=(ListView)findViewById(R.id.listViewDownload);

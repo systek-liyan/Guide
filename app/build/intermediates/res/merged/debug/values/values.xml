@@ -704,8 +704,12 @@
     <string name="library_materialize_year">2015</string>
     <string name="material_drawer_close">Close</string>
     <string name="material_drawer_open">Open</string>
-    <string name="search_view_hint">请输入关键字&amp;#8230</string>
+    <string name="search_view_hint">请输入关键字…</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="title_bar_city_choose">城市选择</string>
+    <string name="title_bar_collection">收藏</string>
+    <string name="title_bar_download_center">下载中心</string>
+    <string name="title_bar_topic">专题</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
@@ -2043,17 +2047,6 @@
     <style name="MaterialTheme.Light.DarkToolbar.TranslucentStatus" parent="MaterialTheme.Light.DarkToolbar"/>
     <style name="MaterialTheme.Light.TranslucentStatus" parent="MaterialTheme.Light"/>
     <style name="MaterialTheme.TranslucentStatus" parent="MaterialTheme"/>
-    <style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!-- Here we setting appcompat’s actionBarStyle -->
-        <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
-        <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/materialize_primary</item>
-        <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-        <item name="colorAccent">@color/materialize_accent</item>
-        <!-- Material specific values -->
-    </style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
 

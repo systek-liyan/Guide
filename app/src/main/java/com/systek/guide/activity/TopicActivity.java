@@ -31,6 +31,7 @@ public class TopicActivity extends BaseActivity {
     private String currentMuseumId;
     private Handler handler;
     private ImageView titleBarSkip;
+    private TextView titleBarTopic;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -272,11 +273,12 @@ public class TopicActivity extends BaseActivity {
         tvList=new ArrayList<>();
         mediaServiceManager=MediaServiceManager.getInstance(this);
         titleBarDrawer =(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
+        titleBarTopic.setText(R.string.title_bar_topic);
         titleBarSkip =(ImageView)findViewById(R.id.titleBarRightImg);
         titleBarSkip.setImageDrawable(getResources().getDrawable(R.drawable.iv_skip));
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
         lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
-        //iv_titleBar_toGuide =(TextView)findViewById(R.id.iv_titlebar_toGuide);
 
         tv_collection_dongwei=(TextView)findViewById(R.id.tv_collection_dongwei);
         tv_collection_beiqi=(TextView)findViewById(R.id.tv_collection_beiqi);
