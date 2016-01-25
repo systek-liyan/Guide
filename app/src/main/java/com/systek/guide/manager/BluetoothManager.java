@@ -119,18 +119,15 @@ public class BluetoothManager implements IConstants {
             if (beaconsForSortList == null||beaconsForSortList.size()<=0) {return;}
             List<BeaconBean> beaconBeanList=null;
             List<ExhibitBean> exhibitBeansList=null;
-
+            List<BeaconForSort> beaconSort=null;
+            /*如果信标个数大于四个，取前四个*/
             if(beaconsForSortList.size()>4){
-                List<BeaconForSort> beaconSort=new ArrayList<>();
-                beaconSort.add(beaconsForSortList.get(0));
-                beaconSort.add(beaconsForSortList.get(1));
-                beaconSort.add(beaconsForSortList.get(2));
-                beaconSort.add(beaconsForSortList.get(3));
-                beaconBeanList=changeToBeaconList(beaconSort);
+                beaconSort=beaconsForSortList.subList(0,4);
             }else{
-                beaconBeanList=changeToBeaconList(beaconsForSortList);
+                beaconSort=beaconsForSortList;
             }
-            /*遍历BeaconForSort集合*/
+            beaconBeanList=changeToBeaconList(beaconSort,20.0);// TODO: 2016/1/3
+            /*遍历BeaconForSort集合,*/
             /*获得最近的beacon给地图回调和首页跳转回调*/
             if(beaconBeanList==null||beaconBeanList.size()==0){return;}
             BeaconBean nearestBeacon=beaconBeanList.get(0);
@@ -159,6 +156,11 @@ public class BluetoothManager implements IConstants {
 
     };
 
+    /**
+     * 根据beacon集合找出展品集合
+     * @param beaconBeans
+     * @return
+     */
     private List<ExhibitBean> searchExhibitByBeacon(List<BeaconBean> beaconBeans) {
 
         List<ExhibitBean> exhibitList= new ArrayList<>();
@@ -176,12 +178,17 @@ public class BluetoothManager implements IConstants {
                 /*去重复*/
             exhibitList.removeAll(tempList);
             exhibitList.addAll(tempList);
-
         }
         return exhibitList;
     }
 
-    private List<BeaconBean> changeToBeaconList(List<BeaconForSort> beaconsForSortList) {
+    /**
+     * 根据beaconforsort集合找出beacon集合
+     * @param beaconsForSortList beacon结合
+     * @param dis 规定距离内beacon
+     * @return
+     */
+    private List<BeaconBean> changeToBeaconList(List<BeaconForSort> beaconsForSortList,double dis) {
         List <BeaconBean> beaconBeans=new ArrayList<>();
         for (int i = 0; i < beaconsForSortList.size(); i++) {
             Beacon beacon = beaconsForSortList.get(i).getBeacon();
@@ -192,7 +199,7 @@ public class BluetoothManager implements IConstants {
             BeaconBean beaconBean= DataBiz.getBeaconMinorAndMajor( minor, major);
             if(beaconBean==null){continue;}
                 /*设定距离范围，暂定小于1米则放入列表*/
-            if(distance<20.0){// TODO: 2016/1/3
+            if(distance<dis){
                 beaconBean.setDistance(distance);
                 beaconBeans.add(beaconBean);
             }

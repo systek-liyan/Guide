@@ -14,53 +14,60 @@
 * limitations under the License.
 **************************************************************************/
 
-package com.systek.guide.utils.map;
+package com.systek.guide.biz.map;
 
-import java.util.ArrayList;
+import android.location.Location;
 
-public class MapObjectContainer 
+public class MapObjectModel 
 {
-	private ArrayList<MapObjectModel> container;
+	private int x;
+	private int y;
+	private int id;
+	private String caption;
+	private Location location;
 	
-	public MapObjectContainer()
+	public MapObjectModel(int id, Location location, String caption)
 	{
-		container = new ArrayList<MapObjectModel>();
+		this.location = location;
+		this.caption = caption;
+		this.id = id;
+	}
+	
+	public MapObjectModel(int id, int x, int y, String caption)
+	{
+		this.id = id;
+		this.x = x;
+		this.y = y;
+		this.caption = caption;
+	}
+
+	public int getId() 
+	{
+		return id;
 	}
 
 	
-	public void addObject(MapObjectModel object) 
+	public int getX() 
 	{
-		container.add(object);
+		return x;
+	}
+
+
+	public int getY() 
+	{
+		return y;
 	}
 	
 	
-	public void removeObject(MapObjectModel object)
+	public Location getLocation()
 	{
-		container.remove(object);
+		return location;
 	}
 	
 	
-	public MapObjectModel getObject(int index)
+	public String getCaption()
 	{
-		return container.get(index);
-	}
-	
-	
-	public MapObjectModel getObjectById(int id)
-	{
-		for (MapObjectModel model:container) {
-			if (model.getId() == id) {
-				return model;
-			}
-		}
-		
-		return null;
-	}
-	
-	
-	public int size()
-	{
-		return container.size();
+		return caption;
 	}
 
 }

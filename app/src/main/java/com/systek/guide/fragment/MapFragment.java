@@ -38,7 +38,6 @@ import com.ls.widgets.map.interfaces.OnMapTouchListener;
 import com.ls.widgets.map.model.MapObject;
 import com.ls.widgets.map.utils.PivotFactory;
 import com.systek.guide.IConstants;
-import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.beacon.BeaconSearcher;
 import com.systek.guide.beacon.NearestBeaconListener;
@@ -46,9 +45,9 @@ import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.map.MapObjectContainer;
-import com.systek.guide.utils.map.MapObjectModel;
-import com.systek.guide.utils.map.TextPopup;
+import com.systek.guide.biz.map.MapObjectContainer;
+import com.systek.guide.biz.map.MapObjectModel;
+import com.systek.guide.biz.map.TextPopup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +117,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         // map.setShowMyPosition(true);
         map.centerMap();
         if(topicExhibitList!=null){
-            drawerTopicExhibtsPoint(topicExhibitList);
+            drawerTopicExhibitsPoint(topicExhibitList);
         }
         return view;
     }
@@ -154,7 +153,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         map.createLayer(EXHIBITS_LAYER);//创建展品显示图层
     }
 
-    public void drawerTopicExhibtsPoint(List<ExhibitBean> exhibitList) {
+    public void drawerTopicExhibitsPoint(List<ExhibitBean> exhibitList) {
         for(ExhibitBean bean:exhibitList){
             MapObjectModel objectModel = new MapObjectModel(0,(int)bean.getMapx(), (int)bean.getMapy(),bean.getAddress());
             model.addObject(objectModel);
@@ -469,6 +468,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         ((TextPopup) mapObjectInfoPopup).setText(text);
 
         mapObjectInfoPopup.setOnClickListener(new View.OnTouchListener() {
+
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (mapObjectInfoPopup != null) {
