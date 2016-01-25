@@ -23,7 +23,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.ls.widgets.map.MapWidget;
 import com.ls.widgets.map.config.GPSConfig;
 import com.ls.widgets.map.config.OfflineMapConfig;
@@ -41,13 +43,15 @@ import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.beacon.BeaconSearcher;
 import com.systek.guide.beacon.NearestBeaconListener;
-import com.systek.guide.entity.BeaconBean;
-import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.BluetoothManager;
-import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.biz.DataBiz;
 import com.systek.guide.biz.map.MapObjectContainer;
 import com.systek.guide.biz.map.MapObjectModel;
 import com.systek.guide.biz.map.TextPopup;
+import com.systek.guide.entity.BeaconBean;
+import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.manager.BluetoothManager;
+import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.utils.ExceptionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +76,9 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     private BeaconBean beacon;
     private static MapFragment mapFragment;
     private List<ExhibitBean> topicExhibitList;
+    private MediaServiceManager mediaServiceManager;
+    private List<ExhibitBean> tempList;
+
 
     public static MapFragment newInstance(){
         if(mapFragment==null){
@@ -92,8 +99,10 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     public void onAttach(Activity activity) {
         this.activity = activity;
         bluetoothManager = BluetoothManager.newInstance(activity);
+        bluetoothManager.initBeaconSearcher();
         bluetoothManager.setNearestBeaconListener(nearestBeaconListener);
-        hander = new MyHandler();
+        mediaServiceManager=MediaServiceManager.getInstance(activity);
+        handler = new MyHandler();
         super.onAttach(activity);
     }
 
@@ -155,7 +164,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
     public void drawerTopicExhibitsPoint(List<ExhibitBean> exhibitList) {
         for(ExhibitBean bean:exhibitList){
-            MapObjectModel objectModel = new MapObjectModel(0,(int)bean.getMapx(), (int)bean.getMapy(),bean.getAddress());
+            MapObjectModel objectModel = new MapObjectModel(bean.getId(),(int)bean.getMapx(), (int)bean.getMapy(),bean.getAddress());
             model.addObject(objectModel);
             /*for (Location point : points) {
                 objectModel = new MapObjectModel(id, point, "Point " + id);
@@ -169,9 +178,9 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
     //初始化地图模型
     private void initModel() {
-
+        if(tempList==null||tempList.size()==0){return;}
         //创建并添加地图对象模型(图标点)
-        MapObjectModel objectModel = new MapObjectModel(0, (int) beacon.getPersonx(), (int) beacon.getPersony(), beacon.getMinor());
+        MapObjectModel objectModel = new MapObjectModel(tempList.get(0).getId(), (int) beacon.getPersonx(), (int) beacon.getPersony(), beacon.getMinor());
         model.addObject(objectModel);
 
         //将对象添加到模型
@@ -210,13 +219,13 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         if (objectModel.getLocation() != null) {
             addNotScalableMapObject(objectModel.getLocation(), layer);
         } else {
-            addNotScalableMapObject(objectModel.getX(), objectModel.getY(), layer);
+            addNotScalableMapObject(objectModel.getId(),objectModel.getX(), objectModel.getY(), layer);
         }
     }
 
 
     //绘制不可扩展的地图对象(x,y)
-    private void addNotScalableMapObject(int x, int y, Layer layer) {
+    private void addNotScalableMapObject(String id,int x, int y, Layer layer) {
         try{
             // Getting the drawable of the map object
             //Drawable drawable = getResources().getDrawable(R.drawable.maps_blue_dot);
@@ -229,7 +238,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
             pinHeight = drawable.getIntrinsicHeight();
             // Creating the map object
-            MapObject object1 = new MapObject(Integer.valueOf(nextObjectId), // id, will be passed to the listener when user clicks on it
+            MapObject object1 = new MapObject(id, // Integer.valueOf(nextObjectId)id, will be passed to the listener when user clicks on it
                     drawable,
                     new Point(x, y), // coordinates in original map coordinate system.
                     // Pivot point of center of the drawable in the drawable's coordinate system.
@@ -419,7 +428,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
             // Due to a bug this is not actually the layer id, but index of the layer in layers array.
             // Will be fixed in the next release.
             long layerId = objectTouchEvent.getLayerId();
-            Integer objectId = (Integer) objectTouchEvent.getObjectId();
+            String objectId = String.valueOf(objectTouchEvent.getObjectId()) ;
             // User has touched one or more map object
             // We will take the first one to show in the toast message.
             String message = "You touched the object with id: " + objectId + " on layer: " + layerId +
@@ -428,7 +437,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
             Log.d(TAG, message);
 
-            MapObjectModel objectModel = model.getObjectById(objectId.intValue());
+            MapObjectModel objectModel = model.getObjectById(objectId);
 
             if (objectModel != null) {
                 // This is a case when we want to show popup info exactly above the pin image
@@ -441,10 +450,10 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
                 int y = yToScreenCoords(objectModel.getY()) - imgHeight;
 
                 // Show it
-                showLocationsPopup(x, y, objectModel.getCaption());
+                showLocationsPopup(x, y, objectModel);
             } else {
                 // This is a case when we want to show popup where the user has touched.
-                showLocationsPopup(xInScreenCoords, yInScreenCoords, "Shows where user touched");
+                showLocationsPopup(xInScreenCoords, yInScreenCoords, objectModel);
             }
 
             // Hint: If user touched more than one object you can show the dialog in which ask
@@ -457,15 +466,20 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     }
 
 
-    private void showLocationsPopup(int x, int y, String text) {
+    private void showLocationsPopup(int x, int y, MapObjectModel objectModel) {
         RelativeLayout mapLayout = (RelativeLayout) view.findViewById(R.id.mapLayout);
 
         if (mapObjectInfoPopup != null) {
             mapObjectInfoPopup.hide();
         }
-
+        if(objectModel==null){
+            Toast.makeText(activity,"objectModel为空",Toast.LENGTH_SHORT).show();
+            return;}
+        String exhibitId=objectModel.getId();
+        final ExhibitBean exhibit=DataBiz.getExhibitFromDBById(exhibitId);
+        if(exhibit==null){return;}
         ((TextPopup) mapObjectInfoPopup).setIcon((BitmapDrawable) getResources().getDrawable(R.drawable.icon_map_popup_arrow));
-        ((TextPopup) mapObjectInfoPopup).setText(text);
+        ((TextPopup) mapObjectInfoPopup).setText(exhibit.getName());
 
         mapObjectInfoPopup.setOnClickListener(new View.OnTouchListener() {
 
@@ -473,7 +487,15 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (mapObjectInfoPopup != null) {
                         mapObjectInfoPopup.hide();
-                    }
+                        }
+                    ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+                    if (bean == null || !bean.equals(exhibit)) {
+                        String str = JSON.toJSONString(exhibit);
+                        Intent intent = new Intent();
+                        intent.setAction(INTENT_EXHIBIT);
+                        intent.putExtra(INTENT_EXHIBIT, str);
+                        activity.sendBroadcast(intent);}
+
                 }
 
                 return false;
@@ -510,7 +532,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
      * 蓝牙扫描对象
      */
     private BeaconSearcher mBeaconSearcher;
-    private MyHandler hander;
+    private MyHandler handler;
 
 
     //蓝牙模块返回最近的信标
@@ -518,7 +540,8 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         @Override
         public void nearestBeaconCallBack(BeaconBean b) {
             beacon = b;
-            hander.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
+            tempList= DataBiz.getExhibitListByBeaconId(beacon.getMuseumId(), beacon.getId());
+            handler.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
         }
     };
 
@@ -541,7 +564,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
     @Override
     public void onDestroy() {
-        hander.removeCallbacksAndMessages(null);
+        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 

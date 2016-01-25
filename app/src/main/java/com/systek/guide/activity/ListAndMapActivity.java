@@ -73,6 +73,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         filter.addAction(INTENT_EXHIBIT_DURATION);
         filter.addAction(INTENT_CHANGE_PLAY_PLAY);
         filter.addAction(INTENT_CHANGE_PLAY_STOP);
+        filter.addAction(INTENT_EXHIBIT);
         registerReceiver(receiver,filter);
     }
 
@@ -268,26 +269,26 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
                     break;
+                case INTENT_CHANGE_PLAY_STOP:
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+                    break;
+                case INTENT_CHANGE_PLAY_PLAY:
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+                    break;
                 case INTENT_EXHIBIT:
                     String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
                     if (TextUtils.isEmpty(exhibitStr)) {
-                        return;
+                        break;
                     }
                     ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
                     if (exhibitBean == null) {
-                        return;
+                        break;
                     }
                     if (currentExhibit == null || !currentExhibit.equals(exhibitBean)) {
                         currentExhibit = exhibitBean;
                         currentMuseumId = currentExhibit.getMuseumId();
                         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     }
-                    break;
-                case INTENT_CHANGE_PLAY_STOP:
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
-                    break;
-                case INTENT_CHANGE_PLAY_PLAY:
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
                     break;
             }
         }

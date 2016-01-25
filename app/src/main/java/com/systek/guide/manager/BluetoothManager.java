@@ -205,7 +205,6 @@ public class BluetoothManager implements IConstants {
             }
         }
         return beaconBeans;
-
     }
 
     public interface GetBeaconCallBack{

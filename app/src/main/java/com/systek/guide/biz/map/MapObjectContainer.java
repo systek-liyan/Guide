@@ -46,10 +46,10 @@ public class MapObjectContainer
 	}
 	
 	
-	public MapObjectModel getObjectById(int id)
+	public MapObjectModel getObjectById(String id)
 	{
 		for (MapObjectModel model:container) {
-			if (model.getId() == id) {
+			if (model.getId() .equals(id) ) {
 				return model;
 			}
 		}
