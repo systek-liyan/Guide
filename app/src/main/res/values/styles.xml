@@ -87,18 +87,6 @@
         <item name="android:layout_centerInParent">true</item>
     </style>
 
-    <style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!-- Here we setting appcompat’s actionBarStyle -->
-        <item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>
-        <!-- ...and here we setting appcompat’s color theming attrs -->
-        <item name="colorPrimary">@color/materialize_primary</item>
-        <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-        <item name="colorAccent">@color/materialize_accent</item>
-        <!-- Material specific values -->
-    </style>
-
 
     <style name="LockScreenBase" parent="FullscreenTheme"><!--Theme.AppCompat.Light.NoActionBar-->
         <item name="android:windowIsTranslucent">true</item>
@@ -110,3 +98,14 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 </resources>
+    <!--style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>-->
+    <!-- Here we setting appcompat’s actionBarStyle -->
+    <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
+    <!-- ...and here we setting appcompat’s color theming attrs -->
+    <!--<item name="colorPrimary">@color/materialize_primary</item>
+    <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
+    <item name="colorAccent">@color/materialize_accent</item>-->
+    <!-- Material specific values -->
+    <!--</style>-->

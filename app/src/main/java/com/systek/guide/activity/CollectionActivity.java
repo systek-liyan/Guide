@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
@@ -26,6 +27,7 @@ public class CollectionActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
     private MyHandler handler;
     private String museumId;
+    private TextView titleBarTopic;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -76,11 +78,14 @@ public class CollectionActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
+        titleBarTopic.setText(R.string.title_bar_collection);
+        handler=new MyHandler();
         collectionListView=(ListView)findViewById(R.id.collectionListView);
         collectionExhibitList=new ArrayList<>();
         exhibitAdapter=new ExhibitAdapter(this,collectionExhibitList);
         collectionListView.setAdapter(exhibitAdapter);
-        handler=new MyHandler();
     }
 
     class MyHandler extends Handler {

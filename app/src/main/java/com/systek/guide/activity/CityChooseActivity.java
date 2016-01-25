@@ -42,6 +42,8 @@ public class CityChooseActivity extends BaseActivity{
     private Handler handler;
     private TextView title_bar_topic;
     private String currentCity;
+    private TextView titleBarTopic;
+
     /**定位连接*/
    // private LocationClient mLocationClient;
 
@@ -181,12 +183,14 @@ public class CityChooseActivity extends BaseActivity{
 
     private void initView() {
         handler=new MyHandler();
+        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
+        titleBarTopic.setText(R.string.title_bar_city_choose);
+
         //实例化汉字转拼音类
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         sideBar = (SideBar) findViewById(R.id.sidrbar);
         dialog = (TextView) findViewById(R.id.dialog);
-        title_bar_topic = (TextView) findViewById(R.id.titleBarTopic);
         sideBar.setTextView(dialog);
         cityListView = (ListView) findViewById(R.id.country_lvcountry);
         mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);

@@ -26,6 +26,10 @@
     <string name="label_activity_collection_shike">石刻</string>
 
 
-    <string name="search_view_hint">请输入关键字&amp;#8230</string>
+    <string name="search_view_hint">请输入关键字&#8230;</string>
+    <string name="title_bar_topic">专题</string>
+    <string name="title_bar_collection">收藏</string>
+    <string name="title_bar_city_choose">城市选择</string>
+    <string name="title_bar_download_center">下载中心</string>
 
 </resources>

@@ -168,12 +168,12 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_borderless_material.xml"
     },
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\music1.gif",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\music1.gif"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_map_right_selector.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\btn_map_right_selector.xml"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\music1.gif",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\music1.gif"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",

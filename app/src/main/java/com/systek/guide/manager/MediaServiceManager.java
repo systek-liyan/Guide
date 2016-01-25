@@ -306,19 +306,22 @@ public class MediaServiceManager implements IConstants {
                     /*获取并解析展品集合*/
                     String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
                     List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
-                    if(currentExhibitList==null){return;}
-                    if(currentExhibitList.size()>0&&mediaServiceBinder.getPlayMode()==PLAY_MODE_AUTO){
-
+                    /*当展品集合不为空并且为自动播放模式，没有暂停的情况下自动播放*/
+                    if(currentExhibitList==null
+                            ||currentExhibitList.size()==0
+                            ||mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO
+                            ||mediaServiceBinder.isPlaying()){
+                        break;
+                    }
                         /*获取展品集合第一个，发送广播，通知播放*/
-                        ExhibitBean exhibit=currentExhibitList.get(0);
-                        ExhibitBean currentExhibit=getCurrentExhibit();
-                        if(currentExhibit==null||!currentExhibit.equals(exhibit)){
-                            String str= JSON.toJSONString(exhibit);
-                            Intent intent2 =new Intent();
-                            intent2.setAction(INTENT_EXHIBIT);
-                            intent2.putExtra(INTENT_EXHIBIT, str);
-                            context.sendBroadcast(intent2);
-                        }
+                    ExhibitBean exhibit=currentExhibitList.get(0);
+                    ExhibitBean currentExhibit=getCurrentExhibit();
+                    if(currentExhibit==null||!currentExhibit.equals(exhibit)){
+                        String str= JSON.toJSONString(exhibit);
+                        Intent intent2 =new Intent();
+                        intent2.setAction(INTENT_EXHIBIT);
+                        intent2.putExtra(INTENT_EXHIBIT, str);
+                        context.sendBroadcast(intent2);
                     }
                     break;
             }
