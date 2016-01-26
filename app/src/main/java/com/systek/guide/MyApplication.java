@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.text.TextUtils;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.systek.guide.biz.DataBiz;
+import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
 import com.systek.guide.utils.ExceptionUtil;
@@ -25,13 +27,14 @@ public class MyApplication extends Application implements IConstants{
     public MediaServiceManager mServiceManager;
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
-    //public List<ExhibitBean> totalExhibitBeanList; /**展品总集合*/
-   // public List<ExhibitBean> currentExhibitBeanList;/**当前要加入展品（蓝牙扫描周边等）集合*/
-   // public String currentMuseumId;
+    private BluetoothManager bluetoothManager;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+        /*初始化检查内存泄露*/
+        LeakCanary.install(this);
         myApplication = this;
         if (!isSameAppName()) {return;}
         // 防止重启两次,非相同名字的则返回
@@ -39,31 +42,13 @@ public class MyApplication extends Application implements IConstants{
         mServiceManager.connectService();
         //initDrawerImageLoader();
         registerNetWorkReceiver();
+        initBlueTooth();
     }
 
-    /*private void initDrawerImageLoader() {
-        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
-            @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                Glide.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
-            }
-            @Override
-            public void cancel(ImageView imageView) {
-                Glide.clear(imageView);
-            }
-            @Override
-            public Drawable placeholder(Context ctx, String tag) {
-                if (DrawerImageLoader.Tags.PROFILE.name().equals(tag)) {
-                    return DrawerUIUtils.getPlaceHolder(ctx);
-                } else if (DrawerImageLoader.Tags.ACCOUNT_HEADER.name().equals(tag)) {
-                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.primary).sizeDp(56);
-                } else if ("customUrlItem".equals(tag)) {
-                    return new IconicsDrawable(ctx).iconText(" ").backgroundColorRes(R.color.md_red_500).sizeDp(56);
-                }
-                return super.placeholder(ctx, tag);
-            }
-        });
-    }*/
+    private void initBlueTooth() {
+        bluetoothManager =new  BluetoothManager(this);
+        bluetoothManager.initBeaconSearcher();
+    }
     public  static Context getAppContext(){
         return myApplication.getApplicationContext();
     }
@@ -116,6 +101,8 @@ public class MyApplication extends Application implements IConstants{
     }
     /*退出程序*/
     public  void exit() {
+        bluetoothManager.disConnectBluetoothService();
+        bluetoothManager=null;
         mServiceManager.disConnectService();
         DataBiz.clearTempValues(getAppContext());
         System.exit(0);

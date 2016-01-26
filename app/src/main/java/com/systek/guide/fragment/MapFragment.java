@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,8 +42,6 @@ import com.ls.widgets.map.model.MapObject;
 import com.ls.widgets.map.utils.PivotFactory;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
-import com.systek.guide.beacon.BeaconSearcher;
-import com.systek.guide.beacon.NearestBeaconListener;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.biz.map.MapObjectContainer;
 import com.systek.guide.biz.map.MapObjectModel;
@@ -78,6 +77,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     private List<ExhibitBean> topicExhibitList;
     private MediaServiceManager mediaServiceManager;
     private List<ExhibitBean> tempList;
+    private MapReceiver mapReceiver;
 
 
     public static MapFragment newInstance(){
@@ -98,12 +98,20 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
     @Override
     public void onAttach(Activity activity) {
         this.activity = activity;
-        bluetoothManager = BluetoothManager.newInstance(activity);
+        registerReceiver();
+        /*bluetoothManager =new  BluetoothManager(activity);
         bluetoothManager.initBeaconSearcher();
-        bluetoothManager.setNearestBeaconListener(nearestBeaconListener);
+        bluetoothManager.setNearestBeaconListener(nearestBeaconListener);*/
         mediaServiceManager=MediaServiceManager.getInstance(activity);
         handler = new MyHandler();
         super.onAttach(activity);
+    }
+
+    private void registerReceiver() {
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(INTENT_BEACON);
+        mapReceiver =new MapReceiver();
+        activity.registerReceiver(mapReceiver,filter);
     }
 
     //加载View,初始化数据
@@ -178,6 +186,8 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
     //初始化地图模型
     private void initModel() {
+        if(beacon==null){return;}
+        tempList=DataBiz.getExhibitListByBeaconId(beacon.getMuseumId(),beacon.getId());
         if(tempList==null||tempList.size()==0){return;}
         //创建并添加地图对象模型(图标点)
         MapObjectModel objectModel = new MapObjectModel(tempList.get(0).getId(), (int) beacon.getPersonx(), (int) beacon.getPersony(), beacon.getMinor());
@@ -519,23 +529,13 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         return (int) (mapCoord * map.getScale() - map.getScrollY());
     }
 
-    class MapBrocastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-        }
-    }
-
-
     /**
      * 蓝牙扫描对象
      */
-    private BeaconSearcher mBeaconSearcher;
     private MyHandler handler;
 
 
-    //蓝牙模块返回最近的信标
+    /*//蓝牙模块返回最近的信标
     private NearestBeaconListener nearestBeaconListener = new NearestBeaconListener() {
         @Override
         public void nearestBeaconCallBack(BeaconBean b) {
@@ -543,7 +543,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
             tempList= DataBiz.getExhibitListByBeaconId(beacon.getMuseumId(), beacon.getId());
             handler.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
         }
-    };
+    };*/
 
 
     private final int MSG_WHAT_DRAW_POINT = 1;
@@ -564,6 +564,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
     @Override
     public void onDestroy() {
+        activity.unregisterReceiver(mapReceiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
@@ -573,6 +574,20 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         super.onSaveInstanceState(outState);
         map.saveState(outState);
     }
+
+    class MapReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            if(action.equals(INTENT_BEACON)){
+                String beaconJson=intent.getStringExtra(INTENT_BEACON);
+                beacon =JSON.parseObject(beaconJson,BeaconBean.class);
+                handler.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
+            }
+        }
+    }
+
 
 
 //	private void initTestLocationPoints()

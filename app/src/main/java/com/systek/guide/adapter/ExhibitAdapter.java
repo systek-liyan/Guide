@@ -133,7 +133,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                 }
             }
         });
-        if (!scrollState){
+        //if (!scrollState){}// TODO: 2016/1/26 滑动不加载图片
             // 显示图片
             String iconUrl = exhibitBean.getIconurl();
 
@@ -151,7 +151,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                 iconUrl = BASE_URL + iconUrl;
                 ImageLoaderUtil.displayNetworkImage(context, iconUrl, viewHolder.ivExhibitIcon);
             }
-        }
+
         return convertView;
     }
 

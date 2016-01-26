@@ -209,6 +209,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     protected void onDestroy() {
         unregisterReceiver(receiver);
         handler.removeCallbacksAndMessages(null);
+        exhibitListFragment=null;
+        mapFragment=null;
         super.onDestroy();
     }
 
