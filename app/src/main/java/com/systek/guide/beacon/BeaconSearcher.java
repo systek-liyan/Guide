@@ -382,6 +382,7 @@ public class BeaconSearcher {
 	 */
 	public void closeSearcher() {
 		mBeaconManager.unbind(mBeaconConsumer);
+        instance=null;
 	}
 
 	/**

@@ -245,6 +245,23 @@ public class DataBiz implements IConstants{
         return collectionList;
     }
 
+    public synchronized static ExhibitBean getExhibitFromDBById(String exhibitId) {
+        ExhibitBean exhibitBean=null;
+        DbUtils db=DbUtils.create(MyApplication.get());
+        try {
+            exhibitBean= db.findById(ExhibitBean.class,exhibitId);
+        } catch (DbException e) {
+            ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
+        }
+        return exhibitBean;
+    }
+
+
+
     /**
      * 保存博物馆下展品，beacon，label数据
      * @param museumID

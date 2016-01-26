@@ -610,11 +610,24 @@
     <item name="progress_horizontal" type="id"/>
     <item name="split_action_bar" type="id"/>
     <item name="up" type="id"/>
+    <integer name="__leak_canary_max_stored_leaks">7</integer>
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="abc_max_action_buttons">2</integer>
     <integer name="cancel_button_image_alpha">127</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
+    <string name="__leak_canary_analysis_failed">Leak analysis failed</string>
+    <string name="__leak_canary_class_has_leaked">%s has leaked</string>
+    <string name="__leak_canary_delete">Delete</string>
+    <string name="__leak_canary_delete_all">Delete all</string>
+    <string name="__leak_canary_display_activity_label">Leaks</string>
+    <string name="__leak_canary_failure_report">"Please report this failure to http://github.com/square/leakcanary\n"</string>
+    <string name="__leak_canary_leak_list_title">Leaks in %s</string>
+    <string name="__leak_canary_notification_message">Click for more details</string>
+    <string name="__leak_canary_share_heap_dump">Share heap dump</string>
+    <string name="__leak_canary_share_leak">Share info</string>
+    <string name="__leak_canary_share_with">Share with…</string>
+    <string name="__leak_canary_toast_heap_dump">Dumping memory, app will freeze. Brrrr.</string>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
     <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
@@ -2378,6 +2391,8 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
+    <style name="__LeakCanary.Base" parent="android:Theme">
+  </style>
     <style name="base_image_view">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>

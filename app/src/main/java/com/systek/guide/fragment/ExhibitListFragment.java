@@ -144,6 +144,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         activity.unregisterReceiver(listChangeReceiver);
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
+        exhibitListFragment=null;
     }
     class MyHandler extends Handler{
         @Override

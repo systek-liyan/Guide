@@ -8,7 +8,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
 import com.systek.guide.R;
-import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
 import com.systek.guide.utils.WifiAdmin;
@@ -17,12 +16,10 @@ public class BeginActivity extends BaseActivity {
 
     private View view;
     private Class<?> targetClass;
-    private BluetoothManager bluetoothManager;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
         //connectWIFI();
-        initBlueTooth();
         view = View.inflate(this, R.layout.activity_begin, null);
         NetworkUtil.checkNet(this);
         setContentView(view);
@@ -36,10 +33,6 @@ public class BeginActivity extends BaseActivity {
         }
     }
 
-    private void initBlueTooth() {
-        bluetoothManager = BluetoothManager.newInstance(this);
-        bluetoothManager.initBeaconSearcher();
-    }
 
     @Override
     protected void onResume() {
@@ -78,7 +71,7 @@ public class BeginActivity extends BaseActivity {
         });
     }
     protected void redirectTo() {
-        startActivity(new Intent(getApplicationContext(),targetClass));
+        startActivity(new Intent(getApplicationContext(), targetClass));
         finish();
     }
 }

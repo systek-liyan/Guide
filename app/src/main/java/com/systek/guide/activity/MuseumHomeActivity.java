@@ -26,7 +26,6 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MuseumBean;
-import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageLoaderUtil;
@@ -58,7 +57,6 @@ public class MuseumHomeActivity extends BaseActivity {
     private RelativeLayout rlCollectionHome;
     private ImageView titleBarSearch;
     private RelativeLayout rlNearlyHome;
-    private BluetoothManager bluetoothManager;
     private SwitchCompat auto_switch;
     private MediaServiceManager mediaServiceManager;
 
@@ -75,7 +73,6 @@ public class MuseumHomeActivity extends BaseActivity {
     }
 
     private void init() {
-        bluetoothManager=BluetoothManager.newInstance(this);
         mediaServiceManager=MediaServiceManager.getInstance(this);
         setContentView(R.layout.activity_museum_home);
         WindowManager windowManager = getWindowManager();
@@ -334,9 +331,6 @@ public class MuseumHomeActivity extends BaseActivity {
                     Toast.makeText(this, "在按一次退出", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
                 } else {
-                    if(bluetoothManager!=null){
-                        bluetoothManager.disConnectBluetoothService();
-                    }
                     DataBiz.clearTempValues(this);
                     MyApplication.get().exit();
                 }

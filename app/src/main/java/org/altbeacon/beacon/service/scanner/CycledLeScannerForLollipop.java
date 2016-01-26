@@ -233,8 +233,7 @@ public class CycledLeScannerForLollipop extends CycledLeScanner {
                 @Override
                 public void onScanResult(int callbackType, ScanResult scanResult) {
                     LogManager.d(TAG, "got record");
-                    mCycledLeScanCallback.onLeScan(scanResult.getDevice(),
-                            scanResult.getRssi(), scanResult.getScanRecord().getBytes());
+                    mCycledLeScanCallback.onLeScan(scanResult.getDevice(), scanResult.getRssi(), scanResult.getScanRecord().getBytes());
                     if (mBackgroundLScanStartTime > 0) {
                         LogManager.d(TAG, "got a filtered scan result in the background.");
                     }
@@ -244,8 +243,7 @@ public class CycledLeScannerForLollipop extends CycledLeScanner {
                 public void onBatchScanResults(List<ScanResult> results) {
                     LogManager.d(TAG, "got batch records");
                     for (ScanResult scanResult : results) {
-                        mCycledLeScanCallback.onLeScan(scanResult.getDevice(),
-                                scanResult.getRssi(), scanResult.getScanRecord().getBytes());
+                        mCycledLeScanCallback.onLeScan(scanResult.getDevice(), scanResult.getRssi(), scanResult.getScanRecord().getBytes());
                     }
                     if (mBackgroundLScanStartTime > 0) {
                         LogManager.d(TAG, "got a filtered batch scan result in the background.");

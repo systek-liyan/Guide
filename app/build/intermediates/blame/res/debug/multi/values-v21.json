@@ -3774,6 +3774,27 @@
                         "endOffset": 19843
                     }
                 }
+            },
+            {
+                "to": {
+                    "startLine": 280,
+                    "startColumn": 4,
+                    "startOffset": 20046,
+                    "endLine": 281,
+                    "endColumn": 10,
+                    "endOffset": 20121
+                },
+                "from": {
+                    "file": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.squareup.leakcanary\\leakcanary-android\\1.3.1\\res\\values-v21\\values-v21.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 199,
+                        "endLine": 5,
+                        "endColumn": 10,
+                        "endOffset": 274
+                    }
+                }
             }
         ]
     }

@@ -376,6 +376,10 @@
         "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\drawable\\seek_bar_bg.xml"
     },
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\__leak_canary_toast_background.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.squareup.leakcanary\\leakcanary-android\\1.3.1\\res\\drawable\\__leak_canary_toast_background.xml"
+    },
+    {
         "merged": "D:\\android_project\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_checked_guide.xml",
         "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\drawable\\btn_checked_guide.xml"
     },

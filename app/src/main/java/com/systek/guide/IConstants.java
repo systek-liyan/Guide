@@ -78,6 +78,10 @@ public interface IConstants {
     String INTENT_CHANGE_PLAY_STATE="intent_change_play_state";
     String INTENT_CHANGE_PLAY_STOP="intent_change_play_stop";
     String INTENT_CHANGE_PLAY_PLAY="intent_change_play_play";
+    String INTENT_BEACON="intent_beacon";
+
+
+
     /**欢迎界面图片路径*/
     String WELCOME_IMAGES="welcome_images";
 

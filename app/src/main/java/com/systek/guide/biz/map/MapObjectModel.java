@@ -22,18 +22,18 @@ public class MapObjectModel
 {
 	private int x;
 	private int y;
-	private int id;
+	private String id;
 	private String caption;
 	private Location location;
 	
-	public MapObjectModel(int id, Location location, String caption)
+	public MapObjectModel(String id, Location location, String caption)
 	{
 		this.location = location;
 		this.caption = caption;
 		this.id = id;
 	}
 	
-	public MapObjectModel(int id, int x, int y, String caption)
+	public MapObjectModel(String id, int x, int y, String caption)
 	{
 		this.id = id;
 		this.x = x;
@@ -41,7 +41,7 @@ public class MapObjectModel
 		this.caption = caption;
 	}
 
-	public int getId() 
+	public String getId()
 	{
 		return id;
 	}

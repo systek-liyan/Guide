@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
-import com.systek.guide.MyApplication;
 import com.systek.guide.beacon.BeaconForSort;
 import com.systek.guide.beacon.BeaconSearcher;
 import com.systek.guide.beacon.NearestBeacon;
@@ -27,7 +26,10 @@ import java.util.List;
 public class BluetoothManager implements IConstants {
 
     private Context context;
-    private static BluetoothManager bluetoothManager;
+    private  BluetoothManager bluetoothManager;
+    /*蓝牙扫描对象*/
+    private BeaconSearcher mBeaconSearcher;
+    private GetBeaconCallBack getBeaconCallBack;
     private NearestBeaconListener nearestBeaconListener;
 
     public void setNearestBeaconListener(NearestBeaconListener nearestBeaconListener) {
@@ -38,17 +40,12 @@ public class BluetoothManager implements IConstants {
         this.getBeaconCallBack = getBeaconCallBack;
     }
 
-    private GetBeaconCallBack getBeaconCallBack;
-
-    /*蓝牙扫描对象*/
-    private BeaconSearcher mBeaconSearcher;
-
-    private BluetoothManager(Context context) {
-        this.context = context;
+    public BluetoothManager(Context context) {
+        this.context = context.getApplicationContext();
         //application=MyApplication.get();
     }
 
-    public static BluetoothManager newInstance(Context c){
+    /*public static BluetoothManager newInstance(Context c){
         if(bluetoothManager==null){
             synchronized (MyApplication.class){
                 if(bluetoothManager==null){
@@ -57,7 +54,7 @@ public class BluetoothManager implements IConstants {
             }
         }
         return bluetoothManager;
-    }
+    }*/
 
     public void disConnectBluetoothService(){
 
@@ -65,6 +62,9 @@ public class BluetoothManager implements IConstants {
             mBeaconSearcher.closeSearcher();
             mBeaconSearcher=null;
         }
+        context=null;
+        nearestBeaconListener=null;
+        getBeaconCallBack=null;
         bluetoothManager=null;
     }
 
@@ -107,7 +107,6 @@ public class BluetoothManager implements IConstants {
         /*此方法为自动切换展品，暂时已不用*/
         @Override
         public void getNearestBeacon(int type,Beacon beacon) {
-
         }
 
         long recordTime=0;
@@ -132,12 +131,17 @@ public class BluetoothManager implements IConstants {
             if(beaconBeanList==null||beaconBeanList.size()==0){return;}
             BeaconBean nearestBeacon=beaconBeanList.get(0);
             if(nearestBeacon==null){return;}
-            if(nearestBeaconListener!=null){
+            /*if(nearestBeaconListener!=null){
                 nearestBeaconListener.nearestBeaconCallBack(nearestBeacon);
-            }
-            if(getBeaconCallBack!=null){
+            }*/
+            Intent intent1=new Intent();
+            intent1.setAction(INTENT_BEACON);
+            String beaconJson=JSON.toJSONString(nearestBeacon);
+            intent1.putExtra(INTENT_BEACON,beaconJson);
+            context.sendBroadcast(intent1);
+            /*if(getBeaconCallBack!=null){
                 getBeaconCallBack.getMuseumByBeaconCallBack(nearestBeacon);
-            }
+            }*/
             /*设定刷新列表周期，小于699毫秒不做处理*/
             if(System.currentTimeMillis()-recordTime<699){return;}
             recordTime=System.currentTimeMillis();
@@ -205,7 +209,6 @@ public class BluetoothManager implements IConstants {
             }
         }
         return beaconBeans;
-
     }
 
     public interface GetBeaconCallBack{
