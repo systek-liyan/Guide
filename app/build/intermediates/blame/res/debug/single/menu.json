@@ -1,18 +1,10 @@
 [
     {
-        "merged": "D:\\android_project\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
-        "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
-    },
-    {
-        "merged": "D:\\android_project\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\android_project\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
     }
 ]
