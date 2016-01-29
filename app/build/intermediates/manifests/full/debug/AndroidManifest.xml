@@ -31,8 +31,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme" >
-        <activity android:name="com.systek.guide.MainActivity" >
-        </activity>
         <activity
             android:name="com.systek.guide.activity.BeginActivity"
             android:screenOrientation="portrait"

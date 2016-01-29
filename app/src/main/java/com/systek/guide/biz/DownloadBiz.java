@@ -85,13 +85,13 @@ public class DownloadBiz implements IConstants {
         for (int i = start; i < end; i++) {
             str = assetsList.get(i);
             if (str.endsWith(".jpg")||str.endsWith(".png")) {
-                savePath = LOCAL_ASSETS_PATH +museumId+"/"+LOCAL_FILE_TYPE_IMAGE;//+"/"+ str.replaceAll("/","_")
+                savePath = LOCAL_ASSETS_PATH +museumId+"/"+LOCAL_FILE_TYPE_IMAGE;
                 url = BASE_URL + assetsList.get(i);
             } else if (str.endsWith(".lrc")) {
-                savePath = LOCAL_ASSETS_PATH+museumId+"/" +LOCAL_FILE_TYPE_LYRIC;//+"/"+ str.replaceAll("/", "_")
+                savePath = LOCAL_ASSETS_PATH+museumId+"/" +LOCAL_FILE_TYPE_LYRIC;
                 url = BASE_URL + assetsList.get(i);
             } else if (str.endsWith(".mp3") || str.endsWith(".wav")) {
-                savePath = LOCAL_ASSETS_PATH+museumId+"/" +LOCAL_FILE_TYPE_AUDIO;//+"/"+ str.replaceAll("/","_")
+                savePath = LOCAL_ASSETS_PATH+museumId+"/" +LOCAL_FILE_TYPE_AUDIO;
                 url = BASE_URL + assetsList.get(i);
             } else {
                 LogUtil.i("ZHANG", "文件后缀异常-----------------");

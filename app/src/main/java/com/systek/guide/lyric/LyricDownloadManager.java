@@ -76,7 +76,7 @@ public class LyricDownloadManager implements IConstants {
                 savefolder.mkdirs();
             }
             String localName=lyricName.replaceAll("/","_");
-            String savePath = folderPath  + localName;
+            String savePath = folderPath +"/" + localName;
             Log.i(TAG, "歌词保存路径:" + savePath);
             saveLyric(content.toString(), savePath);
             return savePath;

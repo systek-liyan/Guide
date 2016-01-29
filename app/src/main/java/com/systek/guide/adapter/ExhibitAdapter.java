@@ -1,6 +1,7 @@
 package com.systek.guide.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,8 +102,10 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         viewHolder.tvExhibitName.setText(exhibitBean.getName());
         viewHolder.tvExhibitYears.setText(exhibitBean.getLabels());
         String beaconId=exhibitBean.getBeaconId();
-        String disId=beaconId.substring(beaconId.length()-6,beaconId.length());
-        viewHolder.tvExhibitPosition.setText(disId);// TODO: 2015/12/30 改为展厅
+        if(!TextUtils.isEmpty(beaconId)){
+            String disId=beaconId.substring(beaconId.length()-6,beaconId.length());
+            viewHolder.tvExhibitPosition.setText(disId);// TODO: 2015/12/30 改为展厅
+        }
         String distance=String.valueOf(exhibitBean.getDistance());
         if(distance.length()>6){
             distance=distance.substring(0,6);
