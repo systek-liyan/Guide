@@ -22,6 +22,8 @@ import java.util.List;
 
 /**
  * Created by Qiang on 2015/12/11.
+ *
+ * 蓝牙管理类
  */
 public class BluetoothManager implements IConstants {
 

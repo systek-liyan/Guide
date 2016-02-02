@@ -4,6 +4,8 @@ import com.systek.guide.entity.base.BaseEntity;
 
 /**
  * Created by Qiang on 2015/11/26.
+ *
+ * 城市实体类
  */
 public class CityBean extends BaseEntity {
 

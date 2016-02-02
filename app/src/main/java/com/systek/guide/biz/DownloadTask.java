@@ -13,6 +13,8 @@ import java.util.Vector;
 
 /**
  * Created by Qiang on 2016/1/5.
+ *
+ * 下载任务类
  */
 public class DownloadTask extends Thread implements  IConstants {
 

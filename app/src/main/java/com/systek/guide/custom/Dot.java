@@ -11,6 +11,8 @@ import android.view.View;
 
 /**
  * Created by Qiang on 2015/11/26.
+ *
+ * 自定义圆形视图
  */
 public class Dot extends View {
     private Paint paint;

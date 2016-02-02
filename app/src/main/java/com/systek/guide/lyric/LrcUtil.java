@@ -6,6 +6,9 @@ package com.systek.guide.lyric;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+/**
+ * 歌词工具类
+ */
 public class LrcUtil {
 
 	public StringBuffer getUNICODE(String source) {

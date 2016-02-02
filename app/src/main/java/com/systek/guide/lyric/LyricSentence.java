@@ -2,6 +2,7 @@ package com.systek.guide.lyric;
 
 /**
  * Created by Qiang on 2015/10/29.
+ *
  *  歌词句子，是一个时间戳和一行歌词组成，如“[00.03.21.56]还记得许多年前的春天”
  */
 public class LyricSentence {

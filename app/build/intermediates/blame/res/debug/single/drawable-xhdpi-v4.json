@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\iv_sound_open.png",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xhdpi\\iv_sound_open.png"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\iv_play_state_close_big.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xhdpi\\iv_play_state_close_big.png"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\iv_sound_open.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xhdpi\\iv_sound_open.png"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png",

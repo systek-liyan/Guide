@@ -15,6 +15,8 @@ import com.systek.guide.utils.LogUtil;
 
 /**
  * Created by Qiang on 2015/11/27.
+ *
+ * 锁屏广播接收器
  */
 public class LockScreenReceiver extends BroadcastReceiver implements IConstants{
 

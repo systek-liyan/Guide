@@ -19,20 +19,17 @@ import com.systek.guide.utils.ExceptionUtil;
  * Created by Qiang on 2015/12/30.
  */
 public abstract class BaseActivity extends AppCompatActivity implements IConstants{
-    /**
-     * 类唯一标记
-     */
-    private String TAG = getClass().getSimpleName();
-    public int netState;
-    MyApplication application;
-    protected Drawer drawer;
+
+
+    private String TAG = getClass().getSimpleName();//类的唯一标记
+    public int netState;//网络状态
+    protected Drawer drawer;//抽屉
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
-            application=MyApplication.get();
             netState=MyApplication.currentNetworkType;
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
@@ -41,6 +38,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
 
     }
 
+    /**
+     * 加载抽屉
+     */
     protected void initDrawer() {
         drawer = new DrawerBuilder()
                 .withActivity(this)
@@ -120,15 +120,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
     /*
     * 响应后退按键
     */
     public void keyBack() {
+        //如果未关闭抽屉，先关闭抽屉，再销毁activity
         if(drawer!=null&&drawer.isDrawerOpen()){
             drawer.closeDrawer();
         }

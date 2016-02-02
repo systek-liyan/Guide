@@ -32,6 +32,7 @@ import java.net.URL;
 /**
  * Created by Qiang on 2016/1/19.
  *
+ * 版本更新类
  */
 public class UpdateManager implements IConstants {
 

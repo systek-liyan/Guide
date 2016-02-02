@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * Created by Qiang on 2015/12/10.
+ *
+ * 横向展品adapter
  */
 public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdapter.ViewHolder> implements IConstants {
 
@@ -33,13 +35,19 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         inflater=LayoutInflater.from(context);
     }
 
+    /**
+     * 刷新列表，更新视图
+     * @param list 展品列表
+     */
     public void updateData(List<ExhibitBean> list){
         this.exhibitBeanList=list;
         notifyDataSetChanged();
     }
 
 
-
+    /**
+     * 内部接口，用于点击事件
+     */
     public interface OnItemClickListener
     {
         void onItemClick(View view, int position);
@@ -64,6 +72,8 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        //显示数据
         ExhibitBean exhibitBean=exhibitBeanList.get(position);
         String museumId=exhibitBean.getMuseumId();
         String path=exhibitBean.getIconurl();

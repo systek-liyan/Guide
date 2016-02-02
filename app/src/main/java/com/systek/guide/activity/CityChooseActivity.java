@@ -31,9 +31,9 @@ import java.util.List;
 public class CityChooseActivity extends BaseActivity{
 
 
-    private ListView cityListView;
-    private SideBar sideBar;
-    private TextView dialog;
+    private ListView cityListView;//城市列表
+    private SideBar sideBar;//自定义控件，右侧abc...
+    private TextView dialog;//对话框，显示当前sidebar的位置
     private CityAdapter adapter;
     private ClearEditText mClearEditText;
     private List<CityBean> cities;

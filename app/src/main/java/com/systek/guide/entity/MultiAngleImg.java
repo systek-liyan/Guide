@@ -2,6 +2,8 @@ package com.systek.guide.entity;
 
 /**
  * Created by Qiang on 2015/12/25.
+ *
+ * 多角度图片实体类
  */
 public class MultiAngleImg {
     int time;

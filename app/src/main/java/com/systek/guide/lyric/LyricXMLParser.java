@@ -14,6 +14,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Created by Qiang on 2015/10/29.
+ * 歌词解析类
  */
 public class LyricXMLParser {
 

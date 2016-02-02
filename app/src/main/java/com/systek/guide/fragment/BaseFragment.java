@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 /**
  * Created by Qiang on 2015/11/26.
+ *
  */
 public class BaseFragment extends Fragment {
+
     /**
      * 主视图
      */

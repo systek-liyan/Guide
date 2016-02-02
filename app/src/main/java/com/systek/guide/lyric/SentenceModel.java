@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * Created by Qiang on 2015/10/29.
+ *
+ * 歌词句子实体类
  */
 public class SentenceModel implements Serializable{
 

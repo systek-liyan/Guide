@@ -1,63 +1,38 @@
 package com.systek.guide.activity;
 
 
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.systek.guide.R;
 import com.systek.guide.custom.swipeback.SwipeBackActivity;
 
+import java.util.List;
+
+/**
+ * 测试类
+ */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class MainActivity extends SwipeBackActivity {
 
 
     private BluetoothAdapter mBluetoothAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lock_screen);
-
-
-        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
-        if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
-            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetooth, 1);
-        }
-        scan();
-    }
-
-    private void scan() {
-
-        new Thread(){
-            @Override
-            public void run() {
-
-               // for(int i=0;i<20;i++){
-                    mBluetoothAdapter.startLeScan(mLeScanCallback);
-                    /*try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }*/
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                //}
-            }
-        }.start();
-
-    }
+    Handler handler;
 
     private BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+
 
         @Override
         public void onLeScan(final BluetoothDevice device, final int rssi, final byte[] scanRecord) {
@@ -85,32 +60,85 @@ public class MainActivity extends SwipeBackActivity {
                 String hexString = bytesToHex(uuidBytes);
 
                 // ibeacon的UUID值
-                String uuid = hexString.substring(0, 8) + "-"
-                        + hexString.substring(8, 12) + "-"
-                        + hexString.substring(12, 16) + "-"
-                        + hexString.substring(16, 20) + "-"
-                        + hexString.substring(20, 32);
+                String uuid = hexString.substring(0, 8)
+                        + "-" + hexString.substring(8, 12)
+                        + "-" + hexString.substring(12, 16)
+                        + "-" + hexString.substring(16, 20)
+                        + "-" + hexString.substring(20, 32);
 
                 // ibeacon的Major值
-                int major = (scanRecord[startByte + 20] & 0xff) * 0x100
-                        + (scanRecord[startByte + 21] & 0xff);
+                int major = (scanRecord[startByte + 20] & 0xff) * 0x100 + (scanRecord[startByte + 21] & 0xff);
 
                 // ibeacon的Minor值
-                int minor = (scanRecord[startByte + 22] & 0xff) * 0x100
-                        + (scanRecord[startByte + 23] & 0xff);
+                int minor = (scanRecord[startByte + 22] & 0xff) * 0x100 + (scanRecord[startByte + 23] & 0xff);
 
                 String ibeaconName = device.getName();
                 String mac = device.getAddress();
                 int txPower = (scanRecord[startByte + 24]);
                 Log.d("zhang", bytesToHex(scanRecord));
-                Log.d("zhang", "Name：" + ibeaconName + "\nMac：" + mac
-                        + " \nUUID：" + uuid + "\nMajor：" + major + "\nMinor："
-                        + minor + "\nTxPower：" + txPower + "\nrssi：" + rssi);
+                Log.d("zhang",
+                          "Name：" + ibeaconName
+                        + "\nMac：" + mac
+                        + " \nUUID：" + uuid
+                        + "\nMajor：" + major
+                        + "\nMinor：" + minor
+                        + "\nTxPower：" + txPower
+                        + "\nrssi：" + rssi);
 
                 Log.d("zhang","distance："+calculateAccuracy(txPower,rssi));
             }
         }
     };
+    private BluetoothLeScanner bluescaner;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.lock_screen);
+        handler=new Handler();
+
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+        if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBluetooth, 1);
+        }
+        scan();
+    }
+
+    ScanCallback scanCallback=new ScanCallback() {
+        @Override
+        public void onScanResult(int callbackType, ScanResult result) {
+            super.onScanResult(callbackType, result);
+        }
+
+        @Override
+        public void onBatchScanResults(List<ScanResult> results) {
+            super.onBatchScanResults(results);
+        }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            super.onScanFailed(errorCode);
+        }
+    };
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void scan() {
+        bluescaner=mBluetoothAdapter.getBluetoothLeScanner();
+        bluescaner.startScan(scanCallback);
+        //mBluetoothAdapter.startLeScan(mLeScanCallback);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                bluescaner.stopScan(scanCallback);
+
+            }
+        }, 2000);
+
+
+    }
     static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     private static String bytesToHex(byte[] bytes) {
@@ -137,4 +165,10 @@ public class MainActivity extends SwipeBackActivity {
         }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
 }

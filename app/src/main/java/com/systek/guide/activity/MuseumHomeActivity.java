@@ -170,8 +170,10 @@ public class MuseumHomeActivity extends BaseActivity {
                             mediaPlayer.pause();
                             setPlayStateImageToClose();
                         }else{
-                            if(application.mServiceManager!=null&&application.mServiceManager.isPlaying()){
-                                application.mServiceManager.pause();
+                            MyApplication application=MyApplication.get();
+                            MediaServiceManager serviceManager=application.getmServiceManager();
+                            if(serviceManager!=null&&serviceManager.isPlaying()){
+                                serviceManager.pause();
                             }
                             mediaPlayer.start();
                             setPlayStateImageToOpen();
@@ -306,7 +308,9 @@ public class MuseumHomeActivity extends BaseActivity {
     MediaPlayer.OnPreparedListener mediaListener=new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
-            if(application.mServiceManager==null){
+            MyApplication application=MyApplication.get();
+            MediaServiceManager serviceManager=application.getmServiceManager();
+            if(serviceManager==null){
                 mp.start();
             }
         }

@@ -14,7 +14,7 @@ import com.systek.guide.utils.WifiAdmin;
 
 public class BeginActivity extends BaseActivity {
 
-    private View view;
+    private View view;//开始界面的view
     private Class<?> targetClass;
 
     @Override
@@ -23,6 +23,7 @@ public class BeginActivity extends BaseActivity {
         view = View.inflate(this, R.layout.activity_begin, null);
         NetworkUtil.checkNet(this);
         setContentView(view);
+        //判断是否是第一次进入APP，是则进入导航界面，否则进入博物馆列表页
         boolean isFirstLogin= (boolean) Tools.getValue(this, SP_NOT_FIRST_LOGIN, false);
         if(!isFirstLogin){
             Tools.saveValue(this,SP_NOT_FIRST_LOGIN,true);
@@ -39,6 +40,10 @@ public class BeginActivity extends BaseActivity {
         super.onResume();
         initData();
     }
+
+    /**
+     * 强制连接WiFi
+     */
     private void connectWIFI() {
 
         new Thread(){

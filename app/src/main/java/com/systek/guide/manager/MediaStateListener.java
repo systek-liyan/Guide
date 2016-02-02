@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by Qiang on 2016/1/9.
+ *
+ * 音乐状态监听器
  */
 public interface MediaStateListener {
 

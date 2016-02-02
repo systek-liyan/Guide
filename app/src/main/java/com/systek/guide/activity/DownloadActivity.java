@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.DownloadAdapter;
 import com.systek.guide.biz.DataBiz;
@@ -57,7 +58,7 @@ public class DownloadActivity extends BaseActivity {
             @Override
             public void run() {
                 try{
-                    if(application.currentNetworkType!=INTERNET_TYPE_NONE){
+                    if(MyApplication.getCurrentNetworkType()!=INTERNET_TYPE_NONE){
                         museumList= DataBiz.getEntityListFromNet(MuseumBean.class, URL_MUSEUM_LIST);
                     }
                     if(museumList!=null&&museumList.size()>0){
