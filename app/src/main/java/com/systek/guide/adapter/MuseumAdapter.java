@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * Created by Qiang on 2015/10/23.
+ *
+ * 博物馆列表adapter
  */
 public class MuseumAdapter extends BaseAdapter implements IConstants {
 
@@ -31,6 +33,10 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         inflater = LayoutInflater.from(context);
     }
 
+    /**
+     * 更新列表，刷新视图
+     * @param museumList
+     */
     public void updateData(List<MuseumBean> museumList) {
         this.museumList = museumList;
         notifyDataSetChanged();

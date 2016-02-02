@@ -24,7 +24,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MediaPlayService extends Service implements IConstants {
+/**
+ *  播放器服务类
+ *
+ */
+ public class MediaPlayService extends Service implements IConstants {
 
 
     private MediaPlayer mediaPlayer; // 播放器*/

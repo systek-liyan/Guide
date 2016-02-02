@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by Qiang on 2015/10/29.
+ *
+ * 歌词实体类
  */
 public class LyricModel {
 

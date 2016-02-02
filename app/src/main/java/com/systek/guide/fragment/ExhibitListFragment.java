@@ -26,6 +26,9 @@ import com.systek.guide.manager.MediaServiceManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 展品列表 Fragment
+ */
 public class ExhibitListFragment extends Fragment implements IConstants {
 
     private Context activity;

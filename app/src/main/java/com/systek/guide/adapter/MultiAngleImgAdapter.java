@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * Created by Qiang on 2015/12/25.
+ *
+ * 自定义横向多角度图片的adapter
  */
 public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdapter.ViewHolder> implements IConstants{
 
@@ -25,7 +27,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     private List<MultiAngleImg> list;
     private LayoutInflater inflater;
 
-    private OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;//点击监听
 
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
@@ -55,6 +57,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
         String url = multiAngleImg.getUrl();
         String name = Tools.changePathToName(url);
         String currentMuseumId = (String) DataBiz.getTempValue(context,SP_MUSEUM_ID,"");
+        //博物馆id不为空，显示图片
         if (currentMuseumId != null) {
             String path = LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE + "/" + name;
             if (Tools.isFileExist(path)) {
@@ -70,12 +73,18 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
         return list.size();
     }
 
+    /**
+     * 更新列表
+     * @param list MultiAngleImg 集合
+     */
     public void updateData(List<MultiAngleImg> list){
         this.list=list;
         notifyDataSetChanged();
     }
 
-
+    /**
+     * 内部接口，用于点击事件
+     */
     public interface OnItemClickListener
     {
         void onItemClick(View view, int position);

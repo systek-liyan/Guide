@@ -24,6 +24,10 @@ import com.systek.guide.utils.ExceptionUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 搜索 activity
+ */
 public class SearchActivity extends BaseActivity {
 
     private ListView listViewExhibit;

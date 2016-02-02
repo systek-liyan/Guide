@@ -28,17 +28,22 @@ import com.systek.guide.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 博物馆列表 Activity
+ */
 public class MuseumListActivity extends BaseActivity {
 
     private boolean isDataShow;
+
     private ListView museumListView;
-    /*当前所在城市*/
-    private String city;
-    private List<MuseumBean> museumList;
-    private MuseumAdapter adapter;
+
+    private String city;//当前所在城市
+    private List<MuseumBean> museumList;//展品列表
+    private MuseumAdapter adapter;//适配器
     private Handler handler;
-    private Receiver receiver;
-    private TextView titleBarTopic;
+    private Receiver receiver;//广播接收器
+    private TextView titleBarTopic;//标题
     private ImageView titleBarDrawer;
     private ImageView titleBarTab;
 
@@ -47,9 +52,13 @@ public class MuseumListActivity extends BaseActivity {
         setContentView(R.layout.activity_museum_list);
         handler=new MyHandler();
         setIntent(getIntent());
+        //加载视图
         initView();
+        //添加监听器
         addListener();
+        //加载抽屉
         initDrawer();
+        //添加广播接收器
         addReceiver();
     }
 
@@ -67,13 +76,9 @@ public class MuseumListActivity extends BaseActivity {
         LogUtil.i("ZHANG", "执行了onStart");
     }
 
-    /*@Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        initData();
-        LogUtil.i("ZHANG", "执行了onNewIntent");
-    }*/
-
+    /**
+     * 加载广播接收器
+     */
     private void addReceiver() {
         receiver=new Receiver();
         IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMMING);
@@ -81,14 +86,18 @@ public class MuseumListActivity extends BaseActivity {
         registerReceiver(receiver,filter);
     }
 
-
+    /**
+     * 添加监听器
+     */
     private void addListener() {
         museumListView.setOnItemClickListener(onItemClickListener);
         titleBarDrawer.setOnClickListener(onClickListener);
         titleBarTab.setOnClickListener(onClickListener);
     }
 
-
+    /**
+     * view点击监听器
+     */
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -108,10 +117,11 @@ public class MuseumListActivity extends BaseActivity {
 
             }
         }
-    }
-            ;
+    };
 
-
+    /**
+     * item点击监听器
+     */
     private AdapterView.OnItemClickListener  onItemClickListener= new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +134,9 @@ public class MuseumListActivity extends BaseActivity {
         }
     };
 
+    /**
+     * 加载数据
+     */
     private void initData() {
         Intent intent=getIntent();
         String cityStr=intent.getStringExtra(INTENT_CITY);
@@ -134,7 +147,7 @@ public class MuseumListActivity extends BaseActivity {
             city="北京市";
         }
         titleBarTopic.setText(city);
-        LogUtil.i("ZHANG","当前城市为"+city);
+        LogUtil.i("ZHANG", "当前城市为" + city);
         new Thread(){
             @Override
             public void run() {
@@ -166,6 +179,9 @@ public class MuseumListActivity extends BaseActivity {
         }.start();
     }
 
+    /**
+     * 加载view
+     */
     private void initView() {
         titleBarTopic=(TextView)findViewById(R.id.titleBarTopic);
         titleBarTab=(ImageView)findViewById(R.id.titleBarRightImg);

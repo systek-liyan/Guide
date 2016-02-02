@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.text.TextUtils;
 
-import com.squareup.leakcanary.LeakCanary;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
@@ -18,13 +17,33 @@ import java.util.Iterator;
 
 /**
  * Created by Qiang on 2015/12/30.
+ *
+ *
  */
 public class MyApplication extends Application implements IConstants{
 
     private static MyApplication myApplication;
     /*软件是否开发完毕*/
     public static final boolean isRelease = false;
+
+    public MediaServiceManager getmServiceManager() {
+        return mServiceManager;
+    }
+
+    public void setmServiceManager(MediaServiceManager mServiceManager) {
+        this.mServiceManager = mServiceManager;
+    }
+
     public MediaServiceManager mServiceManager;
+
+    public static int getCurrentNetworkType() {
+        return currentNetworkType;
+    }
+
+    public static void setCurrentNetworkType(int currentNetworkType) {
+        MyApplication.currentNetworkType = currentNetworkType;
+    }
+
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
     private BluetoothManager bluetoothManager;
@@ -34,7 +53,7 @@ public class MyApplication extends Application implements IConstants{
     public void onCreate() {
         super.onCreate();
         /*初始化检查内存泄露*/
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         myApplication = this;
         if (!isSameAppName()) {return;}
         // 防止重启两次,非相同名字的则返回
@@ -44,6 +63,9 @@ public class MyApplication extends Application implements IConstants{
         registerNetWorkReceiver();
         initBlueTooth();
     }
+
+
+
 
     private void initBlueTooth() {
         bluetoothManager =new  BluetoothManager(this);

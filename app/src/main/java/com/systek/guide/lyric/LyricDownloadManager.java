@@ -17,6 +17,8 @@ import java.net.URL;
 
 /**
  * Created by Qiang on 2015/10/29.
+ *
+ * 歌词下载管理类
  */
 public class LyricDownloadManager implements IConstants {
 

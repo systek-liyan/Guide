@@ -4,6 +4,8 @@ import android.os.Environment;
 
 /**
  * Created by Qiang on 2015/11/26.
+ *
+ * 公共接口类，用于存放所有常量
  */
 public interface IConstants {
 

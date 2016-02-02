@@ -86,6 +86,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
             viewHolder.tvExhibitDistance = (TextView) convertView.findViewById(R.id.tvExhibitDistance);
             viewHolder.llCollectionBtn = (LinearLayout) convertView.findViewById(R.id.llCollectionBtn);
             viewHolder.ivCollection = (ImageView) convertView.findViewById(R.id.ivCollection);
+            viewHolder.tvExhibitNumber = (TextView) convertView.findViewById(R.id.tvExhibitNumber);
             viewHolder.ivExhibitSound = (GifView) convertView.findViewById(R.id.ivExhibitSound);
             convertView.setTag(viewHolder);
         } else {
@@ -101,6 +102,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         final ExhibitBean exhibitBean = list.get(position);
         viewHolder.tvExhibitName.setText(exhibitBean.getName());
         viewHolder.tvExhibitYears.setText(exhibitBean.getLabels());
+        viewHolder.tvExhibitNumber.setText(exhibitBean.getNumber());
         String beaconId=exhibitBean.getBeaconId();
         if(!TextUtils.isEmpty(beaconId)){
             String disId=beaconId.substring(beaconId.length()-6,beaconId.length());
@@ -159,7 +161,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     }
 
     class ViewHolder{
-        TextView tvExhibitName, tvExhibitYears, tvExhibitPosition,tvExhibitDistance;
+        TextView tvExhibitName, tvExhibitYears, tvExhibitPosition,tvExhibitDistance,tvExhibitNumber;
         RoundImageView ivExhibitIcon;
         LinearLayout llCollectionBtn;
         ImageView ivCollection;

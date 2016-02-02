@@ -2,6 +2,9 @@ package com.systek.guide.entity;
 
 import com.systek.guide.entity.base.BaseEntity;
 
+/**
+ * 博物馆实体类
+ */
 public class MuseumBean extends BaseEntity {
 	
 	private String id;

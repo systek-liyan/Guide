@@ -28,6 +28,9 @@ import com.systek.guide.utils.Tools;
 
 import java.util.List;
 
+/**
+ * 附近展品列表和地图activity
+ */
 public class ListAndMapActivity extends BaseActivity implements ExhibitListFragment.OnFragmentInteractionListener{
 
     private RadioButton radioButtonList;
@@ -54,18 +57,29 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     protected void initialize(Bundle savedInstanceState) {
         setContentView(R.layout.activity_list_and_map);
         handler=new MyHandler();
+        //加载播放器
         initMediaManager();
+        //加载view
         initView();
+        //添加监听器
         addListener();
+        //设置默认fragment
         setDefaultFragment();
+        //注册广播接收器
         registerReceiver();
     }
 
+    /**
+     * 加载播放器
+     */
     private void initMediaManager() {
         mediaServiceManager= MediaServiceManager.getInstance(this);
         //mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
     }
 
+    /**
+     * 注册广播
+     */
     private void registerReceiver() {
         receiver=new PlayStateReceiver();
         IntentFilter filter=new IntentFilter();
@@ -77,7 +91,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         registerReceiver(receiver,filter);
     }
 
-
+    /**
+     * 添加监听器
+     */
     private void addListener() {
         radioGroupTitle.setOnCheckedChangeListener(radioButtonCheckListener);
         ivPlayCtrl.setOnClickListener(onClickListener);
@@ -86,6 +102,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         exhibitIcon.setOnClickListener(onClickListener);
     }
 
+    /**
+     * 加载视图
+     */
     private void initView() {
         radioButtonList=(RadioButton)findViewById(R.id.radioButtonList);
         radioButtonMap=(RadioButton)findViewById(R.id.radioButtonMap);
@@ -98,6 +117,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         titleBarDrawer.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
     }
 
+    /**
+     * 点击监听器
+     */
     View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -117,6 +139,10 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
             }
         }
     };
+
+    /**
+     * SeekBar 进度改变监听器
+     */
     SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -138,6 +164,10 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         }
     };
 
+
+    /**
+     * 设置默认fragment
+     */
     private void setDefaultFragment() {
         String flag=getIntent().getStringExtra(INTENT_FLAG_GUIDE_MAP);
         FragmentManager fm = getFragmentManager();
@@ -159,7 +189,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         transaction.commit();
     }
 
-
+    /**
+     * RadioButton 监听器
+     */
     private RadioGroup.OnCheckedChangeListener radioButtonCheckListener=new RadioGroup.OnCheckedChangeListener(){
 
         @Override
@@ -214,6 +246,11 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         super.onDestroy();
     }
 
+
+    /**
+     * 回调方法，用于反给activity数据
+     * @param bean 返回给activity展品对象
+     */
     @Override
     public void onFragmentInteraction(ExhibitBean bean) {
         this.currentExhibit=bean;
@@ -259,24 +296,31 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         }
     }
 
-
+    /**
+     * 广播接受器，监听播放状态
+     */
     class PlayStateReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+
+                //更新进度
                 case INTENT_EXHIBIT_PROGRESS:
                     currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
                     currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
                     break;
+                //停止播放
                 case INTENT_CHANGE_PLAY_STOP:
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
                     break;
+                //继续播放
                 case INTENT_CHANGE_PLAY_PLAY:
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
                     break;
+                //切换展品
                 case INTENT_EXHIBIT:
                     String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
                     if (TextUtils.isEmpty(exhibitStr)) {

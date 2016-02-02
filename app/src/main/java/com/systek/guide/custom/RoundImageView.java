@@ -23,7 +23,7 @@ import com.systek.guide.R;
 /**
  * Created by Qiang on 2015/12/24.
  *
- * 圆角imageview
+ * 圆角或圆形ImageView
  */
 public class RoundImageView extends ImageView {
     /**

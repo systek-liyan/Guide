@@ -2,6 +2,9 @@ package com.systek.guide.entity;
 
 import com.systek.guide.entity.base.BaseEntity;
 
+/**
+ * 展品实体类
+ */
 public class ExhibitBean extends BaseEntity {
 
     private String id;
@@ -20,6 +23,7 @@ public class ExhibitBean extends BaseEntity {
     private String labels;
     private String lexhibit;
     private String rexhibit;
+    private String number;
     private int version;
     private int priority;
     private double distance;
@@ -155,6 +159,14 @@ public class ExhibitBean extends BaseEntity {
         this.rexhibit = rexhibit;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     public int getVersion() {
         return version;
     }
@@ -194,8 +206,6 @@ public class ExhibitBean extends BaseEntity {
 
         ExhibitBean that = (ExhibitBean) o;
 
-        if (Float.compare(that.mapx, mapx) != 0) return false;
-        if (Float.compare(that.mapy, mapy) != 0) return false;
         if (floor != that.floor) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
@@ -203,10 +213,8 @@ public class ExhibitBean extends BaseEntity {
             return false;
         if (beaconId != null ? !beaconId.equals(that.beaconId) : that.beaconId != null)
             return false;
-        if (introduce != null ? !introduce.equals(that.introduce) : that.introduce != null)
-            return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-        return !(labels != null ? !labels.equals(that.labels) : that.labels != null);
+        if (labels != null ? !labels.equals(that.labels) : that.labels != null) return false;
+        return !(number != null ? !number.equals(that.number) : that.number != null);
 
     }
 
@@ -216,12 +224,9 @@ public class ExhibitBean extends BaseEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (museumId != null ? museumId.hashCode() : 0);
         result = 31 * result + (beaconId != null ? beaconId.hashCode() : 0);
-        result = 31 * result + (introduce != null ? introduce.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (mapx != +0.0f ? Float.floatToIntBits(mapx) : 0);
-        result = 31 * result + (mapy != +0.0f ? Float.floatToIntBits(mapy) : 0);
         result = 31 * result + floor;
         result = 31 * result + (labels != null ? labels.hashCode() : 0);
+        result = 31 * result + (number != null ? number.hashCode() : 0);
         return result;
     }
 

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 /**
  * Created by Qiang on 2016/1/27.
+ *
+ * 字体管理类
  */
 public class FontManager {
 

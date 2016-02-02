@@ -21,7 +21,7 @@ import java.util.Vector;
 /**
  * Created by Qiang on 2015/10/28.
  *
- *
+ * 博物馆数据下载类，暂已不用
  */
 public class MuseumDownloadService  extends IntentService implements IConstants {
 

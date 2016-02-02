@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.systek.guide.R;
 
-
+/**
+ * 城市右侧字母列表
+ */
 public class SideBar extends View{
     // 触摸事件
     private OnTouchingLetterChangedListener onTouchingLetterChangedListener;

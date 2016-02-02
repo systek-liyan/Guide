@@ -13,6 +13,8 @@ import com.systek.guide.utils.LogUtil;
 
 /**
  * Created by Qiang on 2016/1/13.
+ *
+ * 电话状态监听器
  */
 public class PhoneReceiver extends BroadcastReceiver{
 

@@ -26,6 +26,12 @@ import com.systek.guide.utils.ExceptionUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 专题activity
+ *
+ *
+ */
 public class TopicActivity extends BaseActivity {
 
     private String currentMuseumId;

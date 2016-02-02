@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Qiang on 2015/10/29.
+ *
+ * 加载歌词类
  */
 public class LyricLoadHelper {
 

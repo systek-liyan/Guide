@@ -14,6 +14,8 @@ import java.util.Vector;
 
 /**
  * Created by Qiang on 2015/11/17.
+ *
+ * 下载业务类
  */
 public class DownloadBiz implements IConstants {
 
@@ -74,7 +76,14 @@ public class DownloadBiz implements IConstants {
 
     String str = "";
     String savePath = "";
-    /* 下载assets中数据 */
+
+    /**
+     * 现在资源文件
+     * @param assetsList 资源列表
+     * @param start 开始下表
+     * @param end 结束下标
+     * @param museumId 博物馆id
+     */
     public void downloadAssets(Vector<String> assetsList, int start, int end,String museumId) {
         startTime = System.currentTimeMillis();
         totalSize=assetsList.size();
@@ -115,6 +124,12 @@ public class DownloadBiz implements IConstants {
         downloadOver=true;
     }
 
+    /**
+     * 下载文件
+     * @param savePath 保存路径
+     * @param name 文件名称
+     * @param url
+     */
     private void downloadFile(String savePath,String name, final String url) {
         try {
             MyHttpUtil.downLoadFromUrl(url,name,savePath);
@@ -122,7 +137,7 @@ public class DownloadBiz implements IConstants {
         } catch (IOException e) {
             ExceptionUtil.handleException(e);
         }
-        if (url.endsWith(".jpg")) {
+       /* if (url.endsWith(".jpg")) {
             LogUtil.i("ZHANG","jpg文件下载成功"+ url.substring(url.lastIndexOf("/") + 1) + "下载个数" + count);
         }else if (url.endsWith(".png")) {
             LogUtil.i("ZHANG","png文件下载成功"+ url.substring(url.lastIndexOf("/") + 1) + "下载个数" + count);
@@ -132,6 +147,6 @@ public class DownloadBiz implements IConstants {
             LogUtil.i("ZHANG","mp3文件下载成功"+ url.substring(url.lastIndexOf("/") + 1) + "下载个数" + count);
         } else if (url.endsWith(".wav")) {
             LogUtil.i("ZHANG","wav文件下载成功"+ url.substring(url.lastIndexOf("/") + 1) + "下载个数" + count);
-        }
+        }*/
     }
 }

@@ -19,12 +19,16 @@ import com.systek.guide.entity.ExhibitBean;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 收藏展品的activity
+ */
 public class CollectionActivity extends BaseActivity {
 
 
-    private ListView collectionListView;
-    private List<ExhibitBean> collectionExhibitList;
-    private ExhibitAdapter exhibitAdapter;
+    private ListView collectionListView;//展品列表ListView
+    private List<ExhibitBean> collectionExhibitList;//展品集合
+    private ExhibitAdapter exhibitAdapter;//适配器
     private MyHandler handler;
     private String museumId;
     private TextView titleBarTopic;
@@ -32,12 +36,19 @@ public class CollectionActivity extends BaseActivity {
     @Override
     protected void initialize(Bundle savedInstanceState) {
         setContentView(R.layout.activity_collection);
-        initDrawer();
+        //加载view
         initView();
+        //加载抽屉
+        initDrawer();
+        //加载数据
         initData();
+        //添加监听器
         addListener();
     }
 
+    /**
+     * 给控件添加监听器
+     */
     private void addListener() {
         collectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,7 +67,9 @@ public class CollectionActivity extends BaseActivity {
         });
     }
 
-
+    /**
+     * 加载数据
+     */
     private void initData() {
         museumId =getIntent().getStringExtra(INTENT_MUSEUM_ID);
         new Thread(){
@@ -77,6 +90,9 @@ public class CollectionActivity extends BaseActivity {
         }.start();
     }
 
+    /**
+     * 加载视图
+     */
     private void initView() {
 
         titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
