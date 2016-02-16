@@ -235,6 +235,8 @@ public class MuseumHomeActivity extends BaseActivity {
     private void initView() {
         titleBarDrawer = (ImageView) findViewById(R.id.titleBarDrawer);
         titleBarSearch = (ImageView) findViewById(R.id.titleBarRightImg);
+        titleBarSearch.setImageDrawable(getResources().getDrawable(R.drawable.iv_search));
+        titleBarDrawer.setImageDrawable(getResources().getDrawable(R.drawable.setting));
         ivPlayStateCtrl = (ImageView) findViewById(R.id.ivPlayStateCtrl);
         titleBarTopic = (TextView) findViewById(R.id.titleBarTopic);
         llMuseumLargestIcon = (LinearLayout) findViewById(R.id.llMuseumLargestIcon);

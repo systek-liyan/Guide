@@ -185,8 +185,9 @@ public class MuseumListActivity extends BaseActivity {
     private void initView() {
         titleBarTopic=(TextView)findViewById(R.id.titleBarTopic);
         titleBarTab=(ImageView)findViewById(R.id.titleBarRightImg);
-        titleBarTab.setImageDrawable(getResources().getDrawable(R.drawable.iv_tab));
         titleBarDrawer=(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarTab.setImageDrawable(getResources().getDrawable(R.drawable.iv_tab));
+        titleBarDrawer.setImageDrawable(getResources().getDrawable(R.drawable.setting));
         museumListView=(ListView)findViewById(R.id.museumListView);
         View header=getLayoutInflater().inflate(R.layout.header_museum_list,null);
         museumListView.addHeaderView(header,null,false);

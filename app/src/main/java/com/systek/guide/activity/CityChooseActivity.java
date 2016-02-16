@@ -9,11 +9,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.systek.guide.R;
 import com.systek.guide.adapter.CityAdapter;
 import com.systek.guide.biz.DataBiz;
@@ -22,13 +27,14 @@ import com.systek.guide.custom.SideBar;
 import com.systek.guide.entity.CityBean;
 import com.systek.guide.parser.CharacterParser;
 import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.PinyinComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CityChooseActivity extends BaseActivity{
+public class CityChooseActivity extends BaseActivity  implements AMapLocationListener {
 
 
     private ListView cityListView;//城市列表
@@ -43,9 +49,13 @@ public class CityChooseActivity extends BaseActivity{
     private TextView title_bar_topic;
     private String currentCity;
     private TextView titleBarTopic;
+    private AMapLocationClient locationClient;
+    private AMapLocationClientOption locationOption;
+    private ImageView titleBarBack;
+    private ImageView titleBarSkip;
 
     /**定位连接*/
-   // private LocationClient mLocationClient;
+    // private LocationClient mLocationClient;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -54,10 +64,37 @@ public class CityChooseActivity extends BaseActivity{
         initView();
         addListener();
         initData();
+        //加载高德地图
+        initLocation();
 
     }
 
+    private void initLocation() {// TODO: 2016/2/16
+        locationClient = new AMapLocationClient(this.getApplicationContext());
+        locationOption = new AMapLocationClientOption();
+        // 设置定位模式为高精度模式
+        locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        // 设置定位监听
+        locationClient.setLocationListener(this);
+        // 设置定位参数
+        locationClient.setLocationOption(locationOption);
+        // 启动定位
+        locationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+
+        LogUtil.i("ZHANG","执行了onLocationChanged");
+        LogUtil.i("ZHANG",aMapLocation.getCity());
+    }
+
+
+
     private void addListener() {
+
+        titleBarBack.setOnClickListener(onClickListener);
+        titleBarSkip.setOnClickListener(onClickListener);
 
         //设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -106,6 +143,21 @@ public class CityChooseActivity extends BaseActivity{
 
     }
 
+
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.titleBarRightImg:// TODO: 2016/2/16  
+                    break;
+                case R.id.titleBarDrawer:
+                    break;
+
+
+            }
+        }
+    };
 
 
     private void gotoMuseumActivity() {
@@ -185,7 +237,10 @@ public class CityChooseActivity extends BaseActivity{
         handler=new MyHandler();
         titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
         titleBarTopic.setText(R.string.title_bar_city_choose);
-
+        titleBarBack =(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarBack.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
+        titleBarSkip =(ImageView)findViewById(R.id.titleBarRightImg);
+        titleBarSkip.setImageDrawable(getResources().getDrawable(R.drawable.iv_skip));
         //实例化汉字转拼音类
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
@@ -220,6 +275,7 @@ public class CityChooseActivity extends BaseActivity{
     }
 
 
+
     class MyHandler extends  Handler{
         @Override
         public void handleMessage(Message msg) {
@@ -233,5 +289,15 @@ public class CityChooseActivity extends BaseActivity{
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
+
     }
 }

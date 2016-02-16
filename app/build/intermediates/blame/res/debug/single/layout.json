@@ -4,6 +4,10 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\activity_museum_list.xml"
     },
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_icon_image.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\fragment_icon_image.xml"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_screen_toolbar.xml"
     },
@@ -318,6 +322,10 @@
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_switch.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\layout\\material_drawer_item_switch.xml"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_lyric.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\fragment_lyric.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\header_museum_list.xml",

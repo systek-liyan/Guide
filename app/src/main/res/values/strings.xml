@@ -32,4 +32,7 @@
     <string name="title_bar_city_choose">城市选择</string>
     <string name="title_bar_download_center">下载中心</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

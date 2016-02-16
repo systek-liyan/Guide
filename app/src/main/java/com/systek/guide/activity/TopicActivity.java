@@ -67,7 +67,7 @@ public class TopicActivity extends BaseActivity {
     /**已选标签控件集合*/
     private List<TextView> tvList;
     /**侧边栏按钮*/
-    private ImageView titleBarDrawer;
+    private ImageView titleBarBack;
 
     private MediaServiceManager mediaServiceManager;
 
@@ -101,7 +101,7 @@ public class TopicActivity extends BaseActivity {
 
     private void addListener() {
 
-        titleBarDrawer.setOnClickListener(onClickListener);
+        titleBarBack.setOnClickListener(onClickListener);
         lv_collection_listView.setOnScrollListener(onScrollListener);
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -213,11 +213,7 @@ public class TopicActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.titleBarDrawer:
-                    if (drawer.isDrawerOpen()) {
-                        drawer.closeDrawer();
-                    } else {
-                        drawer.openDrawer();
-                    }
+                    finish();
                     break;
                 case  R.id.titleBarRightImg:
                     if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()==0){return;}
@@ -278,11 +274,12 @@ public class TopicActivity extends BaseActivity {
     private void initViews() {
         tvList=new ArrayList<>();
         mediaServiceManager=MediaServiceManager.getInstance(this);
-        titleBarDrawer =(ImageView)findViewById(R.id.titleBarDrawer);
-        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
-        titleBarTopic.setText(R.string.title_bar_topic);
+        titleBarBack =(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarBack.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
         titleBarSkip =(ImageView)findViewById(R.id.titleBarRightImg);
         titleBarSkip.setImageDrawable(getResources().getDrawable(R.drawable.iv_skip));
+        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
+        titleBarTopic.setText(R.string.title_bar_topic);
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
         lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
 

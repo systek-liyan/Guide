@@ -1,0 +1,28 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.systek.guide.fragment.LyricFragment">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_exhibit_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ListView
+            android:id="@+id/lvLyric"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    </FrameLayout>
+
+</FrameLayout>

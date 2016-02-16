@@ -655,6 +655,7 @@
     <string name="define_AndroidIconics">year;owner</string>
     <string name="define_materialdrawer">year;owner</string>
     <string name="define_materialize">year;owner</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_activity_collection_beiqi">北齐</string>
     <string name="label_activity_collection_beiwei">北魏</string>
     <string name="label_activity_collection_chunqiu">春秋</string>

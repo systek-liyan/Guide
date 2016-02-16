@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,24 +21,25 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MultiAngleImgAdapter;
+import com.systek.guide.adapter.base.ViewPagerAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.entity.MultiAngleImg;
+import com.systek.guide.fragment.BaseFragment;
+import com.systek.guide.fragment.IconImageFragment;
+import com.systek.guide.fragment.LyricFragment;
 import com.systek.guide.lyric.LyricAdapter;
 import com.systek.guide.lyric.LyricDownloadManager;
 import com.systek.guide.lyric.LyricLoadHelper;
 import com.systek.guide.lyric.LyricSentence;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
-import com.systek.guide.utils.Tools;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayActivity extends BaseActivity {
+public class PlayActivity extends BaseActivity implements LyricFragment.OnFragmentInteractionListener,IconImageFragment.OnFragmentInteractionListener {
 
     private Handler handler;
     private ListView lvLyric;//歌词listview
@@ -63,6 +65,9 @@ public class PlayActivity extends BaseActivity {
     private MediaServiceManager mediaServiceManager;
     private TextView tvTotalTime;
     private boolean hasMultiImage;
+    private ViewPager viewpagerWordImage;
+    private LyricFragment lyricFragment;
+    private IconImageFragment iconImageFragment;
 
 
     @Override
@@ -180,8 +185,18 @@ public class PlayActivity extends BaseActivity {
     }
 
     private void initIcon() {
-        if(currentIconUrl==null){return;}
-        String imageName = Tools.changePathToName(currentIconUrl);
+
+
+        if(currentIconUrl==null||lyricFragment==null){return;}
+
+        iconImageFragment.setCurrentMuseumId(currentMuseumId);
+        iconImageFragment.setImageUrl(currentIconUrl);
+
+        iconImageFragment.initIcon();
+
+        lyricFragment.setExhibit(currentExhibit);
+        lyricFragment.initIcon();// TODO: 2016/2/16
+        /*String imageName = Tools.changePathToName(currentIconUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
         File file = new File(imgLocalUrl);
         // 判断sdcard上有没有图片
@@ -190,13 +205,24 @@ public class PlayActivity extends BaseActivity {
             ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, imgExhibitIcon);
         } else {
             ImageLoaderUtil.displayNetworkImage(this, BASE_URL + currentIconUrl, imgExhibitIcon);
-        }
+        }*/
     }
 
     /*初始化界面控件*/
     private void initView() {
-        lvLyric=(ListView)findViewById(R.id.lvLyric);
-        imgExhibitIcon=(ImageView)findViewById(R.id.imgExhibitIcon);
+
+        viewpagerWordImage=(ViewPager)findViewById(R.id.viewpagerWordImage);
+
+        iconImageFragment=IconImageFragment.newInstance(null,null);
+        lyricFragment=LyricFragment.newInstance(null);
+        ArrayList<BaseFragment> fragments=new ArrayList<>();
+        fragments.add(lyricFragment);
+        fragments.add(iconImageFragment);
+        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),fragments);
+        viewpagerWordImage.setAdapter(viewPagerAdapter);
+
+        //lvLyric=(ListView)findViewById(R.id.lvLyric);
+        //imgExhibitIcon=(ImageView)findViewById(R.id.imgExhibitIcon);
         seekBarProgress=(SeekBar)findViewById(R.id.seekBarProgress);
         tvPlayTime=(TextView)findViewById(R.id.tvPlayTime);
         tvTotalTime=(TextView)findViewById(R.id.tvTotalTime);
@@ -210,11 +236,11 @@ public class PlayActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycleMultiAngle.setLayoutManager(linearLayoutManager);
         recycleMultiAngle.setAdapter(mulTiAngleImgAdapter);
-        mLyricLoadHelper = new LyricLoadHelper();
-        mLyricAdapter = new LyricAdapter(this);
-        mLyricLoadHelper.setLyricListener(mLyricListener);
-        lvLyric.setAdapter(mLyricAdapter);
-        imgWordCtrl.setOnClickListener(onClickListener);
+       // mLyricLoadHelper = new LyricLoadHelper();
+        //mLyricAdapter = new LyricAdapter(this);
+        //mLyricLoadHelper.setLyricListener(mLyricListener);
+        //lvLyric.setAdapter(mLyricAdapter);
+       // imgWordCtrl.setOnClickListener(onClickListener);
     }
 
 
@@ -291,7 +317,11 @@ public class PlayActivity extends BaseActivity {
 
     private void loadLyricByHand() {
         if(currentExhibit==null){return;}
-        try{
+
+        lyricFragment.setExhibit(currentExhibit);
+        lyricFragment.loadLyricByHand();
+
+       /* try{
             currentLyricUrl = currentExhibit.getTexturl();
             String name = currentLyricUrl.replaceAll("/", "_");
             // 取得歌曲同目录下的歌词文件绝对路径
@@ -308,7 +338,12 @@ public class PlayActivity extends BaseActivity {
             }
         }catch (Exception e){
             ExceptionUtil.handleException(e);
-        }
+        }*/
+    }
+
+    @Override
+    public void onFragmentInteraction(ExhibitBean exhibit) {
+        // TODO: 2016/2/16  
     }
 
 
@@ -376,7 +411,8 @@ public class PlayActivity extends BaseActivity {
                 case MSG_WHAT_UPDATE_PROGRESS:
                     seekBarProgress.setMax(currentDuration);
                     seekBarProgress.setProgress(currentProgress);
-                    mLyricLoadHelper.notifyTime(currentProgress);
+//                    mLyricLoadHelper.notifyTime(currentProgress);
+                    lyricFragment.notifyTime(currentProgress);
                     tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
                     tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
                     refreshIcon();

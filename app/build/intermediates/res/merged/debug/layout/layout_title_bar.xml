@@ -12,8 +12,7 @@
                 style="@style/normal_image_view"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/simple_4dp"
-                android:src="@drawable/setting"/>
+                android:layout_marginLeft="@dimen/simple_4dp"/>
             <TextView
                 android:id="@+id/titleBarTopic"
                 android:textSize="18sp"
@@ -23,8 +22,7 @@
                 style="@style/normal_image_view"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/simple_4dp"
-                android:src="@drawable/iv_search"/>
+                android:layout_marginRight="@dimen/simple_4dp"/>
         </RelativeLayout>
 
 

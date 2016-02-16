@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class CollectionActivity extends BaseActivity {
     private MyHandler handler;
     private String museumId;
     private TextView titleBarTopic;
+    private ImageView titleBarBack;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class CollectionActivity extends BaseActivity {
      * 给控件添加监听器
      */
     private void addListener() {
+        titleBarBack.setOnClickListener(onClickListener);
+
         collectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -66,6 +70,20 @@ public class CollectionActivity extends BaseActivity {
             }
         });
     }
+
+
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()){
+                case R.id.titleBarDrawer:
+                    finish();
+                    break;
+            }
+
+        }
+    };
 
     /**
      * 加载数据
@@ -94,6 +112,9 @@ public class CollectionActivity extends BaseActivity {
      * 加载视图
      */
     private void initView() {
+
+        titleBarBack =(ImageView)findViewById(R.id.titleBarDrawer);
+        titleBarBack.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
 
         titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
         titleBarTopic.setText(R.string.title_bar_collection);

@@ -7,7 +7,7 @@
               android:paddingTop="25dp"
               android:background="@color/md_grey_400"
               tools:context=".activity.PlayActivity">
-    <FrameLayout
+    <!--FrameLayout
         android:layout_width="match_parent"
         android:layout_weight="4"
         android:layout_height="0dp">
@@ -23,9 +23,13 @@
             android:divider="@null"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none" />
-    </FrameLayout>
-
+            android:scrollbars="none" /-->
+    <!--/FrameLayout-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpagerWordImage"
+        android:layout_width="match_parent"
+        android:layout_weight="4"
+        android:layout_height="0dp"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
