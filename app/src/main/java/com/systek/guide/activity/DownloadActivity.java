@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -91,6 +92,8 @@ public class DownloadActivity extends BaseActivity {
         downloadAdapter=new DownloadAdapter(this,museumList);
         listViewDownload=(ListView)findViewById(R.id.listViewDownload);
         listViewDownload.setAdapter(downloadAdapter);
+        //去除阴影
+        listViewDownload.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
 

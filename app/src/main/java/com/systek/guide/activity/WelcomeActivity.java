@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.systek.guide.R;
 import com.systek.guide.adapter.base.ViewPagerAdapter;
@@ -56,6 +57,8 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
         }
         // 设置适配器
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), baseFragments));
+        //去除阴影
+        viewPager.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
         // 默认选中第一位
         dotSelect(0);
         btn_into_app.setOnClickListener(new View.OnClickListener() {

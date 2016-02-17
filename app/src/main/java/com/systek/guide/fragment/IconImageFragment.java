@@ -11,10 +11,6 @@ import android.widget.ImageView;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.ImageLoaderUtil;
-import com.systek.guide.utils.Tools;
-
-import java.io.File;
 
 public class IconImageFragment extends BaseFragment implements IConstants{
 
@@ -29,7 +25,7 @@ public class IconImageFragment extends BaseFragment implements IConstants{
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    /*public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -39,14 +35,14 @@ public class IconImageFragment extends BaseFragment implements IConstants{
 
     public void setCurrentMuseumId(String currentMuseumId) {
         this.currentMuseumId = currentMuseumId;
-    }
+    }*/
 
     private OnFragmentInteractionListener mListener;
 
     public IconImageFragment() {
     }
 
-    public void initIcon() {
+    /*public void initIcon() {
         if(imageUrl==null||imgExhibitIcon==null){return;}
         String imageName = Tools.changePathToName(imageUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
@@ -58,7 +54,7 @@ public class IconImageFragment extends BaseFragment implements IConstants{
         } else {
             ImageLoaderUtil.displayNetworkImage(getActivity(), BASE_URL + imageUrl, imgExhibitIcon);// TODO: 2016/2/16
         }
-    }
+    }*/
 
 
     public static IconImageFragment newInstance(String imageUrl,String currentMuseumId) {
@@ -85,8 +81,8 @@ public class IconImageFragment extends BaseFragment implements IConstants{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_icon_image, container, false);
-        imgExhibitIcon=(ImageView)view.findViewById(R.id.iv_exhibit_icon);
-        initIcon();
+        //imgExhibitIcon=(ImageView)view.findViewById(R.id.iv_exhibit_icon);
+        //initIcon();
         return view;
 
     }

@@ -19,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
@@ -33,71 +34,147 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ImageLoaderUtil implements IConstants{
-	private static ImageLoaderConfiguration configuration;
-	private static ImageLoaderConfiguration newConfiguration(Context context)
-	{
-		if (configuration==null)
-		{
-			configuration = new ImageLoaderConfiguration
-					.Builder(context)
-					.memoryCacheExtraOptions(480, 800) // max width, max height，即保存的每个缓存文件的最大长宽
-					//.discCacheExtraOptions(480, 800, CompressFormat.JPEG, 75, null) // Can slow ImageLoader, use it carefully (Better don't use it)/设置缓存的详细信息，最好不要设置这个
-					.threadPoolSize(3)//线程池内加载的数量
-					.threadPriority(Thread.NORM_PRIORITY - 2)
-					.denyCacheImageMultipleSizesInMemory()
-					.memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
-					//.memoryCache((MemoryCacheAware<String, Bitmap>) new LruMemoryCache(2 * 1024 * 1024))
-					.memoryCacheSize(2 * 1024 * 1024)
-					.discCacheSize(50 * 1024 * 1024)
-					.discCacheFileNameGenerator(new Md5FileNameGenerator())//将保存的时候的URI名称用MD5 加密
-					.tasksProcessingOrder(QueueProcessingType.LIFO)
-					.discCacheFileCount(100) //缓存的文件数量
-							//  .discCache(new UnlimitedDiscCache(cacheDir))//自定义缓存路径
-					.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-					.imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
-							//.writeDebugLogs() // Remove for release app
-					.build();//开始构建
-		}
-		return configuration;
-	}
 
-	public static void displayNetworkImage(final Context context,final String imageUrl,final ImageView imageView)
-	{
-		try {
-			ImageLoader imageLoader=ImageLoader.getInstance();
-			configuration=newConfiguration(context);
-			imageLoader.init(configuration);
-			//imageLoader.displayImage(imageUrl, imageView);
-			imageLoader.displayImage(imageUrl, imageView, new MyImageLoadingListener(context,imageView));
-		} catch (Exception e) {
-			ExceptionUtil.handleException(e);
-		}
-	}
-	public static void displaySdcardImage(Context context, String filePathName, ImageView ivImage) {
-		ImageLoader imageLoader=ImageLoader.getInstance();
-		configuration=newConfiguration(context);
-		imageLoader.init(configuration);
-		imageLoader.displayImage("file:///"+filePathName, ivImage);
-	}
+    private static ImageLoaderConfiguration configuration;
+    private static DisplayImageOptions roundImageOptions;
+    private static DisplayImageOptions normalOptions;
 
-	public static void displaySdcardBlurImage(Context context, String filePathName,final ImageView ivImage) {
-        if(TextUtils.isEmpty(filePathName)){return;}
-        Bitmap bitmap=getLoacalBitmap(filePathName);
-        if(bitmap!=null){
-            Bitmap mBitmap=blurBitmap(context,bitmap);//FastBlur.doBlur(bitmap,2,true)
-            ivImage.setImageBitmap(mBitmap);
+
+    private static synchronized ImageLoaderConfiguration newConfiguration(Context context) {
+        context=context.getApplicationContext();
+        if (configuration==null) {
+            configuration = new ImageLoaderConfiguration
+                    .Builder(context)
+                    .memoryCacheExtraOptions(480, 800) // max width, max height，即保存的每个缓存文件的最大长宽
+                            //.discCacheExtraOptions(480, 800, CompressFormat.JPEG, 75, null) // Can slow ImageLoader, use it carefully (Better don't use it)/设置缓存的详细信息，最好不要设置这个
+                    .threadPoolSize(3)//线程池内加载的数量
+                    .threadPriority(Thread.NORM_PRIORITY - 2)
+                    .denyCacheImageMultipleSizesInMemory()
+                    .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // You can pass your own memory cache implementation/你可以通过自己的内存缓存实现
+                            //.memoryCache((MemoryCacheAware<String, Bitmap>) new LruMemoryCache(2 * 1024 * 1024))
+                    .memoryCacheSize(2 * 1024 * 1024)
+                    .discCacheSize(50 * 1024 * 1024)
+                    .discCacheFileNameGenerator(new Md5FileNameGenerator())//将保存的时候的URI名称用MD5 加密
+                    .tasksProcessingOrder(QueueProcessingType.LIFO)
+
+                    .discCacheFileCount(100) //缓存的文件数量
+                            //  .discCache(new UnlimitedDiscCache(cacheDir))//自定义缓存路径
+                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+                    .imageDownloader(new BaseImageDownloader(context, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间
+                            //.writeDebugLogs() // Remove for release app
+                    .build();//开始构建
         }
+        return configuration;
+    }
 
-	}
+
+    private static synchronized DisplayImageOptions newNormalDisplayOptions(){
+        if(normalOptions==null){
+            // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
+            normalOptions = new DisplayImageOptions.Builder()
+                    //.showStubImage(R.drawable.ic_stub)          // 设置图片下载期间显示的图片
+                    //.showImageForEmptyUri(R.drawable.ic_empty)  // 设置图片Uri为空或是错误的时候显示的图片
+                    //.showImageOnFail(R.drawable.ic_error)       // 设置图片加载或解码过程中发生错误显示的图片
+                    .cacheInMemory()                        // 设置下载的图片是否缓存在内存中
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .cacheOnDisc()                          // 设置下载的图片是否缓存在SD卡中
+                    .build();
+        }
+        return normalOptions;
+    }
+
+    private static synchronized DisplayImageOptions newRoundDisplayOptions(){
+        if(roundImageOptions==null){
+            // 使用DisplayImageOptions.Builder()创建DisplayImageOptions
+            roundImageOptions = new DisplayImageOptions.Builder()
+                    //.showStubImage(R.drawable.ic_stub)          // 设置图片下载期间显示的图片
+                    //.showImageForEmptyUri(R.drawable.ic_empty)  // 设置图片Uri为空或是错误的时候显示的图片
+                    //.showImageOnFail(R.drawable.ic_error)       // 设置图片加载或解码过程中发生错误显示的图片
+                    .cacheInMemory()                        // 设置下载的图片是否缓存在内存中
+                    .cacheOnDisc()                          // 设置下载的图片是否缓存在SD卡中
+                    .displayer(new RoundedBitmapDisplayer(20))  // 设置成圆角图片
+                    .build();
+        }
+        return roundImageOptions;
+    }
+
+    public static void displayNetworkImage(final Context context,final String imageUrl,final ImageView imageView)
+    {
+        try {
+            ImageLoader imageLoader=ImageLoader.getInstance();
+            configuration=newConfiguration(context);
+            imageLoader.init(configuration);
+            //imageLoader.displayImage(imageUrl, imageView);
+            imageLoader.displayImage(imageUrl, imageView,normalOptions, new MyImageLoadingListener(context,imageView));
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }
+    }
+    public static void displaySdcardImage(final Context context, String filePathName,final ImageView ivImage) {
+        ImageLoader imageLoader=ImageLoader.getInstance();
+        configuration=newConfiguration(context);
+        roundImageOptions=newRoundDisplayOptions();
+        imageLoader.init(configuration);
+        imageLoader.displayImage("file:///" + filePathName, ivImage,normalOptions);
+    }
+
+    public static void displaySdcardBlurImage(final Context context, String filePathName,final ImageView ivImage) {
+
+        ImageLoader imageLoader=ImageLoader.getInstance();
+        configuration=newConfiguration(context);
+        imageLoader.init(configuration);
+        imageLoader.displayImage("file:///" + filePathName, ivImage,normalOptions, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                Bitmap mBitmap = blurBitmap(context, bitmap);//FastBlur.doBlur(bitmap,2,true)
+                ivImage.setImageBitmap(mBitmap);
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+
+            }
+        });
+
+    }
 
     public static void displayNetworkBlurImage(final Context context,final String imageUrl,final ImageView imageView){
 
         try {
-            Bitmap bitmap=getImage(imageUrl);
-            if(bitmap!=null){
-                Bitmap mBitmap=blurBitmap(context,bitmap);
-                imageView.setImageBitmap(mBitmap);
-            }
+            ImageLoader.getInstance().loadImage(imageUrl, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String s, View view) {
+
+                }
+
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+                }
+
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                    if(bitmap!=null){
+                        Bitmap mBitmap= blurBitmap(context,bitmap);//FastBlur.doBlur(bitmap,2,true)
+                        imageView.setImageBitmap(mBitmap);
+                    }
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

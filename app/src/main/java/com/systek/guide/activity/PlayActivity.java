@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -33,9 +34,12 @@ import com.systek.guide.lyric.LyricLoadHelper;
 import com.systek.guide.lyric.LyricSentence;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
+import com.systek.guide.utils.Tools;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +47,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     private Handler handler;
     private ListView lvLyric;//歌词listview
-    private ImageView imgExhibitIcon;//歌词背景大图
+    private ImageView ivExhibitIcon;//歌词背景大图
     private ImageView imgWordCtrl;//歌词imageview
     private ArrayList<MultiAngleImg> multiAngleImgs;//多角度图片
     private MultiAngleImgAdapter mulTiAngleImgAdapter;//多角度图片adapter
@@ -53,8 +57,8 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private String currentMuseumId;
     private ExhibitBean currentExhibit;
     private ArrayList<Integer> imgsTimeList;
-    private ImageView ivPlayCtrl;
-    private TextView tvPlayTime;
+    private ImageView ivPlayCtrl,ivTitleBarBack;
+    private TextView tvPlayTime,tvExhibitName;
     private SeekBar seekBarProgress;
     private int currentProgress;
     private int currentDuration;
@@ -133,7 +137,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     @Override
     protected void onResume() {
-        LogUtil.i("ZHANG","执行了onResume");
+        LogUtil.i("ZHANG", "执行了onResume");
         super.onResume();
         if(mediaServiceManager.isPlaying()){
             handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
@@ -145,6 +149,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     private void addListener() {
         ivPlayCtrl.setOnClickListener(onClickListener);
+        ivTitleBarBack.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
         mulTiAngleImgAdapter.setOnItemClickListener(new MultiAngleImgAdapter.OnItemClickListener() {
             @Override
@@ -152,12 +157,30 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
                 MultiAngleImg multiAngleImg = multiAngleImgs.get(position);
                 currentIconUrl = multiAngleImg.getUrl();
                 //initIcon();
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setAction(INTENT_SEEK_BAR_CHANG);
-                intent.putExtra(INTENT_SEEK_BAR_CHANG,multiAngleImg.getTime());
+                intent.putExtra(INTENT_SEEK_BAR_CHANG, multiAngleImg.getTime());
                 sendBroadcast(intent);
             }
         });
+
+        viewpagerWordImage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                initIcon();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
 
@@ -176,6 +199,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private void refreshView() {
         LogUtil.i("ZHANG", "执行了refreshView");
         currentMuseumId=currentExhibit.getMuseumId();
+        tvExhibitName.setText(currentExhibit.getName());
         initMultiImgs();
         loadLyricByHand();
         if(currentExhibit!=null){
@@ -186,26 +210,25 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     private void initIcon() {
 
-
-        if(currentIconUrl==null||lyricFragment==null){return;}
-
-        iconImageFragment.setCurrentMuseumId(currentMuseumId);
-        iconImageFragment.setImageUrl(currentIconUrl);
-
-        iconImageFragment.initIcon();
-
-        lyricFragment.setExhibit(currentExhibit);
-        lyricFragment.initIcon();// TODO: 2016/2/16
-        /*String imageName = Tools.changePathToName(currentIconUrl);
+        if(currentIconUrl==null){return;}
+        String imageName = Tools.changePathToName(currentIconUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
         File file = new File(imgLocalUrl);
         // 判断sdcard上有没有图片
         if (file.exists()) {
             // 显示sdcard
-            ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, imgExhibitIcon);
+            if (viewpagerWordImage.getCurrentItem()==0) {
+                ImageLoaderUtil.displaySdcardBlurImage(this, imgLocalUrl, ivExhibitIcon);
+            }else{
+                ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, ivExhibitIcon);
+            }
         } else {
-            ImageLoaderUtil.displayNetworkImage(this, BASE_URL + currentIconUrl, imgExhibitIcon);
-        }*/
+            if (viewpagerWordImage.getCurrentItem()==0) {
+                ImageLoaderUtil.displayNetworkBlurImage(this, BASE_URL + currentIconUrl, ivExhibitIcon);
+            }else{
+                ImageLoaderUtil.displayNetworkBlurImage(this, BASE_URL + currentIconUrl, ivExhibitIcon);
+            }
+        }
     }
 
     /*初始化界面控件*/
@@ -220,15 +243,23 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         fragments.add(iconImageFragment);
         ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),fragments);
         viewpagerWordImage.setAdapter(viewPagerAdapter);
+        //去除滑动到末尾时的阴影
+        viewpagerWordImage.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
 
         //lvLyric=(ListView)findViewById(R.id.lvLyric);
         //imgExhibitIcon=(ImageView)findViewById(R.id.imgExhibitIcon);
         seekBarProgress=(SeekBar)findViewById(R.id.seekBarProgress);
         tvPlayTime=(TextView)findViewById(R.id.tvPlayTime);
         tvTotalTime=(TextView)findViewById(R.id.tvTotalTime);
+
+        tvExhibitName=(TextView)findViewById(R.id.tvExhibitName);
         recycleMultiAngle = (RecyclerView) findViewById(R.id.recycleMultiAngle);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
         imgWordCtrl=(ImageView)findViewById(R.id.imgWordCtrl);
+        ivTitleBarBack=(ImageView)findViewById(R.id.ivTitleBarBack);
+
+        ivExhibitIcon=(ImageView)findViewById(R.id.ivExhibitIcon);
+
         multiAngleImgs=new ArrayList<>();
         mulTiAngleImgAdapter=new MultiAngleImgAdapter(this,multiAngleImgs);
         /*设置为横向*/
@@ -236,11 +267,12 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycleMultiAngle.setLayoutManager(linearLayoutManager);
         recycleMultiAngle.setAdapter(mulTiAngleImgAdapter);
-       // mLyricLoadHelper = new LyricLoadHelper();
+        recycleMultiAngle.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        // mLyricLoadHelper = new LyricLoadHelper();
         //mLyricAdapter = new LyricAdapter(this);
         //mLyricLoadHelper.setLyricListener(mLyricListener);
         //lvLyric.setAdapter(mLyricAdapter);
-       // imgWordCtrl.setOnClickListener(onClickListener);
+        // imgWordCtrl.setOnClickListener(onClickListener);
     }
 
 
@@ -273,11 +305,14 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
                 case R.id.imgWordCtrl:
                     if(lvLyric.getVisibility()!=View.GONE){
                         lvLyric.setVisibility(View.GONE);
-                        imgExhibitIcon.setAlpha(1.0f);
+                        ivExhibitIcon.setAlpha(1.0f);
                     }else{
                         lvLyric.setVisibility(View.VISIBLE);
-                        imgExhibitIcon.setAlpha(0.4f);
+                        ivExhibitIcon.setAlpha(0.4f);
                     }
+                    break;
+                case R.id.ivTitleBarBack:
+                    finish();
                     break;
                 case R.id.ivPlayCtrl:
                     Intent intent=new Intent();

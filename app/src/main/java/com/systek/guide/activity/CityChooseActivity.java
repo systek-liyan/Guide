@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -254,6 +255,9 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         Collections.sort(cities, pinyinComparator);
         adapter = new CityAdapter(this, cities);
         cityListView.setAdapter(adapter);
+        //去除滑动到末尾时的阴影
+        cityListView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+
     }
 
     private void initData() {

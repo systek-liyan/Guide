@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -194,6 +195,7 @@ public class MuseumListActivity extends BaseActivity {
         museumList=new ArrayList<>();
         adapter=new MuseumAdapter(this,museumList);
         museumListView.setAdapter(adapter);
+        museumListView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     @Override

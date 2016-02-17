@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.DbUtils;
@@ -116,6 +117,7 @@ public class SearchActivity extends BaseActivity {
         listViewExhibit=(ListView)findViewById(R.id.listViewExhibit);
         exhibitAdapter=new ExhibitAdapter(this,exhibitBeanList);
         listViewExhibit.setAdapter(exhibitAdapter);
+        listViewExhibit.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     class MyHandler extends Handler {

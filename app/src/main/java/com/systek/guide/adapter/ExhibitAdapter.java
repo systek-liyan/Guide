@@ -92,12 +92,14 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        if (position == selectItem) {
+
+        // TODO: 2016/2/17 显示正在播放
+        /*if (position == selectItem) {
             viewHolder.ivExhibitSound.setGifImage(R.drawable.iv_playing);
             viewHolder.ivExhibitSound.setVisibility(View.VISIBLE);
         }else{
             viewHolder.ivExhibitSound.setVisibility(View.GONE);
-        }
+        }*/
         // 取数据
         final ExhibitBean exhibitBean = list.get(position);
         viewHolder.tvExhibitName.setText(exhibitBean.getName());

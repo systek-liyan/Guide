@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
@@ -92,6 +93,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         currentExhibitList=new ArrayList<>();
         exhibitAdapter =new ExhibitAdapter(activity,currentExhibitList);
         listView.setAdapter(exhibitAdapter);
+        listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     private void initView(View view) {

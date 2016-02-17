@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -207,6 +208,8 @@ public class LockScreenActivity extends SwipeBackActivity {
             }
         });
         recycleNearly.setAdapter(nearlyGalleryAdapter);
+        recycleNearly.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+
         ivPlayCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

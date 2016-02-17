@@ -13,9 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
@@ -102,7 +105,10 @@ public class TopicActivity extends BaseActivity {
     private void addListener() {
 
         titleBarBack.setOnClickListener(onClickListener);
-        lv_collection_listView.setOnScrollListener(onScrollListener);
+        //快速滑动停止加载图片
+        lv_collection_listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
+
+        //lv_collection_listView.setOnScrollListener(onScrollListener);
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -317,6 +323,8 @@ public class TopicActivity extends BaseActivity {
         totalExhibitList=new ArrayList<>();
         exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
         lv_collection_listView.setAdapter(exhibitAdapter);
+        //去除滑动到末尾时的阴影
+        lv_collection_listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     private void setManyBtnListener() {

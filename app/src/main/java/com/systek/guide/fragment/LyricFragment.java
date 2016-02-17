@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
@@ -115,8 +116,9 @@ public class LyricFragment extends BaseFragment implements IConstants{
 
         mLyricLoadHelper.setLyricListener(mLyricListener);
         lvLyric.setAdapter(mLyricAdapter);
+        lvLyric.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
 
-        initIcon();
+        //initIcon();
 
         return view;
 

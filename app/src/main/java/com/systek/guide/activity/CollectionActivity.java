@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -123,6 +124,8 @@ public class CollectionActivity extends BaseActivity {
         collectionExhibitList=new ArrayList<>();
         exhibitAdapter=new ExhibitAdapter(this,collectionExhibitList);
         collectionListView.setAdapter(exhibitAdapter);
+        //去除阴影
+        collectionListView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     class MyHandler extends Handler {
