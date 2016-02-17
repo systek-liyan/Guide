@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_museum_list.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\activity_museum_list.xml"
-    },
-    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_icon_image.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\fragment_icon_image.xml"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_museum_list.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\layout\\activity_museum_list.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
