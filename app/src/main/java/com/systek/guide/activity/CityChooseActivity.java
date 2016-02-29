@@ -10,10 +10,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.systek.guide.R;
 import com.systek.guide.adapter.CityAdapter;
 import com.systek.guide.biz.DataBiz;
@@ -22,40 +27,62 @@ import com.systek.guide.custom.SideBar;
 import com.systek.guide.entity.CityBean;
 import com.systek.guide.parser.CharacterParser;
 import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.PinyinComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CityChooseActivity extends BaseActivity{
+public class CityChooseActivity extends BaseActivity  implements AMapLocationListener {
 
 
     private ListView cityListView;//城市列表
     private SideBar sideBar;//自定义控件，右侧abc...
-    private TextView dialog;//对话框，显示当前sidebar的位置
     private CityAdapter adapter;
     private ClearEditText mClearEditText;
     private List<CityBean> cities;
     private CharacterParser characterParser;
     private PinyinComparator pinyinComparator;
     private Handler handler;
-    private TextView title_bar_topic;
     private String currentCity;
-    private TextView titleBarTopic;
+    private AMapLocationClient locationClient;
+    private AMapLocationClientOption locationOption;
 
-    /**定位连接*/
-   // private LocationClient mLocationClient;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
         setContentView(R.layout.activity_city_choose);
+        setTitleBar();
         initDrawer();
         initView();
         addListener();
         initData();
+        //加载高德地图
+        initLocation();
 
     }
+
+    private void initLocation() {// TODO: 2016/2/16
+        locationClient = new AMapLocationClient(this.getApplicationContext());
+        locationOption = new AMapLocationClientOption();
+        // 设置定位模式为高精度模式
+        locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        // 设置定位监听
+        locationClient.setLocationListener(this);
+        // 设置定位参数
+        locationClient.setLocationOption(locationOption);
+        // 启动定位
+        locationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        LogUtil.i("ZHANG", "执行了onLocationChanged");
+        LogUtil.i("ZHANG", aMapLocation.getCity());
+    }
+
+
 
     private void addListener() {
 
@@ -107,62 +134,20 @@ public class CityChooseActivity extends BaseActivity{
     }
 
 
-
     private void gotoMuseumActivity() {
         Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
         intent.putExtra(INTENT_CITY, currentCity);
         startActivity(intent);
-        //disConnectBaiduSDK();
         finish();
     }
 
-   /* private void disConnectBaiduSDK() {
-        try{
-            if(mLocationClient!=null&&mLocationClient.isStarted()){
-                mLocationClient.unRegisterLocationListener(bdLocationListener);
-                mLocationClient.stop();
-            }
-            bdLocationListener=null;
-            mLocationClient=null;
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-        }
-    }
 
-
-    BDLocationListener bdLocationListener=new BDLocationListener() {
-
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-
-            try{
-                currentCity = bdLocation.getCity();
-			*//*
-			 * // 纬度 double latitude = bdLocation.getLatitude(); // 经度
-			 * double longitude = bdLocation.getLongitude();
-			 * LogUtil.i("定位", "纬度=" + latitude + ",经度=" + longitude);
-			 *//*
-                if (currentCity == null) {
-                    //locationButton.setEnabled(false);
-                    //Toast.makeText(CityActivity.this, "定位失败，请手动选择城市", Toast.LENGTH_SHORT).show();
-                    // mLocationClient.stop();
-                } else {
-                    //locationButton.setText(currentCity);
-                    //buildDialog();
-                }
-            }catch (Exception e){
-                ExceptionUtil.handleException(e);
-            }
-
-        }
-    };
-*/
     /**
      * 根据输入框中的值来过滤数据并更新ListView
      * @param filterStr edittext 输入的关键字
      */
     private void filterData(String filterStr){
-        List<CityBean> filterDateList = new ArrayList<CityBean>();
+        List<CityBean> filterDateList = new ArrayList<>();
         if(cities==null){return;}
         if(TextUtils.isEmpty(filterStr)){
             filterDateList = cities;
@@ -182,24 +167,30 @@ public class CityChooseActivity extends BaseActivity{
 
 
     private void initView() {
-        handler=new MyHandler();
-        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
-        titleBarTopic.setText(R.string.title_bar_city_choose);
 
+        setTitleBarTitle("城市选择");
+        handler=new MyHandler();
+        setHomeIcon();
+        toolbar.setNavigationOnClickListener(backOnClickListener);
         //实例化汉字转拼音类
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
-        sideBar = (SideBar) findViewById(R.id.sidrbar);
-        dialog = (TextView) findViewById(R.id.dialog);
+        sideBar = (SideBar) findViewById(R.id.sidebar);
+        TextView dialog = (TextView) findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
         cityListView = (ListView) findViewById(R.id.country_lvcountry);
         mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
+        mClearEditText.clearFocus();
         cities = new ArrayList<>();
         // 根据a-z进行排序源数据
         Collections.sort(cities, pinyinComparator);
         adapter = new CityAdapter(this, cities);
         cityListView.setAdapter(adapter);
+        //去除滑动到末尾时的阴影
+        cityListView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+
     }
+
 
     private void initData() {
         new Thread(){
@@ -207,7 +198,8 @@ public class CityChooseActivity extends BaseActivity{
             public void run() {
                 cities=DataBiz.getEntityListLocal(CityBean.class);
                 if(cities==null||cities.size()==0){
-                    cities=DataBiz.getEntityListFromNet(CityBean.class,URL_CITY_LIST);
+                    String url=BASE_URL+URL_CITY_LIST;
+                    cities=DataBiz.getEntityListFromNet(CityBean.class,url);
                     if(cities!=null&&cities.size()>0){DataBiz.saveListToSQLite(cities);}
                 }
                 int msg=MSG_WHAT_UPDATE_DATA_SUCCESS;
@@ -218,7 +210,6 @@ public class CityChooseActivity extends BaseActivity{
             }
         }.start();
     }
-
 
     class MyHandler extends  Handler{
         @Override
@@ -233,5 +224,15 @@ public class CityChooseActivity extends BaseActivity{
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
+
     }
 }

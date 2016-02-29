@@ -2,23 +2,14 @@ package com.systek.guide.activity;
 
 
 import android.annotation.TargetApi;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
-import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanResult;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.systek.guide.R;
 import com.systek.guide.custom.swipeback.SwipeBackActivity;
-
-import java.util.List;
 
 /**
  * 测试类
@@ -26,6 +17,42 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class MainActivity extends SwipeBackActivity {
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //setTitleBar();
+        //toolbar.setNavigationIcon(R.drawable.setting);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar ( toolbar );
+        getSupportActionBar (). setDisplayShowTitleEnabled ( false );
+        getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
+        getSupportActionBar(). setHomeButtonEnabled ( true );
+
+       /* handler=new Handler();
+
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+        if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBluetooth, 1);
+        }
+        scan();*/
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.normal_menu,menu);
+        menu.getItem(0).setIcon(R.drawable.iv_back_normal);
+        return true;
+    }
+
+
+
+
+    /*
 
     private BluetoothAdapter mBluetoothAdapter;
 
@@ -91,22 +118,7 @@ public class MainActivity extends SwipeBackActivity {
     };
     private BluetoothLeScanner bluescaner;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lock_screen);
-        handler=new Handler();
-
-        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
-        if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
-            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBluetooth, 1);
-        }
-        scan();
-    }
-
-    ScanCallback scanCallback=new ScanCallback() {
+ScanCallback scanCallback=new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
@@ -164,11 +176,11 @@ public class MainActivity extends SwipeBackActivity {
             return accuracy;
         }
     }
-
+    */
 
     @Override
     protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
+        //handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 }

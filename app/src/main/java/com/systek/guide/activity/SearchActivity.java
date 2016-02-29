@@ -10,11 +10,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
+import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.custom.ClearEditText;
@@ -80,7 +81,7 @@ public class SearchActivity extends BaseActivity {
 
     }
 
-    private void filterData(final String s) {
+    private  void filterData(final String s) {
         new Thread(){
             @Override
             public void run() {
@@ -90,16 +91,7 @@ public class SearchActivity extends BaseActivity {
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
                     return;
                 }
-                DbUtils db=DbUtils.create(SearchActivity.this);
-                try {
-                    exhibitBeanList= db.findAll(Selector.from(ExhibitBean.class).where(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
-                } catch (DbException e) {
-                    ExceptionUtil.handleException(e);
-                }finally {
-                    if(db!=null){
-                        db.close();
-                    }
-                }
+                exhibitBeanList=searchFromSQLite(s);
                 if(exhibitBeanList==null){
                     exhibitBeanList=new ArrayList<>();
                 }
@@ -109,13 +101,36 @@ public class SearchActivity extends BaseActivity {
 
     }
 
+    private synchronized static List<ExhibitBean> searchFromSQLite(String s) {
+        List<ExhibitBean> list=null;
+        DbUtils db=null;
+        try {
+            db=DbUtils.create(MyApplication.get());
+            list= db.findAll(Selector.from(ExhibitBean.class).where(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
+        }
+        return list;
+    }
+
     private void initView() {
+
+        setTitleBar();
+        setTitleBarTitle("搜索");
+        setHomeIcon();
+        setHomeClickListener(backOnClickListener);
+
         handler=new MyHandler();
         exhibitBeanList=new ArrayList<>();
         mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
         listViewExhibit=(ListView)findViewById(R.id.listViewExhibit);
         exhibitAdapter=new ExhibitAdapter(this,exhibitBeanList);
         listViewExhibit.setAdapter(exhibitAdapter);
+        listViewExhibit.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     class MyHandler extends Handler {

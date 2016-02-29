@@ -5,6 +5,7 @@ import com.systek.guide.entity.base.BaseEntity;
 /**
  * beacon实体类
  */
+
 public class BeaconBean extends BaseEntity {
 
 	private String id;

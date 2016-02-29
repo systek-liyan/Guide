@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.CollectionActivity">
-    <include layout="@layout/layout_title_bar"/>
+
+
+    <include layout="@layout/toolbar"/>
+
     <ListView
         android:id="@+id/collectionListView"
         android:layout_width="match_parent"

@@ -1,7 +1,15 @@
 [
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_menu.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_menu.png"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_btn_radio_to_on_mtrl_000.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_equalizer3_white_36dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_equalizer3_white_36dp.png"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_ic_search_api_mtrl_alpha.png",
@@ -28,12 +36,16 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_btn_radio_to_on_mtrl_015.png"
     },
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_ic_ab_back_mtrl_am_alpha.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_ic_ab_back_mtrl_am_alpha.png"
     },
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_005.png",
-        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_scrubber_control_to_pressed_mtrl_005.png"
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_equalizer1_white_36dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_equalizer1_white_36dp.png"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_launcher.png",
@@ -46,6 +58,10 @@
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\uamp_ic_play_arrow_white_24dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\uamp_ic_play_arrow_white_24dp.png"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_scrubber_control_to_pressed_mtrl_000.png",
@@ -64,6 +80,14 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_ic_voice_search_api_mtrl_alpha.png"
     },
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\uamp_ic_play_arrow_white_48dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\uamp_ic_play_arrow_white_48dp.png"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_equalizer2_white_36dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_equalizer2_white_36dp.png"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_btn_check_to_on_mtrl_000.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_btn_check_to_on_mtrl_000.png"
     },
@@ -76,12 +100,20 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.squareup.leakcanary\\leakcanary-android\\1.3.1\\res\\drawable-xxxhdpi\\__leak_canary_notification.png"
     },
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\uamp_ic_pause_white_24dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\uamp_ic_pause_white_24dp.png"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_ic_menu_copy_mtrl_am_alpha.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_spinner_mtrl_am_alpha.9.png",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-xxxhdpi\\abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\uamp_ic_pause_white_48dp.png",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\uamp_ic_pause_white_48dp.png"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png",

@@ -35,7 +35,7 @@ public class NetworkUtil implements IConstants{
         }
         if(MyApplication.currentNetworkType==INTERNET_TYPE_NONE&&interNet!=INTERNET_TYPE_NONE){
             Intent intent=new Intent();
-            intent.setAction(ACTION_NET_IS_COMMING);
+            intent.setAction(ACTION_NET_IS_COMING);
             context.sendBroadcast(intent);
         }else if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE&&interNet==INTERNET_TYPE_NONE){
             Intent intent=new Intent();

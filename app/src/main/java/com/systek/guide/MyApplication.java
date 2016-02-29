@@ -10,7 +10,6 @@ import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
-import com.systek.guide.utils.ExceptionUtil;
 
 import java.util.Iterator;
 
@@ -59,7 +58,6 @@ public class MyApplication extends Application implements IConstants{
         // 防止重启两次,非相同名字的则返回
         mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
         mServiceManager.connectService();
-        //initDrawerImageLoader();
         registerNetWorkReceiver();
         initBlueTooth();
     }
@@ -68,7 +66,7 @@ public class MyApplication extends Application implements IConstants{
 
 
     private void initBlueTooth() {
-        bluetoothManager =new  BluetoothManager(this);
+        bluetoothManager =BluetoothManager.newInstance(this);
         bluetoothManager.initBeaconSearcher();
     }
     public  static Context getAppContext(){
@@ -112,14 +110,6 @@ public class MyApplication extends Application implements IConstants{
             }
         }
         return "";
-    }
-    private void initBaiduSDK() {
-        try {
-            // 初始化百度地图
-            //SDKInitializer.initialize(getApplicationContext());
-        } catch (Exception e) {
-            ExceptionUtil.handleException(e);
-        }
     }
     /*退出程序*/
     public  void exit() {

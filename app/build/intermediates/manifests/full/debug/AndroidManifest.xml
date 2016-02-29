@@ -31,6 +31,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme" >
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="643c2034226d338ca2f15eb9bb791f70" />
+        <!-- 定位需要的服务 -->
+        <service android:name="com.amap.api.location.APSService" />
+
         <activity
             android:name="com.systek.guide.activity.BeginActivity"
             android:screenOrientation="portrait"
@@ -45,32 +51,35 @@
             android:name="com.systek.guide.activity.CityChooseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
         <activity
             android:name="com.systek.guide.activity.MuseumListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" >
+        </activity>
         <activity
             android:name="com.systek.guide.activity.MuseumHomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.ListAndMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.TopicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.LockScreenActivity"
             android:excludeFromRecents="true"
@@ -88,27 +97,27 @@
             android:name="com.systek.guide.activity.CollectionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.SearchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.DownloadActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" >
+            android:theme="@style/AppTheme" >
         </activity>
 
         <service
@@ -127,6 +136,7 @@
             android:enabled="true"
             android:exported="false" />
         <service android:name="com.systek.guide.service.MuseumDownloadService" />
+        <service android:name="com.systek.guide.service.TempDownloadService" />
 
         <receiver android:name="com.systek.guide.receiver.PhoneReceiver" >
             <intent-filter>

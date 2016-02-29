@@ -3,6 +3,7 @@ package com.systek.guide.entity;
 
 import com.systek.guide.entity.base.BaseEntity;
 
+
 public class LabelBean extends BaseEntity{
 
 	private String id;

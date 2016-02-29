@@ -1,0 +1,137 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--导航栏底色-->
+        <item name="colorPrimary">@color/md_red_400</item>
+        <!--状态栏底色-->
+        <item name="colorPrimaryDark">@color/md_red_400</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/md_grey_850</item>
+        <!--Activity窗口的颜色-->
+        <!--item name="android:windowBackground">@color/md_blue_300</item-->
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/md_red_400</item>
+        <!--和 colorAccent相反，正常状态下按钮的颜色-->
+        <item name="colorControlNormal">@color/md_white_1000</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/md_white_1000</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="editTextColor">@color/md_grey_850</item>
+        <item name="android:showAsAction">always</item>
+
+
+        <item name="material_drawer_background">@color/material_drawer_background</item>
+        <item name="material_drawer_primary_text">@color/md_grey_800</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
+        <item name="material_drawer_divider">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
+
+
+    </style>
+
+    <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
+
+
+    <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
+        <!-- ...and here we setting appcompat’s color theme attrs -->
+        <item name="colorPrimary">@color/md_red_400</item>
+        <item name="colorPrimaryDark">#D03033</item>
+        <item name="colorAccent">#02A8F3</item>
+        <!-- MaterialDrawer specific values -->
+        <item name="material_drawer_background">@color/material_drawer_background</item>
+        <item name="material_drawer_primary_text">@color/md_grey_800</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
+        <item name="material_drawer_divider">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
+        <!-- CAB :D -->
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+
+
+
+    <style name="base_image_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="normal_image_view" parent="base_image_view">
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+
+    <style name="base_text_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="normal_text_view" parent="base_text_view">
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+
+
+    <!--tv_home_menu -->
+    <style name="tv_home_menu" >
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="tv_topic_label" >
+        <item name="android:textSize">@dimen/topic_label_textSize</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/tv_bg_topic_label</item>
+    </style>
+
+    <!--标题 text view -->
+    <style name="text_view_title_bar">
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+
+
+    <style name="LockScreenBase" parent="FullscreenTheme"><!--Theme.AppCompat.Light.NoActionBar-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+</resources>
+    <!--style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>-->
+    <!-- Here we setting appcompat’s actionBarStyle -->
+    <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
+    <!-- ...and here we setting appcompat’s color theming attrs -->
+    <!--<item name="colorPrimary">@color/materialize_primary</item>
+    <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
+    <item name="colorAccent">@color/materialize_accent</item>-->
+    <!-- Material specific values -->
+    <!--</style>-->

@@ -55,7 +55,7 @@ import java.util.List;
         recordExhibitList=new ArrayList<>();
         playExhibitList=new ArrayList<>();
         initMediaPlayer();
-        registerReceiver();
+        //registerReceiver();// TODO: 2016/2/26 暂时不开启锁屏界面
     }
 
     public int toGetDuration() {
@@ -382,7 +382,10 @@ import java.util.List;
     /**
      * 用于下载音频类
      */
+    int count;
+
     class DownloadAudioTask extends AsyncTask<String,Void,String>{
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -390,15 +393,18 @@ import java.util.List;
             String audioName=params[1];
             String saveDir=getCurrentAudioPath();
             try {
-                MyHttpUtil.downLoadFromUrl(audioUrl, audioName,saveDir );
+                MyHttpUtil.downLoadFromUrl(audioUrl, audioName,saveDir);
             } catch (IOException e) {
                 ExceptionUtil.handleException(e);
             }
+            count++;
             return saveDir+audioName;
         }
         @Override
         protected void onPostExecute(String savePath) {
-            play(currentExhibit);
+            if(count<=5){
+                play(currentExhibit);
+            }
         }
     }
 

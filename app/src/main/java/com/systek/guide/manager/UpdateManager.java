@@ -93,7 +93,8 @@ public class UpdateManager implements IConstants {
      * @return 版本号
      */
     public  VersionBean checkVersion(){
-        String response= MyHttpUtil.sendGet(URL_CHECK_FOR_UPDATE);
+        String url=BASE_URL+URL_CHECK_FOR_UPDATE;
+        String response= MyHttpUtil.sendGet(url);
         if(TextUtils.isEmpty(response)||response.equals("[]")){return null;}
         return JSON.parseObject(response, VersionBean.class);
     }

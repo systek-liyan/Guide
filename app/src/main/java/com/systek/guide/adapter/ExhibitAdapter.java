@@ -1,6 +1,12 @@
 package com.systek.guide.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +15,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.custom.RoundImageView;
-import com.systek.guide.custom.gif.GifView;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageLoaderUtil;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -31,16 +34,32 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     private Context context;
     private List<ExhibitBean> list;
     private LayoutInflater inflater;
+    private int state;
+
     private int  selectItem=-1;
 
+    static final int STATE_INVALID = -1;
+
+    public static final int STATE_NONE = 0;
+    public static final int STATE_PLAYABLE = 1;
+    public static final int STATE_PAUSED = 2;
+    public static final int STATE_PLAYING = 3;
+    private static ColorStateList sColorStatePlaying;
+
+
+    private static ColorStateList sColorStateNotPlaying;
     private  boolean scrollState=false;
+
+    public void setState(int item ,int state) {
+        this.selectItem = item;
+        this.state = state;
+    }
     public void setScrollState(boolean scrollState) {
         this.scrollState = scrollState;
     }
 
     public ExhibitAdapter(Context context, List<ExhibitBean> list) {
-        super();
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.list = list;
         inflater=LayoutInflater.from(context);
     }
@@ -75,7 +94,13 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
+        if (sColorStateNotPlaying == null || sColorStatePlaying == null) {
+            initializeColorStateLists(context);
+        }
+        Integer cachedState = STATE_INVALID;
         ViewHolder viewHolder = null;
+
         if (convertView == null||convertView.getTag() == null) {
             convertView = inflater.inflate( R.layout.item_list_exhibit, null);
             viewHolder = new ViewHolder();
@@ -87,17 +112,39 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
             viewHolder.llCollectionBtn = (LinearLayout) convertView.findViewById(R.id.llCollectionBtn);
             viewHolder.ivCollection = (ImageView) convertView.findViewById(R.id.ivCollection);
             viewHolder.tvExhibitNumber = (TextView) convertView.findViewById(R.id.tvExhibitNumber);
-            viewHolder.ivExhibitSound = (GifView) convertView.findViewById(R.id.ivExhibitSound);
+            viewHolder.ivPlayAnim = (ImageView) convertView.findViewById(R.id.ivPlayAnim);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         if (position == selectItem) {
-            viewHolder.ivExhibitSound.setGifImage(R.drawable.iv_playing);
-            viewHolder.ivExhibitSound.setVisibility(View.VISIBLE);
+            switch (state) {
+                case STATE_PLAYABLE:
+                    viewHolder.ivPlayAnim.setImageDrawable(
+                            context.getResources().getDrawable(R.drawable.ic_play_arrow_black_36dp));
+                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
+                    break;
+                case STATE_PLAYING:
+                    AnimationDrawable animation = (AnimationDrawable)
+                            context.getResources().getDrawable(R.drawable.ic_equalizer_white_36dp);
+                    viewHolder.ivPlayAnim.setImageDrawable(animation);
+                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
+                    if (animation != null) animation.start();
+                    break;
+                case STATE_PAUSED:
+                    viewHolder.ivPlayAnim.setImageDrawable(
+                            context.getResources().getDrawable(R.drawable.ic_equalizer1_white_36dp));
+                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    viewHolder.ivPlayAnim.setVisibility(View.GONE);
+            }
+
         }else{
-            viewHolder.ivExhibitSound.setVisibility(View.GONE);
+            viewHolder.ivPlayAnim.setVisibility(View.GONE);
         }
+
         // 取数据
         final ExhibitBean exhibitBean = list.get(position);
         viewHolder.tvExhibitName.setText(exhibitBean.getName());
@@ -126,11 +173,11 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                     if(exhibitBean.isSaveForPerson()){
                         exhibitBean.setSaveForPerson(false);
                         finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_empty));
-                        Toast.makeText(context, "取消收藏", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "取消收藏", Toast.LENGTH_SHORT).show();
                     }else{
                         exhibitBean.setSaveForPerson(true);
                         finalViewHolder.ivCollection.setImageDrawable(context.getResources().getDrawable(R.drawable.iv_heart_full));
-                        Toast.makeText(context, "已收藏", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "已收藏", Toast.LENGTH_SHORT).show();
                     }
                     DataBiz.saveOrUpdate(exhibitBean);
                 } catch (Exception e) {
@@ -138,26 +185,25 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                 }
             }
         });
-        //if (!scrollState){}// TODO: 2016/1/26 滑动不加载图片
-            // 显示图片
-            String iconUrl = exhibitBean.getIconurl();
-
-            //每个博物馆的资源以ID为目录
-            String museumId = exhibitBean.getMuseumId();
-
-            String imageName = iconUrl.replaceAll("/", "_");
-            String imgLocalUrl = LOCAL_ASSETS_PATH+museumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
-            File file = new File(imgLocalUrl);
-            // 判断sdcard上有没有图片
-            if (file.exists()) {
-                // 显示sdcard
-                ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, viewHolder.ivExhibitIcon);
-            } else {
-                iconUrl = BASE_URL + iconUrl;
-                ImageLoaderUtil.displayNetworkImage(context, iconUrl, viewHolder.ivExhibitIcon);
-            }
-
+        // 显示图片
+        String iconUrl = exhibitBean.getIconurl();
+        ImageLoaderUtil.displayImage(iconUrl,viewHolder.ivExhibitIcon);
         return convertView;
+    }
+
+    private static void initializeColorStateLists(Context context) {
+        sColorStateNotPlaying = ColorStateList.valueOf(context.getResources().getColor(
+                R.color.media_item_icon_not_playing));
+        sColorStatePlaying = ColorStateList.valueOf(context.getResources().getColor(
+                R.color.media_item_icon_playing));
+    }
+
+
+    public static void tintColor(Context context,ImageView imageView,@DrawableRes int drawableId,@ColorRes int colorId){
+        Drawable icon = context.getResources().getDrawable(drawableId);
+        Drawable tintIcon = DrawableCompat.wrap(icon);
+        DrawableCompat.setTintList(tintIcon, context.getResources().getColorStateList(colorId));
+        imageView.setImageDrawable(tintIcon);
     }
 
     class ViewHolder{
@@ -165,6 +211,6 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         RoundImageView ivExhibitIcon;
         LinearLayout llCollectionBtn;
         ImageView ivCollection;
-        GifView ivExhibitSound;
+        ImageView ivPlayAnim;
     }
 }

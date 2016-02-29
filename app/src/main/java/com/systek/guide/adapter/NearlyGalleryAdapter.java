@@ -12,7 +12,6 @@ import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.utils.ImageLoaderUtil;
-import com.systek.guide.utils.Tools;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
 
 
     public NearlyGalleryAdapter(Context c,List<ExhibitBean> exhibitBeans) {
-        this.context=c;
+        this.context=c.getApplicationContext();
         this.exhibitBeanList = exhibitBeans;
         inflater=LayoutInflater.from(context);
     }
@@ -75,18 +74,20 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
 
         //显示数据
         ExhibitBean exhibitBean=exhibitBeanList.get(position);
-        String museumId=exhibitBean.getMuseumId();
         String path=exhibitBean.getIconurl();
-        String imageName=path.replaceAll("/", "_");
+        String museumId=exhibitBean.getMuseumId();
+
+        ImageLoaderUtil.displayImage(path,museumId,holder.mImg);
+
+        /*String imageName=path.replaceAll("/", "_");
         String imgLocalUrl = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE +"/"+ imageName;
         if(Tools.isFileExist(imgLocalUrl)){
             ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, holder.mImg);
         }else{
             ImageLoaderUtil.displayNetworkImage(context, BASE_URL +path,holder.mImg);
-        }
+        }*/
 
         holder.mTxt.setText(exhibitBean.getName());
-
         if(exhibitBean.equals(selectIndex)){
             holder.itemView.setSelected(true);
         }else{

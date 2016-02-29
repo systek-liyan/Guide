@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +39,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private RadioButton radioButtonMap;
     private RadioGroup radioGroupTitle;
     private ExhibitListFragment exhibitListFragment;
-    private TextView aaa;
     private MapFragment mapFragment;
     private ExhibitBean currentExhibit;
     private int currentProgress;
@@ -49,7 +50,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private TextView exhibitName;
     private ImageView exhibitIcon;
     private ImageView ivPlayCtrl;
-    private ImageView titleBarDrawer;
     private MediaServiceManager mediaServiceManager;
 
 
@@ -74,7 +74,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      */
     private void initMediaManager() {
         mediaServiceManager= MediaServiceManager.getInstance(this);
-        //mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
     }
 
     /**
@@ -88,7 +87,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         filter.addAction(INTENT_CHANGE_PLAY_PLAY);
         filter.addAction(INTENT_CHANGE_PLAY_STOP);
         filter.addAction(INTENT_EXHIBIT);
-        registerReceiver(receiver,filter);
+        registerReceiver(receiver, filter);
     }
 
     /**
@@ -97,7 +96,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private void addListener() {
         radioGroupTitle.setOnCheckedChangeListener(radioButtonCheckListener);
         ivPlayCtrl.setOnClickListener(onClickListener);
-        titleBarDrawer.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
         exhibitIcon.setOnClickListener(onClickListener);
     }
@@ -106,6 +104,10 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      * 加载视图
      */
     private void initView() {
+
+        setMyTitleBar();
+        setHomeIcon();
+        toolbar.setNavigationOnClickListener(backOnClickListener);
         radioButtonList=(RadioButton)findViewById(R.id.radioButtonList);
         radioButtonMap=(RadioButton)findViewById(R.id.radioButtonMap);
         radioGroupTitle=(RadioGroup)findViewById(R.id.radioGroupTitle);
@@ -113,8 +115,17 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         exhibitName=(TextView)findViewById(R.id.exhibitName);
         exhibitIcon=(ImageView)findViewById(R.id.exhibitIcon);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
-        titleBarDrawer=(ImageView)findViewById(R.id.titleBarDrawer);
-        titleBarDrawer.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
+    }
+
+    private void setMyTitleBar() {
+        View v = findViewById(R.id.toolbar_radio);
+        if (v != null) {
+            toolbar = (Toolbar) v;
+            setSupportActionBar(toolbar);
+            ActionBar actionBar= getSupportActionBar();
+            if(actionBar==null){ return;}
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
     }
 
     /**
@@ -273,10 +284,10 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                 case MSG_WHAT_CONTINUE_MUSIC:
                     break;
                 case MSG_WHAT_CHANGE_PLAY_START:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_open));
+                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
                     break;
                 case MSG_WHAT_CHANGE_PLAY_STOP:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_stop));
+                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
                     break;
             }
         }

@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.TopicActivity">
-    <include layout="@layout/layout_title_bar"/>
+
+    <include layout="@layout/toolbar"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/simple40dp"
@@ -32,7 +34,6 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:id="@+id/ll_collection_has_choose"
                 android:layout_width="wrap_content"
@@ -175,7 +176,7 @@
                     <TextView
                         android:id="@+id/tv_collection_shixiang"
                         style="@style/tv_topic_label"
-                        android:text="@string/label_activity_collection_shixiang" />]
+                        android:text="@string/label_activity_collection_shixiang" />
 
                     <TextView
                         android:id="@+id/tv_collection_qingtong"

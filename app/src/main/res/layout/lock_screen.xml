@@ -85,7 +85,7 @@
                     style="@style/normal_image_view"
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/iv_play_state_stop_lock"/>
+                    android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
 
             </LinearLayout>
 

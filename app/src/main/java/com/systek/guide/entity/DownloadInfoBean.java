@@ -10,6 +10,7 @@ import java.util.Date;
   * 一个DownloadBean对象，表示对应一个下载任务 ，即某一个博物馆的离线数据包（数据和文件（资源））
   * 
   */
+
 public class DownloadInfoBean extends BaseEntity {
 
 

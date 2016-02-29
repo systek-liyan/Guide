@@ -6,15 +6,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.SearchActivity">
-    <include layout="@layout/layout_title_bar"/>
+
+    <include layout="@layout/toolbar"/>
+
     <com.systek.guide.custom.ClearEditText
         android:id="@+id/filter_edit"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/search_bar_edit_selector"
-        android:drawableLeft="@drawable/search_bar_icon_normal"
+        android:drawableStart="@drawable/search_bar_icon_normal"
         android:hint="@string/search_view_hint"
+        android:textColor="@color/md_grey_850"
         android:singleLine="true"
         android:textSize="13sp" />
     <ListView

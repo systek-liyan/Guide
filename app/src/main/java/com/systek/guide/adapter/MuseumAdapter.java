@@ -13,7 +13,6 @@ import com.systek.guide.custom.RoundImageView;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ImageLoaderUtil;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -27,9 +26,9 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
     private Context context;
     private LayoutInflater inflater;
 
-    public MuseumAdapter(Context context,List<MuseumBean> museumList) {
+    public MuseumAdapter(Context c,List<MuseumBean> museumList) {
         this.museumList = museumList;
-        this.context = context;
+        this.context = c.getApplicationContext();
         inflater = LayoutInflater.from(context);
     }
 
@@ -92,7 +91,8 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         String imageUrl = museumBean.getIconUrl();
         //每个博物馆的资源以ID为目录
         String museumId = museumBean.getId();
-        // 判断sdcard上有没有图片
+        ImageLoaderUtil.displayImage(imageUrl,museumId,viewHolder.museumListIcon);
+       /* // 判断sdcard上有没有图片
         String imageName = imageUrl.replaceAll("/", "_");
         String imgLocalUrl = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE +"/"+ imageName;
         File file = new File(imgLocalUrl);
@@ -103,7 +103,7 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
             // 服务器上存的imageUrl有域名如http://www.systek.com.cn/1.png
             imageUrl = BASE_URL + imageUrl;
             ImageLoaderUtil.displayNetworkImage(context, imageUrl, viewHolder.museumListIcon);
-        }
+        }*/
         return convertView;
     }
 

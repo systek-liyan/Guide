@@ -35,8 +35,14 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        setTitleBar();
+        setTitleBarTitle("设置");
+        setHomeIcon();
+        setHomeClickListener(backOnClickListener);
         btn_update=(Button)findViewById(R.id.btn_update);
     }
+
 
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
@@ -45,7 +51,9 @@ public class SettingActivity extends BaseActivity {
                 case R.id.btn_update:
                     checkUpdate();
                     break;
-
+                case R.id.titleBarDrawer:
+                    finish();
+                    break;
             }
         }
     };

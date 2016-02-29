@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
@@ -92,6 +93,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         currentExhibitList=new ArrayList<>();
         exhibitAdapter =new ExhibitAdapter(activity,currentExhibitList);
         listView.setAdapter(exhibitAdapter);
+        listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
     private void initView(View view) {
@@ -100,7 +102,32 @@ public class ExhibitListFragment extends Fragment implements IConstants {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
+
+                ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
+                currentExhibit=mediaServiceManager.getCurrentExhibit();
+                if(currentExhibit!=null&&!currentExhibit.equals(exhibitBean)){
+                    mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                }
+                exhibitAdapter.setSelectItem(position);
+                exhibitAdapter.notifyDataSetInvalidated();
+                Context context=getActivity();
+                Intent intent1 = new Intent(context, PlayActivity.class);
+                if (currentExhibit == null || !currentExhibit.equals(exhibitBean)) {
+                    mListener.onFragmentInteraction(exhibitBean);
+                    if(mediaServiceManager.getPlayMode()==PLAY_MODE_AUTO){
+                        mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
+                    }
+
+                    String str = JSON.toJSONString(exhibitBean);
+                    Intent intent = new Intent();
+                    intent.setAction(INTENT_EXHIBIT);
+                    intent.putExtra(INTENT_EXHIBIT, str);
+                    context.sendBroadcast(intent);
+                    intent1.putExtra(INTENT_EXHIBIT, str);
+                }
+                startActivity(intent1);
+
+                /*ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
                 currentExhibit=mediaServiceManager.getCurrentExhibit();
                 Intent intent1 =new Intent(activity,PlayActivity.class);
                 if(currentExhibit==null||!currentExhibit.equals(exhibitBean)){
@@ -116,7 +143,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
                     activity.sendBroadcast(intent);
                     intent1.putExtra(INTENT_EXHIBIT, str);
                 }
-                startActivity(intent1);
+                startActivity(intent1);*/
             }
         });
     }

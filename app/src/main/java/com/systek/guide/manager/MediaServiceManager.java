@@ -15,6 +15,7 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.service.MediaPlayService;
 import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.LogUtil;
 
 import java.util.List;
 
@@ -314,6 +315,10 @@ public class MediaServiceManager implements IConstants {
                     if(!mediaServiceBinder.isPlaying()&&mediaServiceBinder.getCurrentExhibit()!=null){
                         break;
                     }
+                    //是否切换
+                    boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,true);
+                    LogUtil.i("ZHANG","isSwitch=="+isSwitch);
+                    if(!isSwitch){break;}
                         /*获取展品集合第一个，发送广播，通知播放*/
                     ExhibitBean exhibit=currentExhibitList.get(0);
                     ExhibitBean currentExhibit=getCurrentExhibit();

@@ -9,10 +9,8 @@ import android.widget.ImageView;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
-import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MultiAngleImg;
 import com.systek.guide.utils.ImageLoaderUtil;
-import com.systek.guide.utils.Tools;
 
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     }
 
     public MultiAngleImgAdapter(Context c, List<MultiAngleImg> list) {
-        this.context = c;
+        this.context = c.getApplicationContext();
         this.list = list;
         inflater = LayoutInflater.from(context);
     }
@@ -55,7 +53,9 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         MultiAngleImg multiAngleImg=list.get(position);
         String url = multiAngleImg.getUrl();
-        String name = Tools.changePathToName(url);
+        ImageLoaderUtil.displayImage(url,holder.ivMultiAngle);
+
+        /*String name = Tools.changePathToName(url);
         String currentMuseumId = (String) DataBiz.getTempValue(context,SP_MUSEUM_ID,"");
         //博物馆id不为空，显示图片
         if (currentMuseumId != null) {
@@ -65,7 +65,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
             } else {
                 ImageLoaderUtil.displayNetworkImage(context, BASE_URL + url, holder.ivMultiAngle);
             }
-        }
+        }*/
     }
 
     @Override

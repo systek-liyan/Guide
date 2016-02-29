@@ -24,5 +24,38 @@
     <dimen name="height_exhibit_item">94dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <!--标题 -->
+    <dimen name="title_bar_title">18sp</dimen>
+
+    <!--城市选择 对话框文字大小 -->
+    <dimen name="text_city_dialog">30sp</dimen>
+    <dimen name="text_city_name">16sp</dimen>
+    <dimen name="text_edit_text">15sp</dimen>
+
+    <!--博物馆首页 -->
+    <dimen name="text_home_menu_size">13sp</dimen>
+
+    <!--博物馆item -->
+    <dimen name="item_museum_icon_size">120dp</dimen>
+    <!--drawer menu  -->
+    <dimen name="text_drawer_menu_size">20sp</dimen>
+
+    <!--展品 item  -->
+    <dimen name="text_exhibit_item_icon_size">120dp</dimen>
+    <dimen name="text_exhibit_item_name_size">15sp</dimen>
+    <dimen name="text_exhibit_item_label_size">13sp</dimen>
+
+    <!--ListAndMap 底部 item  -->
+    <dimen name="iv_list_map_bottom_exhibit_width">60dp</dimen>
+    <dimen name="tv_list_map_bottom_exhibit_name">15dp</dimen>
+
+
+
+    <!--多角度图片 item  -->
+    <dimen name="iv_multi_angle_image_width">120dp</dimen>
+
+    <!--museum list item  -->
+    <dimen name="tv_museum_name_size">15sp</dimen>
+
 
 </resources>

@@ -3,6 +3,7 @@ package com.systek.guide.biz;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
@@ -16,6 +17,7 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.entity.LabelBean;
+import com.systek.guide.entity.base.BaseEntity;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.MyHttpUtil;
 
@@ -24,23 +26,126 @@ import org.altbeacon.beacon.Identifier;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Qiang on 2016/1/1.
+ *
+ *
  */
 public class DataBiz implements IConstants{
 
 
+    private static DbUtils db = null;
+
+    public synchronized static  DbUtils getDb(Context context) {
+
+
+        if (db == null) {
+            if (context == null) {
+                context = MyApplication.get();
+            }
+            context=context.getApplicationContext();
+            db = DbUtils.create(context);/*, "guide.db", 1, new DbUtils.DbUpgradeListener() {
+                @Override
+                public void onUpgrade(DbUtils db, int oldversion, int newVersion) {
+
+                    if (newVersion > oldversion) {
+
+                        updateDb(db, "Exhibit");
+                    }
+                }
+            }*/
+        }
+        db.configAllowTransaction(true);
+        return db;
+    }
+
+    private static void updateDb(DbUtils db, String tableName) {
+
+        try {
+
+            Class<BaseEntity> c = (Class<BaseEntity>) Class.forName("com.sysytek.guide.entity." + tableName);// 把要使用的类加载到内存中,并且把有关这个类的所有信息都存放到对象c中
+
+            if (db.tableIsExist(c)) {
+
+                List<String> dbFildsList = new ArrayList<>();
+
+                String str = "select * from " + tableName;
+
+                Cursor cursor = db.execQuery(str);
+
+                int count = cursor.getColumnCount();
+
+                for (int i = 0; i < count; i++) {
+
+                    dbFildsList.add(cursor.getColumnName(i));
+
+                }
+
+                cursor.close();
+
+                Field f[] = c.getDeclaredFields();// 把属性的信息提取出来，并且存放到field类的对象中，因为每个field的对象只能存放一个属性的信息所以要用数组去接收
+
+                for (int i = 0; i < f.length; i++) {
+
+                    String fildName = f[i].getName();
+
+                    if (fildName.equals("serialVersionUID")) {
+
+                        continue;
+
+                    }
+
+                    String fildType = f[i].getType().toString();
+
+                    if (!isExist(dbFildsList, fildName)) {
+
+                        if (fildType.equals("class Java.lang.String")) {
+
+                            db.execNonQuery("alter table " + tableName + " add " + fildName + " TEXT ");
+
+                        } else if (fildType.equals("int") || fildType.equals("long") || fildType.equals("boolean")) {
+
+                            db.execNonQuery("alter table " + tableName + " add " + fildName + " INTEGER ");
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }
+
+    }
+
+    /**
+     * 判断List中是否存在某元素
+     *
+     * @param dbFildsList 集合
+     * @param fildName 元素
+     * @return 是否存在
+     */
+    private static boolean isExist(List<String>  dbFildsList, String fildName) {
+        return !(dbFildsList == null || fildName == null || dbFildsList.size() == 0 || fildName.equals("")) && dbFildsList.contains(fildName);
+    }
+
+
     /**
      * 根据实体类，url获取对象集合
-     * @param clazz
-     * @param url
+     * @param clazz 实体类
+     * @param url url
      * @param <T>
      * @return
      */
-    public static <T> List<T> getEntityListFromNet(Class<T> clazz,String url){
-        String response= MyHttpUtil.sendGet(url);
+    public synchronized static <T> List<T> getEntityListFromNet(Class<T> clazz,String url){
+        String response= MyHttpUtil.doGet(url);
         if(TextUtils.isEmpty(response)){return null;}
         List<T> list= JSON.parseArray(response, clazz);
         return list;
@@ -53,6 +158,7 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static<T> List<T> getEntityListLocal(Class<T> clazz){
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
         try {
@@ -74,6 +180,7 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static<T> List<T> getEntityListLocalByColumn(String column,String value,Class<T> clazz){
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
         try {
@@ -94,9 +201,9 @@ public class DataBiz implements IConstants{
      */
     public synchronized static <T> boolean deleteSQLiteDataFromClass(Class<T> clazz){
         boolean isSuccess=true;
-        DbUtils db=null;
+        //DbUtils db=getDb(null);
+        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db=DbUtils.create(MyApplication.get());
             db.deleteAll(clazz);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
@@ -116,6 +223,7 @@ public class DataBiz implements IConstants{
      */
     public synchronized static <T> boolean deleteSQLiteDataFromID(Class<T> clazz,String id){
         boolean isSuccess=true;
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
             db.delete(clazz, WhereBuilder.b(ID, LIKE, "%" + id + "%"));
@@ -137,9 +245,9 @@ public class DataBiz implements IConstants{
     public synchronized static<T>  boolean saveListToSQLite(List<T> list){
         boolean isSuccess=true;
         if(list==null){return false; }
-        DbUtils db=null;
+        //DbUtils db=getDb(null);
+        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db=DbUtils.create(MyApplication.get());
             db.saveOrUpdateAll(list);
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
@@ -157,6 +265,7 @@ public class DataBiz implements IConstants{
      */
     public synchronized static boolean saveEntityToSQLite(Object obj){
         boolean isSuccess=true;
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
             db.save(obj);
@@ -176,6 +285,7 @@ public class DataBiz implements IConstants{
      */
     public synchronized static boolean deleteOldJsonData(String museumID){
         boolean isSuccess=true;
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try{
             db.createTableIfNotExist(BeaconBean.class);
@@ -211,10 +321,10 @@ public class DataBiz implements IConstants{
      */
     public synchronized static List<ExhibitBean> getCollectionExhibitListFromDB() {
         List<ExhibitBean> collectionList=null;
-        DbUtils db=null;
+        //DbUtils db=getDb(null);
+        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db=DbUtils.create(MyApplication.get());
-            collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON,"=", true));
+            collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
@@ -232,6 +342,7 @@ public class DataBiz implements IConstants{
      */
     public synchronized static List<ExhibitBean> getCollectionExhibitListFromDBById(String museumId) {
         List<ExhibitBean> collectionList=null;
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
             collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true).and(MUSEUM_ID, LIKE, "%" + museumId + "%"));
@@ -247,6 +358,7 @@ public class DataBiz implements IConstants{
 
     public synchronized static ExhibitBean getExhibitFromDBById(String exhibitId) {
         ExhibitBean exhibitBean=null;
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
             exhibitBean= db.findById(ExhibitBean.class,exhibitId);
@@ -268,11 +380,15 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static boolean saveAllJsonData(String museumID) {
-        List<BeaconBean> beaconList = getEntityListFromNet(BeaconBean.class, URL_BEACON_LIST + museumID);
-        List<LabelBean> labelList = getEntityListFromNet(LabelBean.class, URL_LABELS_LIST + museumID);
-        List<ExhibitBean> exhibitList = getEntityListFromNet(ExhibitBean.class, URL_EXHIBIT_LIST + museumID);
+        String beaconUrl=BASE_URL+URL_BEACON_LIST + museumID;
+        List<BeaconBean> beaconList = getEntityListFromNet(BeaconBean.class, beaconUrl);
+        String labelUrl=BASE_URL+URL_LABELS_LIST + museumID;
+        List<LabelBean> labelList = getEntityListFromNet(LabelBean.class, labelUrl);
+        String exhibitUrl=BASE_URL+URL_EXHIBIT_LIST + museumID;
+        List<ExhibitBean> exhibitList = getEntityListFromNet(ExhibitBean.class, exhibitUrl);
         if(beaconList == null || labelList == null || exhibitList == null //|| mapList == null//|| mapList.size() == 0
                 || beaconList.size() == 0 || labelList.size() == 0 || exhibitList.size() == 0 ){return false;}
+
         List<ExhibitBean> collectionList= getCollectionExhibitListFromDBById(museumID);
         if(collectionList!=null&&collectionList.size()>0){
             exhibitList.removeAll(collectionList);
@@ -287,7 +403,8 @@ public class DataBiz implements IConstants{
      * @param <T>
      * @return
      */
-    public synchronized static<T>  List<T> getLocalListById(Class<T> clazz, String museumID) {
+    public synchronized static<T>   List<T> getLocalListById(Class<T> clazz, String museumID) {
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         List<T>list=null;
         try {
@@ -306,7 +423,8 @@ public class DataBiz implements IConstants{
      * 保存或更新对象数据至数据库
      * @param obj
      */
-    public synchronized static void saveOrUpdate(Object obj) {
+    public synchronized static  void saveOrUpdate(Object obj) {
+        //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
             db.saveOrUpdate(obj);
@@ -328,6 +446,7 @@ public class DataBiz implements IConstants{
     public synchronized static List<ExhibitBean> getExhibitListByBeaconId(String museumId,String beaconId){
 
         if(TextUtils.isEmpty(beaconId)){return null;}
+        //DbUtils db=getDb(null);
         DbUtils db=null;
         List<ExhibitBean> list=null;
         try {
@@ -335,6 +454,10 @@ public class DataBiz implements IConstants{
             list=db.findAll(Selector.from(ExhibitBean.class).where(BEACON_ID,LIKE,"%"+beaconId+"%"));
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){
+                db.close();
+            }
         }
         if(list!=null){return list;}
         String url=URL_EXHIBIT_LIST+museumId+"&beaconId="+beaconId;
@@ -350,7 +473,7 @@ public class DataBiz implements IConstants{
      * @param key  键名
      * @param value  键值
      */
-    public static void saveTempValue(Context context, String key, Object value) {
+    public synchronized static  void saveTempValue(Context context, String key, Object value) {
         try {
             SharedPreferences sp = context.getApplicationContext().getSharedPreferences("temp", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
@@ -369,7 +492,7 @@ public class DataBiz implements IConstants{
 
 
     public static  String getCurrentMuseumId(){
-       return (String) getTempValue(MyApplication.get(),SP_MUSEUM_ID,"");
+        return (String) getTempValue(MyApplication.get(),SP_MUSEUM_ID,"");
     }
     /**
      * 从SP文件中读取指定Key的值
@@ -379,7 +502,7 @@ public class DataBiz implements IConstants{
      * @param key  键名
      * @return 键值
      */
-    public static Object getTempValue(Context context, String key, Object defaultObject) {
+    public synchronized static  Object getTempValue(Context context, String key, Object defaultObject) {
         try {
             SharedPreferences sp = context.getApplicationContext().getSharedPreferences("temp", Context.MODE_PRIVATE);
             if (defaultObject instanceof Integer) {
@@ -415,7 +538,8 @@ public class DataBiz implements IConstants{
         boolean isSave=false;
         File f = new File(path,name);
         if (!f.exists()) {
-            f.delete();
+            return true;
+            //f.delete();
         }
         FileOutputStream out=null;
         try {
@@ -443,7 +567,7 @@ public class DataBiz implements IConstants{
      * @param major beacon属性
      * @return beacon对象
      */
-    public synchronized static BeaconBean getBeaconMinorAndMajor(Identifier minor,Identifier major){
+    public  static synchronized BeaconBean getBeaconMinorAndMajor(Identifier minor,Identifier major){
         List<BeaconBean> beaconBeans=null;
         BeaconBean b=null;
         DbUtils db=null;
@@ -482,11 +606,11 @@ public class DataBiz implements IConstants{
      * @param label
      * @return
      */
-    public synchronized static List<ExhibitBean> getExhibitListByLabel(String label){// TODO: 2016/1/21 应加入博物馆id
+    public synchronized static  List<ExhibitBean> getExhibitListByLabel(String label){// TODO: 2016/1/21 应加入博物馆id
         List<ExhibitBean> list = null;
-        DbUtils db=null;
+       // DbUtils db=getDb(null);
+        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db=DbUtils.create(MyApplication.get());
             list=  db.findAll(Selector.from(ExhibitBean.class).where("labels","like","%"+label+"%"));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);

@@ -1,11 +1,36 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--导航栏底色-->
+        <item name="colorPrimary">@color/md_red_400</item>
+        <!--状态栏底色-->
+        <item name="colorPrimaryDark">@color/md_red_400</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/md_grey_850</item>
+        <!--Activity窗口的颜色-->
+        <!--item name="android:windowBackground">@color/md_blue_300</item-->
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/md_red_400</item>
+        <!--和 colorAccent相反，正常状态下按钮的颜色-->
+        <item name="colorControlNormal">@color/md_white_1000</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/md_white_1000</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="editTextColor">@color/md_grey_850</item>
+        <item name="android:showAsAction">always</item>
+        <item name="android:actionMenuTextColor">@color/md_grey_850</item>
+        <item name="material_drawer_background">@color/material_drawer_background</item>
+        <item name="material_drawer_primary_text">@color/md_grey_800</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
+        <item name="material_drawer_divider">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
+
+
     </style>
 
     <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
@@ -56,11 +81,9 @@
         <item name="android:layout_centerInParent">true</item>
     </style>
 
-
-
     <!--tv_home_menu -->
     <style name="tv_home_menu" >
-        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:textSize">@dimen/text_home_menu_size</item>
         <item name="android:textColor">@color/md_black_1000</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_width">wrap_content</item>
@@ -97,6 +120,21 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+    <!-- 黑色半透明窗口式对话框 -->
+    <style name="WindowDialog" >
+        <item name="android:windowBackground">@android:color/transparent</item>       <!--背景透明-->
+        <item name="android:windowFrame">@null</item>                                 <!--边框-->
+        <item name="android:windowNoTitle">true</item>                                <!--无标题-->
+        <item name="android:windowIsFloating">true</item>                             <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item>                          <!--半透明-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>                         <!--模糊-->
+    </style>
+
+
+
 </resources>
     <!--style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
             <item name="windowActionBar">false</item>

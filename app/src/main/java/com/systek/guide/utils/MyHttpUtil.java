@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
@@ -20,6 +21,162 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by Qiang on 2015/12/29.
  */
 public class MyHttpUtil {
+
+
+
+
+
+
+    /**
+     * Get请求，获得返回数据
+     *
+     * @param urlStr
+     * @return
+     * @throws Exception
+     */
+    public static String doGet(String urlStr)
+    {
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream is = null;
+        ByteArrayOutputStream baos = null;
+        try
+        {
+            url = new URL(urlStr);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            if (conn.getResponseCode() == 200)
+            {
+                is = conn.getInputStream();
+                baos = new ByteArrayOutputStream();
+                int len = -1;
+                byte[] buf = new byte[128];
+
+                while ((len = is.read(buf)) != -1)
+                {
+                    baos.write(buf, 0, len);
+                }
+                baos.flush();
+                return baos.toString();
+            } else
+            {
+                throw new RuntimeException(" responseCode is not 200 ... ");
+            }
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally
+        {
+            try
+            {
+                if (is != null)
+                    is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try
+            {
+                if (baos != null)
+                    baos.close();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            if(conn!=null) {
+                conn.disconnect();
+            }
+        }
+
+        return null ;
+
+    }
+
+    /**
+     * 向指定 URL 发送POST方法的请求
+     *
+     * @param url
+     *            发送请求的 URL
+     * @param param
+     *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @return 所代表远程资源的响应结果
+     * @throws Exception
+     */
+    public static String doPost(String url, String param)
+    {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        String result = "";
+        try
+        {
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            HttpURLConnection conn = (HttpURLConnection) realUrl
+                    .openConnection();
+            // 设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type",
+                    "application/x-www-form-urlencoded");
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setUseCaches(false);
+            // 发送POST请求必须设置如下两行
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+
+            if (param != null && !param.trim().equals(""))
+            {
+                // 获取URLConnection对象对应的输出流
+                out = new PrintWriter(conn.getOutputStream());
+                // 发送请求参数
+                out.print(param);
+                // flush输出流的缓冲
+                out.flush();
+            }
+            // 定义BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                result += line;
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输出流、输入流
+        finally
+        {
+            try
+            {
+                if (out != null)
+                {
+                    out.close();
+                }
+                if (in != null)
+                {
+                    in.close();
+                }
+            } catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+
+
+
+
 
     /**
      *  发送 http get 请求
@@ -183,6 +340,74 @@ public class MyHttpUtil {
     }
 
 
+    private static final int BUFFER_SIZE = 8192;
+
+    /**
+     * Downloads a file from a URL
+     * @param fileURL HTTP URL of the file to be downloaded
+     * @param saveDir path of the directory to save the file
+     * @throws IOException
+     */
+    public static void downloadFile(String fileURL, String saveDir,String name)
+            throws IOException {
+        URL url = new URL(fileURL);
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        int responseCode = httpConn.getResponseCode();
+
+        // always check HTTP response code first
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            /*String fileName = "";
+            String disposition = httpConn.getHeaderField("Content-Disposition");
+            //String contentType = httpConn.getContentType();
+           // int contentLength = httpConn.getContentLength();
+
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                    fileName = disposition.substring(index + 10,
+                            disposition.length() - 1);
+                }
+            } else {
+                // extracts file name from URL
+                fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
+                        fileURL.length());
+            }*/
+
+           /* System.out.println("Content-Type = " + contentType);
+            System.out.println("Content-Disposition = " + disposition);
+            System.out.println("Content-Length = " + contentLength);
+            System.out.println("fileName = " + fileName);*/
+
+            // opens input stream from the HTTP connection
+            InputStream inputStream = httpConn.getInputStream();
+
+            File savePath=new File(saveDir);
+            if(!savePath.exists()){
+                savePath.mkdirs();
+            }
+            String saveFilePath = saveDir + File.separator + name;
+
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+            System.out.println("File downloaded");
+        } else {
+            System.out.println("No file to download. Server replied HTTP code: " + responseCode);
+        }
+        httpConn.disconnect();
+    }
+
+
     public static void  downLoadFromUrl(String urlStr,String fileName,String savePath) throws IOException{
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -191,7 +416,8 @@ public class MyHttpUtil {
         conn.setReadTimeout(5000);
         conn.setConnectTimeout(10*1000);
         //防止屏蔽程序抓取而返回403错误
-        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0");
+        conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        //conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0");
         if (conn.getResponseCode() == 200) {
             //得到输入流
             InputStream inputStream = conn.getInputStream();

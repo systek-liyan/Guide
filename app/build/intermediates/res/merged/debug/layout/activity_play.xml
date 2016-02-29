@@ -4,26 +4,31 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:paddingTop="25dp"
-              android:background="@color/md_grey_400"
+              android:background="@color/md_grey_700"
               tools:context=".activity.PlayActivity">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_weight="4"
         android:layout_height="0dp">
         <ImageView
-            android:id="@+id/imgExhibitIcon"
+            android:id="@+id/ivExhibitIcon"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.4"
-            android:scaleType="fitCenter"/>
-        <ListView
-            android:id="@+id/lvLyric"
-            android:layout_margin="30dp"
-            android:divider="@null"
+            android:layout_height="match_parent"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpagerWordImage"
+            android:layout_marginTop="60dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tvExhibitName"
+            android:layout_gravity="top|center_horizontal"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/md_red_400"
+            style="@style/text_view_title_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <include layout="@layout/toolbar_alpha"/>
     </FrameLayout>
 
     <View
@@ -48,15 +53,34 @@
             android:layout_weight="3"
             android:gravity="center"
             android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleMultiAngle"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
+                android:layout_height="match_parent"
                 android:visibility="visible"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:scrollbars="none"/>
+            <TextView
+                android:id="@+id/tvToast"
+                android:visibility="gone"
+                android:textColor="@color/md_red_400"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:background="@drawable/btn_bg_black"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/simple_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+
             <SeekBar
                 android:id="@+id/seekBarProgress"
                 android:layout_width="match_parent"
@@ -98,14 +122,14 @@
                 android:id="@+id/ivPlayCtrl"
                 style="@style/normal_image_view"
                 android:layout_centerInParent="true"
-                android:src="@drawable/iv_play_state_close_big"/>
+                android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
             <ImageView
-                android:id="@+id/imgWordCtrl"
-                style="@style/normal_image_view"
+                android:id="@+id/ivGuideMode"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/iv_word_ctrl_switch"/>
+                android:layout_marginEnd="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
     </LinearLayout>
 
