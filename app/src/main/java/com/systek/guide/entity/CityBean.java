@@ -7,6 +7,7 @@ import com.systek.guide.entity.base.BaseEntity;
  *
  * 城市实体类
  */
+
 public class CityBean extends BaseEntity {
 
 

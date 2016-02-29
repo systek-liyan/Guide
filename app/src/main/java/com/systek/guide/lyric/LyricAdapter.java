@@ -33,7 +33,7 @@ public class LyricAdapter extends BaseAdapter {
     float mNotCurrentSize = 13;
 
     public LyricAdapter(Context context) {
-        mContext = context;
+        mContext = context.getApplicationContext();
         mLyricSentences = new ArrayList<>();
         mIndexOfCurrentSentence = 0;
     }

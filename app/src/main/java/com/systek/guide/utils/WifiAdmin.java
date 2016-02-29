@@ -1,6 +1,8 @@
 package com.systek.guide.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -29,7 +31,7 @@ public class WifiAdmin {
 
     // 构造器
     public WifiAdmin(Context context) {
-        this.context=context;
+        this.context=context.getApplicationContext();
         // 取得WifiManager对象
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         // 取得WifiInfo对象
@@ -60,6 +62,11 @@ public class WifiAdmin {
         return mWifiManager.getWifiState();
     }
 
+    public boolean isWifiEnable(){
+        return mWifiManager.isWifiEnabled();
+    }
+
+
     // 锁定WifiLock
     public void acquireWifiLock() {
         mWifiLock.acquire();
@@ -86,13 +93,14 @@ public class WifiAdmin {
     public void startScan() {
         mWifiManager.startScan();
         // 得到扫描结果
-        mWifiList = mWifiManager.getScanResults();
+        //mWifiList = mWifiManager.getScanResults();
         // 得到配置好的网络连接
         mWifiConfiguration = mWifiManager.getConfiguredNetworks();
     }
 
     // 得到网络列表
     public List<ScanResult> getWifiList() {
+        mWifiList = mWifiManager.getScanResults();
         return mWifiList;
     }
 
@@ -119,6 +127,24 @@ public class WifiAdmin {
         return stringBuilder;
     }
 
+
+
+    public String getConnectedWifiSSID(){
+
+        // 判断用户是打开还是关闭
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = manager.getActiveNetworkInfo();
+       // manager.getAllNetworks();
+        if(activeNetworkInfo==null){return null;}
+        NetworkInfo wifiNetworkInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetworkInfo != null && wifiNetworkInfo.isConnected()) {
+            WifiInfo info = mWifiManager.getConnectionInfo();
+            return  info != null ? info.getSSID() : null;
+        }
+        return null;
+    }
+
+
     // 得到MAC地址
     public String getMacAddress() {
         return (mWifiInfo == null) ? "NULL" : mWifiInfo.getMacAddress();
@@ -131,6 +157,7 @@ public class WifiAdmin {
 
     // 得到IP地址
     public int getIPAddress() {
+        mWifiInfo = mWifiManager.getConnectionInfo();
         return (mWifiInfo == null) ? 0 : mWifiInfo.getIpAddress();
     }
 
@@ -142,6 +169,26 @@ public class WifiAdmin {
     // 得到WifiInfo的所有信息包
     public String getWifiInfo() {
         return (mWifiInfo == null) ? "NULL" : mWifiInfo.toString();
+    }
+
+
+    //是否连接WIFI
+    public boolean isWifiConnected()
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if(wifiNetworkInfo.isConnected())
+        {
+            return true ;
+        }
+        return false ;
+    }
+
+
+    public void disconnectNetWork(){
+        if(isWifiConnected()){
+            mWifiManager.disconnect();
+        }
     }
 
     // 添加一个网络并连接
@@ -158,7 +205,8 @@ public class WifiAdmin {
         mWifiManager.disconnect();
     }
 
-    public static void connectWifi(Context c,String ssid,String password){
+    public  void connectWifi(String ssid,String password){
+
         WifiConfiguration wifiConfig = new WifiConfiguration();
 
         wifiConfig . status =  WifiConfiguration . Status . DISABLED ;
@@ -177,12 +225,15 @@ public class WifiAdmin {
         wifiConfig . allowedGroupCiphers . set ( WifiConfiguration . GroupCipher . CCMP );
         wifiConfig . allowedGroupCiphers . set ( WifiConfiguration . GroupCipher . TKIP );
 
-        WifiManager wifiManager = (WifiManager)c.getSystemService(Context.WIFI_SERVICE);//remember id
+        WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);//remember id
         int netId = wifiManager.addNetwork(wifiConfig);
         wifiManager.disconnect();
         wifiManager.enableNetwork(netId, true);
         wifiManager.reconnect();
     }
 
-
+    public String intToIp(int i) {
+       // return ((i >> 24 ) & 0xFF ) + "." +  ((i >> 16 ) & 0xFF) + "." +  ((i >> 8 ) & 0xFF) + "." +  ( i & 0xFF) ;
+        return ( i & 0xFF) + "." +  ((i >> 8 ) & 0xFF) + "." +  ((i >> 16 ) & 0xFF) + "." +  ((i >> 24 ) & 0xFF ) ;
+    }
 }

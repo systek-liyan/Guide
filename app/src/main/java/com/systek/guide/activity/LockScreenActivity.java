@@ -1,89 +1,58 @@
 package com.systek.guide.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
-import com.systek.guide.adapter.NearlyGalleryAdapter;
-import com.systek.guide.custom.swipeback.SwipeBackActivity;
-import com.systek.guide.custom.swipeback.SwipeBackLayout;
+import com.systek.guide.adapter.base.ViewPagerAdapter;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.fragment.BaseFragment;
+import com.systek.guide.fragment.IconImageFragment;
+import com.systek.guide.fragment.LockScreenFragment;
 import com.systek.guide.manager.MediaServiceManager;
-import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
-import com.systek.guide.utils.TimeUtil;
-import com.systek.guide.utils.Tools;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
-public class LockScreenActivity extends SwipeBackActivity {
-
-
-    private ImageView fullscreenImage;
-    private ImageView ivPlayCtrl;
-    private ListChangeReceiver listChangeReceiver;
-    private MediaServiceManager mediaServiceManager;
-    private Handler handler;
-    private ExhibitBean currentExhibit;
-    private int currentDuration;
-    private int currentProgress;
-    private SeekBar seekBarProgress;
-    private TextView tvPlayTime;
-    private TextView tvTotalTime;
-    private TextView tvLockTime;
-    private String currentIconUrl;
-    private RecyclerView recycleNearly;
-    private List<ExhibitBean> nearlyExhibitList;
-    private NearlyGalleryAdapter nearlyGalleryAdapter;
-    private List<ExhibitBean> currentExhibitList;
-
-    // 定义一个GestureDetector(手势识别类)对象的引用
-    private GestureDetector myGestureDetector;
-    private float mPosX;
-    private float mPosY;
-    private float mCurPosX;
-    private float mCurPosY;
-    View.OnTouchListener onTouchListener=new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            switch (event.getAction()) {
-
-                case MotionEvent.ACTION_DOWN:
-                    mPosX = event.getX();
-                    mPosY = event.getY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    mCurPosX = event.getX();
-                    mCurPosY = event.getY();
-
-                    break;
-            }
-            return true;
-        }
-    };
+public class LockScreenActivity extends BaseActivity
+        implements LockScreenFragment.OnFragmentInteractionListener,IconImageFragment.OnFragmentInteractionListener {
 
 
+
+    private ViewPager lockScreenViewPager;
+
+    /* // 定义一个GestureDetector(手势识别类)对象的引用
+     private GestureDetector myGestureDetector;
+     private float mPosX;
+     private float mPosY;
+     private float mCurPosX;
+     private float mCurPosY;
+     View.OnTouchListener onTouchListener=new View.OnTouchListener() {
+         @Override
+         public boolean onTouch(View v, MotionEvent event) {
+
+             switch (event.getAction()) {
+
+                 case MotionEvent.ACTION_DOWN:
+                     mPosX = event.getX();
+                     mPosY = event.getY();
+                     break;
+                 case MotionEvent.ACTION_MOVE:
+                     mCurPosX = event.getX();
+                     mCurPosY = event.getY();
+
+                     break;
+             }
+             return true;
+         }
+     };
+ */
     SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -104,43 +73,83 @@ public class LockScreenActivity extends SwipeBackActivity {
 
         }
     };
-
+    private LockScreenFragment lockScreenFragment;
+    private IconImageFragment iconImageFragment;
+    private ExhibitBean currentExhibit;
+    private MediaServiceManager mediaServiceManager;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-       // View view =getLayoutInflater().inflate(R.layout.activity_lock_screen,null);
+        // View view =getLayoutInflater().inflate(R.layout.activity_lock_screen,null);
         setContentView(R.layout.activity_lock_screen);
         //myGestureDetector=new GestureDetector(this);
         //view.setOnTouchListener(onTouchListener);
-        setDragEdge(SwipeBackLayout.DragEdge.LEFT);
+        //setDragEdge(SwipeBackLayout.DragEdge.LEFT);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        handler=new MyHandler();
-        mediaServiceManager=MediaServiceManager.getInstance(this);
-        initView();
-        addListener();
+
+        lockScreenViewPager=(ViewPager)findViewById(R.id.lockScreenViewPager);
         Intent intent=getIntent();
         String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
-        if(!TextUtils.isEmpty(exhibitStr)){
-            ExhibitBean bean=JSON.parseObject(exhibitStr,ExhibitBean.class);
+        /*if(!TextUtils.isEmpty(exhibitStr)){
+            ExhibitBean bean= JSON.parseObject(exhibitStr, ExhibitBean.class);
             if(currentExhibit==null){
                 currentExhibit=bean;
-                initData();
+                lockScreenFragment.initData(currentExhibit);
             }else{
                 if(currentExhibit.equals(bean)){
                     refreshView();
                 }else {
-                    initData();
+                    lockScreenFragment.initData(currentExhibit);
                 }
             }
 
         }else{
             currentExhibit=mediaServiceManager.getCurrentExhibit();
             refreshView();
-        }
+        }*/
 
-        initView();
+        if(!TextUtils.isEmpty(exhibitStr)){
+            lockScreenFragment=LockScreenFragment.newInstance(exhibitStr);
+        }else{
+            lockScreenFragment=LockScreenFragment.newInstance(null);
+        }
+        iconImageFragment=IconImageFragment.newInstance(null,null);
+        ArrayList<BaseFragment> fragments=new ArrayList<>();
+        fragments.add(iconImageFragment);
+        fragments.add(lockScreenFragment);
+        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),fragments);
+        lockScreenViewPager.setAdapter(viewPagerAdapter);
+        //去除滑动到末尾时的阴影
+        lockScreenViewPager.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+
+        lockScreenViewPager.setCurrentItem(1);
+
+        lockScreenViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==0){
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+       /* handler=new MyHandler();
+        mediaServiceManager=MediaServiceManager.getInstance(this);
+        addListener();
+       */
+
     }
 
 
@@ -152,99 +161,35 @@ public class LockScreenActivity extends SwipeBackActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(listChangeReceiver==null){
-            registerReceiver();
-        }
-
     }
 
-    private void initData() {
+    /*private void initData() {
         if(currentExhibit==null){return;}
         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
-    }
+    }*/
 
     private void addListener() {
-        seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
+        //seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
     }
 
 
     private void refreshView() {
         LogUtil.i("ZHANG", "执行了refreshView");
-        initIcon();
-    }
-
-    private void initView() {
-        fullscreenImage=(ImageView)findViewById(R.id.fullscreenImage);
-        ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
-        tvPlayTime=(TextView)findViewById(R.id.tvPlayTime);
-        tvTotalTime=(TextView)findViewById(R.id.tvTotalTime);
-        tvLockTime=(TextView)findViewById(R.id.tvLockTime);
-        tvLockTime.setText(TimeUtil.getTime());
-
-        seekBarProgress=(SeekBar)findViewById(R.id.seekBarProgress);
-
-        recycleNearly = (RecyclerView)findViewById(R.id.recycleNearly);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recycleNearly.setLayoutManager(linearLayoutManager);
-        nearlyExhibitList=new ArrayList<>();
-        nearlyGalleryAdapter=new NearlyGalleryAdapter(this,nearlyExhibitList);
-        nearlyGalleryAdapter.setOnItemClickListener(new NearlyGalleryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                LogUtil.i("zhang", "setOnItemClickLitener被点击了");
-                nearlyGalleryAdapter.notifyItemChanged(position);
-                ExhibitBean exhibitBean = currentExhibitList.get(position);
-                ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-                nearlyGalleryAdapter.setSelectIndex(exhibitBean);
-                if (bean == null || !bean.equals(exhibitBean)) {
-                    String str = JSON.toJSONString(exhibitBean);
-                    Intent intent = new Intent();
-                    intent.setAction(INTENT_EXHIBIT);
-                    intent.putExtra(INTENT_EXHIBIT, str);
-                    sendBroadcast(intent);
-                }
-            }
-        });
-        recycleNearly.setAdapter(nearlyGalleryAdapter);
-        recycleNearly.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
-
-        ivPlayCtrl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*unregisterReceiver(listChangeReceiver);
-                handler.removeCallbacksAndMessages(null);
-                finish();// TODO: 2016/1/14*/
-                Intent intent=new Intent();
-                intent.setAction(INTENT_CHANGE_PLAY_STATE);
-                sendBroadcast(intent);
-
-            }
-        });
     }
 
 
-    private void registerReceiver() {
-        listChangeReceiver = new ListChangeReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(INTENT_EXHIBIT);
-        filter.addAction(INTENT_EXHIBIT_PROGRESS);
-        filter.addAction(INTENT_EXHIBIT_DURATION);
-        filter.addAction(INTENT_CHANGE_PLAY_PLAY);
-        filter.addAction(INTENT_CHANGE_PLAY_STOP);
-        filter.addAction(INTENT_EXHIBIT_LIST);
-        registerReceiver(listChangeReceiver, filter);
-    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(mediaServiceManager.isPlaying()){
+        /*if(mediaServiceManager.isPlaying()){
             handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
         }else{
             handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
-        }
+        }*/
+
+
 
     }
 
@@ -258,125 +203,15 @@ public class LockScreenActivity extends SwipeBackActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void initIcon() {
-        if(currentExhibit==null){return;}
-        currentIconUrl=currentExhibit.getIconurl();
-        String imageName = Tools.changePathToName(currentIconUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+currentExhibit.getMuseumId() + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
-        File file = new File(imgLocalUrl);
-        // 判断sdcard上有没有图片
-        if (file.exists()) {
-            // 显示sdcard
-            ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, fullscreenImage);
-        } else {
-            ImageLoaderUtil.displayNetworkImage(this, BASE_URL + currentIconUrl, fullscreenImage);
-        }
-    }
-
     @Override
     protected void onDestroy() {
-        unregisterReceiver(listChangeReceiver);
-        handler.removeCallbacksAndMessages(null);
+        //handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
-   /* @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
 
     @Override
-    public void onShowPress(MotionEvent e) {
-
+    public void onFragmentInteraction(ExhibitBean exhibit) {
+        // TODO: 2016/2/25
     }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }*/
-
-
-    class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_WHAT_UPDATE_PROGRESS:
-                    //seekBarProgress.setMax(currentDuration);
-                    //seekBarProgress.setProgress(currentProgress);
-                    //tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
-                    //tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
-                    break;
-                case MSG_WHAT_CHANGE_EXHIBIT:
-                    refreshView();
-                    break;
-                case MSG_WHAT_CHANGE_PLAY_START:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_open_big));
-                    break;
-                case MSG_WHAT_CHANGE_PLAY_STOP:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_play_state_close_big));
-                    break;
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
-                    if(nearlyGalleryAdapter ==null||currentExhibitList==null){return;}
-                    nearlyGalleryAdapter.updateData(currentExhibitList);
-                    break;
-            }
-        }
-    }
-
-
-    private  class ListChangeReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case INTENT_EXHIBIT_PROGRESS:
-                    currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
-                    currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
-                    break;
-                case INTENT_EXHIBIT:
-                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
-                    if (TextUtils.isEmpty(exhibitStr)) {
-                        return;
-                    }
-                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (currentExhibit.equals(exhibitBean)) {
-                        return;
-                    }else{
-                        currentExhibit=exhibitBean;
-                    }
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
-                    break;
-                case INTENT_CHANGE_PLAY_PLAY:
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
-                    break;
-                case INTENT_CHANGE_PLAY_STOP:
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
-                    break;
-                case INTENT_EXHIBIT_LIST:
-                    String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
-                    currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
-                    if(currentExhibitList==null){return;}
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-            }
-        }
-    }
-
-
 }

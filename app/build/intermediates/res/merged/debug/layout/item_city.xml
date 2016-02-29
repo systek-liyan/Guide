@@ -12,22 +12,23 @@
         android:background="@color/md_grey_300"
         android:textColor="@color/md_red_400"
         android:layout_weight="1.0"
-        android:paddingLeft="5dip"
-        android:paddingTop="5dip"
-        android:paddingBottom="5dip"
-        android:text="A"/>
+        android:paddingStart="15dp"
+        android:textSize="@dimen/text_city_name"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
     <TextView
         android:id="@+id/itemCityName"
+        android:paddingStart="8dp"
+        android:textSize="@dimen/text_city_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:layout_weight="1.0"
         android:textColor="@color/md_grey_700"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="hhhh"/>
+        android:paddingBottom="10dp"/>
 
 </LinearLayout>

@@ -47,33 +47,38 @@
         <activity
             android:name=".activity.CityChooseActivity"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".activity.MuseumListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".activity.MuseumHomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.ListAndMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.TopicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.LockScreenActivity"
             android:excludeFromRecents="true"
@@ -91,29 +96,30 @@
             android:name=".activity.CollectionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.SearchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.DownloadActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme">
+            android:theme="@style/AppTheme">
 
         </activity>
+
 
         <service
             android:name=".service.MediaPlayService"
@@ -132,6 +138,7 @@
             android:exported="false"/>
 
         <service android:name=".service.MuseumDownloadService"/>
+        <service android:name=".service.TempDownloadService"/>
 
         <receiver android:name=".receiver.PhoneReceiver">
             <intent-filter>

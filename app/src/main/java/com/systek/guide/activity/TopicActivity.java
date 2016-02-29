@@ -7,6 +7,8 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -37,24 +39,6 @@ import java.util.List;
  */
 public class TopicActivity extends BaseActivity {
 
-    private String currentMuseumId;
-    private Handler handler;
-    private ImageView titleBarSkip;
-    private TextView titleBarTopic;
-
-    @Override
-    protected void initialize(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_topic);
-        Intent intent=getIntent();
-        currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
-        init();
-    }
-    private TextView  tv_collection_dongwei,tv_collection_beiqi,
-            tv_collection_beiwei, tv_collection_xizhou, tv_collection_shang,
-            tv_collection_sui, tv_collection_tangdai, tv_collection_handai,
-            tv_collection_chunqiu, tv_collection_zhanguo, tv_collection_qing,
-            tv_collection_shixiang, tv_collection_qingtong,tv_collection_tongqi,
-            tv_collection_shike;
     /**展品总列表*/
     private List<ExhibitBean> totalExhibitList;
     /**单个标签搜索结果列表*/
@@ -73,6 +57,25 @@ public class TopicActivity extends BaseActivity {
     private ImageView titleBarBack;
 
     private MediaServiceManager mediaServiceManager;
+    private String currentMuseumId;
+    private Handler handler;
+    private ImageView titleBarSkip;
+
+    private TextView  tv_collection_dongwei,tv_collection_beiqi,
+            tv_collection_beiwei, tv_collection_xizhou, tv_collection_shang,
+            tv_collection_sui, tv_collection_tangdai, tv_collection_handai,
+            tv_collection_chunqiu, tv_collection_zhanguo, tv_collection_qing,
+            tv_collection_shixiang, tv_collection_qingtong,tv_collection_tongqi,
+            tv_collection_shike;
+
+
+    @Override
+    protected void initialize(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_topic);
+        Intent intent=getIntent();
+        currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
+        init();
+    }
 
     private void init() {
         initViews();
@@ -104,7 +107,6 @@ public class TopicActivity extends BaseActivity {
 
     private void addListener() {
 
-        titleBarBack.setOnClickListener(onClickListener);
         //快速滑动停止加载图片
         lv_collection_listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
 
@@ -113,11 +115,16 @@ public class TopicActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
-                exhibitAdapter.setSelectItem(position);
-                exhibitAdapter.notifyDataSetInvalidated();
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
                 ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+
+                if(bean==null||!bean.equals(exhibitBean)){
+                    exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+                }
+                mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                //exhibitAdapter.setSelectItem(position);
+                exhibitAdapter.notifyDataSetInvalidated();
+
                 Intent intent1 = new Intent(TopicActivity.this, PlayActivity.class);
                 if (bean == null || !bean.equals(exhibitBean)) {
                     String str = JSON.toJSONString(exhibitBean);
@@ -130,9 +137,6 @@ public class TopicActivity extends BaseActivity {
                 startActivity(intent1);
             }
         });
-
-        titleBarSkip.setOnClickListener(onClickListener);
-        lv_collection_listView.setOnScrollListener(onScrollListener);
         setManyBtnListener();
     }
 
@@ -184,14 +188,17 @@ public class TopicActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             TextView tv= (TextView) v;
-            TextView textView=new TextView(TopicActivity.this);
+            TextView textView=new TextView(getApplicationContext());
             String label= (String) tv.getText();
             textView.setText(label);
-            textView.setTextSize(12);
+            textView.setTextSize(13);
+            textView.setTextColor(getResources().getColor(R.color.md_grey_800));
+            textView.setBackgroundResource(R.drawable.btn_checked_topic);
             textView.setGravity(Gravity.CENTER);
             textView.setOnClickListener(deleteLabelClickListener);
             LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginStart(15);
+            params.setMarginEnd(15);
             ll_collection_has_choose.addView(textView, params);
             tv.setVisibility(View.GONE);
             try{
@@ -261,31 +268,41 @@ public class TopicActivity extends BaseActivity {
                 }
             }else{
                 disPlayCheckExhibitList=new ArrayList<>();
-                //disPlayCheckExhibitList=totalExhibitList;
                 showToast("抱歉，没有符合您筛选条件的展品！");
             }
-            /*List<ExhibitBean> removeList=getList((String)charsTop);
-            if(removeList!=null&&removeList.size()>0){
-                if(disPlayCheckExhibitList!=null&&removeList.size()>0){
-                    disPlayCheckExhibitList.removeAll(removeList);
-                }
-                if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()==0){
-                    disPlayCheckExhibitList=totalExhibitList;
-                }
-            }*/
             exhibitAdapter.updateData(disPlayCheckExhibitList);
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.normal_menu, menu);
+        menu.getItem(0).setIcon(R.drawable.iv_skip);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()==0){return false;}
+        String exhibitListStr=JSON.toJSONString(disPlayCheckExhibitList);
+        Intent intent=new Intent(TopicActivity.this,ListAndMapActivity.class);
+        intent.putExtra(INTENT_FLAG_GUIDE_MAP, INTENT_FLAG_MAP);
+        intent.putExtra(INTENT_EXHIBIT_LIST_STR,exhibitListStr);
+        startActivity(intent);
+        finish();
+        return true;
+    }
+
     private void initViews() {
+
+        setTitleBar();
+        setTitleBarTitle(R.string.title_bar_topic);
+        setHomeIcon();
+        setHomeClickListener(backOnClickListener);
+
         tvList=new ArrayList<>();
         mediaServiceManager=MediaServiceManager.getInstance(this);
-        titleBarBack =(ImageView)findViewById(R.id.titleBarDrawer);
-        titleBarBack.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
-        titleBarSkip =(ImageView)findViewById(R.id.titleBarRightImg);
-        titleBarSkip.setImageDrawable(getResources().getDrawable(R.drawable.iv_skip));
-        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
-        titleBarTopic.setText(R.string.title_bar_topic);
+
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
         lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
 

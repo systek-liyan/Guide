@@ -35,7 +35,7 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
     }
 
     public ClearEditText(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        super(context.getApplicationContext(), attrs, defStyle);
         init();
     }
 

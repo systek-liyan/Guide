@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.systek.guide.IConstants;
+import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 
@@ -56,7 +57,6 @@ public class ImageLoaderUtil implements IConstants{
                     .discCacheSize(50 * 1024 * 1024)
                     .discCacheFileNameGenerator(new Md5FileNameGenerator())//将保存的时候的URI名称用MD5 加密
                     .tasksProcessingOrder(QueueProcessingType.LIFO)
-
                     .discCacheFileCount(100) //缓存的文件数量
                             //  .discCache(new UnlimitedDiscCache(cacheDir))//自定义缓存路径
                     .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
@@ -332,6 +332,27 @@ public class ImageLoaderUtil implements IConstants{
         rs.destroy();
 
         return outBitmap;
+    }
+
+    public static void displayImage(String iconPath,ImageView imageView){
+        String name= Tools.changePathToName(iconPath);
+        String path=LOCAL_ASSETS_PATH+DataBiz.getCurrentMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        if(Tools.isFileExist(path)){
+            ImageLoaderUtil.displaySdcardImage(MyApplication.get(), path, imageView);
+        }else{
+            ImageLoaderUtil.displayNetworkImage(MyApplication.get(), BASE_URL + iconPath,imageView);
+        }
+
+    }
+    public static void displayImage(String iconPath,String museumId,ImageView imageView){
+        String name= Tools.changePathToName(iconPath);
+        String path=LOCAL_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        if(Tools.isFileExist(path)){
+            ImageLoaderUtil.displaySdcardImage(MyApplication.get(), path, imageView);
+        }else{
+            ImageLoaderUtil.displayNetworkImage(MyApplication.get(), BASE_URL + iconPath,imageView);
+        }
+
     }
 
 }

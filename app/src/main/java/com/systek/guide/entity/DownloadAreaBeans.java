@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
+
 public class DownloadAreaBeans extends BaseEntity implements Serializable {
 	
 	/**

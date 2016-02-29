@@ -1,5 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="abc_search_view_text_min_width">192dip</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="dialog_button_textSize">13sp</dimen>
+    <dimen name="dialog_content_textSize">11sp</dimen>
+    <dimen name="dialog_title_textSize">14sp</dimen>
+    <dimen name="height_exhibit_item">94dp</dimen>
+    <dimen name="item_museum_icon_size">240dp</dimen>
+    <dimen name="iv_list_map_bottom_exhibit_width">100dp</dimen>
+    <dimen name="iv_multi_angle_image_width">240dp</dimen>
+    <dimen name="largest_icon_height">388dp</dimen>
+    <dimen name="normal_textSize">13sp</dimen>
+    <dimen name="simple38dp">38dp</dimen>
+    <dimen name="simple40dp">40dp</dimen>
+    <dimen name="simple_10dp">10dp</dimen>
+    <dimen name="simple_48dp">48dp</dimen>
+    <dimen name="simple_4dp">4dp</dimen>
+    <dimen name="text_city_dialog">50sp</dimen>
+    <dimen name="text_city_name">22sp</dimen>
+    <dimen name="text_drawer_menu_size">40sp</dimen>
+    <dimen name="text_edit_text">20sp</dimen>
+    <dimen name="text_exhibit_item_icon_size">280dp</dimen>
+    <dimen name="text_exhibit_item_label_size">20sp</dimen>
+    <dimen name="text_exhibit_item_name_size">25sp</dimen>
+    <dimen name="text_home_menu_size">20sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="titleBar_small_textSize">13dp</dimen>
+    <dimen name="titleBar_textSize">18sp</dimen>
+    <dimen name="title_bar_title">30sp</dimen>
+    <dimen name="topic_label_textSize">15sp</dimen>
+    <dimen name="tv_home_page_exhibit_introduce_size">25sp</dimen>
+    <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
+    <dimen name="tv_museum_name_size">20sp</dimen>
     <integer name="abc_max_action_buttons">5</integer>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--导航栏底色-->
+        <item name="colorPrimary">@color/md_red_400</item>
+        <!--状态栏底色-->
+        <item name="colorPrimaryDark">@color/md_red_400</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/md_grey_850</item>
+        <!--Activity窗口的颜色-->
+        <!--item name="android:windowBackground">@color/md_blue_300</item-->
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/md_red_400</item>
+        <!--和 colorAccent相反，正常状态下按钮的颜色-->
+        <item name="colorControlNormal">@color/md_white_1000</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/md_white_1000</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="editTextColor">@color/md_grey_850</item>
+        <item name="android:showAsAction">always</item>
+
+
+        <item name="material_drawer_background">@color/material_drawer_background</item>
+        <item name="material_drawer_primary_text">@color/md_grey_800</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
+        <item name="material_drawer_divider">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
+
+
+    </style>
+    <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
+        <!-- ...and here we setting appcompat’s color theme attrs -->
+        <item name="colorPrimary">@color/md_red_400</item>
+        <item name="colorPrimaryDark">#D03033</item>
+        <item name="colorAccent">#02A8F3</item>
+        <!-- MaterialDrawer specific values -->
+        <item name="material_drawer_background">@color/material_drawer_background</item>
+        <item name="material_drawer_primary_text">@color/md_grey_800</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
+        <item name="material_drawer_divider">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
+        <!-- CAB :D -->
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+    <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
+    <style name="LockScreenBase" parent="FullscreenTheme"><!--Theme.AppCompat.Light.NoActionBar-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="base_image_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="base_text_view">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    <style name="normal_image_view" parent="base_image_view">
+        <item name="android:scaleType">fitXY</item>
+    </style>
+    <style name="normal_text_view" parent="base_text_view">
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <style name="text_view_title_bar">
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
+    <style name="tv_home_menu">
+        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <style name="tv_topic_label">
+        <item name="android:textSize">@dimen/topic_label_textSize</item>
+        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/tv_bg_topic_label</item>
+    </style>
 </resources>

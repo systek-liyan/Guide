@@ -367,6 +367,8 @@
     <color name="md_yellow_A200">#FFFF00</color>
     <color name="md_yellow_A400">#FFEA00</color>
     <color name="md_yellow_A700">#FFD600</color>
+    <color name="media_item_icon_not_playing">#ccc</color>
+    <color name="media_item_icon_playing">@color/md_red_400</color>
     <color name="primary">@color/colorPrimary</color>
     <color name="primary_dark">@color/colorPrimaryDark</color>
     <color name="primary_dark_material_dark">@android:color/black</color>
@@ -501,7 +503,10 @@
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
     <item format="float" name="highlight_alpha_material_light" type="dimen">0.12</item>
+    <dimen name="item_museum_icon_size">120dp</dimen>
     <dimen name="item_touch_helper_max_drag_scroll_per_frame">20dp</dimen>
+    <dimen name="iv_list_map_bottom_exhibit_width">60dp</dimen>
+    <dimen name="iv_multi_angle_image_width">120dp</dimen>
     <dimen name="largest_icon_height">188dp</dimen>
     <dimen name="material_drawer_account_header_compact">56dp</dimen>
     <dimen name="material_drawer_account_header_dropdown">22dp</dimen>
@@ -584,13 +589,24 @@
     <dimen name="simple_10dp">10dp</dimen>
     <dimen name="simple_48dp">48dp</dimen>
     <dimen name="simple_4dp">4dp</dimen>
+    <dimen name="text_city_dialog">30sp</dimen>
+    <dimen name="text_city_name">16sp</dimen>
+    <dimen name="text_drawer_menu_size">20sp</dimen>
+    <dimen name="text_edit_text">15sp</dimen>
+    <dimen name="text_exhibit_item_icon_size">120dp</dimen>
+    <dimen name="text_exhibit_item_label_size">13sp</dimen>
+    <dimen name="text_exhibit_item_name_size">15sp</dimen>
+    <dimen name="text_home_menu_size">13sp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="titleBar_small_textSize">13dp</dimen>
     <dimen name="titleBar_textSize">18sp</dimen>
+    <dimen name="title_bar_title">18sp</dimen>
     <dimen name="tool_bar_top_padding">0dp</dimen>
     <dimen name="topic_label_textSize">15sp</dimen>
     <dimen name="tv_home_page_exhibit_introduce_size">15sp</dimen>
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
+    <dimen name="tv_list_map_bottom_exhibit_name">15dp</dimen>
+    <dimen name="tv_museum_name_size">15sp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -652,10 +668,12 @@
     <string name="activity_collection_material">材质</string>
     <string name="activity_collection_years">年代</string>
     <string name="app_name">e游</string>
+    <string name="canNotGetConnected">无法连接网络</string>
     <string name="define_AndroidIconics">year;owner</string>
     <string name="define_materialdrawer">year;owner</string>
     <string name="define_materialize">year;owner</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="json_error">json转换异常</string>
     <string name="label_activity_collection_beiqi">北齐</string>
     <string name="label_activity_collection_beiwei">北魏</string>
     <string name="label_activity_collection_chunqiu">春秋</string>
@@ -718,6 +736,10 @@
     <string name="library_materialize_year">2015</string>
     <string name="material_drawer_close">Close</string>
     <string name="material_drawer_open">Open</string>
+    <string name="networkError">网络异常</string>
+    <string name="networkFailure">网络异常</string>
+    <string name="requestTimeout">请求异常</string>
+    <string name="responseTimeout">响应超时</string>
     <string name="search_view_hint">请输入关键字…</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_bar_city_choose">城市选择</string>
@@ -728,11 +750,36 @@
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--导航栏底色-->
+        <item name="colorPrimary">@color/md_red_400</item>
+        <!--状态栏底色-->
+        <item name="colorPrimaryDark">@color/md_red_400</item>
+        <!--导航栏上的标题颜色-->
+        <item name="android:textColorPrimary">@color/md_grey_850</item>
+        <!--Activity窗口的颜色-->
+        <!--item name="android:windowBackground">@color/md_blue_300</item-->
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/md_red_400</item>
+        <!--和 colorAccent相反，正常状态下按钮的颜色-->
+        <item name="colorControlNormal">@color/md_white_1000</item>
+        <!--Button按钮正常状态颜色-->
+        <item name="colorButtonNormal">@color/md_white_1000</item>
+        <!--EditText 输入框中字体的颜色-->
+        <item name="editTextColor">@color/md_grey_850</item>
+        <item name="android:showAsAction">always</item>
+        <item name="android:actionMenuTextColor">@color/md_grey_850</item>
+        <item name="material_drawer_background">@color/material_drawer_background</item>
+        <item name="material_drawer_primary_text">@color/md_grey_800</item>
+        <item name="material_drawer_secondary_text">@color/material_drawer_dark_secondary_text</item>
+        <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
+        <item name="material_drawer_divider">@color/md_white_1000</item>
+        <item name="material_drawer_selected">@color/material_drawer_selected</item>
+        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
+
+
     </style>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
@@ -2392,6 +2439,16 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
+    <style name="WindowDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>       <!--背景透明-->
+        <item name="android:windowFrame">@null</item>                                 <!--边框-->
+        <item name="android:windowNoTitle">true</item>                                <!--无标题-->
+        <item name="android:windowIsFloating">true</item>                             <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item>                          <!--半透明-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>                         <!--模糊-->
+    </style>
     <style name="__LeakCanary.Base" parent="android:Theme">
   </style>
     <style name="base_image_view">
@@ -2421,7 +2478,7 @@
         <item name="android:layout_centerInParent">true</item>
     </style>
     <style name="tv_home_menu">
-        <item name="android:textSize">@dimen/normal_textSize</item>
+        <item name="android:textSize">@dimen/text_home_menu_size</item>
         <item name="android:textColor">@color/md_black_1000</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_width">wrap_content</item>

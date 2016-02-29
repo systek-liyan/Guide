@@ -157,13 +157,13 @@ public class Tools implements IConstants{
 	public static String checkTypeForNetUrl(int type) {
 		String url=null;
 		if (type==URL_TYPE_GET_CITY) {
-			url=URL_CITY_LIST;
+			url=BASE_URL+URL_CITY_LIST;
 		} else if (type==URL_TYPE_GET_MUSEUM_LIST) {
-			url=URL_MUSEUM_LIST;
+			url=BASE_URL+URL_MUSEUM_LIST;
 		} else if (type==URL_TYPE_GET_EXHIBITS_BY_MUSEUM_ID) {
-			url=URL_EXHIBIT_LIST;
+			url=BASE_URL+URL_EXHIBIT_LIST;
 		}else if(type==URL_TYPE_GET_MUSEUM_BY_ID){
-			url=URL_GET_MUSEUM_BY_ID;
+			url=BASE_URL+URL_GET_MUSEUM_BY_ID;
 		}
 		return url;
 	}

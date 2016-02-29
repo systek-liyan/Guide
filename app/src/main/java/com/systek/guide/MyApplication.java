@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.text.TextUtils;
 
-import com.squareup.leakcanary.LeakCanary;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
@@ -53,7 +52,7 @@ public class MyApplication extends Application implements IConstants{
     public void onCreate() {
         super.onCreate();
         /*初始化检查内存泄露*/
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         myApplication = this;
         if (!isSameAppName()) {return;}
         // 防止重启两次,非相同名字的则返回
@@ -67,7 +66,7 @@ public class MyApplication extends Application implements IConstants{
 
 
     private void initBlueTooth() {
-        bluetoothManager =new  BluetoothManager(this);
+        bluetoothManager =BluetoothManager.newInstance(this);
         bluetoothManager.initBeaconSearcher();
     }
     public  static Context getAppContext(){

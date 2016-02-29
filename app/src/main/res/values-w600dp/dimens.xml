@@ -1,0 +1,55 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="simple_4dp">4dp</dimen>
+    <dimen name="simple_10dp">10dp</dimen>
+    <dimen name="simple38dp">38dp</dimen>
+    <dimen name="simple40dp">40dp</dimen>
+    <dimen name="simple_48dp">48dp</dimen>
+    <dimen name="largest_icon_height">388dp</dimen>//app 中最大图片的高度
+
+    <dimen name="dialog_content_textSize">11sp</dimen>//对话框中内容字体的大小
+    <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
+    <dimen name="titleBar_textSize">18sp</dimen>//标题栏中间字体大小
+    <dimen name="titleBar_small_textSize">13dp</dimen>//标题栏左右等小字体大小
+    <dimen name="tv_home_page_exhibit_introduce_size">25sp</dimen>//主页中展品图片的宽度
+    <dimen name="dialog_title_textSize">14sp</dimen>//对话框中标题字体的大小
+    <dimen name="dialog_button_textSize">13sp</dimen>//对话框中内容字体的大小
+    <dimen name="normal_textSize">13sp</dimen>
+    <dimen name="topic_label_textSize">15sp</dimen>
+
+    <!--展品item -->
+    <dimen name="height_exhibit_item">94dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <!--标题 -->
+    <dimen name="title_bar_title">30sp</dimen>
+
+    <!--城市选择页 -->
+    <dimen name="text_city_dialog">50sp</dimen>
+    <dimen name="text_city_name">22sp</dimen>
+    <dimen name="text_edit_text">20sp</dimen>
+
+    <!--博物馆首页 -->
+    <dimen name="text_home_menu_size">20sp</dimen>
+
+    <!--博物馆item -->
+    <dimen name="item_museum_icon_size">240dp</dimen>
+    <!--drawer menu  -->
+    <dimen name="text_drawer_menu_size">40sp</dimen>
+
+    <!--展品 item  -->
+    <dimen name="text_exhibit_item_icon_size">280dp</dimen>
+    <dimen name="text_exhibit_item_name_size">25sp</dimen>
+    <dimen name="text_exhibit_item_label_size">20sp</dimen>
+
+    <!--ListAndMap 底部 item  -->
+    <dimen name="iv_list_map_bottom_exhibit_width">100dp</dimen>
+    <!--多角度图片 item  -->
+    <dimen name="iv_multi_angle_image_width">240dp</dimen>
+    <!--museum list item  -->
+    <dimen name="tv_museum_name_size">20sp</dimen>
+
+</resources>

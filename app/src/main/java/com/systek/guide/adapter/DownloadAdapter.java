@@ -1,7 +1,6 @@
 package com.systek.guide.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
-import com.systek.guide.activity.MuseumHomeActivity;
 import com.systek.guide.biz.DownloadTask;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ImageLoaderUtil;
@@ -30,9 +28,9 @@ import java.util.List;
  */
 public class DownloadAdapter extends BaseAdapter implements IConstants {
 
-    Context context;
-    List<MuseumBean> list;
-    LayoutInflater inflater;
+    private Context context;
+    private List<MuseumBean> list;
+    private LayoutInflater inflater;
     public Handler handler;
     public  void updateData(List<MuseumBean> list){
         this.list=list;
@@ -46,7 +44,7 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
     }
 
     public DownloadAdapter(Context c, List<MuseumBean> list) {
-        this.context = c;
+        this.context = c.getApplicationContext();
         this.list = list;
         inflater= LayoutInflater.from(context);
         handler=new Handler(Looper.getMainLooper());
@@ -97,49 +95,50 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
             viewHolder.tvProgress.setVisibility(View.INVISIBLE);
             viewHolder.tvState.setVisibility(View.VISIBLE);
             viewHolder.tvState.setText("已下载");
-            viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
+            /*viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, MuseumHomeActivity.class);
                     intent.putExtra(INTENT_MUSEUM_ID,bean.getId());
                     context.startActivity(intent);
                 }
-            });
+            });*/
         }else{
             viewHolder.tvState.setVisibility(View.GONE);
             viewHolder.ivCtrl.setVisibility(View.VISIBLE);
-            viewHolder.ivCtrl.setBackground(context.getResources().getDrawable(R.drawable.iv_play_state_stop));
+            viewHolder.ivCtrl.setBackground(context.getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
         }
         String iconPath=bean.getIconUrl();
-        String name= Tools.changePathToName(iconPath);
+        ImageLoaderUtil.displayImage(iconPath, viewHolder.ivIcon);
+        /*String name= Tools.changePathToName(iconPath);
         String path=LOCAL_ASSETS_PATH+bean.getId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
         if(Tools.isFileExist(path)){
             ImageLoaderUtil.displaySdcardImage(context, path, viewHolder.ivIcon);
         }else{
             ImageLoaderUtil.displayNetworkImage(context, BASE_URL + iconPath, viewHolder.ivIcon);
-        }
+        }*/
 
         View.OnClickListener ll=new View.OnClickListener() {
             DownloadTask task=null;
             @Override
             public void onClick(View v) {
                 if(isDownload){return;}
-                if(bean.getState()==0){
+                if(bean.getmState()==0){
                     task=new DownloadTask(bean.getId());
                     viewHolder.setNewTask(task);
                     task.start();
-                    bean.setState(1);
-                    v.setBackground(context.getResources().getDrawable(R.drawable.iv_play_state_open));
-                }else if(bean.getState()==1){
+                    bean.setmState(1);
+                    v.setBackground(context.getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
+                }else if(bean.getmState()==1){
                     if(task==null){return;}
                     task.pause();
-                    v.setBackground(context.getResources().getDrawable(R.drawable.iv_play_state_stop));
-                    bean.setState(2);
-                }else if(bean.getState()==2){
+                    v.setBackground(context.getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
+                    bean.setmState(2);
+                }else if(bean.getmState()==2){
                     if(task==null){return;}
                     task.toContinue();
-                    v.setBackground(context.getResources().getDrawable(R.drawable.iv_play_state_open));
-                    bean.setState(1);
+                    v.setBackground(context.getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
+                    bean.setmState(1);
                 }
             }
         };
@@ -163,7 +162,7 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
                     public void run() {
                         if (progress < 100) {
                             progressBar.setProgress(progress);
-                            tvProgress.setText("已下载" + progress);
+                            tvProgress.setText("已下载" + progress+"%");
                         } else {
                             progressBar.setVisibility(View.INVISIBLE);
                             tvProgress.setVisibility(View.GONE);
@@ -171,7 +170,6 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
                             tvState.setVisibility(View.VISIBLE);
                             tvState.setText("已下载");
                         }
-
                     }
                 });
             }

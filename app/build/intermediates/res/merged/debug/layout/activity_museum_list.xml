@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".activity.MuseumListActivity">
 
-    <include layout="@layout/layout_title_bar"/>
+    <include layout="@layout/toolbar"/>
     <ListView
         android:id="@+id/museumListView"
         android:divider="@null"

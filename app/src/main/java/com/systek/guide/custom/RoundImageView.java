@@ -66,10 +66,10 @@ public class RoundImageView extends ImageView {
     private ScaleType scaleType;
 
 
-    public RoundImageView(Context context, AttributeSet attrs)
+    public RoundImageView(Context c, AttributeSet attrs)
     {
-
-        super(context, attrs);
+        super(c.getApplicationContext(), attrs);
+        Context context=c.getApplicationContext();
         mMatrix = new Matrix();
         mBitmapPaint = new Paint();
         mBitmapPaint.setAntiAlias(true);

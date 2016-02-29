@@ -1,60 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_radio"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:background="@drawable/title_bar_bg">
+    android:layout_height="?attr/actionBarSize"
+    android:minHeight="?attr/actionBarSize"
+    android:background="@color/md_red_400">
+    <RadioGroup
+        android:id="@+id/radioGroupTitle"
+        android:layout_gravity="center"
+        android:layout_width="123dp"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radioButtonList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_guide_left_selector"
+            android:button="@null"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="列表"
+            android:textColor="@drawable/text_color_guide_map_selector"
+            android:textSize="11sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_height="48dp">
-            <ImageView
-                android:id="@+id/titleBarDrawer"
-                style="@style/normal_image_view"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/simple_4dp"
-                android:src="@drawable/setting"/>
-            <RadioGroup
-                android:id="@+id/radioGroupTitle"
-                android:layout_width="123dp"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radioButtonList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_guide_left_selector"
-                    android:button="@null"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="列表"
-                    android:textColor="@drawable/text_color_guide_map_selector"
-                    android:textSize="11sp" />
-
-                <RadioButton
-                    android:id="@+id/radioButtonMap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/btn_map_right_selector"
-                    android:button="@null"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="地图"
-                    android:textColor="@drawable/text_color_guide_map_selector"
-                    android:textSize="11sp" />
-            </RadioGroup>
-            <ImageView
-                android:id="@+id/titleBarRightImg"
-                style="@style/normal_image_view"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/simple_4dp"
-                android:src="@drawable/iv_search"/>
-        </RelativeLayout>
+        <RadioButton
+            android:id="@+id/radioButtonMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_map_right_selector"
+            android:button="@null"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="地图"
+            android:textColor="@drawable/text_color_guide_map_selector"
+            android:textSize="11sp" />
+    </RadioGroup>
+</android.support.v7.widget.Toolbar>
 
 
-</RelativeLayout>
+
+

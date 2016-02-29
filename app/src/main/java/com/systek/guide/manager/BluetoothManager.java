@@ -5,14 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.alibaba.fastjson.JSON;
+import com.systek.beacon.BeaconForSort;
+import com.systek.beacon.BeaconSearcher;
+import com.systek.beacon.FinalBeacons;
+import com.systek.beacon.NearestBeacon;
 import com.systek.guide.IConstants;
-import com.systek.guide.beacon.BeaconForSort;
-import com.systek.guide.beacon.BeaconSearcher;
-import com.systek.guide.beacon.NearestBeacon;
-import com.systek.guide.beacon.NearestBeaconListener;
+import com.systek.guide.MyApplication;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.utils.LogUtil;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Identifier;
@@ -28,35 +30,42 @@ import java.util.List;
 public class BluetoothManager implements IConstants {
 
     private Context context;
-    private  BluetoothManager bluetoothManager;
+    private static BluetoothManager bluetoothManager;
     /*蓝牙扫描对象*/
     private BeaconSearcher mBeaconSearcher;
+
+    public String getCurrentMuseumId() {
+        return currentMuseumId;
+    }
+
+    private String currentMuseumId;
+
     private GetBeaconCallBack getBeaconCallBack;
-    private NearestBeaconListener nearestBeaconListener;
+   /* private NearestBeaconListener nearestBeaconListener;
 
     public void setNearestBeaconListener(NearestBeaconListener nearestBeaconListener) {
         this.nearestBeaconListener = nearestBeaconListener;
-    }
+    }*/
 
     public void setGetBeaconCallBack(GetBeaconCallBack getBeaconCallBack) {
         this.getBeaconCallBack = getBeaconCallBack;
     }
 
     public BluetoothManager(Context context) {
-        this.context = context.getApplicationContext();
+        this.context = context;
         //application=MyApplication.get();
     }
 
-    /*public static BluetoothManager newInstance(Context c){
+    public static BluetoothManager newInstance(Context c){
         if(bluetoothManager==null){
             synchronized (MyApplication.class){
                 if(bluetoothManager==null){
-                    bluetoothManager=new BluetoothManager(c);
+                    bluetoothManager=new BluetoothManager(c.getApplicationContext());
                 }
             }
         }
         return bluetoothManager;
-    }*/
+    }
 
     public void disConnectBluetoothService(){
 
@@ -65,7 +74,7 @@ public class BluetoothManager implements IConstants {
             mBeaconSearcher=null;
         }
         context=null;
-        nearestBeaconListener=null;
+       // nearestBeaconListener=null;
         getBeaconCallBack=null;
         bluetoothManager=null;
     }
@@ -112,12 +121,22 @@ public class BluetoothManager implements IConstants {
         }
 
         long recordTime=0;
+
+        int noFind=0;
         //int count=0;
         /**当接受到多个beacon时，根据beacon查找展品，更新附近列表*/
         @Override
         public void getNearestBeacons(int type, List<BeaconForSort> beaconsForSortList) {
             /*如果返回扫面beacon列表为空，返回*/
-            if (beaconsForSortList == null||beaconsForSortList.size()<=0) {return;}
+            if (beaconsForSortList == null||beaconsForSortList.size()<=0) {
+                noFind++;
+                if(noFind>15){
+                    disConnectBluetoothService();
+                    DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, false);
+                }
+                return;}
+            DataBiz.saveTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,true);
+            noFind=0;
             List<BeaconBean> beaconBeanList=null;
             List<ExhibitBean> exhibitBeansList=null;
             List<BeaconForSort> beaconSort=null;
@@ -133,6 +152,8 @@ public class BluetoothManager implements IConstants {
             if(beaconBeanList==null||beaconBeanList.size()==0){return;}
             BeaconBean nearestBeacon=beaconBeanList.get(0);
             if(nearestBeacon==null){return;}
+            /*更新当前博物馆*/
+            currentMuseumId =nearestBeacon.getMuseumId();
             /*if(nearestBeaconListener!=null){
                 nearestBeaconListener.nearestBeaconCallBack(nearestBeacon);
             }*/
@@ -147,7 +168,7 @@ public class BluetoothManager implements IConstants {
             /*设定刷新列表周期，小于699毫秒不做处理*/
             if(System.currentTimeMillis()-recordTime<699){return;}
             recordTime=System.currentTimeMillis();
-            /*列表为空不做处理*/// TODO: 2016/1/13 附近列表为空是否要显示空的列表？
+            /*列表为空不做处理*/ // TODO: 2016/1/13 附近列表为空是否要显示空的列表？
             if(beaconBeanList.size()==0){return;}
             /*根据beacon集合查询展品*/
             exhibitBeansList=searchExhibitByBeacon(beaconBeanList);
@@ -158,6 +179,69 @@ public class BluetoothManager implements IConstants {
             intent.setAction(INTENT_EXHIBIT_LIST);
             intent.putExtra(INTENT_EXHIBIT_LIST,json);
             context.sendBroadcast(intent);
+        }
+
+        @Override
+        public void getNearestBeacons(int i, FinalBeacons finalBeacons) {
+            if(finalBeacons==null){return;}
+            boolean isFresh=finalBeacons.isRefresh();
+            LogUtil.i("zhang","isFresh=="+isFresh);
+            if(!isFresh){return;}
+            List<BeaconForSort> beaconsForSortList=finalBeacons.getFinalBeaconList();
+            /*如果返回扫面beacon列表为空，返回*/
+            if (beaconsForSortList == null||beaconsForSortList.size()<=0) {
+                noFind++;
+                if(noFind>15){
+                    disConnectBluetoothService();
+                    DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, false);
+                }
+                return;}
+            DataBiz.saveTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,true);
+            noFind=0;
+            List<BeaconBean> beaconBeanList=null;
+            List<ExhibitBean> exhibitBeansList=null;
+            List<BeaconForSort> beaconSort=null;
+            /*如果信标个数大于四个，取前四个*/
+            if(beaconsForSortList.size()>4){
+                beaconSort=beaconsForSortList.subList(0,4);
+            }else{
+                beaconSort=beaconsForSortList;
+            }
+            beaconBeanList=changeToBeaconList(beaconSort,20.0);// TODO: 2016/1/3
+            /*遍历BeaconForSort集合,*/
+            /*获得最近的beacon给地图回调和首页跳转回调*/
+            if(beaconBeanList==null||beaconBeanList.size()==0){return;}
+            BeaconBean nearestBeacon=beaconBeanList.get(0);
+            if(nearestBeacon==null){return;}
+            /*更新当前博物馆*/
+            currentMuseumId =nearestBeacon.getMuseumId();
+            /*if(nearestBeaconListener!=null){
+                nearestBeaconListener.nearestBeaconCallBack(nearestBeacon);
+            }*/
+            Intent intent1=new Intent();
+            intent1.setAction(INTENT_BEACON);
+            String beaconJson=JSON.toJSONString(nearestBeacon);
+            intent1.putExtra(INTENT_BEACON,beaconJson);
+            context.sendBroadcast(intent1);
+            /*if(getBeaconCallBack!=null){
+                getBeaconCallBack.getMuseumByBeaconCallBack(nearestBeacon);
+            }*/
+            /*设定刷新列表周期，小于699毫秒不做处理
+            if(System.currentTimeMillis()-recordTime<699){return;}
+            recordTime=System.currentTimeMillis();*/
+            /*列表为空不做处理*/ // TODO: 2016/1/13 附近列表为空是否要显示空的列表？
+            if(beaconBeanList.size()==0){return;}
+            /*根据beacon集合查询展品*/
+            exhibitBeansList=searchExhibitByBeacon(beaconBeanList);
+            if (exhibitBeansList==null||exhibitBeansList.size()==0) {return;}
+            /*将最近列表转为json发送广播*/
+            String json=JSON.toJSONString(exhibitBeansList);
+            Intent intent =new Intent();
+            intent.setAction(INTENT_EXHIBIT_LIST);
+            intent.putExtra(INTENT_EXHIBIT_LIST, json);
+            intent.putExtra(INTENT_SWITCH_FLAG,finalBeacons.isSwitch());
+            context.sendBroadcast(intent);
+
         }
 
     };

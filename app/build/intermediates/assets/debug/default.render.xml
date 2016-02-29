@@ -479,8 +479,8 @@
 		 <filter minzoom="4" maxzoom="5" textSize="16" textColor="#9d6c9d" textBold="true" textWrapWidth="20" tag="place" value="country" textOrder="3"/>
 		 <filter minzoom="6" textSize="14" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="country"/>
 
-		<filter minzoom="5" maxzoom="5" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="state" nameTag="ref" textOrder="2"/>
-		<filter minzoom="6" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="state" nameTag=""/>
+		<filter minzoom="5" maxzoom="5" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="mState" nameTag="ref" textOrder="2"/>
+		<filter minzoom="6" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="mState" nameTag=""/>
 		<filter minzoom="5" maxzoom="5" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="region" nameTag="ref" textOrder="2"/>
 		<filter minzoom="6" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="region" nameTag=""/>
 		<filter minzoom="5" maxzoom="5" textSize="13" textColor="#9d6c9d" textWrapWidth="20" tag="place" value="province" nameTag="ref" textOrder="2"/>

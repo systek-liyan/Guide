@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.MyApplication;
@@ -28,7 +27,6 @@ public class DownloadActivity extends BaseActivity {
     private List<MuseumBean> museumList;
     private DownloadAdapter downloadAdapter;
     private Handler handler;
-    private TextView titleBarTopic;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -41,18 +39,21 @@ public class DownloadActivity extends BaseActivity {
 
 
     private void addListener() {
-        listViewDownload.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MuseumBean museumBean=museumList.get(position);
-                String museumStr= JSON.toJSONString(museumBean);
-                Intent intent=new Intent(DownloadActivity.this,MuseumHomeActivity.class);
-                intent.putExtra(INTENT_MUSEUM,museumStr);
-                startActivity(intent);
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(backOnClickListener);
+        listViewDownload.setOnItemClickListener(onItemClickListener);
     }
+
+    AdapterView.OnItemClickListener onItemClickListener=new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            MuseumBean museumBean=museumList.get(position);
+            String museumStr= JSON.toJSONString(museumBean);
+            Intent intent=new Intent(DownloadActivity.this,MuseumHomeActivity.class);
+            intent.putExtra(INTENT_MUSEUM,museumStr);
+            startActivity(intent);
+            finish();
+        }
+    };
 
     private void initData() {
         new Thread(){
@@ -60,7 +61,8 @@ public class DownloadActivity extends BaseActivity {
             public void run() {
                 try{
                     if(MyApplication.getCurrentNetworkType()!=INTERNET_TYPE_NONE){
-                        museumList= DataBiz.getEntityListFromNet(MuseumBean.class, URL_MUSEUM_LIST);
+                        String url=BASE_URL+URL_MUSEUM_LIST;
+                        museumList= DataBiz.getEntityListFromNet(MuseumBean.class,url );
                     }
                     if(museumList!=null&&museumList.size()>0){
                         LogUtil.i("ZHANG", "数据获取成功");
@@ -85,9 +87,11 @@ public class DownloadActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        setTitleBar();
+        setTitleBarTitle(R.string.title_bar_download_center);
+        setHomeIcon();
         handler=new MyHandler();
-        titleBarTopic =(TextView)findViewById(R.id.titleBarTopic);
-        titleBarTopic.setText(R.string.title_bar_download_center);
         museumList=new ArrayList<>();
         downloadAdapter=new DownloadAdapter(this,museumList);
         listViewDownload=(ListView)findViewById(R.id.listViewDownload);

@@ -28,10 +28,28 @@ public class DownloadTask extends Thread implements  IConstants {
     private int downloadCount;
     private boolean breakByUser;
 
+    public boolean isDownloadState() {
+        return downloadState;
+    }
+
+    private boolean downloadState;
+
 
     public String getMuseumId() {
         return museumId;
     }
+
+    private String baseUrl;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+
 
     public DownloadTask(String museumId){
         this.museumId=museumId;
@@ -44,11 +62,9 @@ public class DownloadTask extends Thread implements  IConstants {
     public void removeListener(TaskListener l){
         taskListeners.remove(l);
     }
-
     public TaskListener getListener() {
         return listener;
     }
-
     public void setListener(TaskListener listener) {
         this.listener = listener;
     }
@@ -58,7 +74,12 @@ public class DownloadTask extends Thread implements  IConstants {
         if(TextUtils.isEmpty(museumId)){return;}
         //* 创建下载业务对象，并开始下载
         downloadBiz = (DownloadBiz) BizFactory.getDownloadBiz();
-        String assetsJson=downloadBiz.getAssetsJSON(museumId);
+        String assetsJson=null;
+        if(baseUrl!=null){
+            assetsJson=downloadBiz.getAssetsJSON(museumId,"http://"+baseUrl);
+        }else{
+            assetsJson=downloadBiz.getAssetsJSON(museumId);
+        }
         if(TextUtils.isEmpty(assetsJson)){return;}// TODO: 2016/1/20 获取资源数据失败
         long size=downloadBiz.parseAssetsSize(assetsJson);
         if(StorageUtil.getAvailableInternalMemorySize()<size){return;}// TODO: 2016/1/20 内部存储空间不足 下载失败
@@ -67,7 +88,12 @@ public class DownloadTask extends Thread implements  IConstants {
         totalCount=assetsList.size();
         downloadCount = totalCount;
         sendProgress();
-        downloadBiz.downloadAssets(assetsList, 0, assetsList.size(), museumId);
+        if(TextUtils.isEmpty(baseUrl)){
+            downloadBiz.downloadAssets(assetsList, 0, assetsList.size(), museumId);
+        }else{
+            downloadBiz.downloadAssets(assetsList, 0, assetsList.size(), museumId,"http://"+baseUrl);
+        }
+        downloadState=true;
         //*下载完毕，存储状态
         Tools.saveValue(MyApplication.get(), museumId, true);
         LogUtil.i("ZHANG", "下载状态已保存");

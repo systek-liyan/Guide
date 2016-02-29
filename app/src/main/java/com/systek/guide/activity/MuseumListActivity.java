@@ -8,12 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -36,20 +36,17 @@ import java.util.List;
 public class MuseumListActivity extends BaseActivity {
 
     private boolean isDataShow;
-
     private ListView museumListView;
-
     private String city;//当前所在城市
     private List<MuseumBean> museumList;//展品列表
     private MuseumAdapter adapter;//适配器
     private Handler handler;
-    private Receiver receiver;//广播接收器
-    private TextView titleBarTopic;//标题
-    private ImageView titleBarDrawer;
-    private ImageView titleBarTab;
+    private static final int MSG_WHAT_REFRESH_CITY=22;
+
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
+        long startTime=System.currentTimeMillis();
         setContentView(R.layout.activity_museum_list);
         handler=new MyHandler();
         setIntent(getIntent());
@@ -61,19 +58,22 @@ public class MuseumListActivity extends BaseActivity {
         initDrawer();
         //添加广播接收器
         addReceiver();
+        //加载数据
+        initData();
+        LogUtil.i(getTag(), "initialize执行用时=="+(System.currentTimeMillis()-startTime));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
+        long startTime=System.currentTimeMillis();
         super.onNewIntent(intent);
         setIntent(intent);
-        LogUtil.i("ZHANG", "onNewIntent");
+        LogUtil.i(getTag(), "onNewIntent执行用时==" + (System.currentTimeMillis() - startTime));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        initData();
         LogUtil.i("ZHANG", "执行了onStart");
     }
 
@@ -81,8 +81,7 @@ public class MuseumListActivity extends BaseActivity {
      * 加载广播接收器
      */
     private void addReceiver() {
-        receiver=new Receiver();
-        IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMMING);
+        IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMING);
         filter.addAction(ACTION_NET_IS_OUT);
         registerReceiver(receiver,filter);
     }
@@ -92,33 +91,20 @@ public class MuseumListActivity extends BaseActivity {
      */
     private void addListener() {
         museumListView.setOnItemClickListener(onItemClickListener);
-        titleBarDrawer.setOnClickListener(onClickListener);
-        titleBarTab.setOnClickListener(onClickListener);
-    }
-
-    /**
-     * view点击监听器
-     */
-    private View.OnClickListener onClickListener=new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.titleBarDrawer:
-                    if(drawer==null){return;}
-                    if(drawer.isDrawerOpen()){
-                        drawer.closeDrawer();
-                    }else {
-                        drawer.openDrawer();
-                    }
-                    break;
-                case R.id.titleBarRightImg:
-                    Intent intent=new Intent(MuseumListActivity.this,CityChooseActivity.class);
-                    startActivity(intent);
-                    break;
-
+        setHomeClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer == null) {
+                    return;
+                }
+                if (drawer.isDrawerOpen()) {
+                    drawer.closeDrawer();
+                } else {
+                    drawer.openDrawer();
+                }
             }
-        }
-    };
+        });
+    }
 
     /**
      * item点击监听器
@@ -139,22 +125,24 @@ public class MuseumListActivity extends BaseActivity {
      * 加载数据
      */
     private void initData() {
-        Intent intent=getIntent();
-        String cityStr=intent.getStringExtra(INTENT_CITY);
-        CityBean bean=JSON.parseObject(cityStr,CityBean.class);
-        if(bean!=null){
-            city=bean.getName();
-        }else{
-            city="北京市";
-        }
-        titleBarTopic.setText(city);
-        LogUtil.i("ZHANG", "当前城市为" + city);
         new Thread(){
             @Override
             public void run() {
                 try{
+                    Intent intent=getIntent();
+                    String cityStr=intent.getStringExtra(INTENT_CITY);
+                    CityBean bean=JSON.parseObject(cityStr,CityBean.class);
+                    if(bean!=null){
+                        city=bean.getName();
+                    }else{
+                        city="北京市";
+                    }
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_CITY);
+                    LogUtil.i("ZHANG", "当前城市为" + city);
+
                     if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE){
-                        museumList=DataBiz.getEntityListFromNet(MuseumBean.class,URL_MUSEUM_LIST);
+                        String url=BASE_URL+URL_MUSEUM_LIST;
+                        museumList=DataBiz.getEntityListFromNet(MuseumBean.class,url);
                     }
                     if(museumList!=null&&museumList.size()>0){
                         //LogUtil.i("ZHANG", "数据获取成功");
@@ -184,11 +172,10 @@ public class MuseumListActivity extends BaseActivity {
      * 加载view
      */
     private void initView() {
-        titleBarTopic=(TextView)findViewById(R.id.titleBarTopic);
-        titleBarTab=(ImageView)findViewById(R.id.titleBarRightImg);
-        titleBarDrawer=(ImageView)findViewById(R.id.titleBarDrawer);
-        titleBarTab.setImageDrawable(getResources().getDrawable(R.drawable.iv_tab));
-        titleBarDrawer.setImageDrawable(getResources().getDrawable(R.drawable.setting));
+        long startTime=System.currentTimeMillis();
+        setTitleBar();
+        setHomeIcon();
+        setHomeIcon(R.drawable.ic_menu);
         museumListView=(ListView)findViewById(R.id.museumListView);
         View header=getLayoutInflater().inflate(R.layout.header_museum_list,null);
         museumListView.addHeaderView(header,null,false);
@@ -196,6 +183,21 @@ public class MuseumListActivity extends BaseActivity {
         adapter=new MuseumAdapter(this,museumList);
         museumListView.setAdapter(adapter);
         museumListView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        LogUtil.i(getTag(), "initView执行用时==" + (System.currentTimeMillis() - startTime));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.normal_menu,menu);
+        menu.getItem(0).setIcon(R.drawable.iv_tab);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent=new Intent(MuseumListActivity.this,CityChooseActivity.class);
+        startActivity(intent);
+        return true;
     }
 
     @Override
@@ -234,35 +236,38 @@ public class MuseumListActivity extends BaseActivity {
     class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-           switch (msg.what){
-               case MSG_WHAT_UPDATE_DATA_SUCCESS:
-                   if(museumList==null||museumList.size()==0){return;}
-                   adapter.updateData(museumList);
-                   isDataShow=true;
-                   break;
-               case MSG_WHAT_UPDATE_DATA_FAIL:
-                   showToast("数据获取失败，请检查网络...");
-                   break;
-               case MSG_WHAT_REFRESH_DATA:
-                   initData();
-                   break;
-               case MSG_WHAT_UPDATE_NO_DATA:
-                   adapter.updateData(museumList);
-                   showToast("暂无改城市数据...");
-                   break;
-           }
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    if(museumList==null||museumList.size()==0){return;}
+                    adapter.updateData(museumList);
+                    isDataShow=true;
+                    break;
+                case MSG_WHAT_UPDATE_DATA_FAIL:
+                    showToast("数据获取失败，请检查网络...");
+                    break;
+                case MSG_WHAT_REFRESH_DATA:
+                    initData();
+                    break;
+                case MSG_WHAT_UPDATE_NO_DATA:
+                    adapter.updateData(museumList);
+                    showToast("暂无改城市数据...");
+                    break;
+                case MSG_WHAT_REFRESH_CITY:
+                    setTitleBarTitle(city);
+                    break;
+            }
         }
     }
 
-    class Receiver extends BroadcastReceiver{
+    private BroadcastReceiver receiver=new  BroadcastReceiver(){
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action=intent.getAction();
-            if(action.equals(ACTION_NET_IS_COMMING)){
+            if(action.equals(ACTION_NET_IS_COMING)){
                 handler.sendEmptyMessage(MSG_WHAT_REFRESH_DATA);
             }
         }
-    }
+    };
 
 }

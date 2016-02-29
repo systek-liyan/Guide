@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
@@ -19,43 +18,16 @@ public class IconImageFragment extends BaseFragment implements IConstants{
 
     private String imageUrl;
     private String currentMuseumId;
-    private ImageView imgExhibitIcon;
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    /*public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getCurrentMuseumId() {
-        return currentMuseumId;
-    }
-
-    public void setCurrentMuseumId(String currentMuseumId) {
-        this.currentMuseumId = currentMuseumId;
-    }*/
 
     private OnFragmentInteractionListener mListener;
 
     public IconImageFragment() {
     }
-
-    /*public void initIcon() {
-        if(imageUrl==null||imgExhibitIcon==null){return;}
-        String imageName = Tools.changePathToName(imageUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
-        File file = new File(imgLocalUrl);
-        // 判断sdcard上有没有图片
-        if (file.exists()) {
-            // 显示sdcard
-            ImageLoaderUtil.displaySdcardImage(getActivity(), imgLocalUrl, imgExhibitIcon);
-        } else {
-            ImageLoaderUtil.displayNetworkImage(getActivity(), BASE_URL + imageUrl, imgExhibitIcon);// TODO: 2016/2/16
-        }
-    }*/
-
 
     public static IconImageFragment newInstance(String imageUrl,String currentMuseumId) {
         IconImageFragment fragment = new IconImageFragment();
@@ -81,8 +53,6 @@ public class IconImageFragment extends BaseFragment implements IConstants{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_icon_image, container, false);
-        //imgExhibitIcon=(ImageView)view.findViewById(R.id.iv_exhibit_icon);
-        //initIcon();
         return view;
 
     }

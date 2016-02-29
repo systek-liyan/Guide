@@ -5,6 +5,8 @@ import com.systek.guide.entity.base.BaseEntity;
 /**
  * 展品实体类
  */
+
+
 public class ExhibitBean extends BaseEntity {
 
     private String id;
@@ -24,12 +26,14 @@ public class ExhibitBean extends BaseEntity {
     private String lexhibit;
     private String rexhibit;
     private String number;
+    private String content;
     private int version;
     private int priority;
     private double distance;
     private boolean saveForPerson;
 
     public ExhibitBean(){}
+
 
     public String getId() {
         return id;
@@ -165,6 +169,14 @@ public class ExhibitBean extends BaseEntity {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public int getVersion() {

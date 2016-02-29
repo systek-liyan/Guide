@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.systek.guide.R;
@@ -20,7 +19,6 @@ public class SettingActivity extends BaseActivity {
     private final int MSG_WHAT_CURRENT_VERSION_NOT_NEAREST=2;
     private Handler handler;
     private UpdateManager updateManager;
-    private ImageView titleBarBack;
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
@@ -34,16 +32,17 @@ public class SettingActivity extends BaseActivity {
         handler=new MyHandler();
         updateManager=new UpdateManager(SettingActivity.this);
         btn_update.setOnClickListener(onClickListener);
-        titleBarBack.setOnClickListener(onClickListener);
     }
 
     private void initView() {
+
+        setTitleBar();
+        setTitleBarTitle("设置");
+        setHomeIcon();
+        setHomeClickListener(backOnClickListener);
         btn_update=(Button)findViewById(R.id.btn_update);
-
-        titleBarBack =(ImageView)findViewById(R.id.titleBarDrawer);
-        titleBarBack.setImageDrawable(getResources().getDrawable(R.drawable.iv_back_normal));
-
     }
+
 
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override

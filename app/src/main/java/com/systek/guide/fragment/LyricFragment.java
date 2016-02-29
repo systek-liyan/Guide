@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
@@ -20,8 +21,6 @@ import com.systek.guide.lyric.LyricDownloadManager;
 import com.systek.guide.lyric.LyricLoadHelper;
 import com.systek.guide.lyric.LyricSentence;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ImageLoaderUtil;
-import com.systek.guide.utils.Tools;
 
 import java.io.File;
 import java.util.List;
@@ -37,7 +36,10 @@ public class LyricFragment extends BaseFragment implements IConstants{
     private LyricLoadHelper mLyricLoadHelper;
     private LyricAdapter mLyricAdapter;
     private ListView lvLyric;
-    private ImageView imgExhibitIcon;
+    private TextView tvContent;
+    private ImageView ivWordCtrl;
+
+    private View view;
 
     public LyricFragment() {
     }
@@ -51,9 +53,8 @@ public class LyricFragment extends BaseFragment implements IConstants{
         currentMuseumId=exhibit.getMuseumId();
     }
 
-
-
     public void loadLyricByHand() {
+
         if(exhibit==null){return;}
         try{
             currentLyricUrl = exhibit.getTexturl();
@@ -70,6 +71,9 @@ public class LyricFragment extends BaseFragment implements IConstants{
                 //LogUtil.i("ZHANG", "loadLyric()--->本地无歌词，尝试从网络获取");
                 new LyricDownloadAsyncTask().execute(currentLyricUrl);
             }
+
+            //tvContent.setText(exhibit.getContent());
+
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
@@ -104,43 +108,52 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
     }
 
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_lyric, container, false);
+        view =inflater.inflate(R.layout.fragment_lyric, container, false);
+        initView(view);
+        addListener();
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void addListener() {
+        ivWordCtrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.ivWordCtrl:
+                        if(lvLyric.getVisibility()==View.VISIBLE){
+                            lvLyric.setVisibility(View.INVISIBLE);
+                            tvContent.setVisibility(View.VISIBLE);
+                            view.setBackgroundResource(R.drawable.bg_lyric_blur);
+                        }else{
+                            lvLyric.setVisibility(View.VISIBLE);
+                            tvContent.setVisibility(View.INVISIBLE);
+                            view.setBackgroundResource(0);
+                        }
+                        break;
+                }
+            }
+        });
+    }
+
+    private void initView(View view) {
         lvLyric=(ListView)view.findViewById(R.id.lvLyric);
-        imgExhibitIcon=(ImageView)view.findViewById(R.id.iv_exhibit_icon);
-
-
-
+        tvContent=(TextView)view.findViewById(R.id.tvContent);
+        ivWordCtrl=(ImageView)view.findViewById(R.id.ivWordCtrl);
+        //imgExhibitIcon=(ImageView)view.findViewById(R.id.iv_exhibit_icon);
         mLyricLoadHelper.setLyricListener(mLyricListener);
         lvLyric.setAdapter(mLyricAdapter);
         lvLyric.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
-
-        //initIcon();
-
-        return view;
-
     }
-
-    public void initIcon() {
-        if(exhibit==null){return;}
-        String imageUrl=exhibit.getIconurl();
-        if(imageUrl==null||imgExhibitIcon==null){return;}
-        String imageName = Tools.changePathToName(imageUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
-        File file = new File(imgLocalUrl);
-        // 判断sdcard上有没有图片
-        if (file.exists()) {
-            // 显示sdcard
-            ImageLoaderUtil.displaySdcardBlurImage(getActivity(), imgLocalUrl, imgExhibitIcon);
-        } else {
-            ImageLoaderUtil.displayNetworkBlurImage(getActivity(), BASE_URL + imageUrl, imgExhibitIcon);// TODO: 2016/2/16
-        }
-    }
-
-
 
     private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
 
@@ -158,6 +171,8 @@ public class LyricFragment extends BaseFragment implements IConstants{
             mLyricAdapter.setCurrentSentenceIndex(indexOfCurSentence);
             mLyricAdapter.notifyDataSetChanged();
             lvLyric.smoothScrollToPositionFromTop(indexOfCurSentence, lvLyric.getHeight() / 2, 500);
+            tvContent.setText(exhibit.getContent());
+
         }
     };
 
@@ -189,7 +204,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
         void onFragmentInteraction(ExhibitBean exhibit);
     }
 
-    private class LyricDownloadAsyncTask extends AsyncTask<String, Void, String> {
+    private  class LyricDownloadAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -206,7 +221,9 @@ public class LyricFragment extends BaseFragment implements IConstants{
         protected void onPostExecute(String lyricSavePath) {
             // Log.i(TAG, "网络获取歌词完毕，歌词保存路径:" + result);
             // 读取保存到本地的歌曲
-            mLyricLoadHelper.loadLyric(lyricSavePath);
+            if(mLyricLoadHelper!=null){
+                mLyricLoadHelper.loadLyric(lyricSavePath);
+            }
         }
     }
 

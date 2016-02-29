@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.DownloadActivity">
-    <include layout="@layout/layout_title_bar"/>
+
+    <include layout="@layout/toolbar"/>
+
     <ListView
         android:id="@+id/listViewDownload"
         android:layout_width="match_parent"

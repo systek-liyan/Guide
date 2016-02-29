@@ -12,6 +12,9 @@ public interface IConstants {
     String SP_NOT_FIRST_LOGIN="sp_not_first_login";//是否首次登陆
     String SP_MUSEUM_ID="sp_museum_id";//博物馆id
     String SP_DOWNLOAD_MUSEUM_COUNT="sp_download_museum_count";//下载博物馆数据个数
+    String SP_IS_MUSEUM_DATA_SAVE="sp_is_museum_data_save";//是否保存了博物馆数据
+    String SP_IS_IN_MUSEUM="sp_is_in_museum";//是否在博物馆
+
 
     /**消息类型*/
 
@@ -33,22 +36,26 @@ public interface IConstants {
     /**关于URL*/
 
     String BASE_URL ="http://182.92.82.70";
-    //String BASE_URL ="http://192.168.1.108:8080";
-    String URL_CITY_LIST="http://182.92.82.70/api/cityService/cityList"; //城市路径
-    String URL_MUSEUM_LIST="http://182.92.82.70/api/museumService/museumList";//city下博物馆列表
-    String URL_GET_MUSEUM_BY_ID="http://182.92.82.70/api/museumService/museumList?museumId="; //博物馆列表下博物馆*/
-    String URL_ALL_MUSEUM_ASSETS ="http://182.92.82.70/api/assetsService/assetsList?museumId=";//资源路径*/
-    String URL_ALL_BEACON_LIST="http://182.92.82.70/api/beaconService/beaconList";//beacon列表
-    String URL_EXHIBIT_LIST="http://182.92.82.70/api/exhibitService/exhibitList?museumId="; //博物馆下展品列表*/
-    String URL_MUSEUM_MAP_LIST ="http://182.92.82.70/api/museumMapService/museumMapList?museumId=";//地图列表
-    String URL_BEACON_LIST ="http://182.92.82.70/api/beaconService/beaconList?museumId=";//beacon列表
-    String URL_LABELS_LIST ="http://182.92.82.70/api/labelsService/labelsList?museumId=";//标签列表
-    String URL_CHECK_FOR_UPDATE ="http://182.92.82.70/api/version/latest";//检查更新
+
+
+    String URL_CITY_LIST="/api/cityService/cityList"; //城市路径
+    String URL_MUSEUM_LIST="/api/museumService/museumList";//city下博物馆列表
+    String URL_GET_MUSEUM_BY_ID="/api/museumService/museumList?museumId="; //博物馆列表下博物馆*/
+    String URL_ALL_MUSEUM_ASSETS ="/api/assetsService/assetsList?museumId=";//资源路径*/
+    String URL_ALL_BEACON_LIST="/api/beaconService/beaconList";//beacon列表
+    String URL_EXHIBIT_LIST="/api/exhibitService/exhibitList?museumId="; //博物馆下展品列表*/
+    String URL_MUSEUM_MAP_LIST ="/api/museumMapService/museumMapList?museumId=";//地图列表
+    String URL_BEACON_LIST ="/api/beaconService/beaconList?museumId=";//beacon列表
+    String URL_LABELS_LIST ="/api/labelsService/labelsList?museumId=";//标签列表
+    String URL_CHECK_FOR_UPDATE ="/api/version/latest";//检查更新
+
+    String URL_LOCAL_HOSTS="/api/hostService/hostList?museumId=";// TODO: 2016/2/23
+
 
 
     /**网络相关*/
 
-    String ACTION_NET_IS_COMMING ="net_is_comming";//断网后又连接到网络
+    String ACTION_NET_IS_COMING ="net_is_coming";//断网后又连接到网络
     String ACTION_NET_IS_OUT ="net_is_out";//断网
     int INTERNET_TYPE_WIFI=1;//网络状态--WIFI
     int INTERNET_TYPE_MOBILE=2;//网络状态--数据网络
@@ -69,6 +76,7 @@ public interface IConstants {
     String INTENT_FLAG_GUIDE ="intent_flag_guide";//数据标记--进入附近列表
     String INTENT_EXHIBIT_LIST ="intent_exhibit_list";//展品列表
     String INTENT_EXHIBIT_LIST_STR ="intent_exhibit_list_str";//展品列表json
+    String INTENT_SWITCH_FLAG ="intent_switch_flag";//是否刷新
 
 
     String INTENT_START_PLAY_SERVICE ="intent_start_play_service";//启动播放服务

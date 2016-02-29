@@ -17,8 +17,8 @@
 
         <com.systek.guide.custom.RoundImageView
             android:id="@+id/museumListIcon"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/item_museum_icon_size"
+            android:layout_height="@dimen/item_museum_icon_size"
             android:scaleType="centerCrop"
             android:layout_margin="5dp" />
         <TextView
@@ -52,6 +52,7 @@
                             android:layout_gravity="center_vertical"
                             android:textColor="@color/md_red_400"
                             style="@style/normal_text_view"
+                            android:textSize="@dimen/tv_museum_name_size"
                             android:layout_alignParentLeft="true" />
                         <TextView
                             android:layout_alignParentRight="true"

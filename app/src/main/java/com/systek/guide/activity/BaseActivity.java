@@ -1,10 +1,16 @@
 package com.systek.guide.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.Drawer;
@@ -13,6 +19,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
+import com.systek.guide.custom.LoadingDialog;
 import com.systek.guide.utils.ExceptionUtil;
 
 /**
@@ -24,6 +31,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     private String TAG = getClass().getSimpleName();//类的唯一标记
     public int netState;//网络状态
     protected Drawer drawer;//抽屉
+    protected Toolbar toolbar;
+    protected TextView toolbarTitle;
+    protected Dialog dialog;
+
 
 
     @Override
@@ -38,13 +49,90 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
 
     }
 
+    public void showDialog(String msg){
+        if(dialog==null){
+            dialog= LoadingDialog.createLoadingDialog(BaseActivity.this,msg);
+        }
+        dialog.show();
+    }
+
+    public void closeDialog(){
+        if(dialog!=null&&dialog.isShowing()){
+            dialog.dismiss();
+        }
+    }
+
+
+    protected void setHomeIcon(){
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){ actionBar.setDisplayHomeAsUpEnabled(true); }
+    }
+
+    protected void setHomeIcon(@DrawableRes int resource){
+
+        if(toolbar!=null){
+            toolbar.setNavigationIcon(resource);
+        }
+        ActionBar actionBar=getSupportActionBar();
+        if(actionBar!=null){ actionBar.setHomeButtonEnabled(true); }
+    }
+
+    protected void setHomeClickListener(View.OnClickListener listener){
+        if(toolbar!=null){
+            toolbar.setNavigationOnClickListener(listener);
+        }
+    }
+
+
+    protected void setTitleBar() {
+        View v = findViewById(R.id.toolbar);
+        if (v != null) {
+            toolbar = (Toolbar) v;
+            setSupportActionBar(toolbar);
+            toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
+            if (toolbarTitle == null) {return;}
+            ActionBar actionBar= getSupportActionBar();
+            if(actionBar==null){ return;}
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
+    protected void setTitleBarTitle(String text){
+        if(toolbarTitle==null){return;}
+        toolbarTitle.setText(text);
+    }
+
+    protected void setTitleBarTitle(@StringRes int  text){
+        if(toolbarTitle==null){return;}
+        toolbarTitle.setText(getResources().getString(text));
+    }
+
+
+    protected <T extends View> T $(int id) {
+        return (T) findViewById(id);
+    }
+
+
+
+
+    protected View.OnClickListener backOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finish();
+        }
+    };
+
+
+
+
+
     /**
      * 加载抽屉
      */
     protected void initDrawer() {
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                .withFullscreen(true)
+                        //.withFullscreen(true)
                 .withHeader(R.layout.header)
                 .inflateMenu(R.menu.drawer_menu)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -111,13 +199,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
      *            toast内容
      */
     public void showToast(final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -147,7 +229,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
 
 
     public void onDataError(){
-        showToast("数据获取失败，请检查网络状态...");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showToast("数据获取失败，请检查网络状态...");
+            }
+        });
     }
 
 }

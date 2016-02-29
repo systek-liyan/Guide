@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\anim_progress.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\anim_progress.xml"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_item_background_holo_dark.xml"
     },
@@ -34,10 +38,6 @@
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\title_bar_bg.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\title_bar_bg.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\iv_music.gif",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\iv_music.gif"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_light.xml",
@@ -76,6 +76,10 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\btn_unchecked_map.xml"
     },
     {
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_equalizer_white_36dp.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\ic_equalizer_white_36dp.xml"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_dark.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_list_selector_holo_dark.xml"
     },
@@ -96,16 +100,16 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\drawable\\material_drawer_badge.xml"
     },
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_radio_material.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_radio_material.xml"
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_switch_thumb_material.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_dialog_material_background_light.xml"
     },
     {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
-        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_switch_thumb_material.xml"
+        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_radio_material.xml",
+        "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_radio_material.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
@@ -118,10 +122,6 @@
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\sidebar_bg.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\sidebar_bg.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\iv_playing.gif",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\iv_playing.gif"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
@@ -174,10 +174,6 @@
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_map_right_selector.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\btn_map_right_selector.xml"
-    },
-    {
-        "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\music1.gif",
-        "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\drawable\\music1.gif"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",

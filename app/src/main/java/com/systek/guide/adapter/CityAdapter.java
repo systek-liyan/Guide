@@ -26,7 +26,7 @@ public class CityAdapter extends BaseAdapter implements SectionIndexer {
     public CityAdapter(Context c,List<CityBean> cityList) {
         super();
         this.cityList = cityList;
-        this.context = c;
+        this.context = c.getApplicationContext();
         inflater=LayoutInflater.from(context);
     }
 
