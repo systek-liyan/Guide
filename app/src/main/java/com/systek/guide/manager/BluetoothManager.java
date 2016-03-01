@@ -196,6 +196,9 @@ public class BluetoothManager implements IConstants {
                     DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, false);
                 }
                 return;}
+
+            LogUtil.i("ZHANG","finalBeacons.size=="+finalBeacons.getFinalBeaconList().size());
+
             DataBiz.saveTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,true);
             noFind=0;
             List<BeaconBean> beaconBeanList=null;

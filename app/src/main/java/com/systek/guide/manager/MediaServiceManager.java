@@ -316,7 +316,7 @@ public class MediaServiceManager implements IConstants {
                         break;
                     }
                     //是否切换
-                    boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,true);
+                    boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,false);
                     LogUtil.i("ZHANG","isSwitch=="+isSwitch);
                     if(!isSwitch){break;}
                         /*获取展品集合第一个，发送广播，通知播放*/
