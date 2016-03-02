@@ -49,6 +49,9 @@ public class ExceptionUtil {
         }else if (e instanceof JSONException) {
             return context.getString(R.string.json_error);          //json格式转换异常
 
+        }else if (e instanceof NullPointerException) {
+            return context.getString(R.string.nullPoint);          //空指针
+
         }else {
             return context.getString(R.string.canNotGetConnected);  // 无法连接网络
         }

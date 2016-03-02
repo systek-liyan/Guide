@@ -668,7 +668,7 @@
     <string name="activity_collection_material">材质</string>
     <string name="activity_collection_years">年代</string>
     <string name="app_name">e游</string>
-    <string name="canNotGetConnected">无法连接网络</string>
+    <string name="canNotGetConnected">未知异常</string>
     <string name="define_AndroidIconics">year;owner</string>
     <string name="define_materialdrawer">year;owner</string>
     <string name="define_materialize">year;owner</string>
@@ -738,6 +738,7 @@
     <string name="material_drawer_open">Open</string>
     <string name="networkError">网络异常</string>
     <string name="networkFailure">网络异常</string>
+    <string name="nullPoint">空指针异常</string>
     <string name="requestTimeout">请求异常</string>
     <string name="responseTimeout">响应超时</string>
     <string name="search_view_hint">请输入关键字…</string>

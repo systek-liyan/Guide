@@ -40,7 +40,9 @@
     <string name="requestTimeout">请求异常</string>
     <string name="networkError">网络异常</string>
     <string name="json_error">json转换异常</string>
-    <string name="canNotGetConnected">无法连接网络</string>
+    <string name="nullPoint">空指针异常</string>
+
+    <string name="canNotGetConnected">未知异常</string>
 
 
 

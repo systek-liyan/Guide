@@ -105,7 +105,9 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
                     // 这里要利用adapter.getItem(position)来获取当前position所对应的对象
                     currentCity = JSON.toJSONString(city);
                     Toast.makeText(getApplication(), city.getName(), Toast.LENGTH_SHORT).show();
-                    gotoMuseumActivity();
+                    Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
+                    intent.putExtra(INTENT_CITY, currentCity);
+                    startActivity(intent);
                     finish();
                 } catch (Exception e) {
                     ExceptionUtil.handleException(e);
@@ -134,12 +136,6 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     }
 
 
-    private void gotoMuseumActivity() {
-        Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
-        intent.putExtra(INTENT_CITY, currentCity);
-        startActivity(intent);
-        finish();
-    }
 
 
     /**

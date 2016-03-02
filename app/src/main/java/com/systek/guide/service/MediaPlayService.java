@@ -393,7 +393,7 @@ import java.util.List;
             String audioName=params[1];
             String saveDir=getCurrentAudioPath();
             try {
-                MyHttpUtil.downLoadFromUrl(audioUrl, audioName,saveDir);
+                MyHttpUtil.downLoadFromUrl(audioUrl, saveDir,audioName);
             } catch (IOException e) {
                 ExceptionUtil.handleException(e);
             }

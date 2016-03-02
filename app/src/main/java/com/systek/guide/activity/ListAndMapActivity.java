@@ -51,6 +51,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private ImageView exhibitIcon;
     private ImageView ivPlayCtrl;
     private MediaServiceManager mediaServiceManager;
+    private ImageView ivGuideMode;
+
+    private TextView tvToast;
 
 
     @Override
@@ -98,6 +101,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
         exhibitIcon.setOnClickListener(onClickListener);
+        ivGuideMode.setOnClickListener(onClickListener);
     }
 
     /**
@@ -115,6 +119,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         exhibitName=(TextView)findViewById(R.id.exhibitName);
         exhibitIcon=(ImageView)findViewById(R.id.exhibitIcon);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
+        ivGuideMode=(ImageView)findViewById(R.id.ivGuideMode);
+        tvToast=(TextView)findViewById(R.id.tvToast);
     }
 
     private void setMyTitleBar() {
@@ -125,6 +131,24 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
             ActionBar actionBar= getSupportActionBar();
             if(actionBar==null){ return;}
             actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
+
+    /**
+     * 根据状态切换模式图标
+     */
+    private void refreshModeIcon() {
+        switch (mediaServiceManager.getPlayMode()){
+            case PLAY_MODE_AUTO:
+                ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
+                break;
+            case PLAY_MODE_HAND:
+                ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
+                break;
+            case PLAY_MODE_AUTO_PAUSE:
+                ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
+                break;
         }
     }
 
@@ -144,6 +168,42 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     Intent intent1=new Intent(ListAndMapActivity.this,PlayActivity.class);
                     startActivity(intent1);
                     break;
+
+                case R.id.ivGuideMode:
+                    tvToast.setVisibility(View.VISIBLE);
+                    int  mode = mediaServiceManager.getPlayMode();
+                    switch (mode){
+                        case PLAY_MODE_AUTO:
+                            mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                            tvToast.setText("手动模式");
+                            break;
+                        case PLAY_MODE_HAND:
+                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
+                            tvToast.setText("自动模式");
+                            break;
+                        case PLAY_MODE_AUTO_PAUSE:
+                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
+                            break;
+                    }
+                    refreshModeIcon();
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tvToast.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }.start();
+                    break;
+
                 case R.id.titleBarDrawer:
                     finish();
                     break;
@@ -245,7 +305,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         }else{
             handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
         }
-
+        refreshModeIcon();
     }
 
     @Override

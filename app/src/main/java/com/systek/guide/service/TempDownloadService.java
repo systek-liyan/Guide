@@ -7,8 +7,9 @@ import android.text.TextUtils;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
+import com.systek.guide.biz.BizFactory;
 import com.systek.guide.biz.DataBiz;
-import com.systek.guide.biz.DownloadTask;
+import com.systek.guide.biz.DownloadBiz;
 import com.systek.guide.entity.MuseumNetInfo;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.Tools;
@@ -44,28 +45,23 @@ public class TempDownloadService extends IntentService implements IConstants {
         //不在博物馆，返回
         //boolean isInMuseum= (boolean) DataBiz.getTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,false);
         //if(!isInMuseum){return;}
-        if(wifiAdmin==null){
+        /*if(wifiAdmin==null){
             wifiAdmin = new WifiAdmin(TempDownloadService.this);
-        }
+        }*/
         //MuseumNetInfo toUseWifi=connectWifi(museumId);
         //if(toUseWifi==null){return;}
-        DownloadTask task=new DownloadTask(museumId);
+        DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz();
+        String assetsJson=downloadBiz.getAssetsJSON(museumId);
+        List<String> assetsList=downloadBiz.parseAssetsJson(assetsJson);
+        downloadBiz.downloadAssets(assetsList,museumId);
         /*String ipAddress=toUseWifi.getIp();
         if(!TextUtils.isEmpty(ipAddress)){
             task.setBaseUrl(ipAddress);
         }*/
-        task.start();
-        while(!task.isDownloadState()){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        String sSSID=wifiAdmin.getConnectedWifiSSID();
+        /*String sSSID=wifiAdmin.getConnectedWifiSSID();
         if(sSSID!=null){// TODO: 2016/2/22
             wifiAdmin.disconnectNetWork();
-        }
+        }*/
     }
 
 

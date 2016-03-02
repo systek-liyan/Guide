@@ -127,23 +127,6 @@ public class ExhibitListFragment extends Fragment implements IConstants {
                 }
                 startActivity(intent1);
 
-                /*ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
-                currentExhibit=mediaServiceManager.getCurrentExhibit();
-                Intent intent1 =new Intent(activity,PlayActivity.class);
-                if(currentExhibit==null||!currentExhibit.equals(exhibitBean)){
-                    mListener.onFragmentInteraction(exhibitBean);
-
-                    if(mediaServiceManager.getPlayMode()==PLAY_MODE_AUTO){
-                        mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
-                    }
-                    String str= JSON.toJSONString(exhibitBean);
-                    Intent intent =new Intent();
-                    intent.setAction(INTENT_EXHIBIT);
-                    intent.putExtra(INTENT_EXHIBIT, str);
-                    activity.sendBroadcast(intent);
-                    intent1.putExtra(INTENT_EXHIBIT, str);
-                }
-                startActivity(intent1);*/
             }
         });
     }

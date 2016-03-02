@@ -67,17 +67,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:scrollbars="none"/>
-            <TextView
-                android:id="@+id/tvToast"
-                android:visibility="gone"
-                android:textColor="@color/md_red_400"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:background="@drawable/btn_bg_black"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/simple_10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </FrameLayout>
 
 
@@ -123,13 +112,6 @@
                 style="@style/normal_image_view"
                 android:layout_centerInParent="true"
                 android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
-            <ImageView
-                android:id="@+id/ivGuideMode"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </RelativeLayout>
     </LinearLayout>
 

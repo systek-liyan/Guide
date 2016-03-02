@@ -14,7 +14,6 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.LogUtil;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Identifier;
@@ -185,7 +184,7 @@ public class BluetoothManager implements IConstants {
         public void getNearestBeacons(int i, FinalBeacons finalBeacons) {
             if(finalBeacons==null){return;}
             boolean isFresh=finalBeacons.isRefresh();
-            LogUtil.i("zhang","isFresh=="+isFresh);
+            //LogUtil.i("zhang","isFresh=="+isFresh);
             if(!isFresh){return;}
             List<BeaconForSort> beaconsForSortList=finalBeacons.getFinalBeaconList();
             /*如果返回扫面beacon列表为空，返回*/
@@ -197,7 +196,7 @@ public class BluetoothManager implements IConstants {
                 }
                 return;}
 
-            LogUtil.i("ZHANG","finalBeacons.size=="+finalBeacons.getFinalBeaconList().size());
+            //LogUtil.i("ZHANG","finalBeacons.size=="+finalBeacons.getFinalBeaconList().size());
 
             DataBiz.saveTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,true);
             noFind=0;

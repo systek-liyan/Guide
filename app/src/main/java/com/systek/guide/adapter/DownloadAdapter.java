@@ -119,6 +119,8 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
         }*/
 
         View.OnClickListener ll=new View.OnClickListener() {
+
+
             DownloadTask task=null;
             @Override
             public void onClick(View v) {

@@ -3,12 +3,9 @@ package com.systek.guide.biz;
 import android.text.TextUtils;
 
 import com.systek.guide.IConstants;
-import com.systek.guide.MyApplication;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.LogUtil;
-import com.systek.guide.utils.StorageUtil;
-import com.systek.guide.utils.Tools;
 
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -23,7 +20,7 @@ public class DownloadTask extends Thread implements  IConstants {
     private TaskListener listener;
     private Vector<TaskListener> taskListeners;
     private DownloadBiz downloadBiz;
-    private Vector<String> assetsList;
+    private List<String> assetsList;
     private int totalCount;
     private int downloadCount;
     private boolean breakByUser;
@@ -49,12 +46,21 @@ public class DownloadTask extends Thread implements  IConstants {
         this.baseUrl = baseUrl;
     }
 
-
-
     public DownloadTask(String museumId){
         this.museumId=museumId;
         taskListeners=new Vector<>();
     }
+
+
+    /*public synchronized String getDownloadUrl(){
+        if(assetsList!=null&&assetsList.size()>0){
+            String url=assetsList.get(0);
+            assetsList.remove(0);
+            return url;
+        }
+        return null;
+    }
+*/
 
     public void addListener(TaskListener l) {
         taskListeners.add(l);
@@ -72,7 +78,7 @@ public class DownloadTask extends Thread implements  IConstants {
     @Override
     public void run() {
         if(TextUtils.isEmpty(museumId)){return;}
-        //* 创建下载业务对象，并开始下载
+        /*/*//* 创建下载业务对象，并开始下载
         downloadBiz = (DownloadBiz) BizFactory.getDownloadBiz();
         String assetsJson=null;
         if(baseUrl!=null){
@@ -89,19 +95,19 @@ public class DownloadTask extends Thread implements  IConstants {
         downloadCount = totalCount;
         sendProgress();
         if(TextUtils.isEmpty(baseUrl)){
-            downloadBiz.downloadAssets(assetsList, 0, assetsList.size(), museumId);
+            downloadBiz.downloadAssets(assetsList, museumId);
         }else{
-            downloadBiz.downloadAssets(assetsList, 0, assetsList.size(), museumId,"http://"+baseUrl);
+            downloadBiz.downloadAssets(assetsList, museumId,"http://"+baseUrl);
         }
         downloadState=true;
-        //*下载完毕，存储状态
+        /*//*下载完毕，存储状态
         Tools.saveValue(MyApplication.get(), museumId, true);
         LogUtil.i("ZHANG", "下载状态已保存");
         if(!taskListeners.isEmpty()){
             for(TaskListener l:taskListeners){
                 l.onProgressChanged(downloadBiz.getProgress());
             }
-        }
+        }*/
     }
 
 

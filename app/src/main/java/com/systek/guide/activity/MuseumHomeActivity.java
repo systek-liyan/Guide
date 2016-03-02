@@ -72,8 +72,6 @@ public class MuseumHomeActivity extends BaseActivity {
         initDrawer();
         addListener();
         initBasicData();
-        
-        
         showDialog("加载中，请稍后...");
     }
 
@@ -168,17 +166,22 @@ public class MuseumHomeActivity extends BaseActivity {
             @Override
             public void run() {
                 try{
+                    //当前博物馆json为空，返回数据加载失败
                     if(TextUtils.isEmpty(currentMuseumStr)){
                         onDataError();
                         return;
                     }
+                    //解析当前你博物馆
                     currentMuseum=JSON.parseObject(currentMuseumStr, MuseumBean.class);
                     currentMuseumId=currentMuseum.getId();
                     if(TextUtils.isEmpty(currentMuseumId)){
                         LogUtil.i("ZHANG","currentMuseumId"+currentMuseumId);
                         return;}
+                    //保存临时数据，当前博物馆id
                     DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID, currentMuseumId);
+                    //判断当前博物馆数据是否已经下载
                     boolean isDataSave= (boolean) Tools.getValue(MuseumHomeActivity.this, SP_IS_MUSEUM_DATA_SAVE, false);
+                    //未下载则去下载
                     if(!isDataSave){
                         new Thread(){
                             @Override
@@ -191,15 +194,20 @@ public class MuseumHomeActivity extends BaseActivity {
                             }
                         }.start();
                     }else{
+                        //已经下载当前博物馆基本数据，通知更新显示数据
                         if(handler!=null){
                             handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
                         }
                     }
+                    //判断当前是否在博物馆，根据beacon回调时存储的Boolean值
                     boolean isInMuseum= (boolean) DataBiz.getTempValue(MuseumHomeActivity.this,SP_IS_IN_MUSEUM,false);
                     LogUtil.i("ZHANG","isInMuseum"+isInMuseum);
+                    //如果在博物馆
                     if(isInMuseum){
+                        //判断博物馆数据是否已经下载
                         boolean isDownload= (boolean) Tools.getValue(MyApplication.get(), currentMuseumId, false);
                         LogUtil.i("ZHANG","isDownload"+isDownload);
+                        //没有下载则启动下载服务去下载数据
                         if(!isDownload){
                             Intent intent =new Intent (MuseumHomeActivity.this, TempDownloadService.class);
                             intent.putExtra(INTENT_MUSEUM_ID,currentMuseumId);

@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,7 +47,6 @@ public class MuseumListActivity extends BaseActivity {
 
     @Override
     protected void initialize(Bundle savedInstanceState) {
-        long startTime=System.currentTimeMillis();
         setContentView(R.layout.activity_museum_list);
         handler=new MyHandler();
         setIntent(getIntent());
@@ -60,21 +60,19 @@ public class MuseumListActivity extends BaseActivity {
         addReceiver();
         //加载数据
         initData();
-        LogUtil.i(getTag(), "initialize执行用时=="+(System.currentTimeMillis()-startTime));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        long startTime=System.currentTimeMillis();
         super.onNewIntent(intent);
         setIntent(intent);
-        LogUtil.i(getTag(), "onNewIntent执行用时==" + (System.currentTimeMillis() - startTime));
+        //加载数据
+        initData();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LogUtil.i("ZHANG", "执行了onStart");
     }
 
     /**
@@ -83,7 +81,7 @@ public class MuseumListActivity extends BaseActivity {
     private void addReceiver() {
         IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMING);
         filter.addAction(ACTION_NET_IS_OUT);
-        registerReceiver(receiver,filter);
+        registerReceiver(receiver, filter);
     }
 
     /**
@@ -130,31 +128,30 @@ public class MuseumListActivity extends BaseActivity {
             public void run() {
                 try{
                     Intent intent=getIntent();
-                    String cityStr=intent.getStringExtra(INTENT_CITY);
-                    CityBean bean=JSON.parseObject(cityStr,CityBean.class);
-                    if(bean!=null){
-                        city=bean.getName();
-                    }else{
+                    String cityStr = intent.getStringExtra(INTENT_CITY);
+                    if(TextUtils.isEmpty(cityStr)){
                         city="北京市";
+                    }else{
+                        CityBean bean=JSON.parseObject(cityStr,CityBean.class);
+                        if(bean!=null){
+                            city=bean.getName();
+                        }else{
+                            city="北京市";
+                        }
                     }
                     handler.sendEmptyMessage(MSG_WHAT_REFRESH_CITY);
-                    LogUtil.i("ZHANG", "当前城市为" + city);
 
                     if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE){
                         String url=BASE_URL+URL_MUSEUM_LIST;
                         museumList=DataBiz.getEntityListFromNet(MuseumBean.class,url);
                     }
                     if(museumList!=null&&museumList.size()>0){
-                        //LogUtil.i("ZHANG", "数据获取成功");
-                        //boolean isSaveTrue=DataBiz.deleteSQLiteDataFromClass(MuseumBean.class);
-                        //LogUtil.i("ZHANG","数据删除"+isSaveTrue);
-                        boolean isSaveTrue2=DataBiz.saveListToSQLite(museumList);
-                        LogUtil.i("ZHANG","数据保存"+isSaveTrue2);
+                        DataBiz.saveListToSQLite(museumList);
                     }
                     museumList=DataBiz.getEntityListLocalByColumn(CITY,city,MuseumBean.class);
-
                 }catch (Exception e){
                     ExceptionUtil.handleException(e);
+                    onDataError();
                 }finally {
                     if(museumList==null){
                         onDataError();
@@ -250,7 +247,7 @@ public class MuseumListActivity extends BaseActivity {
                     break;
                 case MSG_WHAT_UPDATE_NO_DATA:
                     adapter.updateData(museumList);
-                    showToast("暂无改城市数据...");
+                    showToast("暂无该城市数据...");
                     break;
                 case MSG_WHAT_REFRESH_CITY:
                     setTitleBarTitle(city);
