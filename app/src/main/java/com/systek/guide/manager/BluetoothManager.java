@@ -40,11 +40,7 @@ public class BluetoothManager implements IConstants {
     private String currentMuseumId;
 
     private GetBeaconCallBack getBeaconCallBack;
-   /* private NearestBeaconListener nearestBeaconListener;
 
-    public void setNearestBeaconListener(NearestBeaconListener nearestBeaconListener) {
-        this.nearestBeaconListener = nearestBeaconListener;
-    }*/
 
     public void setGetBeaconCallBack(GetBeaconCallBack getBeaconCallBack) {
         this.getBeaconCallBack = getBeaconCallBack;
@@ -184,7 +180,6 @@ public class BluetoothManager implements IConstants {
         public void getNearestBeacons(int i, FinalBeacons finalBeacons) {
             if(finalBeacons==null){return;}
             boolean isFresh=finalBeacons.isRefresh();
-            //LogUtil.i("zhang","isFresh=="+isFresh);
             if(!isFresh){return;}
             List<BeaconForSort> beaconsForSortList=finalBeacons.getFinalBeaconList();
             /*如果返回扫面beacon列表为空，返回*/
@@ -195,9 +190,6 @@ public class BluetoothManager implements IConstants {
                     DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, false);
                 }
                 return;}
-
-            //LogUtil.i("ZHANG","finalBeacons.size=="+finalBeacons.getFinalBeaconList().size());
-
             DataBiz.saveTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,true);
             noFind=0;
             List<BeaconBean> beaconBeanList=null;
@@ -217,9 +209,6 @@ public class BluetoothManager implements IConstants {
             if(nearestBeacon==null){return;}
             /*更新当前博物馆*/
             currentMuseumId =nearestBeacon.getMuseumId();
-            /*if(nearestBeaconListener!=null){
-                nearestBeaconListener.nearestBeaconCallBack(nearestBeacon);
-            }*/
             Intent intent1=new Intent();
             intent1.setAction(INTENT_BEACON);
             String beaconJson=JSON.toJSONString(nearestBeacon);

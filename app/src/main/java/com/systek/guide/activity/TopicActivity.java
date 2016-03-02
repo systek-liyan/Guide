@@ -10,9 +10,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -53,13 +51,10 @@ public class TopicActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
     /**已选标签控件集合*/
     private List<TextView> tvList;
-    /**侧边栏按钮*/
-    private ImageView titleBarBack;
 
     private MediaServiceManager mediaServiceManager;
     private String currentMuseumId;
     private Handler handler;
-    private ImageView titleBarSkip;
 
     private TextView  tv_collection_dongwei,tv_collection_beiqi,
             tv_collection_beiwei, tv_collection_xizhou, tv_collection_shang,
@@ -67,6 +62,9 @@ public class TopicActivity extends BaseActivity {
             tv_collection_chunqiu, tv_collection_zhanguo, tv_collection_qing,
             tv_collection_shixiang, tv_collection_qingtong,tv_collection_tongqi,
             tv_collection_shike;
+    private TextView tvLabelClear;
+    private LinearLayout ll_collection_years;
+    private LinearLayout ll_collection_material;
 
 
     @Override
@@ -107,6 +105,23 @@ public class TopicActivity extends BaseActivity {
 
     private void addListener() {
 
+        tvLabelClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ll_collection_has_choose.removeAllViewsInLayout();
+                int count1=ll_collection_years.getChildCount();
+                int count2=ll_collection_material.getChildCount();
+                for(int i=0;i<count1;i++){
+                    ll_collection_years.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+                for(int i=0;i<count2;i++){
+                    ll_collection_material.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+                disPlayCheckExhibitList=totalExhibitList;
+                exhibitAdapter.updateData(disPlayCheckExhibitList);
+            }
+        });
+
         //快速滑动停止加载图片
         lv_collection_listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
 
@@ -141,29 +156,6 @@ public class TopicActivity extends BaseActivity {
     }
 
 
-    private AbsListView.OnScrollListener onScrollListener=new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-            switch (scrollState){
-                case  AbsListView.OnScrollListener.SCROLL_STATE_IDLE://停止滚动
-                    exhibitAdapter.setScrollState(false);
-                    exhibitAdapter.notifyDataSetChanged();
-                    break;
-                case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动做出了抛的动作
-                    //设置为正在滚动
-                    exhibitAdapter.setScrollState(true);
-                    break;
-                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://正在滚动
-                    //设置为正在滚动
-                    exhibitAdapter.setScrollState(true);
-                    break;
-            }
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        }
-    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -221,30 +213,12 @@ public class TopicActivity extends BaseActivity {
         }
     };
 
-    private View.OnClickListener onClickListener=new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.titleBarDrawer:
-                    finish();
-                    break;
-                case  R.id.titleBarRightImg:
-                    if(disPlayCheckExhibitList==null||disPlayCheckExhibitList.size()==0){return;}
-                    String exhibitListStr=JSON.toJSONString(disPlayCheckExhibitList);
-                    Intent intent=new Intent(TopicActivity.this,ListAndMapActivity.class);
-                    intent.putExtra(INTENT_FLAG_GUIDE_MAP, INTENT_FLAG_MAP);
-                    intent.putExtra(INTENT_EXHIBIT_LIST_STR,exhibitListStr);
-                    startActivity(intent);
-
-            }
-
-        }
-    };
 
     private View.OnClickListener deleteLabelClickListener=new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
+
             TextView tv=(TextView)v;
             CharSequence charsTop=tv.getText();
             ll_collection_has_choose.removeView(v);
@@ -304,7 +278,13 @@ public class TopicActivity extends BaseActivity {
         mediaServiceManager=MediaServiceManager.getInstance(this);
 
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
+        ll_collection_years=(LinearLayout)findViewById(R.id.ll_collection_years);
+        ll_collection_material=(LinearLayout)findViewById(R.id.ll_collection_material);
+
         lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
+
+        tvLabelClear=(TextView)findViewById(R.id.tvLabelClear);
+
 
         tv_collection_dongwei=(TextView)findViewById(R.id.tv_collection_dongwei);
         tv_collection_beiqi=(TextView)findViewById(R.id.tv_collection_beiqi);

@@ -84,8 +84,10 @@
                     android:textSize="@dimen/tv_list_map_bottom_exhibit_name"
                     android:textColor="@color/md_white_1000" />
                 <ImageView
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:scaleType="fitXY"
                     android:id="@+id/ivPlayCtrl"
-                    style="@style/normal_image_view"
                     android:layout_marginEnd="18dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true"
@@ -101,6 +103,5 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>
