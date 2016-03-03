@@ -31,10 +31,10 @@ public class DownloadActivity extends BaseActivity {
     @Override
     protected void initialize(Bundle savedInstanceState) {
         setContentView(R.layout.activity_download);
-        initData();
         initView();
         initDrawer();
         addListener();
+        initData();
     }
 
 
@@ -66,8 +66,6 @@ public class DownloadActivity extends BaseActivity {
                     }
                     if(museumList!=null&&museumList.size()>0){
                         LogUtil.i("ZHANG", "数据获取成功");
-                        //boolean isSaveTrue=DataBiz.deleteSQLiteDataFromClass(MuseumBean.class);
-                        //LogUtil.i("ZHANG","数据删除"+isSaveTrue);
                         boolean isSaveTrue=DataBiz.saveListToSQLite(museumList);
                         LogUtil.i("ZHANG","数据更新"+isSaveTrue);
                     }else{

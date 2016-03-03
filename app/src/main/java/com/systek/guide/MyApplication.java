@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.text.TextUtils;
 
+import com.liulishuo.filedownloader.FileDownloader;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
@@ -51,15 +52,18 @@ public class MyApplication extends Application implements IConstants{
     @Override
     public void onCreate() {
         super.onCreate();
-        /*初始化检查内存泄露*/
-        //LeakCanary.install(this);
-        myApplication = this;
+        //初始化下载框架
+        FileDownloader.init(this);
         if (!isSameAppName()) {return;}
         // 防止重启两次,非相同名字的则返回
         mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
         mServiceManager.connectService();
+        myApplication = this;
         registerNetWorkReceiver();
         initBlueTooth();
+        //初始化检查内存泄露
+        //LeakCanary.install(this);
+
     }
 
 

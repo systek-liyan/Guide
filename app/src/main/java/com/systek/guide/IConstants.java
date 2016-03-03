@@ -101,11 +101,10 @@ public interface IConstants {
     String APP_ROOT= MyApplication.get().getFilesDir().getAbsolutePath();//存储至本地sdcard位置
     String SDCARD_ROOT= Environment.getExternalStorageDirectory().getAbsolutePath();//存储至本地sdcard位置
     //String LOCAL_ASSETS_PATH=SDCARD_ROOT+"/Guide/";//sdcard存储图片的位置*/
-    String LOCAL_ASSETS_PATH=APP_ROOT+"/";
-    String APP_ASSETS_PATH=APP_ROOT+"/";//sdcard存储图片的位置*/
-    String LOCAL_FILE_TYPE_IMAGE="image";
+    String LOCAL_ASSETS_PATH= APP_ROOT+"/";//app内部存储图片的位置*/
+    /*String LOCAL_FILE_TYPE_IMAGE="image";
     String LOCAL_FILE_TYPE_AUDIO="audio";
-    String LOCAL_FILE_TYPE_LYRIC="lyric";
+    String LOCAL_FILE_TYPE_LYRIC="lyric";*/
 
 
     /**数据库字段*/

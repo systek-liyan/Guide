@@ -56,12 +56,11 @@ public class TopicActivity extends BaseActivity {
     private String currentMuseumId;
     private Handler handler;
 
-    private TextView  tv_collection_dongwei,tv_collection_beiqi,
-            tv_collection_beiwei, tv_collection_xizhou, tv_collection_shang,
-            tv_collection_sui, tv_collection_tangdai, tv_collection_handai,
-            tv_collection_chunqiu, tv_collection_zhanguo, tv_collection_qing,
-            tv_collection_shixiang, tv_collection_qingtong,tv_collection_tongqi,
-            tv_collection_shike;
+    private TextView  tv_collection_dongwei,tv_collection_beiqi, tv_collection_beiwei, tv_collection_xizhou,
+            tv_collection_shang, tv_collection_sui, tv_collection_tangdai, tv_collection_handai, tv_collection_chunqiu,
+            tv_collection_zhanguo, tv_collection_qing, tv_collection_shixiang, tv_collection_qingtong,
+            tv_collection_tongqi, tv_collection_shike;
+
     private TextView tvLabelClear;
     private LinearLayout ll_collection_years;
     private LinearLayout ll_collection_material;
@@ -125,7 +124,6 @@ public class TopicActivity extends BaseActivity {
         //快速滑动停止加载图片
         lv_collection_listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
 
-        //lv_collection_listView.setOnScrollListener(onScrollListener);
         lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,7 +135,6 @@ public class TopicActivity extends BaseActivity {
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
                 }
                 mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
-                //exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.notifyDataSetInvalidated();
 
                 Intent intent1 = new Intent(TopicActivity.this, PlayActivity.class);

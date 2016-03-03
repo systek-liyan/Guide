@@ -230,8 +230,9 @@ import java.util.List;
     public int toGetCurrentPosition(){
         return currentPosition;
     }
+
     private String  getCurrentAudioPath(){
-        return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_AUDIO;
+        return LOCAL_ASSETS_PATH+currentMuseumId+"/";
     }
 
     /**播放博物馆讲解*/

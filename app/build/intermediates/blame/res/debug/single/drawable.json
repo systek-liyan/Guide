@@ -100,6 +100,10 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\text_color_guide_map_selector.xml"
     },
     {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\progress_bg.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\progress_bg.xml"
+    },
+    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_item_background_holo_dark.xml"
     },
@@ -198,6 +202,10 @@
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_checked_guide.xml",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\btn_checked_guide.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\movie_headimage_selector.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\movie_headimage_selector.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\material_drawer_shadow_left.9.png",

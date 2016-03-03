@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
-import com.systek.guide.biz.DownloadTask;
+import com.systek.guide.biz.MyDownloadTask;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
@@ -121,12 +121,12 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
         View.OnClickListener ll=new View.OnClickListener() {
 
 
-            DownloadTask task=null;
+            MyDownloadTask task=null;
             @Override
             public void onClick(View v) {
                 if(isDownload){return;}
                 if(bean.getmState()==0){
-                    task=new DownloadTask(bean.getId());
+                    task=new MyDownloadTask(bean.getId());
                     viewHolder.setNewTask(task);
                     task.start();
                     bean.setmState(1);
@@ -153,10 +153,10 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
         public   ImageView ivIcon,ivCtrl;
         public ProgressBar progressBar;
         public TextView tvProgress,tvState;
-        public DownloadTask downloadTask;
+        public MyDownloadTask downloadTask;
 
 
-        public DownloadTask.TaskListener listener=new DownloadTask.TaskListener() {
+        public MyDownloadTask.TaskListener listener=new MyDownloadTask.TaskListener() {
             @Override
             public void onProgressChanged(final int progress) {
                 handler.post(new Runnable() {
@@ -185,7 +185,7 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
             if (downloadTask!=null )
                 downloadTask.addListener(listener);
         }
-        public void setNewTask(DownloadTask t) {
+        public void setNewTask(MyDownloadTask t) {
             removeListener();
             this.downloadTask=t;
             addListener();

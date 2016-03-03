@@ -184,7 +184,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
         if(currentIconUrl==null){return;}
         String imageName = Tools.changePathToName(currentIconUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
+        String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId +"/"+imageName;
         File file = new File(imgLocalUrl);
         // 判断sdcard上有没有图片
         if (file.exists()) {

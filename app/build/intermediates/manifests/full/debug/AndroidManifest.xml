@@ -148,6 +148,13 @@
         </receiver>
 
         <service
+            android:name="com.systek.guide.service.DownloadService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name="com.liulishuo.filedownloader.services.FileDownloadService"
+            android:process=":filedownloader" />
+        <service
             android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
             android:enabled="false"
             android:process=":leakcanary" />

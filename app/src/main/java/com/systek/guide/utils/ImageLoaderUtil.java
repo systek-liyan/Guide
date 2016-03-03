@@ -266,7 +266,7 @@ public class ImageLoaderUtil implements IConstants{
                 String name=Tools.changePathToName(path);
                 String museumId= DataBiz.getCurrentMuseumId();
                 if(TextUtils.isEmpty(museumId)){return;}
-                String savePath=APP_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE;
+                String savePath=LOCAL_ASSETS_PATH+museumId+"/";
                 File dir=new File(savePath);
                 if(!dir.exists()){dir.mkdirs();}
                 DataBiz.saveBitmap(savePath, name, loadedImage);
@@ -293,7 +293,7 @@ public class ImageLoaderUtil implements IConstants{
                 String name=Tools.changePathToName(path);
                 String museumId= DataBiz.getCurrentMuseumId();
                 if(TextUtils.isEmpty(museumId)){return;}
-                String savePath=APP_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE;
+                String savePath=LOCAL_ASSETS_PATH+museumId+"/";
                 File dir=new File(savePath);
                 if(!dir.exists()){dir.mkdirs();}
                 DataBiz.saveBitmap(savePath, name, loadedImage);
@@ -336,7 +336,7 @@ public class ImageLoaderUtil implements IConstants{
 
     public static void displayImage(String iconPath,ImageView imageView){
         String name= Tools.changePathToName(iconPath);
-        String path=LOCAL_ASSETS_PATH+DataBiz.getCurrentMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        String path=LOCAL_ASSETS_PATH+DataBiz.getCurrentMuseumId()+"/"+name;
         if(Tools.isFileExist(path)){
             ImageLoaderUtil.displaySdcardImage(MyApplication.get(), path, imageView);
         }else{
@@ -346,7 +346,7 @@ public class ImageLoaderUtil implements IConstants{
     }
     public static void displayImage(String iconPath,String museumId,ImageView imageView){
         String name= Tools.changePathToName(iconPath);
-        String path=LOCAL_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        String path=LOCAL_ASSETS_PATH+museumId+"/"+name;
         if(Tools.isFileExist(path)){
             ImageLoaderUtil.displaySdcardImage(MyApplication.get(), path, imageView);
         }else{

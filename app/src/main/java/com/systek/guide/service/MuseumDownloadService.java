@@ -11,7 +11,7 @@ import android.text.TextUtils;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.biz.DownloadBiz;
-import com.systek.guide.biz.DownloadTask;
+import com.systek.guide.biz.MyDownloadTask;
 import com.systek.guide.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MuseumDownloadService  extends IntentService implements IConstants 
     private String museumId;
     private DownloadStateReceiver downloadStateReceiver;
     private Handler handler;
-    List<DownloadTask> downloadTaskList;
+    List<MyDownloadTask> downloadTaskList;
     private DownloadBiz downloadBiz;
     private Vector<String> assetsList;
     private int totalCount;
@@ -69,7 +69,7 @@ public class MuseumDownloadService  extends IntentService implements IConstants 
         museumId = intent.getStringExtra(INTENT_MUSEUM_ID);
         if(TextUtils.isEmpty(museumId)){return;}
         //sendProgress();
-        /*DownloadTask downloadTask=new DownloadTask();
+        /*MyDownloadTask downloadTask=new MyDownloadTask();
         downloadTaskList.add(downloadTask);
         downloadTask.download(museumId);*/
     }
@@ -84,14 +84,14 @@ public class MuseumDownloadService  extends IntentService implements IConstants 
                 String id=intent.getStringExtra(INTENT_MUSEUM_ID);
                 //继续
                 if(downloadTaskList==null||downloadTaskList.size()==0){return;}
-                for(DownloadTask task:downloadTaskList){
+                for(MyDownloadTask task:downloadTaskList){
                     if(!task.getMuseumId().equals(museumId)){continue;}
                     downloadBiz.toContinue();
                 }
                 //downloadBiz.downloadPause =false;
             } else if (action.equals(ACTION_DOWNLOAD_PAUSE)) {
                 // 暂停
-                for(DownloadTask task:downloadTaskList){
+                for(MyDownloadTask task:downloadTaskList){
                     if(!task.getMuseumId().equals(museumId)){continue;}
                     downloadBiz.pause();
                 }

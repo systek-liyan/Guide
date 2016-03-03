@@ -27,7 +27,7 @@ import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.manager.MediaServiceManager;
-import com.systek.guide.service.TempDownloadService;
+import com.systek.guide.service.DownloadService;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageLoaderUtil;
 import com.systek.guide.utils.LogUtil;
@@ -209,9 +209,13 @@ public class MuseumHomeActivity extends BaseActivity {
                         LogUtil.i("ZHANG","isDownload"+isDownload);
                         //没有下载则启动下载服务去下载数据
                         if(!isDownload){
-                            Intent intent =new Intent (MuseumHomeActivity.this, TempDownloadService.class);
+                            /*Intent intent =new Intent(MuseumHomeActivity.this, TestService.class);
                             intent.putExtra(INTENT_MUSEUM_ID,currentMuseumId);
-                            startService(intent);
+                            startService(intent);*/
+                           DownloadService.startActionBaz(MuseumHomeActivity.this, currentMuseumId);
+                           /* Intent intent =new Intent (MuseumHomeActivity.this, TempDownloadService.class);
+                            intent.putExtra(INTENT_MUSEUM_ID,currentMuseumId);
+                            startService(intent);*/
                         }
                     }
                 }catch (Exception e){
@@ -287,7 +291,7 @@ public class MuseumHomeActivity extends BaseActivity {
             for (int i = 0; i < imgs.length; i++) {
                 String imgUrl = imgs[i];
                 String imgName = imgUrl.replaceAll("/", "_");
-                String localPath = LOCAL_ASSETS_PATH + currentMuseumId +"/"+ LOCAL_FILE_TYPE_IMAGE+"/"+imgName;
+                String localPath = LOCAL_ASSETS_PATH + currentMuseumId +"/"+imgName;
                 boolean flag = Tools.isFileExist(localPath);
                 ImageView iv = new ImageView(this);
                 iv.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -311,7 +315,7 @@ public class MuseumHomeActivity extends BaseActivity {
                 mediaPlayer=new MediaPlayer();
                 String audioPath = currentMuseum.getAudioUrl();
                 String audioName = Tools.changePathToName(audioPath);
-                String audioUrl = LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_AUDIO + "/"+ audioName;
+                String audioUrl = LOCAL_ASSETS_PATH + currentMuseumId  + "/"+ audioName;
                 String dataUrl="";
                 // 判断sdcard上有没有图片
                 if (Tools.isFileExist(audioUrl)) {

@@ -68,7 +68,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
             currentLyricUrl = exhibit.getTexturl();
             String name = currentLyricUrl.replaceAll("/", "_");
             // 取得歌曲同目录下的歌词文件绝对路径
-            String lyricFilePath = LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_LYRIC+"/"+ name;
+            String lyricFilePath = LOCAL_ASSETS_PATH+currentMuseumId+"/"+ name;
             File lyricFile = new File(lyricFilePath);
             if (lyricFile.exists()) {
                 // 本地有歌词，直接读取
@@ -228,7 +228,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
         protected String doInBackground(String... params) {
             LyricDownloadManager mLyricDownloadManager = new LyricDownloadManager(getActivity());
             // 从网络获取歌词，然后保存到本地
-            String savePath=LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_LYRIC;
+            String savePath=LOCAL_ASSETS_PATH + currentMuseumId + "/";
             String lyricName=params[0];
             // 返回本地歌词路径
             // mIsLyricDownloading = false;

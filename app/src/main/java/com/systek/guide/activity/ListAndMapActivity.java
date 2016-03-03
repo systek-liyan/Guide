@@ -359,7 +359,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         String iconPath=currentExhibit.getIconurl();
         String name= Tools.changePathToName(iconPath);
         exhibitName.setText(currentExhibit.getName());
-        String path=LOCAL_ASSETS_PATH+currentExhibit.getMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        String path=LOCAL_ASSETS_PATH+currentExhibit.getMuseumId()+"/"+name;
         if(Tools.isFileExist(path)){
             ImageLoaderUtil.displaySdcardImage(ListAndMapActivity.this, path, exhibitIcon);
         }else{

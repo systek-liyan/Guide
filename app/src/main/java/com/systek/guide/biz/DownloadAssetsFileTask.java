@@ -59,16 +59,7 @@ public class DownloadAssetsFileTask implements Runnable,IConstants {
      */
     private boolean downloadAndSaveFile(String url) throws IOException {
         String savePath = null;
-        if (url.endsWith(".jpg") || url.endsWith(".png")) {
-            savePath = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE;
-        } else if (url.endsWith(".lrc")) {
-            savePath = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_LYRIC;
-        } else if (url.endsWith(".mp3") || url.endsWith(".wav")) {
-            savePath = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_AUDIO;
-        } else {
-            LogUtil.i("ZHANG", "文件后缀异常-----------------");
-            return false;
-        }
+        savePath = LOCAL_ASSETS_PATH + museumId ;
         String absoluteUrl = baseUrl + url;
         String fileName = Tools.changePathToName(url);
         if (!Tools.isFileExist(savePath + "/" + fileName)) {

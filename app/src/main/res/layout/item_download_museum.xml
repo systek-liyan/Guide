@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/delete_movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/delete_museum_bg"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="12dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/delete_movie" >
+
+        <ImageView
+            android:layout_marginLeft="8dp"
+            android:id="@+id/movie_headimage"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/header" />
+
+
+        <TextView
+            android:id="@+id/movie_name_item"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/movie_headimage"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/movie_headimage"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="保利博物馆"
+            android:textColor="@color/md_grey_850"
+            android:textSize="14dp" />
+
+        <ProgressBar
+            android:id="@+id/download_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="155dp"
+            android:layout_height="4dp"
+            android:layout_alignBottom="@+id/movie_headimage"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="11dp"
+            android:layout_toRightOf="@+id/movie_headimage"
+            android:progressDrawable="@drawable/progress_bg" />
+
+        <CheckBox
+            android:id="@+id/movie_headiamge_checkbox"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignLeft="@+id/movie_headimage"
+            android:layout_alignTop="@+id/movie_headimage"
+            android:layout_marginLeft="0.5dp"
+            android:button="@drawable/movie_headimage_selector"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/movie_file_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/movie_name_item"
+            android:layout_below="@+id/movie_name_item"
+            android:text="435M"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#23b5bc"
+            android:layout_marginTop="2dp"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/stop_download_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/movie_headimage"
+            android:layout_toRightOf="@+id/download_progressBar"
+            android:background="@drawable/download_stop"
+            android:textColor="@android:color/background_light"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/current_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/download_progressBar"
+            android:layout_alignRight="@+id/stop_download_bt"
+            android:text="100%"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#23b5bc"
+            android:textSize="9dp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

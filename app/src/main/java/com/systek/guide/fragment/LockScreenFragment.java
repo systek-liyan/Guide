@@ -61,7 +61,7 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
         if(currentExhibit==null){return;}
         currentIconUrl=currentExhibit.getIconurl();
         String imageName = Tools.changePathToName(currentIconUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+currentExhibit.getMuseumId() + "/" + LOCAL_FILE_TYPE_IMAGE+"/"+imageName;
+        String imgLocalUrl = LOCAL_ASSETS_PATH+currentExhibit.getMuseumId()+"/"+imageName;
         File file = new File(imgLocalUrl);
         // 判断sdcard上有没有图片
         if (file.exists()) {
