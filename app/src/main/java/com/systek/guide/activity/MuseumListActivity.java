@@ -22,6 +22,7 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MuseumAdapter;
 import com.systek.guide.biz.DataBiz;
+import com.systek.guide.download.TasksManager;
 import com.systek.guide.entity.CityBean;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ExceptionUtil;
@@ -237,6 +238,9 @@ public class MuseumListActivity extends BaseActivity {
                 case MSG_WHAT_UPDATE_DATA_SUCCESS:
                     if(museumList==null||museumList.size()==0){return;}
                     adapter.updateData(museumList);
+
+                    TasksManager.getImpl().addTask(museumList.get(0)); // TODO: 2016/3/9  
+
                     isDataShow=true;
                     break;
                 case MSG_WHAT_UPDATE_DATA_FAIL:

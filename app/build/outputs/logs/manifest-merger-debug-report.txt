@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:2:1-153:12
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:2:1-160:12
 	package
 		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:2:11-37
 		INJECTED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml
@@ -67,7 +67,7 @@ ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:18:5-83
 	android:name
 		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:18:22-81
 application
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:20:5-151:19
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:20:5-158:19
 MERGED from [com.android.support:appcompat-v7:23.1.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
@@ -261,68 +261,78 @@ ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:113:9-118:20
 		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:117:13-44
 	android:name
 		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:114:13-50
-service#com.systek.guide.service.MediaPlayService
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:120:9-124:46
-	android:enabled
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:122:13-35
-	android:exported
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:123:13-37
-	android:isolatedProcess
+activity#com.systek.guide.activity.TasksManagerDemoActivity
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:120:9-125:20
+	android:screenOrientation
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:123:13-49
+	android:launchMode
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:122:13-43
+	android:theme
 		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:124:13-44
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:121:13-53
-service#org.altbeacon.beacon.service.BeaconService
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:125:9-130:37
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:121:13-62
+service#com.systek.guide.service.MediaPlayService
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:127:9-131:46
 	android:enabled
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:127:13-35
-	android:label
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:130:13-35
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:129:13-35
 	android:exported
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:128:13-37
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:130:13-37
 	android:isolatedProcess
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:129:13-44
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:131:13-44
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:126:13-70
-service#org.altbeacon.beacon.BeaconIntentProcessor
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:131:9-134:39
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:128:13-53
+service#org.altbeacon.beacon.service.BeaconService
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:132:9-137:37
 	android:enabled
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:133:13-35
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:134:13-35
+	android:label
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:137:13-35
 	android:exported
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:134:13-37
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:135:13-37
+	android:isolatedProcess
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:136:13-44
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:132:13-70
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:133:13-70
+service#org.altbeacon.beacon.BeaconIntentProcessor
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:138:9-141:39
+	android:enabled
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:140:13-35
+	android:exported
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:141:13-37
+	android:name
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:139:13-70
 service#com.systek.guide.service.MuseumDownloadService
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:135:9-65
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:142:9-65
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:135:18-63
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:142:18-63
 service#com.systek.guide.service.TempDownloadService
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:136:9-63
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:143:9-63
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:136:18-61
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:143:18-61
 receiver#com.systek.guide.receiver.PhoneReceiver
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:138:9-145:20
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:145:9-152:20
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:138:19-57
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:145:19-57
 intent-filter#android.intent.action.NEW_OUTGOING_CALL+android.intent.action.PHONE_STATE+android.intent.category.DEFAULT
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:139:13-144:29
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:146:13-151:29
 action#android.intent.action.PHONE_STATE
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:140:17-75
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:147:17-75
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:140:25-73
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:147:25-73
 action#android.intent.action.NEW_OUTGOING_CALL
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:141:17-81
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:148:17-81
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:141:25-79
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:148:25-79
 category#android.intent.category.DEFAULT
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:143:17-75
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:150:17-75
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:143:27-73
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:150:27-73
 service#com.systek.guide.service.DownloadService
-ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:147:9-150:19
+ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:154:9-157:19
 	android:exported
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:149:13-37
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:156:13-37
 	android:name
-		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:148:13-52
+		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:155:13-52
 uses-sdk
 INJECTED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.mikepenz:materialdrawer:4.6.4] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.mikepenz\materialdrawer\4.6.4\AndroidManifest.xml:8:5-10:41

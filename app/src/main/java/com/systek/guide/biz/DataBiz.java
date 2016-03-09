@@ -21,8 +21,6 @@ import com.systek.guide.entity.base.BaseEntity;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.MyHttpUtil;
 
-import org.altbeacon.beacon.Identifier;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -567,7 +565,7 @@ public class DataBiz implements IConstants{
      * @param major beacon属性
      * @return beacon对象
      */
-    public  static synchronized BeaconBean getBeaconMinorAndMajor(Identifier minor,Identifier major){
+    public  static synchronized BeaconBean getBeaconMinorAndMajor(String minor,String major){
         List<BeaconBean> beaconBeans=null;
         BeaconBean b=null;
         DbUtils db=null;

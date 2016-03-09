@@ -743,6 +743,7 @@
     <string name="responseTimeout">响应超时</string>
     <string name="search_view_hint">请输入关键字…</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string formatted="false" name="tasks_manager_demo_name">task: %s</string>
     <string name="title_bar_city_choose">城市选择</string>
     <string name="title_bar_collection">收藏</string>
     <string name="title_bar_download_center">下载中心</string>

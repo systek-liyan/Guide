@@ -1,10 +1,6 @@
 package com.systek.guide.entity;
 
-import com.lidroid.xutils.db.annotation.Transient;
-import com.lidroid.xutils.http.HttpHandler;
 import com.systek.guide.entity.base.BaseEntity;
-
-import java.io.File;
 
 /**
  * 博物馆实体类
@@ -46,19 +42,19 @@ public class MuseumBean extends BaseEntity {
     private int priority ;//优先级
    // @Column(column = "isDownload")
     private boolean isDownload;//是否已经下载
-    //@Column(column = "mState")
+
     private int mState;//下载状态
 
-    @Transient
-    private HttpHandler<File> handler;
 
-    private HttpHandler.State state;
+    public int getDownloadId() {
+        return downloadId;
+    }
 
-    private String downloadUrl;
+    public void setDownloadId(int downloadId) {
+        this.downloadId = downloadId;
+    }
 
-    private String fileName;
-
-    private String fileSavePath;
+    private int downloadId;//下载状态
 
     private long progress;
 
@@ -203,46 +199,6 @@ public class MuseumBean extends BaseEntity {
         this.mState = mState;
     }
 
-    public HttpHandler<File> getHandler() {
-        return handler;
-    }
-
-    public void setHandler(HttpHandler<File> handler) {
-        this.handler = handler;
-    }
-
-    public HttpHandler.State getState() {
-        return state;
-    }
-
-    public void setState(HttpHandler.State state) {
-        this.state = state;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFileSavePath() {
-        return fileSavePath;
-    }
-
-    public void setFileSavePath(String fileSavePath) {
-        this.fileSavePath = fileSavePath;
-    }
-
     public long getProgress() {
         return progress;
     }
@@ -294,8 +250,6 @@ public class MuseumBean extends BaseEntity {
                 ", version=" + version +
                 ", priority=" + priority +
                 ", isDownload=" + isDownload +
-                ", fileName='" + fileName + '\'' +
-                ", fileSavePath='" + fileSavePath + '\'' +
                 ", progress=" + progress +
                 ", fileLength=" + fileLength +
                 ", autoResume=" + autoResume +

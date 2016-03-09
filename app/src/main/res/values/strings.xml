@@ -44,7 +44,7 @@
 
     <string name="canNotGetConnected">未知异常</string>
 
-
+    <string name="tasks_manager_demo_name" formatted="false">task: %s</string>
 
 
 

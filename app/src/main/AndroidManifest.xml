@@ -117,6 +117,13 @@
             android:theme="@style/AppTheme">
         </activity>
 
+        <activity
+            android:name=".activity.TasksManagerDemoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+
         <service
             android:name=".service.MediaPlayService"
             android:enabled="true"

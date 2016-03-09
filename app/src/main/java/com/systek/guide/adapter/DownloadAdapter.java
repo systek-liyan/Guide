@@ -95,14 +95,6 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
             viewHolder.tvProgress.setVisibility(View.INVISIBLE);
             viewHolder.tvState.setVisibility(View.VISIBLE);
             viewHolder.tvState.setText("已下载");
-            /*viewHolder.ivIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent=new Intent(context, MuseumHomeActivity.class);
-                    intent.putExtra(INTENT_MUSEUM_ID,bean.getId());
-                    context.startActivity(intent);
-                }
-            });*/
         }else{
             viewHolder.tvState.setVisibility(View.GONE);
             viewHolder.ivCtrl.setVisibility(View.VISIBLE);
@@ -110,13 +102,6 @@ public class DownloadAdapter extends BaseAdapter implements IConstants {
         }
         String iconPath=bean.getIconUrl();
         ImageLoaderUtil.displayImage(iconPath, viewHolder.ivIcon);
-        /*String name= Tools.changePathToName(iconPath);
-        String path=LOCAL_ASSETS_PATH+bean.getId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
-        if(Tools.isFileExist(path)){
-            ImageLoaderUtil.displaySdcardImage(context, path, viewHolder.ivIcon);
-        }else{
-            ImageLoaderUtil.displayNetworkImage(context, BASE_URL + iconPath, viewHolder.ivIcon);
-        }*/
 
         View.OnClickListener ll=new View.OnClickListener() {
 

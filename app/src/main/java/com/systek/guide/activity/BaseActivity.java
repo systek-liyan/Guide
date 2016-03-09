@@ -141,7 +141,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                         Class<?>  targetClass=null;
                         switch (position){
                             case 1:
-                                targetClass=DownloadActivity.class;
+                                targetClass=TasksManagerDemoActivity.class;
                                 break;
                             case 2:
                                 targetClass=CollectionActivity.class;
