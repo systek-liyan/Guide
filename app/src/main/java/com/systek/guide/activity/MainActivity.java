@@ -15,7 +15,7 @@ import com.systek.guide.custom.swipeback.SwipeBackActivity;
  * 测试类
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class MainActivity extends SwipeBackActivity {
+public  abstract class MainActivity extends SwipeBackActivity {
 
 
     @Override
@@ -39,6 +39,10 @@ public class MainActivity extends SwipeBackActivity {
             startActivityForResult(enableBluetooth, 1);
         }
         scan();*/
+    }
+
+    void initView() {
+
     }
 
     @Override

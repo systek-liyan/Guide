@@ -6,6 +6,12 @@
     android:orientation="vertical"
     tools:context=".activity.ListAndMapActivity">
     <include layout="@layout/layout_title_radio_btn_bar"/>
+
+    <include
+        android:id="@+id/mErrorView"
+        layout="@layout/activity_error"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

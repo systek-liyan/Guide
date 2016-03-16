@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
-import com.systek.guide.custom.RoundImageView;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ImageLoaderUtil;
 
@@ -60,12 +61,13 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null || convertView.getTag() == null) {
-            convertView = inflater.inflate(R.layout.item_museum, null);
+            convertView = LinearLayout.inflate(context,R.layout.item_museum, null);
+            //FontManager.applyFont(context, convertView);
             viewHolder = new ViewHolder();
             viewHolder.museumName = (TextView) convertView.findViewById(R.id.museumName);
             viewHolder.museumAddress = (TextView) convertView.findViewById(R.id.museumAddress);
             viewHolder.museumListOpenTime = (TextView) convertView.findViewById(R.id.museumListOpenTime);
-            viewHolder.museumListIcon = (RoundImageView) convertView.findViewById(R.id.museumListIcon);
+            viewHolder.museumListIcon = (ImageView) convertView.findViewById(R.id.museumListIcon);
             viewHolder.museumFlagIsDownload = (TextView) convertView.findViewById(R.id.museumFlagIsDownload);
             viewHolder.museumImportantAlert = (TextView) convertView.findViewById(R.id.museumImportantAlert);
             convertView.setTag(viewHolder);
@@ -92,24 +94,12 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         //每个博物馆的资源以ID为目录
         String museumId = museumBean.getId();
         ImageLoaderUtil.displayImage(imageUrl,museumId,viewHolder.museumListIcon);
-       /* // 判断sdcard上有没有图片
-        String imageName = imageUrl.replaceAll("/", "_");
-        String imgLocalUrl = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE +"/"+ imageName;
-        File file = new File(imgLocalUrl);
-        if (file.exists()) {
-            // 显示sdcard
-            ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, viewHolder.museumListIcon);
-        } else {
-            // 服务器上存的imageUrl有域名如http://www.systek.com.cn/1.png
-            imageUrl = BASE_URL + imageUrl;
-            ImageLoaderUtil.displayNetworkImage(context, imageUrl, viewHolder.museumListIcon);
-        }*/
         return convertView;
     }
 
-    class ViewHolder {
+     class ViewHolder {
         TextView museumName, museumAddress, museumListOpenTime, museumImportantAlert, museumFlagIsDownload;
-        RoundImageView museumListIcon;
+        ImageView museumListIcon;
     }
 
 

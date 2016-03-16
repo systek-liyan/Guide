@@ -46,14 +46,6 @@ public class MuseumBean extends BaseEntity {
     private int mState;//下载状态
 
 
-    public int getDownloadId() {
-        return downloadId;
-    }
-
-    public void setDownloadId(int downloadId) {
-        this.downloadId = downloadId;
-    }
-
     private int downloadId;//下载状态
 
     private long progress;
@@ -66,6 +58,14 @@ public class MuseumBean extends BaseEntity {
 
     public String getId() {
         return id;
+    }
+
+    public int getDownloadId() {
+        return downloadId;
+    }
+
+    public void setDownloadId(int downloadId) {
+        this.downloadId = downloadId;
     }
 
     public void setId(String id) {

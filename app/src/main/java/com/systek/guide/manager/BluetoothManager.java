@@ -37,16 +37,8 @@ public class BluetoothManager implements IConstants {
 
     private String currentMuseumId;
 
-    private GetBeaconCallBack getBeaconCallBack;
-
-
-    public void setGetBeaconCallBack(GetBeaconCallBack getBeaconCallBack) {
-        this.getBeaconCallBack = getBeaconCallBack;
-    }
-
     public BluetoothManager(Context context) {
         this.context = context;
-        //application=MyApplication.get();
     }
 
     public static BluetoothManager newInstance(Context c){
@@ -67,8 +59,6 @@ public class BluetoothManager implements IConstants {
             mBeaconSearcher=null;
         }
         context=null;
-        // nearestBeaconListener=null;
-        getBeaconCallBack=null;
         bluetoothManager=null;
     }
 
@@ -103,9 +93,14 @@ public class BluetoothManager implements IConstants {
             }
         }
     }
+
+
     /**实现beacon搜索监听，或得BeaconSearcher搜索到的beacon对象*/
 
     private BeaconsListener onNearestBeaconListener=new BeaconsListener(){
+
+        long time=System.currentTimeMillis();
+
         @Override
         public void getNearestBeacon(Beacon beacon) {
 
@@ -118,14 +113,17 @@ public class BluetoothManager implements IConstants {
 
 
         /**
-         *
+         * 获得 beacon列表 解析beacon像播放控制发送数据
          * @param IsSwitch switch
          * @param refresh refresh
          * @param list SystekBeacon
          */
         @Override
         public void getBeacons(boolean IsSwitch, boolean refresh, List<SystekBeacon> list) {
-            if(!refresh){return;}
+            //LogUtil.i("ZHANG","IsSwitch=="+IsSwitch);
+            //LogUtil.i("ZHANG","距离上次发送数据时间--"+(System.currentTimeMillis()-time));
+            // time=System.currentTimeMillis();
+            if(!refresh||list==null){return;}
             DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, true);
             List<BeaconBean> beaconBeanList=changeToBeaconList(list,20.0);
             if(beaconBeanList.size()==0){return;}
@@ -315,7 +313,4 @@ public class BluetoothManager implements IConstants {
         return beaconBeans;
     }
 
-    public interface GetBeaconCallBack{
-        String getMuseumByBeaconCallBack(BeaconBean beaconBean);
-    }
 }

@@ -1,6 +1,5 @@
 package com.systek.guide.activity;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -21,20 +20,28 @@ public class SettingActivity extends BaseActivity {
     private UpdateManager updateManager;
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
+    protected void setView() {
         setContentView(R.layout.activity_setting);
         initDrawer();
-        initView();
-        addListener();
     }
-
-    private void addListener() {
+    @Override
+    void addListener() {
         handler=new MyHandler();
         updateManager=new UpdateManager(SettingActivity.this);
         btn_update.setOnClickListener(onClickListener);
     }
 
-    private void initView() {
+    @Override
+    void initData() {
+
+    }
+
+    @Override
+    void registerReceiver() {
+
+    }
+    @Override
+    void initView() {
 
         setTitleBar();
         setTitleBarTitle("设置");

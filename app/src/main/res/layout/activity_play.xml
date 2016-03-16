@@ -6,6 +6,12 @@
               android:orientation="vertical"
               android:background="@color/md_grey_700"
               tools:context=".activity.PlayActivity">
+
+    <include
+        android:id="@+id/mErrorView"
+        layout="@layout/activity_error"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_weight="4"

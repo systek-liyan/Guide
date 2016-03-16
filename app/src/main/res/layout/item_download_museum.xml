@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/delete_museum_bg"
-        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
+        android:visibility="gone"
         android:layout_marginTop="12dp"/>
 
     <RelativeLayout
@@ -24,9 +25,7 @@
             android:layout_height="55dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="11dp"
-            android:src="@drawable/header" />
-
+            android:layout_marginTop="11dp"/>
 
         <TextView
             android:id="@+id/museumName"
@@ -69,11 +68,10 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/museumName"
             android:layout_below="@+id/museumName"
-            android:text="435M"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#23b5bc"
             android:layout_marginTop="2dp"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
         <TextView
             android:id="@+id/task_status_tv"
             android:layout_width="wrap_content"
@@ -85,7 +83,7 @@
             android:text="state"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#23b5bc"
-            android:textSize="9dp" />
+            android:textSize="9sp" />
 
 
         <TextView
@@ -103,10 +101,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/downloadProgressBar"
-            android:layout_alignRight="@id/downloadBtn"
+            android:layout_alignEnd="@id/downloadBtn"
+            android:layout_toEndOf="@id/downloadProgressBar"
+            android:layout_marginStart="3dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#23b5bc"
-            android:textSize="9dp" />
+            android:textSize="9sp" />
 
     </RelativeLayout>
 

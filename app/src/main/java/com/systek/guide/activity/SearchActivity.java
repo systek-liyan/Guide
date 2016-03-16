@@ -1,7 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -38,15 +37,15 @@ public class SearchActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
+    protected void setView() {
         setContentView(R.layout.activity_search);
         initDrawer();
-        initView();
-        addListener();
+        //initView();
+        //addListener();
     }
 
 
-    private void addListener() {
+    void addListener() {
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -78,6 +77,16 @@ public class SearchActivity extends BaseActivity {
                 finish();
             }
         });
+
+    }
+
+    @Override
+    void initData() {
+
+    }
+
+    @Override
+    void registerReceiver() {
 
     }
 
@@ -116,8 +125,8 @@ public class SearchActivity extends BaseActivity {
         }
         return list;
     }
-
-    private void initView() {
+    @Override
+    void initView() {
 
         setTitleBar();
         setTitleBarTitle("搜索");

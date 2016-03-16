@@ -4,15 +4,18 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 
 import com.liulishuo.filedownloader.FileDownloader;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.leakcanary.LeakCanary;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
 
-import java.util.Iterator;
+import java.lang.reflect.Field;
 
 
 /**
@@ -30,10 +33,6 @@ public class MyApplication extends Application implements IConstants{
         return mServiceManager;
     }
 
-    public void setmServiceManager(MediaServiceManager mServiceManager) {
-        this.mServiceManager = mServiceManager;
-    }
-
     public MediaServiceManager mServiceManager;
 
     public static int getCurrentNetworkType() {
@@ -48,22 +47,42 @@ public class MyApplication extends Application implements IConstants{
     public static int currentNetworkType= INTERNET_TYPE_NONE;
     private BluetoothManager bluetoothManager;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
+        //setTypeface();
         //初始化下载框架
         FileDownloader.init(this);
-        if (!isSameAppName()) {return;}
         // 防止重启两次,非相同名字的则返回
+        if (!isSameAppName()) {return;}
+        ImageLoader.getInstance();
+        myApplication = this;
         mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
         mServiceManager.connectService();
-        myApplication = this;
         registerNetWorkReceiver();
-        initBlueTooth();
+        //initBlueTooth();
         //初始化检查内存泄露
-        //LeakCanary.install(this);
+        LeakCanary.install(this);
+        //FontUtils.getInstance().replaceSystemDefaultFontFromAsset(this, "fonts/aaa.ttf");
+    }
 
+
+    public void setTypeface(){
+        Typeface  typeFace = Typeface.createFromAsset(getAssets(), "fonts/aaa.ttf");
+        try
+        {
+            Field field = Typeface.class.getDeclaredField("SERIF");
+            field.setAccessible(true);
+            field.set(null, typeFace);
+        }
+        catch (NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
@@ -102,9 +121,7 @@ public class MyApplication extends Application implements IConstants{
      */
     private String getProcessAppName(int pid) {
         ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        Iterator<ActivityManager.RunningAppProcessInfo> iterator = activityManager.getRunningAppProcesses().iterator();
-        while (iterator.hasNext()) {
-            ActivityManager.RunningAppProcessInfo runningAppProcessInfo =iterator.next();
+        for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : activityManager.getRunningAppProcesses()) {
             try {
                 if (runningAppProcessInfo.pid == pid) {
                     return runningAppProcessInfo.processName;
@@ -117,10 +134,16 @@ public class MyApplication extends Application implements IConstants{
     }
     /*退出程序*/
     public  void exit() {
-        bluetoothManager.disConnectBluetoothService();
+        if(bluetoothManager!=null){
+            bluetoothManager.disConnectBluetoothService();
+        }
+        if(mServiceManager!=null){
+            mServiceManager.disConnectService();
+        }
         bluetoothManager=null;
-        mServiceManager.disConnectService();
+        //ImageLoader.getInstance().clearMemoryCache();
         DataBiz.clearTempValues(getAppContext());
+        android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }
 

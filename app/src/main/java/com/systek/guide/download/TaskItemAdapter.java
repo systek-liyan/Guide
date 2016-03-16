@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.systek.guide.IConstants;
+import com.systek.guide.MyApplication;
 import com.systek.guide.R;
+import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.NetworkUtil;
 
 import java.io.File;
 
@@ -27,8 +29,12 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
             if (v.getTag() == null) {
                 return;
             }
-
             TaskItemViewHolder holder = (TaskItemViewHolder) v.getTag();
+            //无网络连接，返回错误
+            if(!NetworkUtil.isOnline(MyApplication.get())){
+                holder.updateNotDownloaded(FileDownloadStatus.error,0,0);
+                return;
+            }
             final int status = TasksManager.getImpl().getStatus(holder.id);
 
             if (TasksManager.getImpl().isDownloaded(status) && TasksManager.getImpl().isExist(holder.id)) {
@@ -41,12 +47,15 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
             } else if (TasksManager.getImpl().isDownloading(status)) {
                 // downloading
                 // to pause
-                FileDownloader.getImpl().pause(holder.id);// TODO: 2016/3/9
+                TasksManager.getImpl().pauseTask(holder.id);// TODO: 2016/3/9
+                TasksManager.getImpl().setStatus(holder.id,FileDownloadStatus.paused);
                 v.setBackgroundResource(R.drawable.download_start);
             } else {
                 // to start
                 final TasksMuseumModel model = TasksManager.getImpl().get(holder.position);
-                TasksManager.getImpl().toDownload(model.getMuseumId(), holder);
+                TasksManager.getImpl().toDownload(model, holder);
+                v.setBackgroundResource(R.drawable.download_stop);
+                TasksManager.getImpl().setStatus(holder.id, FileDownloadStatus.progress);
             }
         }
     };
@@ -73,7 +82,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
         holder.update(model.getId(), position);
         holder.taskActionBtn.setTag(holder);
         holder.taskNameTv.setText(model.getName());
-
+        ImageLoaderUtil.displayImage(model.getIconUrl(),holder.museumIcon);
         TasksManager.getImpl().updateViewHolder(holder.id, holder);
 
         holder.taskActionBtn.setEnabled(true);
@@ -97,7 +106,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
                         , TasksManager.getImpl().getTotal(model.getId()));
             }
         } else {
-            holder.taskStatusTv.setText("loading");//R.string.tasks_manager_demo_status_loading
+            //holder.taskStatusTv.setText("loading");//R.string.tasks_manager_demo_status_loading
             holder.taskActionBtn.setEnabled(false);
         }
     }

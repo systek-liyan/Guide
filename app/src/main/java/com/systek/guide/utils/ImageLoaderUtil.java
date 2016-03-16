@@ -23,7 +23,6 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
-import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 
 import java.io.ByteArrayOutputStream;
@@ -252,7 +251,7 @@ public class ImageLoaderUtil implements IConstants{
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            imageView.setImageResource(R.drawable.emotionstore_progresscancelbtn);
+            //imageView.setImageResource(R.drawable.emotionstore_progresscancelbtn);
             LogUtil.i("图片加载失败",failReason.toString());
         }
 
@@ -261,6 +260,7 @@ public class ImageLoaderUtil implements IConstants{
             Bitmap bitmap=blurBitmap(context,loadedImage);
             imageView.setImageBitmap(bitmap);
             try{
+                LogUtil.i("ZHANG","onLoadingComplete");
                 if(!imageUri.startsWith(BASE_URL)){return;}
                 String path=imageUri.substring(imageUri.indexOf(BASE_URL) + BASE_URL.length());
                 String name=Tools.changePathToName(path);
@@ -288,6 +288,7 @@ public class ImageLoaderUtil implements IConstants{
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             try{
+                //LogUtil.i("ZHANG","onLoadingComplete");
                 if(!imageUri.startsWith(BASE_URL)){return;}
                 String path=imageUri.substring(imageUri.indexOf(BASE_URL) + BASE_URL.length());
                 String name=Tools.changePathToName(path);

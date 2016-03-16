@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -61,17 +60,15 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_play);
-        initView();
-        addListener();
-        registerReceiver();
+    protected void setView() {
+
+        View view = View.inflate(this, R.layout.activity_play, null);
+        setContentView(view);
+    }
+    @Override
+    void initData() {
         Intent intent=getIntent();
         setIntent(intent);
-        initData(intent);
-    }
-
-    private void initData(Intent intent) {
         String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
         if(!TextUtils.isEmpty(exhibitStr)){
             ExhibitBean bean= JSON.parseObject(exhibitStr, ExhibitBean.class);
@@ -88,7 +85,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        initData(intent);
+        initData();
     }
 
     @Override
@@ -105,7 +102,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     /**
      * 添加监听器
      */
-    private void addListener() {
+    void addListener() {
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
         mulTiAngleImgAdapter.setOnItemClickListener(new MultiAngleImgAdapter.OnItemClickListener() {
@@ -138,10 +135,11 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     }
 
+
     /**
      * 注册广播接收器
      */
-    private void registerReceiver() {
+    void registerReceiver() {
         IntentFilter filter=new IntentFilter();
         filter.addAction(INTENT_EXHIBIT);
         filter.addAction(INTENT_EXHIBIT_PROGRESS);
@@ -204,7 +202,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     }
 
     /*初始化界面控件*/
-    private void initView() {
+    void initView() {
 
         setMyTitleBar();
         setHomeIcon();

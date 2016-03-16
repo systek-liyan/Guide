@@ -7,6 +7,10 @@
     tools:context=".activity.MuseumListActivity">
 
     <include layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/mErrorView"
+        layout="@layout/activity_error"
+        android:visibility="gone"/>
     <ListView
         android:id="@+id/museumListView"
         android:divider="@null"

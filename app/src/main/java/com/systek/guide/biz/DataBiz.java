@@ -169,6 +169,29 @@ public class DataBiz implements IConstants{
         return list;
     }
 
+
+    /**
+     * 从本地数据数据库查询实体类
+     * @param clazz 类
+     * @param <T> 类型
+     * @return 对象
+     */
+    public synchronized static<T> T getEntityLocalById(Class<T> clazz,String id){
+        //DbUtils db=getDb(null);
+        DbUtils db=DbUtils.create(MyApplication.get());
+        T t=null;
+        try {
+            t = db.findById(clazz,id);
+        } catch (DbException e) {
+            ExceptionUtil.handleException(e);
+        }finally {
+            if(db!=null){db.close();}
+        }
+        return t;
+    }
+
+
+
     /**
      * 查询数据库下某column列下值为value的集合
      * @param column
@@ -359,7 +382,7 @@ public class DataBiz implements IConstants{
         //DbUtils db=getDb(null);
         DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            exhibitBean= db.findById(ExhibitBean.class,exhibitId);
+            exhibitBean= db.findById(ExhibitBean.class, exhibitId);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
@@ -370,7 +393,21 @@ public class DataBiz implements IConstants{
         return exhibitBean;
     }
 
-
+    /**
+     * 展品等博物馆数据是否保存
+     * @param museumd 博物馆id
+     * @return 是否有数据
+     */
+    public synchronized static boolean isBasicDataSave(String museumd) {
+        List<BeaconBean> beaconList = getEntityListLocal(BeaconBean.class);
+        List<LabelBean> labelList = getEntityListLocal(LabelBean.class);
+        List<ExhibitBean> exhibitList = getEntityListLocal(ExhibitBean.class);
+        if(beaconList!=null&&labelList!=null&&exhibitList!=null
+                &&beaconList.size()>0&&labelList.size()>0&&exhibitList.size()>0){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * 保存博物馆下展品，beacon，label数据
@@ -490,7 +527,7 @@ public class DataBiz implements IConstants{
 
 
     public static  String getCurrentMuseumId(){
-        return (String) getTempValue(MyApplication.get(),SP_MUSEUM_ID,"");
+        return (String) getTempValue(MyApplication.get(),SP_MUSEUM_ID,"deadccf89ef8412a9c8a2628cee28e18");
     }
     /**
      * 从SP文件中读取指定Key的值
@@ -535,7 +572,7 @@ public class DataBiz implements IConstants{
     public static boolean saveBitmap(String path,String name,Bitmap bm) {
         boolean isSave=false;
         File f = new File(path,name);
-        if (!f.exists()) {
+        if (f.exists()) {
             return true;
             //f.delete();
         }
@@ -545,6 +582,7 @@ public class DataBiz implements IConstants{
             bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             isSave=true;
+            //LogUtil.i("ZHANG","图片保存成功=name="+name+"path="+path);
         } catch (IOException e) {
             ExceptionUtil.handleException(e);
         }finally {

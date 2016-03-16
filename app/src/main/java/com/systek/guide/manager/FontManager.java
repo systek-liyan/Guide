@@ -1,11 +1,10 @@
 package com.systek.guide.manager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -24,14 +23,24 @@ public class FontManager {
             View v = root.getChildAt(i);
             if (v instanceof TextView) {
                 ((TextView) v).setTypeface(tf);
-            } else if (v instanceof Button) {
-                ((Button) v).setTypeface(tf);
-            } else if (v instanceof EditText) {
-                ((EditText) v).setTypeface(tf);
             } else if (v instanceof ViewGroup) {
                 changeFonts((ViewGroup) v, act);
             }
         }
 
     }
+
+    public static void applyFont(final Context context, final View root) {
+        try {
+            if (root instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) root;
+                for (int i = 0; i < viewGroup.getChildCount(); i++)
+                    applyFont(context, viewGroup.getChildAt(i));
+            } else if (root instanceof TextView)
+                ((TextView) root).setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/aaa.ttf"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

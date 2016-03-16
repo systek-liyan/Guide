@@ -8,8 +8,10 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +22,11 @@ import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.custom.LoadingDialog;
-import com.systek.guide.utils.ExceptionUtil;
 
 /**
  * Created by Qiang on 2015/12/30.
  */
 public abstract class BaseActivity extends AppCompatActivity implements IConstants{
-
 
     private String TAG = getClass().getSimpleName();//类的唯一标记
     public int netState;//网络状态
@@ -34,20 +34,29 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     protected Toolbar toolbar;
     protected TextView toolbarTitle;
     protected Dialog dialog;
-
-
+    protected View mErrorView;
+    protected Button refreshBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            netState=MyApplication.currentNetworkType;
-        } catch (Exception e) {
-            ExceptionUtil.handleException(e);
-        }
-        initialize(savedInstanceState);
-
+        setIntent(getIntent());
+        setView();
+        initView();
+        addListener();
+        registerReceiver();
+        initData();
     }
+    /**
+     * 初始化控件
+     */
+    abstract void setView();
+    abstract void initView();
+    abstract void addListener();
+    abstract void initData();
+    abstract void registerReceiver();
+
+
 
     public void showDialog(String msg){
         if(dialog==null){
@@ -60,6 +69,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         if(dialog!=null&&dialog.isShowing()){
             dialog.dismiss();
         }
+    }
+
+    public void showErrors(boolean forceError) {
+        mErrorView = findViewById(R.id.mErrorView);
+        mErrorView.setVisibility(forceError ? View.VISIBLE : View.GONE);
     }
 
 
@@ -98,7 +112,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     }
 
     protected void setTitleBarTitle(String text){
-        if(toolbarTitle==null){return;}
+        if(toolbarTitle==null|| TextUtils.isEmpty(text)){return;}
         toolbarTitle.setText(text);
     }
 
@@ -112,19 +126,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         return (T) findViewById(id);
     }
 
-
-
-
     protected View.OnClickListener backOnClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             finish();
         }
     };
-
-
-
-
 
     /**
      * 加载抽屉
@@ -141,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                         Class<?>  targetClass=null;
                         switch (position){
                             case 1:
-                                targetClass=TasksManagerDemoActivity.class;
+                                targetClass=DownloadManagerActivity.class;
                                 break;
                             case 2:
                                 targetClass=CollectionActivity.class;
@@ -169,10 +176,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         return MyApplication.currentNetworkType;
     }
 
-    /**
-     * 初始化控件
-     */
-    protected  void initialize(Bundle savedInstanceState){}
 
     /**
      * 获得当前activity的tag

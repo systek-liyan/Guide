@@ -37,7 +37,7 @@ public class LoadingDialog {
 
         // 创建自定义样式loading_dialog
         Dialog loadingDialog = new Dialog(context, R.style.WindowDialog);
-        loadingDialog.setCancelable(false);// 不可以用“返回键”取消
+        loadingDialog.setCancelable(true);// 不可以用“返回键”取消
         // 设置布局
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,LinearLayout.LayoutParams.FILL_PARENT));
         return loadingDialog;

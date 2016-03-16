@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
-import com.systek.guide.custom.RoundImageView;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageLoaderUtil;
@@ -98,16 +97,17 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         if (sColorStateNotPlaying == null || sColorStatePlaying == null) {
             initializeColorStateLists(context);
         }
-        Integer cachedState = STATE_INVALID;
+        //Integer cachedState = STATE_INVALID;
         ViewHolder viewHolder = null;
 
         if (convertView == null||convertView.getTag() == null) {
             convertView = inflater.inflate( R.layout.item_list_exhibit, null);
+            //FontManager.applyFont(context, convertView);
             viewHolder = new ViewHolder();
             viewHolder.tvExhibitName = (TextView) convertView.findViewById(R.id.tvExhibitName);
             viewHolder.tvExhibitYears = (TextView) convertView.findViewById(R.id.tvExhibitYears);
             viewHolder.tvExhibitPosition = (TextView) convertView.findViewById(R.id.tvExhibitPosition);
-            viewHolder.ivExhibitIcon = (RoundImageView) convertView.findViewById(R.id.ivExhibitIcon);
+            viewHolder.ivExhibitIcon = (ImageView) convertView.findViewById(R.id.ivExhibitIcon);
             viewHolder.tvExhibitDistance = (TextView) convertView.findViewById(R.id.tvExhibitDistance);
             viewHolder.llCollectionBtn = (LinearLayout) convertView.findViewById(R.id.llCollectionBtn);
             viewHolder.ivCollection = (ImageView) convertView.findViewById(R.id.ivCollection);
@@ -208,7 +208,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
 
     class ViewHolder{
         TextView tvExhibitName, tvExhibitYears, tvExhibitPosition,tvExhibitDistance,tvExhibitNumber;
-        RoundImageView ivExhibitIcon;
+        ImageView ivExhibitIcon;
         LinearLayout llCollectionBtn;
         ImageView ivCollection;
         ImageView ivPlayAnim;

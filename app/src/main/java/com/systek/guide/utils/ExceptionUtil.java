@@ -2,10 +2,10 @@ package com.systek.guide.utils;
 
 import android.content.Context;
 
+import com.lidroid.xutils.exception.HttpException;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 
-import org.apache.http.HttpException;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 
@@ -26,7 +26,7 @@ public class ExceptionUtil {
         e.printStackTrace(printWriter);
         String str = stringWriter.toString();
         String type=exceptionCode(e);
-        // 开发中
+        //开发中
         LogUtil.e("ZHANG",type+"=="+ str);
     }
 

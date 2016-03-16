@@ -56,7 +56,7 @@
         </activity>
         <activity
             android:name="com.systek.guide.activity.MuseumListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
         </activity>
@@ -104,11 +104,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.systek.guide.activity.DownloadActivity"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name="com.systek.guide.activity.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -120,7 +115,7 @@
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="com.systek.guide.activity.TasksManagerDemoActivity"
+            android:name="com.systek.guide.activity.DownloadManagerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
@@ -141,8 +136,6 @@
             android:name="org.altbeacon.beacon.BeaconIntentProcessor"
             android:enabled="true"
             android:exported="false" />
-        <service android:name="com.systek.guide.service.MuseumDownloadService" />
-        <service android:name="com.systek.guide.service.TempDownloadService" />
 
         <receiver android:name="com.systek.guide.receiver.PhoneReceiver" >
             <intent-filter>

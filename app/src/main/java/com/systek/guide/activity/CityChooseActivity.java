@@ -1,7 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -9,12 +8,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -27,7 +26,6 @@ import com.systek.guide.custom.SideBar;
 import com.systek.guide.entity.CityBean;
 import com.systek.guide.parser.CharacterParser;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.PinyinComparator;
 
 import java.util.ArrayList;
@@ -45,97 +43,36 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     private CharacterParser characterParser;
     private PinyinComparator pinyinComparator;
     private Handler handler;
-    private String currentCity;
+    private String chooseCity;
     private AMapLocationClient locationClient;
     private AMapLocationClientOption locationOption;
+    private TextView currentCity,suggestCity;
+    private final int  MSG_WHAT_UPDATE_CURRENT_CITY=44;
 
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_city_choose);
+    protected void setView() {
+
+        View view = View.inflate(this, R.layout.activity_city_choose, null);
+        setContentView(view);
+        //加载标题栏
         setTitleBar();
+        //加载抽屉
         initDrawer();
-        initView();
-        addListener();
-        initData();
         //加载高德地图
         initLocation();
-
-    }
-
-    private void initLocation() {// TODO: 2016/2/16
-        locationClient = new AMapLocationClient(this.getApplicationContext());
-        locationOption = new AMapLocationClientOption();
-        // 设置定位模式为高精度模式
-        locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        // 设置定位监听
-        locationClient.setLocationListener(this);
-        // 设置定位参数
-        locationClient.setLocationOption(locationOption);
-        // 启动定位
-        locationClient.startLocation();
     }
 
     @Override
-    public void onLocationChanged(AMapLocation aMapLocation) {
-        LogUtil.i("ZHANG", "执行了onLocationChanged");
-        LogUtil.i("ZHANG", aMapLocation.getCity());
-    }
-
-
-
-    private void addListener() {
-
+    void addListener() {
+        suggestCity.setOnClickListener(onClickListener);
+        currentCity.setOnClickListener(onClickListener);
         //设置右侧触摸监听
-        sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
-            @Override
-            public void onTouchingLetterChanged(String s) {
-                //该字母首次出现的位置
-                int position = adapter.getPositionForSection(s.charAt(0));
-                if (position != -1) {
-                    cityListView.setSelection(position);
-                }
-            }
-        });
-        cityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    CityBean city = adapter.getItem(position);
-                    // 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-                    currentCity = JSON.toJSONString(city);
-                    Toast.makeText(getApplication(), city.getName(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
-                    intent.putExtra(INTENT_CITY, currentCity);
-                    startActivity(intent);
-                    finish();
-                } catch (Exception e) {
-                    ExceptionUtil.handleException(e);
-                }
-
-
-            }
-        });
+        sideBar.setOnTouchingLetterChangedListener(sideBarListener);
+        cityListView.setOnItemClickListener(adapterViewListener);
         //根据输入框输入值的改变来过滤搜索
-        mClearEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
-                filterData(s.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
+        mClearEditText.addTextChangedListener(textWatcher);
     }
-
-
 
 
     /**
@@ -161,8 +98,8 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         adapter.updateListView(filterDateList);
     }
 
-
-    private void initView() {
+    @Override
+    void initView() {
 
         setTitleBarTitle("城市选择");
         handler=new MyHandler();
@@ -176,6 +113,12 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         sideBar.setTextView(dialog);
         cityListView = (ListView) findViewById(R.id.country_lvcountry);
         mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
+        currentCity = (TextView) findViewById(R.id.currentCity);
+        suggestCity = (TextView) findViewById(R.id.suggestCity);
+
+        mErrorView=findViewById(R.id.mErrorView);
+        refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
+
         mClearEditText.clearFocus();
         cities = new ArrayList<>();
         // 根据a-z进行排序源数据
@@ -187,8 +130,8 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
 
     }
 
-
-    private void initData() {
+    @Override
+    void initData() {
         new Thread(){
             @Override
             public void run() {
@@ -207,11 +150,129 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         }.start();
     }
 
+    @Override
+    void registerReceiver() {
+
+    }
+
+    private void initLocation() {// TODO: 2016/2/16
+        locationClient = new AMapLocationClient(this.getApplicationContext());
+        locationOption = new AMapLocationClientOption();
+        // 设置定位模式为高精度模式
+        locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        // 设置定位监听
+        locationClient.setLocationListener(this);
+        // 设置定位参数
+        locationClient.setLocationOption(locationOption);
+        // 启动定位
+        locationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        String city=aMapLocation.getCity();
+        if(TextUtils.isEmpty(city)){return;}
+        chooseCity =city;
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_CURRENT_CITY);
+        if (null != locationClient) {
+            /**
+             * 如果AMapLocationClient是在当前Activity实例化的，
+             * 在Activity的onDestroy中一定要执行AMapLocationClient的onDestroy
+             */
+            locationClient.onDestroy();
+            locationClient = null;
+            locationOption = null;
+        }
+    }
+    SideBar.OnTouchingLetterChangedListener sideBarListener=new SideBar.OnTouchingLetterChangedListener() {
+        @Override
+        public void onTouchingLetterChanged(String s) {
+            //该字母首次出现的位置
+            int position = adapter.getPositionForSection(s.charAt(0));
+            if (position != -1) {
+                cityListView.setSelection(position);
+            }
+        }
+    };
+
+    AdapterView.OnItemClickListener adapterViewListener=new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            try {
+                CityBean city = adapter.getItem(position);
+                // 这里要利用adapter.getItem(position)来获取当前position所对应的对象
+                chooseCity = city.getName();
+                Toast.makeText(getApplication(), city.getName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
+                intent.putExtra(INTENT_CITY, chooseCity);
+                startActivity(intent);
+                finish();
+            } catch (Exception e) {
+                ExceptionUtil.handleException(e);
+            }
+        }
+    };
+
+
+    TextWatcher textWatcher=new TextWatcher() {
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+            filterData(s.toString());
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
+
+
+
+    private View.OnClickListener onClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.suggestCity:
+                    CharSequence chars=suggestCity.getText();
+                    if(chars==null){break;}
+                    String str=chars.toString();
+                    if(str.equals("无")){
+                        break;
+                    }
+                    chooseCity=str;
+                    Intent intent = new Intent(CityChooseActivity.this, MuseumListActivity.class);
+                    intent.putExtra(INTENT_CITY, chooseCity);
+                    startActivity(intent);
+                    finish();
+                case R.id.currentCity:
+                    CharSequence cCity=suggestCity.getText();
+                    String currentCity=cCity.toString();
+                    if(currentCity.equals("无")){
+                        break;
+                    }
+                    chooseCity=currentCity;
+                    Intent intent1 = new Intent(CityChooseActivity.this, MuseumListActivity.class);
+                    intent1.putExtra(INTENT_CITY, chooseCity);
+                    startActivity(intent1);
+                    finish();
+                    break;
+                default:break;
+            }
+        }
+    };
+
+
     class MyHandler extends  Handler{
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
                 adapter.updateListView(cities);
+            }else if(msg.what==MSG_WHAT_UPDATE_CURRENT_CITY){
+                currentCity.setText(chooseCity);
             }
         }
     }

@@ -7,8 +7,12 @@
     android:orientation="vertical"
     tools:context=".activity.CollectionActivity">
 
-
     <include layout="@layout/toolbar"/>
+
+    <include
+        android:id="@+id/mErrorView"
+        layout="@layout/activity_error"
+        android:visibility="gone"/>
 
     <ListView
         android:id="@+id/collectionListView"

@@ -29,11 +29,13 @@
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
         <item name="material_drawer_selected_text">@color/md_red_400</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
-
+        <item name="android:typeface">serif</item>
 
     </style>
 
-    <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus"/>
+    <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
+        <item name="android:typeface">serif</item>
+    </style>
 
 
     <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
@@ -52,12 +54,13 @@
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
         <!-- CAB :D -->
         <item name="windowActionModeOverlay">true</item>
+        <item name="android:typeface">serif</item>
     </style>
 
 
 
 
-    <style name="base_image_view">
+    <style name="base_image_view" parent="AppTheme">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:scaleType">centerCrop</item>
@@ -68,9 +71,10 @@
     </style>
 
 
-    <style name="base_text_view">
+    <style name="base_text_view" parent="AppTheme">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+
     </style>
 
     <style name="normal_text_view" parent="base_text_view">
@@ -78,20 +82,21 @@
         <item name="android:textSize">@dimen/normal_textSize</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerInParent">true</item>
+        <!--item name="android:layout_centerInParent">true</item-->
     </style>
 
     <!--tv_home_menu -->
-    <style name="tv_home_menu" >
+    <style name="tv_home_menu" parent="AppTheme">
         <item name="android:textSize">@dimen/text_home_menu_size</item>
         <item name="android:textColor">@color/md_black_1000</item>
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:typeface">serif</item>
     </style>
 
-    <style name="tv_topic_label" >
+    <style name="tv_topic_label"  parent="AppTheme">
         <item name="android:textSize">@dimen/topic_label_textSize</item>
         <item name="android:textColor">@color/md_black_1000</item>
         <item name="android:gravity">center</item>
@@ -102,7 +107,7 @@
     </style>
 
     <!--标题 text view -->
-    <style name="text_view_title_bar">
+    <style name="text_view_title_bar" parent="AppTheme">
         <item name="android:textColor">@color/md_white_1000</item>
         <item name="android:textSize">@dimen/normal_textSize</item>
         <item name="android:layout_width">wrap_content</item>
@@ -122,7 +127,7 @@
     </style>
 
     <!-- 黑色半透明窗口式对话框 -->
-    <style name="WindowDialog" >
+    <style name="WindowDialog" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>       <!--背景透明-->
         <item name="android:windowFrame">@null</item>                                 <!--边框-->
         <item name="android:windowNoTitle">true</item>                                <!--无标题-->
@@ -130,20 +135,7 @@
         <item name="android:windowIsTranslucent">true</item>                          <!--半透明-->
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        <item name="android:backgroundDimEnabled">true</item>                         <!--模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-
-
 </resources>
-    <!--style name="MyFullTheme" parent="Theme.AppCompat.Light.NoActionBar">
-            <item name="windowActionBar">false</item>
-            <item name="windowNoTitle">true</item>-->
-    <!-- Here we setting appcompat’s actionBarStyle -->
-    <!--<item name="drawerArrowStyle">@style/Material.DrawerArrowStyle</item>-->
-    <!-- ...and here we setting appcompat’s color theming attrs -->
-    <!--<item name="colorPrimary">@color/materialize_primary</item>
-    <item name="colorPrimaryDark">@color/materialize_primary_dark</item>
-    <item name="colorAccent">@color/materialize_accent</item>-->
-    <!-- Material specific values -->
-    <!--</style>-->

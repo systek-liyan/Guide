@@ -40,7 +40,7 @@ public interface IConstants {
 
     String URL_CITY_LIST="/api/cityService/cityList"; //城市路径
     String URL_MUSEUM_LIST="/api/museumService/museumList";//city下博物馆列表
-    String URL_GET_MUSEUM_BY_ID="/api/museumService/museumList?museumId="; //博物馆列表下博物馆*/
+    String URL_GET_MUSEUM_BY_ID="/api/museumService/museumList?id="; //博物馆列表下博物馆*/
     String URL_ALL_MUSEUM_ASSETS ="/api/assetsService/assetsList?museumId=";//资源路径*/
     String URL_ALL_BEACON_LIST="/api/beaconService/beaconList";//beacon列表
     String URL_EXHIBIT_LIST="/api/exhibitService/exhibitList?museumId="; //博物馆下展品列表*/
@@ -102,10 +102,6 @@ public interface IConstants {
     String SDCARD_ROOT= Environment.getExternalStorageDirectory().getAbsolutePath();//存储至本地sdcard位置
     //String LOCAL_ASSETS_PATH=SDCARD_ROOT+"/Guide/";//sdcard存储图片的位置*/
     String LOCAL_ASSETS_PATH= APP_ROOT+"/";//app内部存储图片的位置*/
-    /*String LOCAL_FILE_TYPE_IMAGE="image";
-    String LOCAL_FILE_TYPE_AUDIO="audio";
-    String LOCAL_FILE_TYPE_LYRIC="lyric";*/
-
 
     /**数据库字段*/
 

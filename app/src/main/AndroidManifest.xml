@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name=".activity.MuseumListActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
@@ -101,11 +101,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".activity.DownloadActivity"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-        <activity
             android:name=".activity.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -118,7 +113,7 @@
         </activity>
 
         <activity
-            android:name=".activity.TasksManagerDemoActivity"
+            android:name=".activity.DownloadManagerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -139,8 +134,6 @@
             android:name="org.altbeacon.beacon.BeaconIntentProcessor"
             android:enabled="true"
             android:exported="false"/>
-        <service android:name=".service.MuseumDownloadService"/>
-        <service android:name=".service.TempDownloadService"/>
 
         <receiver android:name=".receiver.PhoneReceiver">
             <intent-filter>

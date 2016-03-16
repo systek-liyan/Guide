@@ -6,79 +6,66 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
+import com.systek.guide.adapter.MuseumIconAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.manager.MediaServiceManager;
-import com.systek.guide.service.DownloadService;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ImageLoaderUtil;
-import com.systek.guide.utils.LogUtil;
+import com.systek.guide.utils.MyHttpUtil;
+import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MuseumHomeActivity extends BaseActivity {
 
     /*当前博物馆ID*/
     private String currentMuseumId;
     private MuseumBean currentMuseum;
-    /*当前屏幕宽度*/
-    private int screenWidth;
-    /*对话框*/
-    private LinearLayout llMuseumLargestIcon;
     private TextView tvMuseumIntroduce;
     private RelativeLayout rlGuideHome;
     private RelativeLayout rlMapHome;
     private RelativeLayout rlTopicHome;
     private Handler handler;
-    private String currentMuseumStr;
     private MediaPlayer mediaPlayer;
     private ImageView ivPlayStateCtrl;
     private RelativeLayout rlCollectionHome;
     private RelativeLayout rlNearlyHome;
-    private MediaServiceManager mediaServiceManager;
+    private ArrayList<String> iconUrlList;
+    private MuseumIconAdapter iconAdapter;
 
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
+    protected void setView() {
 
-        setContentView(R.layout.activity_museum_home);
-        mediaServiceManager=MediaServiceManager.getInstance(this);
-        WindowManager windowManager = getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        screenWidth = display.getWidth();
+        View view = View.inflate(this, R.layout.activity_museum_home, null);
+        setContentView(view);
         handler=new MyHandler();
-        Intent intent =getIntent();
-        currentMuseumStr=intent.getStringExtra(INTENT_MUSEUM);
-        initView();
         initDrawer();
-        addListener();
-        initBasicData();
-        showDialog("加载中，请稍后...");
     }
-
-
     @Override
     protected void onNewIntent(Intent intent) {
-        currentMuseumStr=intent.getStringExtra(INTENT_MUSEUM);
+        currentMuseumId=intent.getStringExtra(INTENT_MUSEUM_ID);
+        initData();
     }
 
 
@@ -97,13 +84,100 @@ public class MuseumHomeActivity extends BaseActivity {
         }
     }
 
-    private void addListener() {
+    void addListener() {
         rlGuideHome.setOnClickListener(onClickListener);
         rlMapHome.setOnClickListener(onClickListener);
         rlTopicHome.setOnClickListener(onClickListener);
         ivPlayStateCtrl.setOnClickListener(onClickListener);
         rlCollectionHome.setOnClickListener(onClickListener);
         rlNearlyHome.setOnClickListener(onClickListener);
+    }
+
+    @Override
+    void initData() {
+        Intent intent =getIntent();
+        currentMuseumId=intent.getStringExtra(INTENT_MUSEUM_ID);
+        startTime=System.currentTimeMillis();
+        showDialog("正在加载...");
+        if(TextUtils.isEmpty(currentMuseumId)){
+            onError();
+            return;
+        }
+        new Thread(){
+            @Override
+            public void run() {
+                currentMuseum = DataBiz.getEntityLocalById(MuseumBean.class, currentMuseumId);
+                if (currentMuseum == null) {
+                    if (!NetworkUtil.isOnline(MuseumHomeActivity.this)) {
+                        onError();
+                    } else {
+                        String url = BASE_URL + URL_GET_MUSEUM_BY_ID + currentMuseumId;
+                        List<MuseumBean> museumBeanList = DataBiz.getEntityListFromNet(MuseumBean.class, url);
+                        if (museumBeanList != null && museumBeanList.size() > 0) {
+                            currentMuseum = museumBeanList.get(0);
+                        } else {
+                            onError();
+                        }
+                    }
+                }
+
+            }
+        }.start();
+
+        new Thread(){
+            @Override
+            public void run() {
+                while(currentMuseum==null){
+                    if(System.currentTimeMillis()-startTime>1000){
+                        onError();
+                        return;
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                initAudio();
+                //保存临时数据，当前博物馆id
+                DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID, currentMuseumId);
+                String imgStr = currentMuseum.getImgUrl();
+                String[] imgs = imgStr.split(",");
+                for (String imgUrl : imgs) {
+                    if (!TextUtils.isEmpty(imgUrl)) {
+                        iconUrlList.add(imgUrl);
+                    }
+                }
+                //已经下载当前博物馆基本数据，通知更新显示数据
+                //判断当前是否在博物馆，根据beacon回调时存储的Boolean值
+                boolean isInMuseum = (boolean) DataBiz.getTempValue(MuseumHomeActivity.this, SP_IS_IN_MUSEUM, false);
+                //如果在博物馆
+                if (isInMuseum) {
+                    //判断博物馆数据是否已经下载
+                    boolean isDownload = (boolean) Tools.getValue(MyApplication.get(), currentMuseumId, false);
+                    //没有下载则启动下载服务去下载数据
+                    if (!isDownload) {
+                        //DownloadService.startActionBaz(MuseumHomeActivity.this, currentMuseumId);
+                    }
+                }
+                //判断当前博物馆基本数据是否已经加载
+                boolean isBasicDataSave = DataBiz.isBasicDataSave(currentMuseumId);
+                if (isBasicDataSave) {
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                } else {
+                    DataBiz.saveAllJsonData(currentMuseumId);
+                    Tools.saveValue(MuseumHomeActivity.this, SP_IS_MUSEUM_DATA_SAVE, true);
+                    if (handler != null) {
+                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    }
+                }
+            }
+        }.start();
+    }
+
+    @Override
+    void registerReceiver() {
+
     }
 
 
@@ -161,75 +235,27 @@ public class MuseumHomeActivity extends BaseActivity {
         ivPlayStateCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_sound_open));
     }
 
-    private void initBasicData() {
-        new Thread(){
+
+    long startTime;
+
+    private void onError() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                try{
-                    //当前博物馆json为空，返回数据加载失败
-                    if(TextUtils.isEmpty(currentMuseumStr)){
-                        onDataError();
-                        return;
+                showErrors(true);
+                refreshBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mErrorView.setVisibility(View.GONE);
+                        initData();
                     }
-                    //解析当前你博物馆
-                    currentMuseum=JSON.parseObject(currentMuseumStr, MuseumBean.class);
-                    currentMuseumId=currentMuseum.getId();
-                    if(TextUtils.isEmpty(currentMuseumId)){
-                        LogUtil.i("ZHANG","currentMuseumId"+currentMuseumId);
-                        return;}
-                    //保存临时数据，当前博物馆id
-                    DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID, currentMuseumId);
-                    //判断当前博物馆数据是否已经下载
-                    boolean isDataSave= (boolean) Tools.getValue(MuseumHomeActivity.this, SP_IS_MUSEUM_DATA_SAVE, false);
-                    //未下载则去下载
-                    if(!isDataSave){
-                        new Thread(){
-                            @Override
-                            public void run() {
-                                DataBiz.saveAllJsonData(currentMuseumId);
-                                Tools.saveValue(MuseumHomeActivity.this,SP_IS_MUSEUM_DATA_SAVE,true);
-                                if(handler!=null){
-                                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                                }
-                            }
-                        }.start();
-                    }else{
-                        //已经下载当前博物馆基本数据，通知更新显示数据
-                        if(handler!=null){
-                            handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                        }
-                    }
-                    //判断当前是否在博物馆，根据beacon回调时存储的Boolean值
-                    boolean isInMuseum= (boolean) DataBiz.getTempValue(MuseumHomeActivity.this,SP_IS_IN_MUSEUM,false);
-                    LogUtil.i("ZHANG","isInMuseum"+isInMuseum);
-                    //如果在博物馆
-                    if(isInMuseum){
-                        //判断博物馆数据是否已经下载
-                        boolean isDownload= (boolean) Tools.getValue(MyApplication.get(), currentMuseumId, false);
-                        LogUtil.i("ZHANG","isDownload"+isDownload);
-                        //没有下载则启动下载服务去下载数据
-                        if(!isDownload){
-                            /*Intent intent =new Intent(MuseumHomeActivity.this, TestService.class);
-                            intent.putExtra(INTENT_MUSEUM_ID,currentMuseumId);
-                            startService(intent);*/
-                           DownloadService.startActionBaz(MuseumHomeActivity.this, currentMuseumId);
-                           /* Intent intent =new Intent (MuseumHomeActivity.this, TempDownloadService.class);
-                            intent.putExtra(INTENT_MUSEUM_ID,currentMuseumId);
-                            startService(intent);*/
-                        }
-                    }
-                }catch (Exception e){
-                    ExceptionUtil.handleException(e);
-                    onDataError();
-                }
+                });
+                closeDialog();
             }
-        }.start();
-
-
-
+        });
     }
 
-    private void initView() {
+    protected void initView() {
 
         setTitleBar();
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_menu));
@@ -246,14 +272,30 @@ public class MuseumHomeActivity extends BaseActivity {
                 }
             }
         });
+
+        mErrorView=findViewById(R.id.mErrorView);
+        refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
+
         ivPlayStateCtrl = (ImageView) findViewById(R.id.ivPlayStateCtrl);
-        llMuseumLargestIcon = (LinearLayout) findViewById(R.id.llMuseumLargestIcon);
+        //llMuseumLargestIcon = (LinearLayout) findViewById(R.id.llMuseumLargestIcon);
         tvMuseumIntroduce = (TextView) findViewById(R.id.tvMuseumIntroduce);
         rlGuideHome = (RelativeLayout) findViewById(R.id.rlGuideHome);
         rlMapHome = (RelativeLayout) findViewById(R.id.rlMapHome);
         rlTopicHome = (RelativeLayout) findViewById(R.id.rlTopicHome);
         rlCollectionHome = (RelativeLayout) findViewById(R.id.rlCollectionHome);
         rlNearlyHome = (RelativeLayout) findViewById(R.id.rlNearlyHome);
+
+        RecyclerView recycleViewMuseumIcon = (RecyclerView) findViewById(R.id.recycleViewMuseumIcon);
+
+         /*设置为横向*/
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recycleViewMuseumIcon.setLayoutManager(linearLayoutManager);
+        iconUrlList=new ArrayList<>();
+        iconAdapter=new MuseumIconAdapter(this,iconUrlList);
+        recycleViewMuseumIcon.setAdapter(iconAdapter);
+        recycleViewMuseumIcon.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+
     }
 
 
@@ -275,40 +317,15 @@ public class MuseumHomeActivity extends BaseActivity {
 
     private void showData(){
         if(currentMuseum!=null){
-            if(dialog!=null&&dialog.isShowing()){
-                dialog.dismiss();
-            }
             setTitleBarTitle(currentMuseum.getName());
             /**加载博物馆介绍*/
             tvMuseumIntroduce.setText("      " + currentMuseum.getTextUrl());
-            initAudio();
-            /*加载多个Icon图片*/
-            if(llMuseumLargestIcon.getChildCount()>0){
-                llMuseumLargestIcon.removeAllViews();
-            }
-            String imgStr = currentMuseum.getImgUrl();
-            String[] imgs = imgStr.split(",");
-            for (int i = 0; i < imgs.length; i++) {
-                String imgUrl = imgs[i];
-                String imgName = imgUrl.replaceAll("/", "_");
-                String localPath = LOCAL_ASSETS_PATH + currentMuseumId +"/"+imgName;
-                boolean flag = Tools.isFileExist(localPath);
-                ImageView iv = new ImageView(this);
-                iv.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, ViewGroup.LayoutParams.MATCH_PARENT));
-                iv.setScaleType(ImageView.ScaleType.FIT_XY);
-                llMuseumLargestIcon.addView(iv);
-                if (flag) {
-                    ImageLoaderUtil.displaySdcardImage(this, localPath, iv);
-                } else {
-                    if (MyApplication.currentNetworkType != INTERNET_TYPE_NONE) {
-                        ImageLoaderUtil.displayNetworkImage(this, BASE_URL + imgUrl, iv);
-                    }
-                }
-            }
+            iconAdapter.updateData(iconUrlList);
+            closeDialog();
         }
     }
 
-    private void initAudio() {
+    private synchronized void initAudio() {
         new Thread(){
             @Override
             public void run() {
@@ -316,19 +333,31 @@ public class MuseumHomeActivity extends BaseActivity {
                 String audioPath = currentMuseum.getAudioUrl();
                 String audioName = Tools.changePathToName(audioPath);
                 String audioUrl = LOCAL_ASSETS_PATH + currentMuseumId  + "/"+ audioName;
-                String dataUrl="";
+                String dataUrl=null;
                 // 判断sdcard上有没有图片
                 if (Tools.isFileExist(audioUrl)) {
                     dataUrl=audioUrl;
+                    try {
+                        mediaPlayer.setDataSource(dataUrl);
+                        mediaPlayer.setOnPreparedListener(mediaListener);
+                        mediaPlayer.prepareAsync();
+                    } catch (IllegalStateException | IOException e) {
+                        ExceptionUtil.handleException(e);
+                    }
+
                 } else {
                     dataUrl = BASE_URL + audioPath;
-                }
-                try {
-                    mediaPlayer.setDataSource(dataUrl);
-                    mediaPlayer.setOnPreparedListener(mediaListener);
-                    mediaPlayer.prepareAsync();
-                } catch (IllegalStateException | IOException e) {
-                    ExceptionUtil.handleException(e);
+                    String savePath= LOCAL_ASSETS_PATH + currentMuseumId;
+                    int error=0;
+                    try {
+                        MyHttpUtil.downLoadFromUrl(dataUrl,savePath,audioName);
+                    } catch (IOException e) {
+                        ExceptionUtil.handleException(e);
+                        error++;
+                    }
+                    if(error<3){
+                        initAudio();
+                    }
                 }
             }
         }.start();

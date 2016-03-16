@@ -1,7 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -67,21 +66,17 @@ public class TopicActivity extends BaseActivity {
 
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_topic);
+    protected void setView() {
+
+        View view = View.inflate(this, R.layout.activity_topic, null);
+        setContentView(view);
+        initDrawer();
+    }
+
+
+    void initData() {
         Intent intent=getIntent();
         currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
-        init();
-    }
-
-    private void init() {
-        initViews();
-        initDrawer();
-        addListener();
-        initData();
-    }
-
-    private void initData() {
         new Thread(){
             @Override
             public void run() {
@@ -96,13 +91,75 @@ public class TopicActivity extends BaseActivity {
     }
 
     @Override
+    void registerReceiver() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         exhibitAdapter.notifyDataSetChanged();
     }
 
 
-    private void addListener() {
+    @Override
+    void initView() {
+        setTitleBar();
+        setTitleBarTitle(R.string.title_bar_topic);
+        setHomeIcon();
+        setHomeClickListener(backOnClickListener);
+
+        tvList=new ArrayList<>();
+        mediaServiceManager=MediaServiceManager.getInstance(this);
+
+        ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
+        ll_collection_years=(LinearLayout)findViewById(R.id.ll_collection_years);
+        ll_collection_material=(LinearLayout)findViewById(R.id.ll_collection_material);
+
+        lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
+
+        tvLabelClear=(TextView)findViewById(R.id.tvLabelClear);
+
+
+        tv_collection_dongwei=(TextView)findViewById(R.id.tv_collection_dongwei);
+        tv_collection_beiqi=(TextView)findViewById(R.id.tv_collection_beiqi);
+        tv_collection_beiwei=(TextView)findViewById(R.id.tv_collection_beiwei);
+        tv_collection_xizhou=(TextView)findViewById(R.id.tv_collection_xizhou);
+        tv_collection_shang=(TextView)findViewById(R.id.tv_collection_shang);
+        tv_collection_sui=(TextView)findViewById(R.id.tv_collection_sui);
+        tv_collection_tangdai=(TextView)findViewById(R.id.tv_collection_tangdai);
+        tv_collection_handai=(TextView)findViewById(R.id.tv_collection_handai);
+        tv_collection_chunqiu=(TextView)findViewById(R.id.tv_collection_chunqiu);
+        tv_collection_zhanguo=(TextView)findViewById(R.id.tv_collection_zhanguo);
+        tv_collection_qing=(TextView)findViewById(R.id.tv_collection_qing);
+
+        tv_collection_shixiang=(TextView)findViewById(R.id.tv_collection_shixiang);
+        tv_collection_qingtong=(TextView)findViewById(R.id.tv_collection_qingtong);
+        tv_collection_tongqi=(TextView)findViewById(R.id.tv_collection_tongqi);
+        tv_collection_shike=(TextView)findViewById(R.id.tv_collection_shike);
+
+        tvList.add(tv_collection_dongwei);
+        tvList.add(tv_collection_beiqi);
+        tvList.add(tv_collection_xizhou);
+        tvList.add(tv_collection_shang);
+        tvList.add(tv_collection_sui);
+        tvList.add(tv_collection_tangdai);
+        tvList.add(tv_collection_handai);
+        tvList.add(tv_collection_chunqiu);
+        tvList.add(tv_collection_zhanguo);
+        tvList.add(tv_collection_qing);
+        tvList.add(tv_collection_shixiang);
+        tvList.add(tv_collection_qingtong);
+        tvList.add(tv_collection_tongqi);
+        tvList.add(tv_collection_shike);
+        totalExhibitList=new ArrayList<>();
+        exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
+        lv_collection_listView.setAdapter(exhibitAdapter);
+        //去除滑动到末尾时的阴影
+        lv_collection_listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+    }
+    @Override
+    void addListener() {
 
         tvLabelClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,8 +173,8 @@ public class TopicActivity extends BaseActivity {
                 for(int i=0;i<count2;i++){
                     ll_collection_material.getChildAt(i).setVisibility(View.VISIBLE);
                 }
-                disPlayCheckExhibitList=totalExhibitList;
-                exhibitAdapter.updateData(disPlayCheckExhibitList);
+                disPlayCheckExhibitList=new ArrayList<>();
+                exhibitAdapter.updateData(totalExhibitList);
             }
         });
 
@@ -227,7 +284,7 @@ public class TopicActivity extends BaseActivity {
                 }
             }
             if(ll_collection_has_choose.getChildCount()>0){
-                disPlayCheckExhibitList.clear();
+                disPlayCheckExhibitList=new ArrayList<>();
                 for(int i=0;i<ll_collection_has_choose.getChildCount();i++){
                     TextView tvLabel= (TextView) ll_collection_has_choose.getChildAt(i);
                     String text= (String) tvLabel.getText();
@@ -264,62 +321,6 @@ public class TopicActivity extends BaseActivity {
         return true;
     }
 
-    private void initViews() {
-
-        setTitleBar();
-        setTitleBarTitle(R.string.title_bar_topic);
-        setHomeIcon();
-        setHomeClickListener(backOnClickListener);
-
-        tvList=new ArrayList<>();
-        mediaServiceManager=MediaServiceManager.getInstance(this);
-
-        ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
-        ll_collection_years=(LinearLayout)findViewById(R.id.ll_collection_years);
-        ll_collection_material=(LinearLayout)findViewById(R.id.ll_collection_material);
-
-        lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
-
-        tvLabelClear=(TextView)findViewById(R.id.tvLabelClear);
-
-
-        tv_collection_dongwei=(TextView)findViewById(R.id.tv_collection_dongwei);
-        tv_collection_beiqi=(TextView)findViewById(R.id.tv_collection_beiqi);
-        tv_collection_beiwei=(TextView)findViewById(R.id.tv_collection_beiwei);
-        tv_collection_xizhou=(TextView)findViewById(R.id.tv_collection_xizhou);
-        tv_collection_shang=(TextView)findViewById(R.id.tv_collection_shang);
-        tv_collection_sui=(TextView)findViewById(R.id.tv_collection_sui);
-        tv_collection_tangdai=(TextView)findViewById(R.id.tv_collection_tangdai);
-        tv_collection_handai=(TextView)findViewById(R.id.tv_collection_handai);
-        tv_collection_chunqiu=(TextView)findViewById(R.id.tv_collection_chunqiu);
-        tv_collection_zhanguo=(TextView)findViewById(R.id.tv_collection_zhanguo);
-        tv_collection_qing=(TextView)findViewById(R.id.tv_collection_qing);
-
-        tv_collection_shixiang=(TextView)findViewById(R.id.tv_collection_shixiang);
-        tv_collection_qingtong=(TextView)findViewById(R.id.tv_collection_qingtong);
-        tv_collection_tongqi=(TextView)findViewById(R.id.tv_collection_tongqi);
-        tv_collection_shike=(TextView)findViewById(R.id.tv_collection_shike);
-
-        tvList.add(tv_collection_dongwei);
-        tvList.add(tv_collection_beiqi);
-        tvList.add(tv_collection_xizhou);
-        tvList.add(tv_collection_shang);
-        tvList.add(tv_collection_sui);
-        tvList.add(tv_collection_tangdai);
-        tvList.add(tv_collection_handai);
-        tvList.add(tv_collection_chunqiu);
-        tvList.add(tv_collection_zhanguo);
-        tvList.add(tv_collection_qing);
-        tvList.add(tv_collection_shixiang);
-        tvList.add(tv_collection_qingtong);
-        tvList.add(tv_collection_tongqi);
-        tvList.add(tv_collection_shike);
-        totalExhibitList=new ArrayList<>();
-        exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
-        lv_collection_listView.setAdapter(exhibitAdapter);
-        //去除滑动到末尾时的阴影
-        lv_collection_listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
-    }
 
     private void setManyBtnListener() {
         tv_collection_dongwei.setOnClickListener(labelClickListener);

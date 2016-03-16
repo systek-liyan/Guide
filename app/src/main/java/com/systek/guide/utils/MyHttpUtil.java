@@ -23,10 +23,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class MyHttpUtil {
 
 
-
-
-
-
     /**
      * Get请求，获得返回数据
      *
@@ -172,10 +168,6 @@ public class MyHttpUtil {
         }
         return result;
     }
-
-
-
-
 
 
     /**

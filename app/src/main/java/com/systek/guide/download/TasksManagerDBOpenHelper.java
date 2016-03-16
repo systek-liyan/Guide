@@ -15,7 +15,7 @@ public class TasksManagerDBOpenHelper   extends SQLiteOpenHelper {
     public final static int DATABASE_VERSION = 1;
 
     public TasksManagerDBOpenHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 

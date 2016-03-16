@@ -2,9 +2,12 @@ package com.systek.guide.download;
 
 import android.text.TextUtils;
 
+import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+
+import java.util.List;
 
 /**
  * Created by Qiang on 2016/3/7.
@@ -15,8 +18,24 @@ public class MyFileDownloadQueueSet extends FileDownloadQueueSet {
 
 
     private int downloadId;
+
     private String url;
+
     private String path;
+
+    public List<BaseDownloadTask> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<BaseDownloadTask> tasks) {
+        this.tasks = tasks;
+    }
+
+    private List<BaseDownloadTask> tasks;
+
+    public void setDownloadId(int downloadId) {
+        this.downloadId = downloadId;
+    }
 
     public TaskItemViewHolder getHolder() {
         return holder;

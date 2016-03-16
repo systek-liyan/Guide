@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
@@ -45,31 +44,22 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private int currentDuration;
     private SeekBar seekBarProgress;
     private Handler handler;
-    private PlayStateReceiver receiver;
-    private String currentMuseumId;
     private TextView exhibitName;
     private ImageView exhibitIcon;
     private ImageView ivPlayCtrl;
     private MediaServiceManager mediaServiceManager;
     private ImageView ivGuideMode;
-
     private TextView tvToast;
 
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_list_and_map);
+    protected void setView() {
+
+        View view = View.inflate(this, R.layout.activity_list_and_map, null);
+        setContentView(view);
         handler=new MyHandler();
         //加载播放器
         initMediaManager();
-        //加载view
-        initView();
-        //添加监听器
-        addListener();
-        //设置默认fragment
-        setDefaultFragment();
-        //注册广播接收器
-        registerReceiver();
     }
 
     /**
@@ -82,8 +72,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     /**
      * 注册广播
      */
-    private void registerReceiver() {
-        receiver=new PlayStateReceiver();
+    @Override
+    void registerReceiver() {
         IntentFilter filter=new IntentFilter();
         filter.addAction(INTENT_EXHIBIT_PROGRESS);
         filter.addAction(INTENT_EXHIBIT_DURATION);
@@ -96,7 +86,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     /**
      * 添加监听器
      */
-    private void addListener() {
+    void addListener() {
         radioGroupTitle.setOnCheckedChangeListener(radioButtonCheckListener);
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
@@ -104,10 +94,16 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         ivGuideMode.setOnClickListener(onClickListener);
     }
 
+    @Override
+    void initData() {
+        //设置默认fragment
+        setDefaultFragment();
+    }
+
     /**
      * 加载视图
      */
-    private void initView() {
+    void initView() {
 
         setMyTitleBar();
         setHomeIcon();
@@ -370,7 +366,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     /**
      * 广播接受器，监听播放状态
      */
-    class PlayStateReceiver extends BroadcastReceiver {
+    private  BroadcastReceiver receiver=new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -403,13 +399,11 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     }
                     if (currentExhibit == null || !currentExhibit.equals(exhibitBean)) {
                         currentExhibit = exhibitBean;
-                        currentMuseumId = currentExhibit.getMuseumId();
                         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     }
                     break;
             }
         }
-    }
-
+    };
 
 }

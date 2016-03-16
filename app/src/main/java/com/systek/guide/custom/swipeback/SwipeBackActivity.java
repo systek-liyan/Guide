@@ -11,7 +11,7 @@ import com.systek.guide.activity.BaseActivity;
 /**
  * Created by Qiang on 2016/1/21.
  */
-public class SwipeBackActivity extends BaseActivity implements SwipeBackLayout.SwipeBackListener {
+public abstract class SwipeBackActivity extends BaseActivity implements SwipeBackLayout.SwipeBackListener {
 
     private SwipeBackLayout swipeBackLayout;
     private TextView ivShadow;

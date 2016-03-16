@@ -12,6 +12,7 @@ import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.systek.guide.IConstants;
+import com.systek.guide.MyApplication;
 import com.systek.guide.download.TaskItemViewHolder;
 import com.systek.guide.biz.BizFactory;
 import com.systek.guide.biz.DownloadBiz;
@@ -37,6 +38,7 @@ public class DownloadService extends IntentService implements IConstants{
 
     private static final String EXTRA_PARAM1 = "com.systek.guide.service.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "com.systek.guide.service.extra.PARAM2";
+    private int total;
 
     public DownloadService() {
         super("DownloadService");
@@ -170,7 +172,7 @@ public class DownloadService extends IntentService implements IConstants{
         if(assetsList==null||assetsList.size()==0){
             LogUtil.i("ZHANG","assetsJson为 0");
             return;}
-        int count =assetsList.size();
+        total =assetsList.size();
         try {
 
             downloadListener = getFileDownloadListener();
@@ -186,7 +188,7 @@ public class DownloadService extends IntentService implements IConstants{
                 }
             }
             final List<BaseDownloadTask> tasks = new ArrayList<>();
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < total; i++) {
                 String url=BASE_URL+assetsList.get(i);
                 String name= Tools.changePathToName(assetsList.get(i));
                 BaseDownloadTask task=FileDownloader.getImpl()
@@ -235,6 +237,9 @@ public class DownloadService extends IntentService implements IConstants{
             @Override
             protected void completed(BaseDownloadTask task) {
                 count++;
+                if(total==count){
+                    Tools.saveValue(MyApplication.get(),SP_IS_MUSEUM_DATA_SAVE,true);
+                }
                 LogUtil.i("ZHANG","count=="+count+"completed=="+task.getPath());
             }
 
