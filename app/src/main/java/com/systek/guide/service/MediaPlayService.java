@@ -21,6 +21,7 @@ import com.systek.guide.utils.MyHttpUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +49,13 @@ import java.util.List;
     //private boolean hasPlay; /*是否播放过*/
     //private int errorCount;
 
+    private static final int MSG_WHAT_UPDATE_PROGRESS=1;
+
+
+
     public void onCreate() {
         super.onCreate();
-        handler=new MyHandler();
+        handler=new MyHandler(this);
         playMode= PLAY_MODE_HAND;
         recordExhibitList=new ArrayList<>();
         playExhibitList=new ArrayList<>();
@@ -170,9 +175,6 @@ import java.util.List;
         if (mediaPlayer == null ) {return;}
         handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
     }
-    private void toUpdateDuration(int time) {
-        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DURATION);
-    }
 
     public boolean toPause(){
         if(!isPlaying||mediaPlayer==null){return false;}
@@ -278,13 +280,25 @@ import java.util.List;
         return playExhibitList;
     }
 
-    class MyHandler extends Handler{
+    static class MyHandler extends Handler{
+
+        WeakReference<MediaPlayService> mediaPlayServiceWeakReference;
+
+        MyHandler(MediaPlayService mediaPlayService){
+            this.mediaPlayServiceWeakReference=new WeakReference<>(mediaPlayService);
+        }
+
+
 
         @Override
         public void handleMessage(Message msg) {
+
+            if(mediaPlayServiceWeakReference==null){return;}
+            MediaPlayService mediaPlayService=mediaPlayServiceWeakReference.get();
+            if(mediaPlayService==null){return;}
             switch (msg.what) {
                 case MSG_WHAT_UPDATE_PROGRESS:
-                    doUpdateProgress();
+                    mediaPlayService.doUpdateProgress();
                     break;
             }
         }

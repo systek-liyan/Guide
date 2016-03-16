@@ -16,23 +16,6 @@ public interface IConstants {
     String SP_IS_IN_MUSEUM="sp_is_in_museum";//是否在博物馆
 
 
-    /**消息类型*/
-
-    int MSG_WHAT_UPDATE_DATA_SUCCESS = 1;//数据获取成功
-    int MSG_WHAT_UPDATE_NO_DATA = 2;//数据获取成功
-
-    int MSG_WHAT_UPDATE_DATA_FAIL = 3;//数据获取失败
-    int MSG_WHAT_REFRESH_DATA = 4;//刷新数据
-    int MSG_WHAT_UPDATE_PROGRESS = 5;//message类型之更新进度
-    int MSG_WHAT_UPDATE_CURRENT_MUSEUM = 6;//message类型之更新展品
-    int MSG_WHAT_UPDATE_DURATION = 7;//message类型之更新播放长度
-    int MSG_WHAT_CHANGE_ICON=8;
-    int MSG_WHAT_CHANGE_EXHIBIT=9;
-    int MSG_WHAT_PAUSE_MUSIC=10;
-    int MSG_WHAT_CONTINUE_MUSIC=11;
-    int MSG_WHAT_CHANGE_PLAY_STOP=12;
-    int MSG_WHAT_CHANGE_PLAY_START=13;
-    int MSG_WHAT_REFRESH_VIEW=14;
     /**关于URL*/
 
     String BASE_URL ="http://182.92.82.70";

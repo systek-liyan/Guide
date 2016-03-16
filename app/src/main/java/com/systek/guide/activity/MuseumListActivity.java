@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -27,7 +25,6 @@ import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.NetworkUtil;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,16 +38,13 @@ public class MuseumListActivity extends BaseActivity {
     private String city;//当前所在城市
     private List<MuseumBean> museumList;//展品列表
     private MuseumAdapter adapter;//适配器
-    private Handler handler;
     private static final int MSG_WHAT_REFRESH_CITY=22;
 
 
     @Override
     protected void setView() {
-
         View view = View.inflate(this, R.layout.activity_museum_list, null);
         setContentView(view);
-        handler=new MyHandler(this);
         //加载抽屉
         initDrawer();
     }
@@ -68,6 +62,7 @@ public class MuseumListActivity extends BaseActivity {
     /**
      * 添加监听器
      */
+    @Override
     void addListener() {
         museumListView.setOnItemClickListener(onItemClickListener);
         setHomeClickListener(new View.OnClickListener() {
@@ -105,6 +100,7 @@ public class MuseumListActivity extends BaseActivity {
     /**
      * 加载数据
      */
+    @Override
     void initData() {
         showDialog("正在加载...");
         if(!NetworkUtil.isOnline(MuseumListActivity.this)){
@@ -149,7 +145,7 @@ public class MuseumListActivity extends BaseActivity {
                     } else{
                         handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
                     }
-                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_CITY);
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_TITLE);
                 }
             }
         }.start();
@@ -162,9 +158,53 @@ public class MuseumListActivity extends BaseActivity {
         registerReceiver(receiver, filter);
     }
 
+    @Override
+    void unRegisterReceiver() {
+        unregisterReceiver(receiver);
+    }
+
+    @Override
+    void refreshView() {
+        if(museumList==null||museumList.size()==0){return;}
+        adapter.updateData(museumList);
+
+        TasksManager.getImpl().addTask(museumList.get(0)); // TODO: 2016/3/9
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+        setTitleBarTitle(city);
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
     /**
      * 加载view
      */
+    @Override
     void initView() {
         long startTime=System.currentTimeMillis();
         setTitleBar();
@@ -184,7 +224,7 @@ public class MuseumListActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.normal_menu,menu);
+        getMenuInflater().inflate(R.menu.normal_menu, menu);
         menu.getItem(0).setIcon(R.drawable.iv_tab);
         return true;
     }
@@ -198,11 +238,8 @@ public class MuseumListActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
-        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
-
     /*用于计算点击返回键时间*/
     private long mExitTime=0;
     @Override
@@ -227,60 +264,7 @@ public class MuseumListActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    public void refreshData(){
-        if(museumList==null||museumList.size()==0){return;}
-        adapter.updateData(museumList);
 
-        TasksManager.getImpl().addTask(museumList.get(0)); // TODO: 2016/3/9
-    }
-
-    public void showErrorView(){
-        showErrors(true);
-        showToast("数据获取失败，请检查网络...");
-    }
-    public void toastNoData(){
-        showToast("暂无该城市数据...");
-    }
-    public void changeTitle(){
-        setTitleBarTitle(city);
-    }
-
-    static  class MyHandler extends Handler {
-
-        WeakReference<MuseumListActivity> mActivityReference;
-        MyHandler(MuseumListActivity activity) {
-            mActivityReference= new WeakReference<>(activity);
-        }
-        @Override
-        public void handleMessage(Message msg) {
-            MuseumListActivity activity=null;
-            if(mActivityReference!=null){
-                activity=mActivityReference.get();
-            }else{
-                return;
-            }
-            switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
-                    activity.refreshData();
-                    break;
-                case MSG_WHAT_UPDATE_DATA_FAIL:
-                    activity.showErrorView();
-                    break;
-                case MSG_WHAT_REFRESH_DATA:
-                    activity.initData();
-                    break;
-                case MSG_WHAT_UPDATE_NO_DATA:
-                    activity.refreshData();
-                    activity.toastNoData();
-                    break;
-                case MSG_WHAT_REFRESH_CITY:
-                    activity.changeTitle();
-                    break;
-                default:break;
-            }
-            activity.closeDialog();
-        }
-    }
 
     private BroadcastReceiver receiver=new  BroadcastReceiver(){
 

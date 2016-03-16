@@ -187,12 +187,45 @@ public class LockScreenActivity extends BaseActivity
 
     }
 
+    @Override
+    void unRegisterReceiver() {
 
-    private void refreshView() {
+    }
+
+    @Override
+    void refreshView() {
         LogUtil.i("ZHANG", "执行了refreshView");
     }
 
+    @Override
+    void refreshExhibit() {
 
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
 
 
     @Override

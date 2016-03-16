@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +38,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     private ImageView ivExhibitIcon;//歌词背景大图
     private ArrayList<MultiAngleImg> multiAngleImgs;//多角度图片
-    private Handler handler;
     private String currentMuseumId;
     private ExhibitBean currentExhibit;
     private MultiAngleImgAdapter mulTiAngleImgAdapter;//多角度图片adapter
@@ -59,9 +56,13 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private IconImageFragment iconImageFragment;
 
 
-    @Override
-    protected void setView() {
+    private static final int PLAY_STATE_START=1;
+    private static final int PLAY_STATE_STOP=2;
+    private   int state=PLAY_STATE_STOP;
 
+
+    @Override
+    void setView() {
         View view = View.inflate(this, R.layout.activity_play, null);
         setContentView(view);
     }
@@ -92,10 +93,11 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     protected void onResume() {
         super.onResume();
         if(mediaServiceManager.isPlaying()){
-            handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+            state=PLAY_STATE_START;
         }else{
-            handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+            state=PLAY_STATE_STOP;
         }
+        refreshState();
     }
 
 
@@ -149,10 +151,16 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         registerReceiver(receiver, filter);
     }
 
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
     /**
      * 刷新界面
      */
-    private void refreshView() {
+    @Override
+    void refreshView() {
         if(currentExhibit==null){return;}
         currentMuseumId=currentExhibit.getMuseumId();
         if(iconImageFragment==null){
@@ -173,6 +181,41 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
             currentIconUrl=currentExhibit.getIconurl();
         }
         initIcon();
+    }
+
+    @Override
+    void refreshExhibit() {
+        refreshView();
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+
+    @Override
+    void refreshState() {
+        if(state==PLAY_STATE_START){
+            ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_48dp));//iv_play_state_open_big,ic_pause_black_36dp
+        }else{
+            ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_48dp));
+        }
+    }
+
+    @Override
+    void refreshProgress() {
+        seekBarProgress.setMax(currentDuration);
+        seekBarProgress.setProgress(currentProgress);
+        lyricFragment.notifyTime(currentProgress);
+        tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
+        tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
+        refreshIcon();
     }
 
     /**
@@ -207,7 +250,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         setMyTitleBar();
         setHomeIcon();
         setHomeClickListener(backOnClickListener);
-        handler =new MyHandler();
         viewpagerWordImage=(ViewPager)findViewById(R.id.viewpagerWordImage);
         mediaServiceManager=MediaServiceManager.getInstance(this);
         //去除滑动到末尾时的阴影
@@ -318,33 +360,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         super.onDestroy();
     }
 
-    private class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case MSG_WHAT_UPDATE_PROGRESS:
-                    seekBarProgress.setMax(currentDuration);
-                    seekBarProgress.setProgress(currentProgress);
-                    lyricFragment.notifyTime(currentProgress);
-                    tvPlayTime.setText(TimeUtil.changeToTime(currentProgress).substring(3));
-                    tvTotalTime.setText(TimeUtil.changeToTime(currentDuration).substring(3));
-                    refreshIcon();
-                    break;
-                case MSG_WHAT_CHANGE_EXHIBIT:
-                    refreshView();
-                    break;
-                case MSG_WHAT_REFRESH_VIEW:
-                    refreshView();
-                    break;
-                case MSG_WHAT_CHANGE_PLAY_START:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_48dp));//iv_play_state_open_big,ic_pause_black_36dp
-                    break;
-                case MSG_WHAT_CHANGE_PLAY_STOP:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_48dp));
-                    break;
-            }
-        }
-    }
 
     BroadcastReceiver receiver=new BroadcastReceiver(){
 
@@ -369,9 +384,11 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
                     }
                     break;
                 case INTENT_CHANGE_PLAY_PLAY:
+                    state=PLAY_STATE_START;
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
                     break;
                 case INTENT_CHANGE_PLAY_STOP:
+                    state=PLAY_STATE_STOP;
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
                     break;
             }

@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import com.liulishuo.filedownloader.FileDownloader;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.leakcanary.LeakCanary;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
@@ -60,9 +59,9 @@ public class MyApplication extends Application implements IConstants{
         mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
         mServiceManager.connectService();
         registerNetWorkReceiver();
-        //initBlueTooth();
+        initBlueTooth();
         //初始化检查内存泄露
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         //FontUtils.getInstance().replaceSystemDefaultFontFromAsset(this, "fonts/aaa.ttf");
     }
 

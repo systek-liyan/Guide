@@ -1,8 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -42,17 +40,14 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     private List<CityBean> cities;
     private CharacterParser characterParser;
     private PinyinComparator pinyinComparator;
-    private Handler handler;
     private String chooseCity;
     private AMapLocationClient locationClient;
     private AMapLocationClientOption locationOption;
     private TextView currentCity,suggestCity;
-    private final int  MSG_WHAT_UPDATE_CURRENT_CITY=44;
 
 
     @Override
     protected void setView() {
-
         View view = View.inflate(this, R.layout.activity_city_choose, null);
         setContentView(view);
         //加载标题栏
@@ -102,7 +97,6 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     void initView() {
 
         setTitleBarTitle("城市选择");
-        handler=new MyHandler();
         setHomeIcon();
         toolbar.setNavigationOnClickListener(backOnClickListener);
         //实例化汉字转拼音类
@@ -155,6 +149,51 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
 
     }
 
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
+    @Override
+    void refreshView() {
+        if(adapter!=null&&cities!=null&&cities.size()>0){
+            adapter.updateListView(cities);
+        }
+        if(currentCity!=null&&!TextUtils.isEmpty(chooseCity)){
+            currentCity.setText(chooseCity);
+        }
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
     private void initLocation() {// TODO: 2016/2/16
         locationClient = new AMapLocationClient(this.getApplicationContext());
         locationOption = new AMapLocationClientOption();
@@ -173,7 +212,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         String city=aMapLocation.getCity();
         if(TextUtils.isEmpty(city)){return;}
         chooseCity =city;
-        handler.sendEmptyMessage(MSG_WHAT_UPDATE_CURRENT_CITY);
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
         if (null != locationClient) {
             /**
              * 如果AMapLocationClient是在当前Activity实例化的，
@@ -266,20 +305,8 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     };
 
 
-    class MyHandler extends  Handler{
-        @Override
-        public void handleMessage(Message msg) {
-            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
-                adapter.updateListView(cities);
-            }else if(msg.what==MSG_WHAT_UPDATE_CURRENT_CITY){
-                currentCity.setText(chooseCity);
-            }
-        }
-    }
-
     @Override
     protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
         if (null != locationClient) {
             /**

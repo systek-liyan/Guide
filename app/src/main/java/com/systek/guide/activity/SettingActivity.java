@@ -10,13 +10,14 @@ import com.systek.guide.R;
 import com.systek.guide.entity.base.VersionBean;
 import com.systek.guide.manager.UpdateManager;
 
+import java.lang.ref.WeakReference;
+
 public class SettingActivity extends BaseActivity {
 
 
     private Button btn_update;
-    private final int MSG_WHAT_CURRENT_VERSION_IS_NEAREST=1;
-    private final int MSG_WHAT_CURRENT_VERSION_NOT_NEAREST=2;
-    private Handler handler;
+    private static final int MSG_WHAT_CURRENT_VERSION_IS_NEAREST=1;
+    private static final int MSG_WHAT_CURRENT_VERSION_NOT_NEAREST=2;
     private UpdateManager updateManager;
 
     @Override
@@ -26,7 +27,6 @@ public class SettingActivity extends BaseActivity {
     }
     @Override
     void addListener() {
-        handler=new MyHandler();
         updateManager=new UpdateManager(SettingActivity.this);
         btn_update.setOnClickListener(onClickListener);
     }
@@ -40,6 +40,47 @@ public class SettingActivity extends BaseActivity {
     void registerReceiver() {
 
     }
+
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
+    @Override
+    void refreshView() {
+
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
     @Override
     void initView() {
 
@@ -84,22 +125,39 @@ public class SettingActivity extends BaseActivity {
 
     }
 
+    public void alreadyNewest(){
+        Toast.makeText(SettingActivity.this,"当前已是最新版本！",Toast.LENGTH_SHORT).show();
+    }
+
+    public void checkUpdataInfo(){
+        updateManager.checkUpdateInfo();
+    }
+
     @Override
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
-    class MyHandler extends Handler{
+   static class MyHandler extends Handler{
+
+       WeakReference<SettingActivity> activityWeakReference;
+       MyHandler(SettingActivity activity){
+           this.activityWeakReference=new WeakReference<>(activity);
+       }
 
         @Override
         public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            SettingActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
             switch (msg.what){
                 case MSG_WHAT_CURRENT_VERSION_IS_NEAREST:
-                    Toast.makeText(SettingActivity.this,"当前已是最新版本！",Toast.LENGTH_SHORT).show();
+                    activity.alreadyNewest();
                     break;
                 case MSG_WHAT_CURRENT_VERSION_NOT_NEAREST:
-                    updateManager.checkUpdateInfo();
+                    activity.checkUpdataInfo();
                     break;
             }
         }

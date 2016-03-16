@@ -13,6 +13,7 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.utils.LogUtil;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -120,9 +121,10 @@ public class BluetoothManager implements IConstants {
          */
         @Override
         public void getBeacons(boolean IsSwitch, boolean refresh, List<SystekBeacon> list) {
-            //LogUtil.i("ZHANG","IsSwitch=="+IsSwitch);
-            //LogUtil.i("ZHANG","距离上次发送数据时间--"+(System.currentTimeMillis()-time));
-            // time=System.currentTimeMillis();
+            LogUtil.i("ZHANG","IsSwitch=="+IsSwitch+"refresh="+refresh);
+            LogUtil.i("ZHANG", "距离上次发送数据时间--" + (System.currentTimeMillis() - time));
+             time=System.currentTimeMillis();
+
             if(!refresh||list==null){return;}
             DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, true);
             List<BeaconBean> beaconBeanList=changeToBeaconList(list,20.0);

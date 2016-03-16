@@ -24,6 +24,7 @@ import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     private OnFragmentInteractionListener mListener;
     private MediaServiceManager mediaServiceManager;
     private ExhibitBean currentExhibit;
+
+
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,7 +66,7 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         super.onCreate(savedInstanceState);
         exhibitListFragment=this;
         mediaServiceManager=MediaServiceManager.getInstance(activity);
-        handler=new MyHandler();
+        handler=new MyHandler(this);
         registerReceiver();
     }
 
@@ -159,12 +163,25 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         super.onDestroy();
         exhibitListFragment=null;
     }
-    class MyHandler extends Handler{
+
+    public void updateView(){
+        if(exhibitAdapter ==null||currentExhibitList==null){return;}
+        exhibitAdapter.updateData(currentExhibitList);
+    }
+
+
+    static class MyHandler extends Handler{
+        WeakReference<ExhibitListFragment> weakReference;
+        MyHandler(ExhibitListFragment exhibitListFragment){
+            this.weakReference=new WeakReference<>(exhibitListFragment);
+        }
         @Override
         public void handleMessage(Message msg) {
+            if(weakReference==null){return;}
+            ExhibitListFragment exhibitListFragment=weakReference.get();
+            if(exhibitListFragment==null){return;}
             if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
-                if(exhibitAdapter ==null||currentExhibitList==null){return;}
-                exhibitAdapter.updateData(currentExhibitList);
+                exhibitListFragment.updateView();
             }
         }
     }

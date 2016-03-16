@@ -1,8 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -53,7 +51,6 @@ public class TopicActivity extends BaseActivity {
 
     private MediaServiceManager mediaServiceManager;
     private String currentMuseumId;
-    private Handler handler;
 
     private TextView  tv_collection_dongwei,tv_collection_beiqi, tv_collection_beiwei, tv_collection_xizhou,
             tv_collection_shang, tv_collection_sui, tv_collection_tangdai, tv_collection_handai, tv_collection_chunqiu,
@@ -67,13 +64,12 @@ public class TopicActivity extends BaseActivity {
 
     @Override
     protected void setView() {
-
         View view = View.inflate(this, R.layout.activity_topic, null);
         setContentView(view);
         initDrawer();
     }
 
-
+    @Override
     void initData() {
         Intent intent=getIntent();
         currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
@@ -90,8 +86,52 @@ public class TopicActivity extends BaseActivity {
 
     }
 
+
+    @Override
+    void refreshView() {
+        if(exhibitAdapter!=null){
+            exhibitAdapter.updateData(totalExhibitList);// TODO: 2016/1/3
+        }
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
+
     @Override
     void registerReceiver() {
+
+    }
+
+    @Override
+    void unRegisterReceiver() {
 
     }
 
@@ -224,11 +264,6 @@ public class TopicActivity extends BaseActivity {
         return super.onKeyDown(keyCode,event);
     }
 
-    @Override
-    protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
-        super.onDestroy();
-    }
 
     private View.OnClickListener labelClickListener =new View.OnClickListener() {
         @Override
@@ -315,7 +350,7 @@ public class TopicActivity extends BaseActivity {
         String exhibitListStr=JSON.toJSONString(disPlayCheckExhibitList);
         Intent intent=new Intent(TopicActivity.this,ListAndMapActivity.class);
         intent.putExtra(INTENT_FLAG_GUIDE_MAP, INTENT_FLAG_MAP);
-        intent.putExtra(INTENT_EXHIBIT_LIST_STR,exhibitListStr);
+        intent.putExtra(INTENT_EXHIBIT_LIST_STR, exhibitListStr);
         startActivity(intent);
         finish();
         return true;
@@ -338,20 +373,8 @@ public class TopicActivity extends BaseActivity {
         tv_collection_qingtong.setOnClickListener(labelClickListener);
         tv_collection_tongqi.setOnClickListener(labelClickListener);
         tv_collection_shike.setOnClickListener(labelClickListener);
-        handler=new MyHandler();
     }
 
-    class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_WHAT_UPDATE_DATA_SUCCESS) {
-                refreshView();
-            }
-        }
-    }
 
-    private void refreshView() {
-        exhibitAdapter.updateData(totalExhibitList);// TODO: 2016/1/3
-    }
 
 }

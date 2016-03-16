@@ -2,7 +2,6 @@ package com.systek.guide.activity;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -11,8 +10,6 @@ import com.systek.guide.R;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
-
-import java.lang.ref.WeakReference;
 
 public class BeginActivity extends BaseActivity implements IConstants{
 
@@ -77,6 +74,46 @@ public class BeginActivity extends BaseActivity implements IConstants{
 
     }
 
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
+    @Override
+    void refreshView() {
+        goToNextActivity();
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
     private void goToNextActivity(){
         Intent intent=new Intent();
         if(!TextUtils.isEmpty(currentMuseumId)){
@@ -86,32 +123,4 @@ public class BeginActivity extends BaseActivity implements IConstants{
         startActivity(intent);
         finish();
     }
-
-    @Override
-    protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
-        super.onDestroy();
-    }
-
-    static class MyHandler extends Handler {
-        WeakReference<BeginActivity> activity;
-        public MyHandler(BeginActivity activity){
-            this.activity=new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            if(activity==null){return;}
-            BeginActivity beginActivity=activity.get();
-            if(beginActivity==null){return;}
-            switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
-                    beginActivity.goToNextActivity();
-                    break;
-                default:break;
-            }
-        }
-    }
-
-
 }

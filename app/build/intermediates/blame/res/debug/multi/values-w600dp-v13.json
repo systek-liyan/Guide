@@ -11,7 +11,14 @@
                     "endOffset": 114
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-w600dp\\values-w600dp.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-w600dp\\values-w600dp.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 232,
+                        "endColumn": 63,
+                        "endOffset": 291
+                    }
                 }
             },
             {
@@ -23,7 +30,14 @@
                     "endOffset": 172
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 90,
+                        "endColumn": 57,
+                        "endOffset": 143
+                    }
                 }
             },
             {
@@ -35,7 +49,14 @@
                     "endOffset": 228
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 149,
+                        "endColumn": 55,
+                        "endOffset": 200
+                    }
                 }
             },
             {
@@ -47,7 +68,14 @@
                     "endOffset": 282
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 902,
+                        "endColumn": 53,
+                        "endOffset": 951
+                    }
                 }
             },
             {
@@ -59,7 +87,14 @@
                     "endOffset": 337
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 493,
+                        "endColumn": 54,
+                        "endOffset": 543
+                    }
                 }
             },
             {
@@ -71,7 +106,14 @@
                     "endOffset": 390
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 835,
+                        "endColumn": 52,
+                        "endOffset": 883
+                    }
                 }
             },
             {
@@ -83,7 +125,14 @@
                     "endOffset": 441
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1093,
+                        "endColumn": 50,
+                        "endOffset": 1139
+                    }
                 }
             },
             {
@@ -95,7 +144,14 @@
                     "endOffset": 495
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 38,
+                        "startColumn": 4,
+                        "startOffset": 1515,
+                        "endColumn": 53,
+                        "endOffset": 1564
+                    }
                 }
             },
             {
@@ -107,7 +163,14 @@
                     "endOffset": 560
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 48,
+                        "startColumn": 4,
+                        "startOffset": 1891,
+                        "endColumn": 64,
+                        "endOffset": 1951
+                    }
                 }
             },
             {
@@ -119,7 +182,14 @@
                     "endOffset": 619
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 1982,
+                        "endColumn": 58,
+                        "endOffset": 2036
+                    }
                 }
             },
             {
@@ -131,7 +201,14 @@
                     "endOffset": 671
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 424,
+                        "endColumn": 51,
+                        "endOffset": 471
+                    }
                 }
             },
             {
@@ -143,7 +220,14 @@
                     "endOffset": 718
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 970,
+                        "endColumn": 46,
+                        "endOffset": 1012
+                    }
                 }
             },
             {
@@ -155,7 +239,14 @@
                     "endOffset": 760
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 294,
+                        "endColumn": 41,
+                        "endOffset": 331
+                    }
                 }
             },
             {
@@ -167,7 +258,14 @@
                     "endOffset": 802
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 337,
+                        "endColumn": 41,
+                        "endOffset": 374
+                    }
                 }
             },
             {
@@ -179,7 +277,14 @@
                     "endOffset": 845
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 250,
+                        "endColumn": 42,
+                        "endOffset": 288
+                    }
                 }
             },
             {
@@ -191,7 +296,14 @@
                     "endOffset": 888
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 380,
+                        "endColumn": 42,
+                        "endOffset": 418
+                    }
                 }
             },
             {
@@ -203,7 +315,14 @@
                     "endOffset": 929
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 208,
+                        "endColumn": 40,
+                        "endOffset": 244
+                    }
                 }
             },
             {
@@ -215,7 +334,14 @@
                     "endOffset": 977
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1276,
+                        "endColumn": 47,
+                        "endOffset": 1319
+                    }
                 }
             },
             {
@@ -227,7 +353,14 @@
                     "endOffset": 1023
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 1325,
+                        "endColumn": 45,
+                        "endOffset": 1366
+                    }
                 }
             },
             {
@@ -239,7 +372,14 @@
                     "endOffset": 1076
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 40,
+                        "startColumn": 4,
+                        "startOffset": 1596,
+                        "endColumn": 52,
+                        "endOffset": 1644
+                    }
                 }
             },
             {
@@ -251,7 +391,14 @@
                     "endOffset": 1122
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1372,
+                        "endColumn": 45,
+                        "endOffset": 1413
+                    }
                 }
             },
             {
@@ -263,7 +410,14 @@
                     "endOffset": 1182
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 43,
+                        "startColumn": 4,
+                        "startOffset": 1674,
+                        "endColumn": 59,
+                        "endOffset": 1729
+                    }
                 }
             },
             {
@@ -275,7 +429,14 @@
                     "endOffset": 1242
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 45,
+                        "startColumn": 4,
+                        "startOffset": 1795,
+                        "endColumn": 59,
+                        "endOffset": 1850
+                    }
                 }
             },
             {
@@ -287,7 +448,14 @@
                     "endOffset": 1301
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 44,
+                        "startColumn": 4,
+                        "startOffset": 1735,
+                        "endColumn": 58,
+                        "endOffset": 1789
+                    }
                 }
             },
             {
@@ -299,7 +467,14 @@
                     "endOffset": 1352
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 1440,
+                        "endColumn": 50,
+                        "endOffset": 1486
+                    }
                 }
             },
             {
@@ -311,7 +486,14 @@
                     "endOffset": 1395
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1145,
+                        "endColumn": 42,
+                        "endOffset": 1183
+                    }
                 }
             },
             {
@@ -323,7 +505,14 @@
                     "endOffset": 1450
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 686,
+                        "endColumn": 54,
+                        "endOffset": 736
+                    }
                 }
             },
             {
@@ -335,7 +524,14 @@
                     "endOffset": 1499
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 625,
+                        "endColumn": 48,
+                        "endOffset": 669
+                    }
                 }
             },
             {
@@ -347,7 +543,14 @@
                     "endOffset": 1546
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 27,
+                        "startColumn": 4,
+                        "startOffset": 1207,
+                        "endColumn": 46,
+                        "endOffset": 1249
+                    }
                 }
             },
             {
@@ -359,7 +562,14 @@
                     "endOffset": 1598
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1018,
+                        "endColumn": 51,
+                        "endOffset": 1065
+                    }
                 }
             },
             {
@@ -371,7 +581,14 @@
                     "endOffset": 1665
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 755,
+                        "endColumn": 66,
+                        "endOffset": 817
+                    }
                 }
             },
             {
@@ -383,7 +600,14 @@
                     "endOffset": 1727
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 562,
+                        "endColumn": 61,
+                        "endOffset": 619
+                    }
                 }
             },
             {
@@ -395,7 +619,14 @@
                     "endOffset": 1778
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
+                    "position": {
+                        "startLine": 52,
+                        "startColumn": 4,
+                        "startOffset": 2073,
+                        "endColumn": 50,
+                        "endOffset": 2119
+                    }
                 }
             },
             {
@@ -426,7 +657,14 @@
                     "endOffset": 1878
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-w600dp\\values-w600dp.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-w600dp\\values-w600dp.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 296,
+                        "endColumn": 54,
+                        "endOffset": 346
+                    }
                 }
             },
             {
@@ -439,7 +677,15 @@
                     "endOffset": 3575
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endLine": 34,
+                        "endColumn": 12,
+                        "endOffset": 1780
+                    }
                 }
             },
             {
@@ -452,7 +698,15 @@
                     "endOffset": 4731
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 39,
+                        "startColumn": 4,
+                        "startOffset": 1894,
+                        "endLine": 55,
+                        "endColumn": 12,
+                        "endOffset": 3061
+                    }
                 }
             },
             {
@@ -464,7 +718,14 @@
                     "endOffset": 4832
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 36,
+                        "startColumn": 4,
+                        "startOffset": 1788,
+                        "endColumn": 100,
+                        "endOffset": 1884
+                    }
                 }
             },
             {
@@ -477,7 +738,15 @@
                     "endOffset": 5396
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 116,
+                        "startColumn": 4,
+                        "startOffset": 5419,
+                        "endLine": 124,
+                        "endColumn": 12,
+                        "endOffset": 5986
+                    }
                 }
             },
             {
@@ -490,7 +759,15 @@
                     "endOffset": 5626
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 60,
+                        "startColumn": 4,
+                        "startOffset": 3075,
+                        "endLine": 64,
+                        "endColumn": 12,
+                        "endOffset": 3304
+                    }
                 }
             },
             {
@@ -503,7 +780,15 @@
                     "endOffset": 5798
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 71,
+                        "startColumn": 4,
+                        "startOffset": 3446,
+                        "endLine": 74,
+                        "endColumn": 12,
+                        "endOffset": 3616
+                    }
                 }
             },
             {
@@ -516,7 +801,15 @@
                     "endOffset": 5925
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 66,
+                        "startColumn": 4,
+                        "startOffset": 3312,
+                        "endLine": 68,
+                        "endColumn": 12,
+                        "endOffset": 3436
+                    }
                 }
             },
             {
@@ -529,7 +822,15 @@
                     "endOffset": 6321
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 76,
+                        "startColumn": 4,
+                        "startOffset": 3624,
+                        "endLine": 82,
+                        "endColumn": 12,
+                        "endOffset": 4021
+                    }
                 }
             },
             {
@@ -542,7 +843,15 @@
                     "endOffset": 6696
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 107,
+                        "startColumn": 4,
+                        "startOffset": 5033,
+                        "endLine": 113,
+                        "endColumn": 12,
+                        "endOffset": 5409
+                    }
                 }
             },
             {
@@ -555,7 +864,15 @@
                     "endOffset": 7123
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 87,
+                        "startColumn": 4,
+                        "startOffset": 4059,
+                        "endLine": 94,
+                        "endColumn": 12,
+                        "endOffset": 4489
+                    }
                 }
             },
             {
@@ -568,7 +885,15 @@
                     "endOffset": 7621
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 96,
+                        "startColumn": 4,
+                        "startOffset": 4497,
+                        "endLine": 104,
+                        "endColumn": 12,
+                        "endOffset": 4999
+                    }
                 }
             }
         ]

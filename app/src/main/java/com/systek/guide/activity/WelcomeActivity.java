@@ -91,6 +91,46 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
 
     }
 
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
+    @Override
+    void refreshView() {
+
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
     /**
      * 页面选择
      *

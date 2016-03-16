@@ -1,16 +1,12 @@
 package com.systek.guide.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +68,7 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
         }
     }
 
-    private void registerReceiver() {
+   /* private void registerReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(INTENT_EXHIBIT);
         filter.addAction(INTENT_EXHIBIT_PROGRESS);
@@ -81,7 +77,7 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
         filter.addAction(INTENT_CHANGE_PLAY_STOP);
         filter.addAction(INTENT_EXHIBIT_LIST);
         getActivity().registerReceiver(listChangeReceiver, filter);
-    }
+    }*/
 
     @Override
     protected void initView() {
@@ -153,7 +149,7 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
 
     }
 
-    class MyHandler extends Handler {
+    /*class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -178,10 +174,10 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
                     break;
             }
         }
-    }
+    }*/
 
 
-
+/*
     BroadcastReceiver listChangeReceiver = new  BroadcastReceiver() {
 
         @Override
@@ -219,7 +215,7 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
             }
         }
-    };
+    };*/
 
     public LockScreenFragment() {
         // Required empty public constructor

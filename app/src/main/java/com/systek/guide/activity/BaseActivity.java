@@ -3,6 +3,8 @@ package com.systek.guide.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
@@ -19,9 +21,10 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.IConstants;
-import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.custom.LoadingDialog;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by Qiang on 2015/12/30.
@@ -29,7 +32,6 @@ import com.systek.guide.custom.LoadingDialog;
 public abstract class BaseActivity extends AppCompatActivity implements IConstants{
 
     private String TAG = getClass().getSimpleName();//类的唯一标记
-    public int netState;//网络状态
     protected Drawer drawer;//抽屉
     protected Toolbar toolbar;
     protected TextView toolbarTitle;
@@ -37,10 +39,31 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     protected View mErrorView;
     protected Button refreshBtn;
 
+
+    /**消息类型*/
+    public static final int MSG_WHAT_UPDATE_DATA_SUCCESS = 1;//数据获取成功
+    public static final int MSG_WHAT_UPDATE_NO_DATA = 2;//无数据
+    public static final int MSG_WHAT_UPDATE_DATA_FAIL = 3;//数据获取失败
+    public static final int MSG_WHAT_REFRESH_DATA = 4;//刷新数据
+    public static final int MSG_WHAT_UPDATE_PROGRESS = 5;//更新进度
+    public static final int MSG_WHAT_UPDATE_CURRENT_MUSEUM = 6;//更新展品
+    public static final int MSG_WHAT_UPDATE_DURATION = 7;//更新播放长度
+    public static final int MSG_WHAT_CHANGE_ICON=8;//更新ICON
+    public static final int MSG_WHAT_CHANGE_EXHIBIT=9;//切换展品
+    public static final int MSG_WHAT_PAUSE_MUSIC=10;//暂停
+    public static final int MSG_WHAT_CONTINUE_MUSIC=11;//继续
+    public static final int MSG_WHAT_CHANGE_PLAY_STOP=12;
+    public static final int MSG_WHAT_CHANGE_PLAY_START=13;
+    public static final int MSG_WHAT_REFRESH_VIEW=14;
+    public static final int MSG_WHAT_REFRESH_TITLE=15;
+    protected Handler handler;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setIntent(getIntent());
+        handler=new MyHandler(this);
         setView();
         initView();
         addListener();
@@ -55,8 +78,74 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     abstract void addListener();
     abstract void initData();
     abstract void registerReceiver();
+    abstract void unRegisterReceiver();
+    abstract void refreshView();
+    abstract void refreshExhibit();
+    abstract void refreshTitle();
+    abstract void refreshViewBottomTab();
+    abstract void refreshProgress();
+    abstract void refreshIcon();
+    abstract void refreshState();
 
 
+
+    static  class MyHandler extends Handler {
+
+        WeakReference<BaseActivity> mActivityReference;
+        MyHandler(BaseActivity activity) {
+            mActivityReference= new WeakReference<>(activity);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            BaseActivity activity=null;
+            if(mActivityReference!=null){
+                activity=mActivityReference.get();
+            }else{
+                return;
+            }
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                case MSG_WHAT_UPDATE_DATA_FAIL:
+                    activity.showErrorView();
+                    activity.onDataError();
+                    break;
+                case MSG_WHAT_REFRESH_DATA:
+                    activity.initData();
+                    break;
+                case MSG_WHAT_UPDATE_NO_DATA:
+                    activity.onNoData();
+                    break;
+                case MSG_WHAT_REFRESH_TITLE:
+                    activity.refreshTitle();
+                    break;
+                case MSG_WHAT_CHANGE_EXHIBIT:
+                    activity.refreshExhibit();
+                    break;
+                case MSG_WHAT_UPDATE_PROGRESS:
+                    activity.refreshProgress();
+                    break;
+                case MSG_WHAT_CHANGE_PLAY_START:
+                    activity.refreshState();
+                    break;
+
+
+
+
+                default:break;
+            }
+            activity.closeDialog();
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        unRegisterReceiver();
+        super.onDestroy();
+    }
 
     public void showDialog(String msg){
         if(dialog==null){
@@ -70,6 +159,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             dialog.dismiss();
         }
     }
+    public void showErrorView(){
+        showErrors(true);
+        showToast("数据获取失败，请检查网络...");
+    }
+
 
     public void showErrors(boolean forceError) {
         mErrorView = findViewById(R.id.mErrorView);
@@ -96,7 +190,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             toolbar.setNavigationOnClickListener(listener);
         }
     }
-
 
     protected void setTitleBar() {
         View v = findViewById(R.id.toolbar);
@@ -170,13 +263,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                 }).build();
     }
 
-
-
-    public int getNetState(){
-        return MyApplication.currentNetworkType;
-    }
-
-
     /**
      * 获得当前activity的tag
      *
@@ -236,6 +322,14 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             @Override
             public void run() {
                 showToast("数据获取失败，请检查网络状态...");
+            }
+        });
+    }
+    public void onNoData(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showToast("暂无相关数据...");
             }
         });
     }

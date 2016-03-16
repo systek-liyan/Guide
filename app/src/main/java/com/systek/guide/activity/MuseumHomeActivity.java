@@ -3,8 +3,6 @@ package com.systek.guide.activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,7 +43,6 @@ public class MuseumHomeActivity extends BaseActivity {
     private RelativeLayout rlGuideHome;
     private RelativeLayout rlMapHome;
     private RelativeLayout rlTopicHome;
-    private Handler handler;
     private MediaPlayer mediaPlayer;
     private ImageView ivPlayStateCtrl;
     private RelativeLayout rlCollectionHome;
@@ -59,7 +56,6 @@ public class MuseumHomeActivity extends BaseActivity {
 
         View view = View.inflate(this, R.layout.activity_museum_home, null);
         setContentView(view);
-        handler=new MyHandler();
         initDrawer();
     }
     @Override
@@ -177,6 +173,52 @@ public class MuseumHomeActivity extends BaseActivity {
 
     @Override
     void registerReceiver() {
+
+    }
+
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
+    @Override
+    void refreshView() {
+        if(currentMuseum!=null){
+            setTitleBarTitle(currentMuseum.getName());
+            /**加载博物馆介绍*/
+            tvMuseumIntroduce.setText("      " + currentMuseum.getTextUrl());
+            iconAdapter.updateData(iconUrlList);
+            closeDialog();
+        }
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
 
     }
 
@@ -315,15 +357,6 @@ public class MuseumHomeActivity extends BaseActivity {
         return true;
     }
 
-    private void showData(){
-        if(currentMuseum!=null){
-            setTitleBarTitle(currentMuseum.getName());
-            /**加载博物馆介绍*/
-            tvMuseumIntroduce.setText("      " + currentMuseum.getTextUrl());
-            iconAdapter.updateData(iconUrlList);
-            closeDialog();
-        }
-    }
 
     private synchronized void initAudio() {
         new Thread(){
@@ -418,16 +451,7 @@ public class MuseumHomeActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
-    class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_WHAT_UPDATE_DATA_SUCCESS) {
-                showData();
-            }
-        }
-    }
 }

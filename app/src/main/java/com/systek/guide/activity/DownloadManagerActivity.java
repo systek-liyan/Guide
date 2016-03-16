@@ -16,8 +16,6 @@
 
 package com.systek.guide.activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,8 +35,6 @@ import java.lang.ref.WeakReference;
 public class DownloadManagerActivity extends BaseActivity {
 
     private TaskItemAdapter adapter;
-    private Handler handler;
-
 
     @Override
     void setView() {
@@ -75,27 +71,45 @@ public class DownloadManagerActivity extends BaseActivity {
 
     }
 
+    @Override
+    void unRegisterReceiver() {
 
+    }
 
-    static class MyHandler  extends Handler {
+    @Override
+    void refreshView() {
+        postNotifyDataChanged();
+    }
 
-        WeakReference<DownloadManagerActivity> activityWeakReference;
+    @Override
+    void refreshExhibit() {
 
-        MyHandler(DownloadManagerActivity activityWeakReference){
-            this.activityWeakReference=new WeakReference<>(activityWeakReference);
-        }
+    }
 
-        @Override
-        public void handleMessage(Message msg) {
-            if(activityWeakReference==null){return;}
-            DownloadManagerActivity activity=activityWeakReference.get();
-            if(activity==null){return;}
-            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
-                activity.postNotifyDataChanged();
-            }
-        }
-    };
+    @Override
+    void refreshTitle() {
 
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
 
 
     public void postNotifyDataChanged() {
@@ -116,7 +130,6 @@ public class DownloadManagerActivity extends BaseActivity {
         TasksManager.getImpl().onDestroy();
         adapter = null;
         FileDownloader.getImpl().pauseAll();
-        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 }

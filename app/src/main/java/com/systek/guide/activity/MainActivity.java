@@ -41,10 +41,6 @@ public  abstract class MainActivity extends SwipeBackActivity {
         scan();*/
     }
 
-    void initView() {
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
