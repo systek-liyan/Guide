@@ -14,7 +14,7 @@ import android.widget.Toast;
  * Created by Qiang on 2015/11/26.
  *
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     /**
      * 主视图
@@ -41,9 +41,7 @@ public class BaseFragment extends Fragment {
     /**
      * 初始化控件
      */
-    protected void initView() {
-
-    }
+    abstract void initView();
 
     /**
      * 显示一个toast
@@ -61,12 +59,20 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroyView() {
+        super.onDestroyView();
+        /*if(contentView!=null){
+            ((ViewGroup)contentView.getParent()).removeView(contentView);
+        }*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

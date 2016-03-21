@@ -60,7 +60,7 @@ import java.util.List;
         recordExhibitList=new ArrayList<>();
         playExhibitList=new ArrayList<>();
         initMediaPlayer();
-        //registerReceiver();// TODO: 2016/2/26 暂时不开启锁屏界面
+        registerReceiver();// TODO: 2016/2/26 暂时不开启锁屏界面
     }
 
     public int toGetDuration() {
@@ -71,6 +71,13 @@ import java.util.List;
     public IBinder onBind(Intent intent) {
         return mediaServiceBinder;
     }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_STICKY;
+    }
+
     /**
      * 锁屏广播接收器
      * */

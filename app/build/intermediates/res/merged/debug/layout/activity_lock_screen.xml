@@ -1,18 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="30dp"
+    android:orientation="vertical"
+    android:background="@color/md_grey_700"
     tools:context=".activity.LockScreenActivity">
-    <android.support.v4.view.ViewPager
 
-        android:id="@+id/lockScreenViewPager"
+    <TextView
+        android:id="@+id/tvLockTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="@dimen/simple_10dp"
+        android:textColor="@color/md_white_1000" />
+    <TextView
+        android:id="@+id/tvExhibitName"
+        android:layout_gravity="center_horizontal"
+        android:textSize="17sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/fullscreenImage"
+            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="5"
+            android:layout_height="0dp"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleNearly"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none"/>
 
-</FrameLayout>
+        <SeekBar
+            android:id="@+id/seekBarProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:maxHeight="5dp"
+            android:minHeight="5dp"
+            android:progressDrawable="@drawable/seek_bar_bg"
+            android:thumb="@drawable/thumb_bar_selector"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvPlayTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:textSize="@dimen/normal_textSize"
+                    android:layout_marginStart="10dp"/>
+                <TextView
+                    android:id="@+id/tvTotalTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="@dimen/normal_textSize"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/ivPlayCtrl"
+                style="@style/normal_image_view"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                style="@style/normal_image_view"
+                android:src="@drawable/iv_unlock_img_lock_screen"/>
+
+            <TextView
+                android:text="滑动解锁"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

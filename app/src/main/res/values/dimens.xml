@@ -50,7 +50,6 @@
     <dimen name="tv_list_map_bottom_exhibit_name">15dp</dimen>
 
 
-
     <!--多角度图片 item  -->
     <dimen name="iv_multi_angle_image_width">120dp</dimen>
 

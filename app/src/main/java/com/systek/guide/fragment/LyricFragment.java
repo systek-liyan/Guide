@@ -5,9 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -38,13 +36,70 @@ public class LyricFragment extends BaseFragment implements IConstants{
     private ListView lvLyric;
     private TextView tvContent;
     private ImageView ivWordCtrl;
-    private View view;
 
     public LyricFragment() {
     }
 
-    public ExhibitBean getExhibit() {
-        return exhibit;
+    public static LyricFragment newInstance(String exhibitJson) {
+        LyricFragment fragment = new LyricFragment();
+        if(!TextUtils.isEmpty(exhibitJson)){
+            Bundle args = new Bundle();
+            args.putString(ARG_PARAM1, exhibitJson);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView(contentView);
+        if (getArguments() != null) {
+            String exhibitJson = getArguments().getString(ARG_PARAM1);
+            if(!TextUtils.isEmpty(exhibitJson)){
+                exhibit= JSON.parseObject(exhibitJson,ExhibitBean.class);
+            }
+        }
+    }
+
+    @Override
+    void initView() {
+        setContentView(R.layout.fragment_lyric);
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadLyricByHand();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mLyricLoadHelper = new LyricLoadHelper();
+        mLyricLoadHelper.setLyricListener(mLyricListener);
+        mLyricAdapter = new LyricAdapter(getActivity());
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     public void setExhibit(ExhibitBean exhibit) {
@@ -90,56 +145,23 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
     }
 
-    public static LyricFragment newInstance(String exhibitJson) {
-        LyricFragment fragment = new LyricFragment();
-        if(!TextUtils.isEmpty(exhibitJson)){
-            Bundle args = new Bundle();
-            args.putString(ARG_PARAM1, exhibitJson);
-            fragment.setArguments(args);
-        }
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String exhibitJson = getArguments().getString(ARG_PARAM1);
-            if(!TextUtils.isEmpty(exhibitJson)){
-                exhibit= JSON.parseObject(exhibitJson,ExhibitBean.class);
-            }
-        }
-    }
-
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        if(view==null){
-            view =getActivity().getLayoutInflater().inflate(R.layout.fragment_lyric, null);
-        }
-        loadLyricByHand();
-        return view;
-    }
-
-
     private void addListener() {
         ivWordCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.ivWordCtrl:
-                        if(lvLyric.getVisibility()==View.VISIBLE){
+                        if (lvLyric.getVisibility() == View.VISIBLE) {
                             lvLyric.setVisibility(View.INVISIBLE);
                             tvContent.setVisibility(View.VISIBLE);
-                            view.setBackgroundResource(R.drawable.bg_lyric_blur);
-                        }else{
+                            contentView.setBackgroundResource(R.drawable.bg_lyric_blur);
+                        } else {
                             lvLyric.setVisibility(View.VISIBLE);
                             tvContent.setVisibility(View.INVISIBLE);
-                            view.setBackgroundResource(0);
+                            contentView.setBackgroundResource(0);
                         }
                         break;
+                    default:break;
                 }
             }
         });
@@ -151,6 +173,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
         ivWordCtrl=(ImageView)view.findViewById(R.id.ivWordCtrl);
         lvLyric.setAdapter(mLyricAdapter);
         lvLyric.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        addListener();
     }
 
     private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
@@ -185,37 +208,6 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mLyricLoadHelper = new LyricLoadHelper();
-        mLyricLoadHelper.setLyricListener(mLyricListener);
-        mLyricAdapter = new LyricAdapter(getActivity());
-        if(view==null){
-            view =activity.getLayoutInflater().inflate(R.layout.fragment_lyric, null);
-        }
-        initView(view);
-        addListener();
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
     public interface OnFragmentInteractionListener {

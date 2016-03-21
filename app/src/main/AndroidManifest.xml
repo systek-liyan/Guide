@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
 
     <application
         android:name=".MyApplication"
@@ -35,14 +37,11 @@
             android:name=".activity.BeginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
-
         </activity>
         <activity
             android:name=".activity.CityChooseActivity"
@@ -105,7 +104,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
-
         <activity
             android:name=".activity.DownloadManagerActivity"
             android:launchMode="singleTop"
@@ -142,6 +140,9 @@
             android:name=".service.DownloadService"
             android:exported="false">
         </service>
+
+        <activity android:name=".activity.TestActivity">
+        </activity>
     </application>
 
 </manifest>

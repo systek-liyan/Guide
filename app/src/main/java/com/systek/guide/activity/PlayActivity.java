@@ -55,7 +55,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private LyricFragment lyricFragment;
     private IconImageFragment iconImageFragment;
 
-
     private static final int PLAY_STATE_START=1;
     private static final int PLAY_STATE_STOP=2;
     private   int state=PLAY_STATE_STOP;
@@ -69,7 +68,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     @Override
     void initData() {
         Intent intent=getIntent();
-        setIntent(intent);
         String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
         if(!TextUtils.isEmpty(exhibitStr)){
             ExhibitBean bean= JSON.parseObject(exhibitStr, ExhibitBean.class);
@@ -79,7 +77,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         }else{
             currentExhibit=mediaServiceManager.getCurrentExhibit();
         }
-        refreshView();
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
     }
 
 
@@ -168,6 +166,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     @Override
     void unRegisterReceiver() {
+        unregisterReceiver(receiver);
         unRegisterBluetoothReceiver();
     }
 
@@ -356,8 +355,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     @Override
     protected void onDestroy() {
         viewpagerWordImage.removeAllViewsInLayout();
-        unregisterReceiver(receiver);
-        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 

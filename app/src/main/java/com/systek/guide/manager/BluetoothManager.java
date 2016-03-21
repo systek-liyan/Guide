@@ -134,6 +134,11 @@ public class BluetoothManager implements IConstants {
             executor.execute(new MyBeaconTask(isSwitch,list));
         }
 
+        @Override
+        public void getBeacons(boolean b, boolean b1, List<SystekBeacon> list, String s) {
+
+        }
+
 
     };
 
