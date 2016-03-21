@@ -9,15 +9,16 @@ import android.util.Log;
 
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.systek.guide.IConstants;
-import com.systek.guide.MyApplication;
-import com.systek.guide.download.TaskItemViewHolder;
 import com.systek.guide.biz.BizFactory;
+import com.systek.guide.biz.DataBiz;
 import com.systek.guide.biz.DownloadBiz;
 import com.systek.guide.download.MyFileDownloadQueueSet;
+import com.systek.guide.download.TaskItemViewHolder;
 import com.systek.guide.download.TasksManager;
+import com.systek.guide.download.TasksMuseumModel;
+import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.Tools;
@@ -122,7 +123,7 @@ public class DownloadService extends IntentService implements IConstants{
             final MyFileDownloadQueueSet queueSet = new MyFileDownloadQueueSet(downloadListener);
             queueSet.setUrl(mUrl);
             queueSet.setUrl(path);
-            TasksManager.getImpl().addTaskForViewHoder(queueSet);
+            TasksManager.getImpl().addTaskForViewHolder(queueSet);
             TasksManager.getImpl().updateViewHolder(holder.id, holder);
 
             if(!path.endsWith(File.separator)){
@@ -162,7 +163,67 @@ public class DownloadService extends IntentService implements IConstants{
      */
     private void handleActionBaz(String museumId) {
 
-        DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz();
+        MuseumBean museum=DataBiz.getEntityLocalById(MuseumBean.class,museumId);
+        if(museum==null){return;}
+        TasksManager.getImpl().addTask(museum);
+        TasksMuseumModel task = TasksManager.getImpl().changeToTasksMuseumModel(museum);
+        TasksManager.getImpl().toDownload(task);
+    }
+
+
+    int count;
+
+    private FileDownloadListener getFileDownloadListener(){
+        return new FileDownloadListener() {
+            @Override
+            protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+            }
+
+            @Override
+            protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+            }
+
+            @Override
+            protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+            }
+
+            @Override
+            protected void blockComplete(BaseDownloadTask task) {
+            }
+
+            @Override
+            protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+                LogUtil.i("ZHANG","retry");
+            }
+
+            @Override
+            protected void completed(BaseDownloadTask task) {
+                count++;
+                if(total==count){
+                    //TasksManager.getImpl().setStatus();
+                }
+                LogUtil.i("ZHANG","count=="+count+"completed=="+task.getPath());
+            }
+
+            @Override
+            protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+            }
+
+            @Override
+            protected void error(BaseDownloadTask task, Throwable e) {
+                LogUtil.i("ZHANG","error");
+            }
+
+            @Override
+            protected void warn(BaseDownloadTask task) {
+                LogUtil.i("ZHANG","warn");
+            }
+        };
+    }
+
+
+}
+ /*DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz();
         String assetsJson=downloadBiz.getAssetsJSON(museumId);
         if(TextUtils.isEmpty(assetsJson)){
             LogUtil.i("ZHANG","assetsJson获取失败");
@@ -207,57 +268,4 @@ public class DownloadService extends IntentService implements IConstants{
         }catch (Exception e){
             ExceptionUtil.handleException(e);
         }
-
-    }
-    int count;
-
-    private FileDownloadListener getFileDownloadListener(){
-        return new FileDownloadListener() {
-            @Override
-            protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            }
-
-            @Override
-            protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-            }
-
-            @Override
-            protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            }
-
-            @Override
-            protected void blockComplete(BaseDownloadTask task) {
-            }
-
-            @Override
-            protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
-                LogUtil.i("ZHANG","retry");
-            }
-
-            @Override
-            protected void completed(BaseDownloadTask task) {
-                count++;
-                if(total==count){
-                    Tools.saveValue(MyApplication.get(),SP_IS_MUSEUM_DATA_SAVE,true);
-                }
-                LogUtil.i("ZHANG","count=="+count+"completed=="+task.getPath());
-            }
-
-            @Override
-            protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            }
-
-            @Override
-            protected void error(BaseDownloadTask task, Throwable e) {
-                LogUtil.i("ZHANG","error");
-            }
-
-            @Override
-            protected void warn(BaseDownloadTask task) {
-                LogUtil.i("ZHANG","warn");
-            }
-        };
-    }
-
-
-}
+*/

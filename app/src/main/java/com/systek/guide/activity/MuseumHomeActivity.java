@@ -25,6 +25,7 @@ import com.systek.guide.adapter.MuseumIconAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.DownloadService;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.MyHttpUtil;
 import com.systek.guide.utils.NetworkUtil;
@@ -53,7 +54,8 @@ public class MuseumHomeActivity extends BaseActivity {
 
     @Override
     protected void setView() {
-
+        MyApplication application= (MyApplication) getApplication();
+        application.initMediaService();
         View view = View.inflate(this, R.layout.activity_museum_home, null);
         setContentView(view);
         initDrawer();
@@ -153,7 +155,7 @@ public class MuseumHomeActivity extends BaseActivity {
                     boolean isDownload = (boolean) Tools.getValue(MyApplication.get(), currentMuseumId, false);
                     //没有下载则启动下载服务去下载数据
                     if (!isDownload) {
-                        //DownloadService.startActionBaz(MuseumHomeActivity.this, currentMuseumId);
+                        DownloadService.startActionBaz(MuseumHomeActivity.this, currentMuseumId);
                     }
                 }
                 //判断当前博物馆基本数据是否已经加载
@@ -162,7 +164,7 @@ public class MuseumHomeActivity extends BaseActivity {
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
                 } else {
                     DataBiz.saveAllJsonData(currentMuseumId);
-                    Tools.saveValue(MuseumHomeActivity.this, SP_IS_MUSEUM_DATA_SAVE, true);
+                    //Tools.saveValue(MuseumHomeActivity.this, SP_IS_MUSEUM_DATA_SAVE, true);
                     if (handler != null) {
                         handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
                     }

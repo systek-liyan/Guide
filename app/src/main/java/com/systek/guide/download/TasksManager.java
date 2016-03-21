@@ -1,5 +1,6 @@
 package com.systek.guide.download;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
@@ -36,23 +37,25 @@ public class TasksManager implements IConstants {
     private final static class HolderClass {
 
         private final static TasksManager INSTANCE = new TasksManager();
-
     }
 
     private List<TasksMuseumModel> modelList;
     private List<MyFileDownloadQueueSet> queueSets;
 
 
-    private TasksManagerDBController dbController;
+    private TaskManagerDBController dbController;
 
     private TasksManager() {
-        dbController = new TasksManagerDBController();
+        dbController = new TaskManagerDBController();
         queueSets=new ArrayList<>();
         refreshTaskList();
     }
 
     private void refreshTaskList() {
         modelList = dbController.getAllTasks();
+        if(modelList==null){
+            modelList=new ArrayList<>();
+        }
     }
 
     public static TasksManager getImpl() {
@@ -61,7 +64,7 @@ public class TasksManager implements IConstants {
 
     private SparseArray<MyFileDownloadQueueSet> taskSparseArray = new SparseArray<>();
 
-    public void addTaskForViewHoder(final MyFileDownloadQueueSet task) {
+    public void addTaskForViewHolder(final MyFileDownloadQueueSet task) {
         taskSparseArray.put(task.getDownloadId(), task);
     }
 
@@ -79,7 +82,6 @@ public class TasksManager implements IConstants {
         if (task == null) {
             return;
         }
-
         task.setHolder(holder);
     }
 
@@ -134,6 +136,9 @@ public class TasksManager implements IConstants {
         FileDownloader.getImpl().removeServiceConnectListener(listener);
         listener = null;
         releaseTask();
+        if(dbController!=null){
+            dbController.closeDB();
+        }
     }
 
     public boolean isReady() {
@@ -144,13 +149,13 @@ public class TasksManager implements IConstants {
         return modelList.get(position);
     }
 
-    public TasksMuseumModel getbyId(final int id) {
+    public TasksMuseumModel getById(final int id) {
+        if(modelList==null){return null;}
         for (TasksMuseumModel model : modelList) {
-            if (model.getId() == id) {
+            if (model.getDownloadId() == id) {
                 return model;
             }
         }
-
         return null;
     }
     public MyFileDownloadQueueSet getDownloadQueueSetbyId(final int id) {
@@ -178,6 +183,13 @@ public class TasksManager implements IConstants {
 
     }
 
+    public void pauseAllTask(){
+        for(TasksMuseumModel tasksMuseumModel:modelList){
+            setStatus(tasksMuseumModel.getDownloadId(), FileDownloadStatus.paused);
+        }
+    }
+
+
     /**
      * @param status Download Status
      * @return has already downloaded
@@ -189,9 +201,9 @@ public class TasksManager implements IConstants {
 
     public boolean isDownloading(final int status) {
         switch (status) {
-            case FileDownloadStatus.pending:
-            case FileDownloadStatus.connected:
             case FileDownloadStatus.progress:
+            case FileDownloadStatus.connected:
+            case FileDownloadStatus.pending:
                 return true;
             default:
                 return false;
@@ -199,36 +211,69 @@ public class TasksManager implements IConstants {
     }
 
     public boolean isExist(final int id) {
-        return new File(getbyId(id).getPath()).exists();
+        return new File(getById(id).getPath()).exists();
     }
 
     public int getStatus(final int id) {
-        TasksMuseumModel task=getbyId(id);
+        TasksMuseumModel task= getById(id);
         if(task==null){return FileDownloadStatus.error; }
         return task.getStatus();
     }
 
     public void setStatus(final int id,final int status) {
-        TasksMuseumModel task=getbyId(id);
+        TasksMuseumModel task= getById(id);
         if(task==null){return;}
-        task.setStatus(status);
+        getById(id).setStatus(status);
         dbController.setStatus(id,status);
     }
 
-
     public long getTotal(final int id) {
-        TasksMuseumModel task=getbyId(id);
+        TasksMuseumModel task= getById(id);
         if(task==null){return 0;}
         return task.getTotal();
     }
+    public void setProgress(final int id,float progress) {
+        TasksMuseumModel task= getById(id);
+        if(task==null){return;}
+        task.setProgress(progress);
+        dbController.setProgress(id,progress);
+    }
 
-    public long getSoFar(final int id) {
-        return FileDownloader.getImpl().getSoFar(id);
+    public float getSoFar(final int id) {
+        TasksMuseumModel model=getById(id);
+        if(model==null){return 0;}
+        return model.getProgress();
     }
 
     public int getTaskCounts() {
         return modelList.size();
     }
+
+
+    public int generateId(MuseumBean museum){
+        String url=BASE_URL+URL_ALL_MUSEUM_ASSETS+museum.getId();
+        String path=LOCAL_ASSETS_PATH+museum.getId();
+        // have to use FileDownloadUtils.generateId to associate TasksMuseumModel with FileDownloader
+        return  FileDownloadUtils.generateId(url, path);
+    }
+
+
+    @NonNull
+    public TasksMuseumModel changeToTasksMuseumModel(MuseumBean museum) {
+        String url=BASE_URL+URL_ALL_MUSEUM_ASSETS+museum.getId();
+        String path=LOCAL_ASSETS_PATH+museum.getId();
+        // have to use FileDownloadUtils.generateId to associate TasksMuseumModel with FileDownloader
+        final int id = FileDownloadUtils.generateId(url, path);
+        TasksMuseumModel task=new TasksMuseumModel();
+        task.setDownloadId(id);
+        task.setIconUrl(museum.getIconUrl());
+        task.setMuseumId(museum.getId());
+        task.setName(museum.getName());
+        task.setUrl(url);
+        task.setPath(path);
+        return task;
+    }
+
 
     public TasksMuseumModel addTask(MuseumBean museum) {
         if (museum==null) {
@@ -238,19 +283,18 @@ public class TasksManager implements IConstants {
         String path=LOCAL_ASSETS_PATH+museum.getId();
         // have to use FileDownloadUtils.generateId to associate TasksMuseumModel with FileDownloader
         final int id = FileDownloadUtils.generateId(url, path);
-        TasksMuseumModel mTask = getbyId(id);
+        TasksMuseumModel mTask = getById(id);
         if (mTask != null) {
             return mTask;
         }
         TasksMuseumModel task=new TasksMuseumModel();
-
-        task.setId(id);
+        task.setDownloadId(id);
         task.setIconUrl(museum.getIconUrl());
         task.setMuseumId(museum.getId());
         task.setName(museum.getName());
         task.setUrl(url);
         task.setPath(path);
-        task.setStatus(FileDownloadStatus.progress);
+        task.setStatus(FileDownloadStatus.INVALID_STATUS);
         return dbController.addTask(task);
     }
     private FileDownloadListener getFileDownloadListener(int downloadId,int totalSize){
@@ -288,16 +332,27 @@ public class TasksManager implements IConstants {
         @Override
         protected void completed(BaseDownloadTask task) {
             currentSize++;
-            LogUtil.i("ZHANG","completed--count="+currentSize+"  name="+task.getPath());
+            LogUtil.i("ZHANG", "completed--count=" + currentSize + "  name=" + task.getPath());
             if(downloadId!=-1){
                 final MyFileDownloadQueueSet queueSet = getTaskForViewHoder(downloadId);
                 if(queueSet==null){return;}
                 TaskItemViewHolder holder=queueSet.getHolder();
-                holder.updateDownloading(FileDownloadStatus.progress,currentSize,totalSize);
+                if(holder!=null){
+                    holder.updateDownloading(FileDownloadStatus.progress, currentSize, totalSize);
+                    if(totalSize!=0&&currentSize!=0){
+                        float sofar=currentSize / totalSize;
+                        setProgress(holder.id,sofar);
+                    }
+                }
+
                 if(currentSize==totalSize){
+                if(holder!=null){
                     holder.updateDownloaded();
-                    dbController.setStatus(downloadId,FileDownloadStatus.completed);
-                    Tools.saveValue(MyApplication.get(), SP_IS_MUSEUM_DATA_SAVE, true);
+                }
+                dbController.setStatus(downloadId, FileDownloadStatus.completed);
+                String path=queueSet.getPath();
+                String museumId=path.substring(LOCAL_ASSETS_PATH.length(),path.length());
+                Tools.saveValue(MyApplication.get(), museumId, true);
                 }
             }
         }
@@ -318,11 +373,22 @@ public class TasksManager implements IConstants {
         }
     }
 
+    public void toDownload(final TasksMuseumModel model){
+        this.toDownload(model,"");
 
+    }
     public void toDownload(final TasksMuseumModel model,final TaskItemViewHolder holder){
+        this.toDownload(model,"",holder);
+    }
+
+    public void toDownload(final TasksMuseumModel model,final String baseUrl){
+        this.toDownload(model,baseUrl,null);
+    }
+
+
+    public void toDownload(final TasksMuseumModel model,final String baseUrl,final TaskItemViewHolder holder){
         if(model==null){return;}
         new Thread(){
-
             @Override
             public void run() {
                 FileDownloadListener downloadListener=null;
@@ -331,7 +397,7 @@ public class TasksManager implements IConstants {
                 String assetsJson=downloadBiz.getAssetsJSON(museumId);
                 if(TextUtils.isEmpty(assetsJson)){
                     LogUtil.i("ZHANG", "assetsJson获取失败");
-                    setStatus(model.getId(), FileDownloadStatus.error);
+                    setStatus(model.getDownloadId(), FileDownloadStatus.error);
                     //holder.updateNotDownloaded(FileDownloadStatus.error,0,0);
                     // TODO: 2016/3/10 发送消息给view holder 更新状态
                     return;
@@ -339,11 +405,10 @@ public class TasksManager implements IConstants {
                 List<String> assetsList=downloadBiz.parseAssetsJson(assetsJson);
                 if(assetsList==null||assetsList.size()==0){
                     LogUtil.i("ZHANG","assetsJson为 0");
-                    setStatus(model.getId(), FileDownloadStatus.error);
+                    setStatus(model.getDownloadId(), FileDownloadStatus.error);
                     return;}
                 int count =assetsList.size();
                 //TasksManager.getImpl().setStatus();
-
                 final String mUrl=BASE_URL+URL_ALL_MUSEUM_ASSETS+museumId;
                 String path=LOCAL_ASSETS_PATH+museumId;
                 int downloadId=FileDownloadUtils.generateId(mUrl,path);
@@ -352,8 +417,10 @@ public class TasksManager implements IConstants {
                 queueSet.setDownloadId(downloadId);
                 queueSet.setUrl(mUrl);
                 queueSet.setPath(path);
-                TasksManager.getImpl().addTaskForViewHoder(queueSet);
-                TasksManager.getImpl().updateViewHolder(holder.id, holder);
+                TasksManager.getImpl().addTaskForViewHolder(queueSet);
+                if(holder!=null){
+                    TasksManager.getImpl().updateViewHolder(holder.id, holder);
+                }
 
                 if(!path.endsWith(File.separator)){
                     path = path + File.separator;
@@ -365,13 +432,19 @@ public class TasksManager implements IConstants {
                     }
                 }
                 final List<BaseDownloadTask> tasks = new ArrayList<>();
+                String mBase=null;
+                if(TextUtils.isEmpty(baseUrl)){
+                    mBase=BASE_URL;
+                }else{
+                    mBase=baseUrl;
+                }
+
                 for (int i = 0; i < count; i++) {
-                    String url=BASE_URL+assetsList.get(i);
+                    String url=mBase+assetsList.get(i);
                     String name= Tools.changePathToName(assetsList.get(i));
                     BaseDownloadTask task=FileDownloader.getImpl()
                             .create(url)
                             .setPath(path + name);
-
                     task.ready();
                     tasks.add(task);
                 }
@@ -382,13 +455,10 @@ public class TasksManager implements IConstants {
                 queueSet.setAutoRetryTimes(1);
                 queueSet.downloadTogether(tasks);
                 queueSet.start();
-                TasksManager.getImpl().setStatus(holder.id, FileDownloadStatus.progress);
                 queueSet.setTasks(tasks);
                 queueSets.add(queueSet);
             }
         }.start();
 
     }
-
-
 }

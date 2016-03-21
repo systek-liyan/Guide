@@ -137,11 +137,26 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     }
 
+    View.OnClickListener onClickListener=new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.ivPlayCtrl:
+                    Intent intent=new Intent();
+                    intent.setAction(INTENT_CHANGE_PLAY_STATE);
+                    sendBroadcast(intent);
+                    break;
+            }
+
+        }
+    };
 
     /**
      * 注册广播接收器
      */
     void registerReceiver() {
+        registerBluetoothReceiver();
         IntentFilter filter=new IntentFilter();
         filter.addAction(INTENT_EXHIBIT);
         filter.addAction(INTENT_EXHIBIT_PROGRESS);
@@ -153,7 +168,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     @Override
     void unRegisterReceiver() {
-
+        unRegisterBluetoothReceiver();
     }
 
     /**
@@ -305,20 +320,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         }
     };
 
-    View.OnClickListener onClickListener=new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.ivPlayCtrl:
-                    Intent intent=new Intent();
-                    intent.setAction(INTENT_CHANGE_PLAY_STATE);
-                    sendBroadcast(intent);
-                    break;
-            }
-
-        }
-    };
 
     @Override
     public void onFragmentInteraction(ExhibitBean exhibit) {

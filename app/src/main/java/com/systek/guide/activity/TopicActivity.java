@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;

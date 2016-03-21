@@ -8,11 +8,11 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 
 import com.liulishuo.filedownloader.FileDownloader;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
+import com.systek.guide.utils.ExceptionUtil;
 
 import java.lang.reflect.Field;
 
@@ -54,15 +54,17 @@ public class MyApplication extends Application implements IConstants{
         FileDownloader.init(this);
         // 防止重启两次,非相同名字的则返回
         if (!isSameAppName()) {return;}
-        ImageLoader.getInstance();
         myApplication = this;
-        mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
-        mServiceManager.connectService();
         registerNetWorkReceiver();
         initBlueTooth();
         //初始化检查内存泄露
         //LeakCanary.install(this);
         //FontUtils.getInstance().replaceSystemDefaultFontFromAsset(this, "fonts/aaa.ttf");
+    }
+
+    public void initMediaService() {
+        mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
+        mServiceManager.connectService();
     }
 
 
@@ -81,14 +83,18 @@ public class MyApplication extends Application implements IConstants{
         catch (IllegalAccessException e)
         {
             e.printStackTrace();
+        }catch (Exception e){
+            ExceptionUtil.handleException(e);
         }
     }
 
 
 
 
-    private void initBlueTooth() {
-        bluetoothManager =BluetoothManager.newInstance(this);
+    public void initBlueTooth() {
+        if(bluetoothManager==null){
+            bluetoothManager =BluetoothManager.newInstance(this);
+        }
         bluetoothManager.initBeaconSearcher();
     }
     public  static Context getAppContext(){

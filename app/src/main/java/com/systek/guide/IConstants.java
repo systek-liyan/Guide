@@ -15,7 +15,6 @@ public interface IConstants {
     String SP_IS_MUSEUM_DATA_SAVE="sp_is_museum_data_save";//是否保存了博物馆数据
     String SP_IS_IN_MUSEUM="sp_is_in_museum";//是否在博物馆
 
-
     /**关于URL*/
 
     String BASE_URL ="http://182.92.82.70";

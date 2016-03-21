@@ -72,6 +72,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      */
     @Override
     void registerReceiver() {
+        registerBluetoothReceiver();
         IntentFilter filter=new IntentFilter();
         filter.addAction(INTENT_EXHIBIT_PROGRESS);
         filter.addAction(INTENT_EXHIBIT_DURATION);
@@ -83,6 +84,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     @Override
     void unRegisterReceiver() {
+        unRegisterBluetoothReceiver();
         unregisterReceiver(receiver);
     }
 

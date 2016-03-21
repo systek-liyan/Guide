@@ -39,23 +39,23 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
 
             if (TasksManager.getImpl().isDownloaded(status) && TasksManager.getImpl().isExist(holder.id)) {
                 // has downloaded
-                TasksMuseumModel museum=TasksManager.getImpl().get(holder.position);
-                String path=LOCAL_ASSETS_PATH+museum.getId();
+                TasksMuseumModel model= TasksManager.getImpl().get(holder.position);
+                String path=LOCAL_ASSETS_PATH+model.getDownloadId();
                 new File(path).delete();
                 holder.taskActionBtn.setEnabled(true);
-                holder.updateNotDownloaded(FileDownloadStatus.INVALID_STATUS, 0, 0);
+                holder.updateNotDownloaded(FileDownloadStatus.INVALID_STATUS ,0, 0);
             } else if (TasksManager.getImpl().isDownloading(status)) {
                 // downloading
                 // to pause
                 TasksManager.getImpl().pauseTask(holder.id);// TODO: 2016/3/9
-                TasksManager.getImpl().setStatus(holder.id,FileDownloadStatus.paused);
+                TasksManager.getImpl().setStatus(holder.id,FileDownloadStatus.progress);
                 v.setBackgroundResource(R.drawable.download_start);
             } else {
                 // to start
                 final TasksMuseumModel model = TasksManager.getImpl().get(holder.position);
                 TasksManager.getImpl().toDownload(model, holder);
                 v.setBackgroundResource(R.drawable.download_stop);
-                TasksManager.getImpl().setStatus(holder.id, FileDownloadStatus.progress);
+                //TasksManager.getImpl().setStatus(holder.id,FileDownloadStatus.progress);
             }
         }
     };
@@ -79,7 +79,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
 
         final TasksMuseumModel model = TasksManager.getImpl().get(position);
 
-        holder.update(model.getId(), position);
+        holder.update(model.getDownloadId(), position);
         holder.taskActionBtn.setTag(holder);
         holder.taskNameTv.setText(model.getName());
         ImageLoaderUtil.displayImage(model.getIconUrl(),holder.museumIcon);
@@ -87,23 +87,23 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
 
         holder.taskActionBtn.setEnabled(true);
 
-        final int status = TasksManager.getImpl().getStatus(model.getId());
+        final int status = TasksManager.getImpl().getStatus(model.getDownloadId());
 
         if (TasksManager.getImpl().isReady()) {
-            if (!TasksManager.getImpl().isExist(model.getId())) {
+            if (!TasksManager.getImpl().isExist(model.getDownloadId())) {
                 // not exist file
                 holder.updateNotDownloaded(status, 0, 0);
-            } else if (TasksManager.getImpl().isDownloaded(status)) {
+            } else if (TasksManager.getImpl().isDownloaded(status)){
                 // already downloaded and exist
                 holder.updateDownloaded();
             } else if (TasksManager.getImpl().isDownloading(status)) {
                 // downloading
-                holder.updateDownloading(status, TasksManager.getImpl().getSoFar(model.getId())
-                        , TasksManager.getImpl().getTotal(model.getId()));
+                holder.updateDownloading(status, TasksManager.getImpl().getSoFar(model.getDownloadId())
+                        , TasksManager.getImpl().getTotal(model.getDownloadId()));
             } else {
                 // not start
-                holder.updateNotDownloaded(status, TasksManager.getImpl().getSoFar(model.getId())
-                        , TasksManager.getImpl().getTotal(model.getId()));
+                holder.updateNotDownloaded(status, TasksManager.getImpl().getSoFar(model.getDownloadId())
+                        , TasksManager.getImpl().getTotal(model.getDownloadId()));
             }
         } else {
             //holder.taskStatusTv.setText("loading");//R.string.tasks_manager_demo_status_loading

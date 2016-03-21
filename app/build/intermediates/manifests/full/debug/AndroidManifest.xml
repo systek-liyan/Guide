@@ -109,12 +109,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.systek.guide.activity.MainActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-        </activity>
-        <activity
             android:name="com.systek.guide.activity.DownloadManagerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

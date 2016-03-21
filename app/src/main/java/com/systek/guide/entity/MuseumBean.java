@@ -46,7 +46,7 @@ public class MuseumBean extends BaseEntity {
     private int mState;//下载状态
 
 
-    private int downloadId;//下载状态
+    private int downloadId;//下载ID
 
     private long progress;
 

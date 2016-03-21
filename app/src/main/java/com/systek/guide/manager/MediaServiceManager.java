@@ -303,7 +303,7 @@ public class MediaServiceManager implements IConstants {
                 /*广播为展品集合*/
                 case INTENT_EXHIBIT_LIST:
                     /*如果不是自动模式，不做处理*/
-                    if(mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO){break;}
+                    if(mediaServiceBinder!=null&&mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO){break;}
                     /*获取并解析展品集合*/
                     String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
                     List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);

@@ -1,6 +1,7 @@
 package com.systek.guide.biz;
 
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -37,29 +38,38 @@ public class DataBiz implements IConstants{
 
 
     private static DbUtils db = null;
+    private static final String DATABASE_NAME = "guide.db";
+    private static final int DATABASE_VERSION = 1;
 
-    public synchronized static  DbUtils getDb(Context context) {
-
-
+    public static  DbUtils getDb() {
         if (db == null) {
-            if (context == null) {
-                context = MyApplication.get();
-            }
-            context=context.getApplicationContext();
-            db = DbUtils.create(context);/*, "guide.db", 1, new DbUtils.DbUpgradeListener() {
-                @Override
-                public void onUpgrade(DbUtils db, int oldversion, int newVersion) {
+            synchronized (DownloadManager.class) {
+                if(db == null){
+                    Context context = MyApplication.get();
+                    db = DbUtils.create(context, DATABASE_NAME,DATABASE_VERSION, new DbUtils.DbUpgradeListener() {
+                        @Override
+                        public void onUpgrade(DbUtils db, int oldversion, int newVersion) {
 
-                    if (newVersion > oldversion) {
+                            if (newVersion > oldversion) {
 
-                        updateDb(db, "Exhibit");
-                    }
+                                updateDb(db, "Exhibit");
+                            }
+                        }
+                    });
                 }
-            }*/
+            }
         }
         db.configAllowTransaction(true);
         return db;
     }
+
+    public static void closeDB(){
+        /*if(db!=null){
+            db.close();
+        }*/
+    }
+
+
 
     private static void updateDb(DbUtils db, String tableName) {
 
@@ -145,8 +155,7 @@ public class DataBiz implements IConstants{
     public synchronized static <T> List<T> getEntityListFromNet(Class<T> clazz,String url){
         String response= MyHttpUtil.doGet(url);
         if(TextUtils.isEmpty(response)){return null;}
-        List<T> list= JSON.parseArray(response, clazz);
-        return list;
+        return JSON.parseArray(response, clazz);
     }
 
     /**
@@ -156,15 +165,13 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static<T> List<T> getEntityListLocal(Class<T> clazz){
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
         try {
-            list = db.findAll(clazz);
+            list = getDb().findAll(clazz);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){db.close();}
+            closeDB();
         }
         return list;
     }
@@ -177,15 +184,13 @@ public class DataBiz implements IConstants{
      * @return 对象
      */
     public synchronized static<T> T getEntityLocalById(Class<T> clazz,String id){
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         T t=null;
         try {
-            t = db.findById(clazz,id);
+            t = getDb().findById(clazz,id);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){db.close();}
+            closeDB();
         }
         return t;
     }
@@ -201,15 +206,13 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static<T> List<T> getEntityListLocalByColumn(String column,String value,Class<T> clazz){
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         List<T> list= null;
         try {
-            list = db.findAll(Selector.from(clazz).where(column,"=",value));
+            list = getDb().findAll(Selector.from(clazz).where(column, "=", value));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){db.close();}
+           closeDB();
         }
         return list;
     }
@@ -222,15 +225,13 @@ public class DataBiz implements IConstants{
      */
     public synchronized static <T> boolean deleteSQLiteDataFromClass(Class<T> clazz){
         boolean isSuccess=true;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db.deleteAll(clazz);
+            getDb().deleteAll(clazz);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
             isSuccess=false;
         }finally {
-            if(db!=null){db.close();}
+            closeDB();
         }
         return isSuccess;
     }
@@ -244,15 +245,13 @@ public class DataBiz implements IConstants{
      */
     public synchronized static <T> boolean deleteSQLiteDataFromID(Class<T> clazz,String id){
         boolean isSuccess=true;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db.delete(clazz, WhereBuilder.b(ID, LIKE, "%" + id + "%"));
+            getDb().delete(clazz, WhereBuilder.b(ID, LIKE, "%" + id + "%"));
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
             isSuccess=false;
         }finally {
-            if(db!=null){db.close();}
+            closeDB();
         }
         return isSuccess;
     }
@@ -266,15 +265,13 @@ public class DataBiz implements IConstants{
     public synchronized static<T>  boolean saveListToSQLite(List<T> list){
         boolean isSuccess=true;
         if(list==null){return false; }
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db.saveOrUpdateAll(list);
+            getDb().saveOrUpdateAll(list);
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
             isSuccess=false;
         }finally {
-            if(db!=null){db.close();}
+            closeDB();
         }
         return isSuccess;
     }
@@ -286,15 +283,13 @@ public class DataBiz implements IConstants{
      */
     public synchronized static boolean saveEntityToSQLite(Object obj){
         boolean isSuccess=true;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db.save(obj);
+            getDb().save(obj);
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
             isSuccess=false;
         }finally {
-            if(db!=null){db.close();}
+            closeDB();
         }
         return isSuccess;
     }
@@ -306,8 +301,8 @@ public class DataBiz implements IConstants{
      */
     public synchronized static boolean deleteOldJsonData(String museumID){
         boolean isSuccess=true;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
+        DbUtils db=getDb();
+        //DbUtils db=DbUtils.create(MyApplication.get());
         try{
             db.createTableIfNotExist(BeaconBean.class);
             List<BeaconBean> beaconList=db.findAll(Selector.from(BeaconBean.class).where(MUSEUM_ID, LIKE, "%" + museumID + "%"));
@@ -328,9 +323,7 @@ public class DataBiz implements IConstants{
             isSuccess=false;
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         return isSuccess;
     }
@@ -342,16 +335,13 @@ public class DataBiz implements IConstants{
      */
     public synchronized static List<ExhibitBean> getCollectionExhibitListFromDB() {
         List<ExhibitBean> collectionList=null;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
+        //DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true));
+            collectionList= getDb().findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         return collectionList;
     }
@@ -363,32 +353,26 @@ public class DataBiz implements IConstants{
      */
     public synchronized static List<ExhibitBean> getCollectionExhibitListFromDBById(String museumId) {
         List<ExhibitBean> collectionList=null;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
+        //DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            collectionList= db.findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true).and(MUSEUM_ID, LIKE, "%" + museumId + "%"));
+            collectionList= getDb().findAll(Selector.from(ExhibitBean.class).where(SAVE_FOR_PERSON, "=", true).and(MUSEUM_ID, LIKE, "%" + museumId + "%"));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         return collectionList;
     }
 
     public synchronized static ExhibitBean getExhibitFromDBById(String exhibitId) {
         ExhibitBean exhibitBean=null;
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
+        //DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            exhibitBean= db.findById(ExhibitBean.class, exhibitId);
+            exhibitBean= getDb().findById(ExhibitBean.class, exhibitId);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         return exhibitBean;
     }
@@ -402,11 +386,8 @@ public class DataBiz implements IConstants{
         List<BeaconBean> beaconList = getEntityListLocal(BeaconBean.class);
         List<LabelBean> labelList = getEntityListLocal(LabelBean.class);
         List<ExhibitBean> exhibitList = getEntityListLocal(ExhibitBean.class);
-        if(beaconList!=null&&labelList!=null&&exhibitList!=null
-                &&beaconList.size()>0&&labelList.size()>0&&exhibitList.size()>0){
-            return true;
-        }
-        return false;
+        return beaconList != null && labelList != null && exhibitList != null
+                && beaconList.size() > 0 && labelList.size() > 0 && exhibitList.size() > 0;
     }
 
     /**
@@ -439,17 +420,15 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static<T>   List<T> getLocalListById(Class<T> clazz, String museumID) {
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
+        //DbUtils db=getDb();
+        //DbUtils db=DbUtils.create(MyApplication.get());
         List<T>list=null;
         try {
-            list =db.findAll(Selector.from(clazz).where(MUSEUM_ID,LIKE,"%"+museumID+"%"));
+            list =getDb().findAll(Selector.from(clazz).where(MUSEUM_ID, LIKE, "%" + museumID +"%"));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         return list;
     }
@@ -459,16 +438,14 @@ public class DataBiz implements IConstants{
      * @param obj
      */
     public synchronized static  void saveOrUpdate(Object obj) {
-        //DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
+        //DbUtils db=getDb();
+        //DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            db.saveOrUpdate(obj);
+            getDb().saveOrUpdate(obj);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
     }
 
@@ -481,18 +458,15 @@ public class DataBiz implements IConstants{
     public synchronized static List<ExhibitBean> getExhibitListByBeaconId(String museumId,String beaconId){
 
         if(TextUtils.isEmpty(beaconId)){return null;}
-        //DbUtils db=getDb(null);
-        DbUtils db=null;
+        //DbUtils db=getDb();
+        //DbUtils db=DbUtils.create(MyApplication.get());
         List<ExhibitBean> list=null;
         try {
-            db=DbUtils.create(MyApplication.get());
-            list=db.findAll(Selector.from(ExhibitBean.class).where(BEACON_ID,LIKE,"%"+beaconId+"%"));
+            list=getDb().findAll(Selector.from(ExhibitBean.class).where(BEACON_ID, LIKE, "%" + beaconId +"%"));
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         if(list!=null){return list;}
         String url=URL_EXHIBIT_LIST+museumId+"&beaconId="+beaconId;
@@ -606,16 +580,12 @@ public class DataBiz implements IConstants{
     public  static synchronized BeaconBean getBeaconMinorAndMajor(String minor,String major){
         List<BeaconBean> beaconBeans=null;
         BeaconBean b=null;
-        DbUtils db=null;
         try {
-            db=DbUtils.create(MyApplication.get());
-            beaconBeans= db.findAll(Selector.from(BeaconBean.class).where("minor", "=", minor).and("major","=",major));
+            beaconBeans= getDb().findAll(Selector.from(BeaconBean.class).where("minor", "=", minor).and("major", "=", major));
         } catch (Exception e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+            closeDB();
         }
         /*try{
             if(beaconBeans==null||beaconBeans.size()<=0){
@@ -632,9 +602,9 @@ public class DataBiz implements IConstants{
             ExceptionUtil.handleException(e);
             return null;
         }*/
+        //return b;
         if(beaconBeans==null||beaconBeans.size()<=0){return null;}
         return beaconBeans.get(0);
-        //return b;
     }
 
     /**
@@ -644,16 +614,12 @@ public class DataBiz implements IConstants{
      */
     public synchronized static  List<ExhibitBean> getExhibitListByLabel(String label){// TODO: 2016/1/21 应加入博物馆id
         List<ExhibitBean> list = null;
-       // DbUtils db=getDb(null);
-        DbUtils db=DbUtils.create(MyApplication.get());
         try {
-            list=  db.findAll(Selector.from(ExhibitBean.class).where("labels","like","%"+label+"%"));
+            list=  getDb().findAll(Selector.from(ExhibitBean.class).where("labels", "like", "%" + label +"%"));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
-            if(db!=null){
-                db.close();
-            }
+           closeDB();
         }
         return list;
     }

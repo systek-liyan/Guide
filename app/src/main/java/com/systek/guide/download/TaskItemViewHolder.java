@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
+import com.systek.guide.IConstants;
 import com.systek.guide.R;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.io.Serializable;
  *
  * 下载item的viewholder
  */
-public class TaskItemViewHolder extends RecyclerView.ViewHolder implements Serializable {
+public class TaskItemViewHolder extends RecyclerView.ViewHolder implements Serializable,IConstants {
 
     public TaskItemViewHolder(View itemView) {
         super(itemView);
@@ -52,10 +53,9 @@ public class TaskItemViewHolder extends RecyclerView.ViewHolder implements Seria
         //taskActionBtn.setText("删除");
     }
 
-    public void updateNotDownloaded(final int status, final long sofar, final long total) {
+    public void updateNotDownloaded(final int status, final float sofar, final float total) {
         if (sofar > 0 && total > 0) {
-            final float percent = sofar
-                    / (float) total;
+            final float percent = sofar /  total;
             taskPb.setMax(100);
             taskPb.setProgress((int) (percent * 100));
         } else {
@@ -86,8 +86,8 @@ public class TaskItemViewHolder extends RecyclerView.ViewHolder implements Seria
         //taskActionBtn.setText("Start");
     }
 
-    public void updateDownloading(final int status, final long sofar, final long total) {
-        final float percent = sofar / (float) total;
+    public void updateDownloading(final int status, final float sofar, final float total) {
+        final float percent = sofar /  total;
         taskPb.setMax(100);
         taskPb.setProgress((int) (percent * 100));
 

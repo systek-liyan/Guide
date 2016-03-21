@@ -1,7 +1,7 @@
 package com.systek.guide.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,10 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.systek.guide.IConstants;
+import com.systek.guide.MyApplication;
 import com.systek.guide.R;
+import com.systek.guide.activity.DownloadManagerActivity;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.Tools;
 
 import java.util.List;
 
@@ -25,12 +29,10 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
 
     private List<MuseumBean> museumList;
     private Context context;
-    private LayoutInflater inflater;
 
     public MuseumAdapter(Context c,List<MuseumBean> museumList) {
         this.museumList = museumList;
-        this.context = c.getApplicationContext();
-        inflater = LayoutInflater.from(context);
+        this.context = c;
     }
 
     /**
@@ -61,7 +63,7 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null || convertView.getTag() == null) {
-            convertView = LinearLayout.inflate(context,R.layout.item_museum, null);
+            convertView = LinearLayout.inflate(context.getApplicationContext(),R.layout.item_museum, null);
             //FontManager.applyFont(context, convertView);
             viewHolder = new ViewHolder();
             viewHolder.museumName = (TextView) convertView.findViewById(R.id.museumName);
@@ -77,8 +79,40 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         viewHolder.museumImportantAlert.setVisibility(View.INVISIBLE);
 
         // 取数据
-        MuseumBean museumBean = museumList.get(position);
+        final MuseumBean museumBean = museumList.get(position);
         viewHolder.museumName.setText(museumBean.getName());
+        int state=museumBean.getmState();
+        String downloadText=null;
+        boolean isDownlaod=(boolean) Tools.getValue(MyApplication.get(), SP_IS_MUSEUM_DATA_SAVE, false);
+        if(state== FileDownloadStatus.completed||isDownlaod){
+            downloadText="已下载";
+            viewHolder.museumFlagIsDownload.setClickable(false);
+        }else{
+            if(state==0){
+                downloadText="去下载";
+                viewHolder.museumFlagIsDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        museumBean.setmState(FileDownloadStatus.paused);
+                        Intent intent=new Intent(context, DownloadManagerActivity.class);
+                        intent.putExtra(INTENT_MUSEUM,museumBean);
+                        context.startActivity(intent);
+                    }
+                });
+            }else{
+                downloadText="下载中";
+                viewHolder.museumFlagIsDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        museumBean.setmState(FileDownloadStatus.paused);
+                        Intent intent=new Intent(context, DownloadManagerActivity.class);
+                        //intent.putExtra(INTENT_MUSEUM,museumBean);
+                        context.startActivity(intent);
+                    }
+                });
+            }
+        }
+        viewHolder.museumFlagIsDownload.setText(downloadText);
         String address=museumBean.getAddress();
         if(address.length()>10){
             address=address.substring(0,10)+"...";
@@ -97,7 +131,7 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         return convertView;
     }
 
-     class ViewHolder {
+    class ViewHolder {
         TextView museumName, museumAddress, museumListOpenTime, museumImportantAlert, museumFlagIsDownload;
         ImageView museumListIcon;
     }

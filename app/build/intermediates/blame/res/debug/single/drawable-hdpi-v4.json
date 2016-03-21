@@ -204,6 +204,10 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\iv_home_circle_collect.png"
     },
     {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\btn_bg_red.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\btn_bg_red.xml"
+    },
+    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\iv_home_circle_producer.png",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\iv_home_circle_producer.png"
     },

@@ -80,7 +80,6 @@
             android:layout_marginTop="2dp"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/toDownloadFileSize"
-            android:text="state"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#23b5bc"
             android:textSize="9sp" />

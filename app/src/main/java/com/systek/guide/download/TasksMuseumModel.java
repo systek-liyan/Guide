@@ -20,6 +20,7 @@ public class TasksMuseumModel {
     public final static String TOTAL = "total";
 
     private int id;
+    private int downloadId;
     private String name;
     private String url;
     private String path;
@@ -27,7 +28,7 @@ public class TasksMuseumModel {
     private String museumId;
 
     private int status;
-    private int progress;
+    private float progress;
     private int total;
 
     public int getId() {
@@ -36,6 +37,14 @@ public class TasksMuseumModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getDownloadId() {
+        return downloadId;
+    }
+
+    public void setDownloadId(int downloadId) {
+        this.downloadId = downloadId;
     }
 
     public String getName() {
@@ -86,11 +95,11 @@ public class TasksMuseumModel {
         this.status = status;
     }
 
-    public int getProgress() {
+    public float getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    public void setProgress(float progress) {
         this.progress = progress;
     }
 

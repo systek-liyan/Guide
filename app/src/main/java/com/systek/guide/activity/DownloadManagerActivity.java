@@ -16,6 +16,7 @@
 
 package com.systek.guide.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.systek.guide.R;
 import com.systek.guide.download.TaskItemAdapter;
 import com.systek.guide.download.TasksManager;
+import com.systek.guide.entity.MuseumBean;
 
 import java.lang.ref.WeakReference;
 
@@ -63,6 +65,9 @@ public class DownloadManagerActivity extends BaseActivity {
 
     @Override
     void initData() {
+        Intent intent =getIntent();
+        MuseumBean museumBean= (MuseumBean) intent.getSerializableExtra(INTENT_MUSEUM);
+        TasksManager.getImpl().addTask(museumBean);
         TasksManager.getImpl().onCreate(new WeakReference<>(this));
     }
 
@@ -127,6 +132,7 @@ public class DownloadManagerActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        TasksManager.getImpl().pauseAllTask();
         TasksManager.getImpl().onDestroy();
         adapter = null;
         FileDownloader.getImpl().pauseAll();

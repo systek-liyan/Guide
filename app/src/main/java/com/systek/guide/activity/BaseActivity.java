@@ -1,7 +1,11 @@
 package com.systek.guide.activity;
 
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +25,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.IConstants;
+import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.custom.LoadingDialog;
 
@@ -68,8 +73,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         initView();
         addListener();
         registerReceiver();
+        //registerBluetoothReceiver();
         initData();
     }
+
+
     /**
      * 初始化控件
      */
@@ -130,13 +138,17 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                     activity.refreshState();
                     break;
 
-
-
-
                 default:break;
             }
             activity.closeDialog();
         }
+    }
+
+    public void registerBluetoothReceiver() {
+        registerReceiver(bluetoothState,new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+    }
+    public void unRegisterBluetoothReceiver() {
+        unregisterReceiver(bluetoothState);
     }
 
 
@@ -333,5 +345,38 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             }
         });
     }
+
+    BroadcastReceiver bluetoothState = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+
+            BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if(bluetoothAdapter == null) {
+                //the device doesn't support bluetooth
+            } else {
+                //the device support bluetooth
+                if(!bluetoothAdapter.isEnabled()) {
+                bluetoothAdapter.enable();
+                    MyApplication a = (MyApplication) getApplication();
+                    a.initBlueTooth();
+            }
+        }
+
+
+
+            /*String stateExtra = BluetoothAdapter.EXTRA_STATE;
+            int state = intent.getIntExtra(stateExtra, -1);
+            switch(state) {
+                case BluetoothAdapter.STATE_TURNING_ON:
+                    break;
+                case BluetoothAdapter.STATE_ON:
+                    break;
+                case BluetoothAdapter.STATE_TURNING_OFF:
+                    break;
+                case BluetoothAdapter.STATE_OFF:
+                    break;
+            }*/
+        }
+    };
+
 
 }

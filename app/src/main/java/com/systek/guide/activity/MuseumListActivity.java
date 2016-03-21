@@ -19,7 +19,6 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MuseumAdapter;
 import com.systek.guide.biz.DataBiz;
-import com.systek.guide.download.TasksManager;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
@@ -39,6 +38,14 @@ public class MuseumListActivity extends BaseActivity {
     private List<MuseumBean> museumList;//展品列表
     private MuseumAdapter adapter;//适配器
     private static final int MSG_WHAT_REFRESH_CITY=22;
+
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        refreshView();
+    }
 
 
     @Override
@@ -167,8 +174,6 @@ public class MuseumListActivity extends BaseActivity {
     void refreshView() {
         if(museumList==null||museumList.size()==0){return;}
         adapter.updateData(museumList);
-
-        TasksManager.getImpl().addTask(museumList.get(0)); // TODO: 2016/3/9
     }
 
     @Override
