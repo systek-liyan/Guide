@@ -19,6 +19,8 @@ import com.systek.guide.download.TaskItemViewHolder;
 import com.systek.guide.download.TasksManager;
 import com.systek.guide.download.TasksMuseumModel;
 import com.systek.guide.entity.MuseumBean;
+import com.systek.guide.entity.MuseumNetInfo;
+import com.systek.guide.manager.WifiManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.Tools;
@@ -118,7 +120,7 @@ public class DownloadService extends IntentService implements IConstants{
             downloadListener = getFileDownloadListener();
 
             final String mUrl=BASE_URL+URL_ALL_MUSEUM_ASSETS+museumId;
-             String path=LOCAL_ASSETS_PATH+museumId;
+            String path=LOCAL_ASSETS_PATH+museumId;
 
             final MyFileDownloadQueueSet queueSet = new MyFileDownloadQueueSet(downloadListener);
             queueSet.setUrl(mUrl);
@@ -162,12 +164,14 @@ public class DownloadService extends IntentService implements IConstants{
      * parameters.
      */
     private void handleActionBaz(String museumId) {
-
-        MuseumBean museum=DataBiz.getEntityLocalById(MuseumBean.class,museumId);
+        MuseumNetInfo wifi= WifiManager.connectWifi(museumId);
+        if(wifi==null){return;}
+        String ip=wifi.getIp();
+        MuseumBean museum=DataBiz.getEntityLocalById(MuseumBean.class, museumId);
         if(museum==null){return;}
         TasksManager.getImpl().addTask(museum);
         TasksMuseumModel task = TasksManager.getImpl().changeToTasksMuseumModel(museum);
-        TasksManager.getImpl().toDownload(task);
+        TasksManager.getImpl().toDownload(task,ip);
     }
 
 

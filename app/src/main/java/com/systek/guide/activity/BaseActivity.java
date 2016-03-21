@@ -137,6 +137,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                 case MSG_WHAT_CHANGE_PLAY_START:
                     activity.refreshState();
                     break;
+                case MSG_WHAT_CHANGE_PLAY_STOP:
+                    activity.refreshState();
+                    break;
 
                 default:break;
             }

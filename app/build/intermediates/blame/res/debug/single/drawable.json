@@ -20,20 +20,20 @@
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\drawable\\material_drawer_shadow_left.9.png"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_colored_material.xml"
-    },
-    {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_checked_map.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\btn_checked_map.xml"
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\material_drawer_shadow_bottom.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\drawable\\material_drawer_shadow_bottom.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_unchecked_map.xml",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\btn_unchecked_map.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\material_drawer_shadow_bottom.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\drawable\\material_drawer_shadow_bottom.xml"
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\btn_checked_map.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\btn_checked_map.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable\\abc_btn_colored_material.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\title_bar_bg.xml",

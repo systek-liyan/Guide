@@ -193,6 +193,19 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      * 根据状态切换模式图标
      */
     private void refreshModeIcon() {
+        if(mediaServiceManager!=null){
+            switch (mediaServiceManager.getPlayMode()){
+                case PLAY_MODE_AUTO:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
+                    break;
+                case PLAY_MODE_HAND:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
+                    break;
+                case PLAY_MODE_AUTO_PAUSE:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
+                    break;
+            }
+        }
     }
 
     /**
@@ -225,7 +238,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                             tvToast.setText("自动模式");
                             break;
                         case PLAY_MODE_AUTO_PAUSE:
-                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
+                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
                             break;
                     }
                     refreshModeIcon();
@@ -233,7 +246,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(500);
+                                Thread.sleep(1500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

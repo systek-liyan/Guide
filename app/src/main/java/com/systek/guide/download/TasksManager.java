@@ -436,7 +436,7 @@ public class TasksManager implements IConstants {
                 if(TextUtils.isEmpty(baseUrl)){
                     mBase=BASE_URL;
                 }else{
-                    mBase=baseUrl;
+                    mBase="http://"+baseUrl;
                 }
 
                 for (int i = 0; i < count; i++) {

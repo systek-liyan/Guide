@@ -106,12 +106,16 @@ import java.util.List;
     private MediaPlayer.OnCompletionListener completionListener=new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-
+            try{}catch (Exception e){
+                ExceptionUtil.handleException(e);
+            }
             if(playMode==PLAY_MODE_AUTO){
                 toStartPlay();
             }else if(playMode==PLAY_MODE_AUTO_PAUSE){
                 toSetPlayMode(PLAY_MODE_AUTO);
+                toStartPlay();
             }else{
+                mp.seekTo(0);
                 mp.pause();
                 Intent intent=new Intent();
                 intent.setAction(INTENT_CHANGE_PLAY_STOP);
