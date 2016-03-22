@@ -55,11 +55,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private LyricFragment lyricFragment;
     private IconImageFragment iconImageFragment;
 
-    private static final int PLAY_STATE_START=1;
-    private static final int PLAY_STATE_STOP=2;
-    private   int state=PLAY_STATE_STOP;
-
-
     @Override
     void setView() {
         View view = View.inflate(this, R.layout.activity_play, null);

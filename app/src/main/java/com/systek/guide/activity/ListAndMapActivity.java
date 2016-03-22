@@ -263,6 +263,10 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                 case R.id.titleBarDrawer:
                     finish();
                     break;
+                default:break;
+
+
+
             }
         }
     };

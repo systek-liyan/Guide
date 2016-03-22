@@ -45,6 +45,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     protected Button refreshBtn;
 
 
+    public static final int PLAY_STATE_START=1;
+    public static final int PLAY_STATE_STOP=2;
+    public   int state=PLAY_STATE_STOP;
+
     /**消息类型*/
     public static final int MSG_WHAT_UPDATE_DATA_SUCCESS = 1;//数据获取成功
     public static final int MSG_WHAT_UPDATE_NO_DATA = 2;//无数据

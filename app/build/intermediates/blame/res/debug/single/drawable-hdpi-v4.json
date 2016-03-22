@@ -104,6 +104,10 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-hdpi\\abc_list_focused_holo.9.png"
     },
     {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\slider_arrow_3.png",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\slider_arrow_3.png"
+    },
+    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\uamp_ic_pause_white_48dp.png",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\uamp_ic_pause_white_48dp.png"
     },
@@ -242,6 +246,10 @@
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_btn_radio_to_on_mtrl_000.png",
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\drawable-hdpi\\abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\slider_arrow_2.png",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\slider_arrow_2.png"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\__leak_canary_notification.png",
@@ -578,6 +586,10 @@
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\icon_bar_dn.png",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\icon_bar_dn.png"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\slider_arrow_1.png",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\slider_arrow_1.png"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_ic_clear_mtrl_alpha.png",

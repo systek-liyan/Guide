@@ -49,7 +49,7 @@
     <string name="error_no_connection">无法连接网络，请检查你的网络设置..</string>
     <string name="error_loading">加载失败&#8230;</string>
 
-    <string name="hint_unlock">向右滑动结束提醒</string>
+    <string name="hint_unlock">向右滑动解锁</string>
 
 
 </resources>

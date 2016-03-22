@@ -43,6 +43,11 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         notifyDataSetChanged();
     }
 
+    public ExhibitBean getEntity(int position){
+        if(exhibitBeanList==null){return null;}
+        return exhibitBeanList.get(position);
+    }
+
 
     /**
      * 内部接口，用于点击事件

@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -47,10 +49,9 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     private List<ExhibitBean> currentExhibitList;
     private SeekBar seekBarProgress;
     private TextView tvExhibitName;
+    private ImageView imgView_getup_arrow;
+    private AnimationDrawable animArrowDrawable;
 
-    private static final int PLAY_STATE_START=1;
-    private static final int PLAY_STATE_STOP=2;
-    private   int state=PLAY_STATE_STOP;
 
     @Override
     protected void setView() {
@@ -82,6 +83,10 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
         nearlyGalleryAdapter = new NearlyGalleryAdapter(getActivity(), nearlyExhibitList);
         recycleNearly.setAdapter(nearlyGalleryAdapter);
         recycleNearly.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+
+        imgView_getup_arrow = (ImageView)findViewById(R.id.getup_arrow);
+        animArrowDrawable = (AnimationDrawable) imgView_getup_arrow.getBackground() ;
+
     }
 
     private void initIcon() {
@@ -100,6 +105,22 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
             state=PLAY_STATE_STOP;
         }
         refreshState();
+        handler.postDelayed(animationDrawableTask, 300);
+    }
+
+    //通过延时控制当前绘制bitmap的位置坐标
+    private Runnable animationDrawableTask = new Runnable(){
+
+        public void run(){
+            animArrowDrawable.start();
+            handler.postDelayed(animationDrawableTask, 300);
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        animArrowDrawable.stop();
     }
 
 
@@ -107,11 +128,11 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     public void onAttachedToWindow() {
         this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
         super.onAttachedToWindow();
-    }
+    }*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return event.getKeyCode() == KeyEvent.KEYCODE_BACK || super.onKeyDown(keyCode, event);
-    }*/
+    }
 
 
     @Override
@@ -131,8 +152,7 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
             @Override
             public void onItemClick(View view, int position) {
 
-
-                ExhibitBean exhibitBean = currentExhibitList.get(position);
+                ExhibitBean exhibitBean = nearlyGalleryAdapter.getEntity(position);
                 ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
 
                 if(bean==null||!bean.equals(exhibitBean)){
@@ -150,7 +170,6 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
                     sendBroadcast(intent);
                     intent1.putExtra(INTENT_EXHIBIT, str);
                 }
-                startActivity(intent1);
             }
         });
 
@@ -314,9 +333,11 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     break;
                 case INTENT_CHANGE_PLAY_PLAY:
+                    state=PLAY_STATE_START;
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
                     break;
                 case INTENT_CHANGE_PLAY_STOP:
+                    state=PLAY_STATE_STOP;
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
                     break;
                 case INTENT_EXHIBIT_LIST:
