@@ -83,8 +83,8 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         viewHolder.museumName.setText(museumBean.getName());
         int state=museumBean.getmState();
         String downloadText=null;
-        boolean isDownlaod=(boolean) Tools.getValue(MyApplication.get(), SP_IS_MUSEUM_DATA_SAVE, false);
-        if(state== FileDownloadStatus.completed||isDownlaod){
+        boolean isDownload=(boolean) Tools.getValue(MyApplication.get(), museumBean.getId(), false);
+        if(state== FileDownloadStatus.completed||isDownload){
             downloadText="已下载";
             viewHolder.museumFlagIsDownload.setClickable(false);
         }else{

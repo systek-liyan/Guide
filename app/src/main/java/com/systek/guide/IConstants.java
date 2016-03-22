@@ -12,7 +12,6 @@ public interface IConstants {
     String SP_NOT_FIRST_LOGIN="sp_not_first_login";//是否首次登陆
     String SP_MUSEUM_ID="sp_museum_id";//博物馆id
     String SP_DOWNLOAD_MUSEUM_COUNT="sp_download_museum_count";//下载博物馆数据个数
-    String SP_IS_MUSEUM_DATA_SAVE="sp_is_museum_data_save";//是否保存了博物馆数据
     String SP_IS_IN_MUSEUM="sp_is_in_museum";//是否在博物馆
 
     /**关于URL*/

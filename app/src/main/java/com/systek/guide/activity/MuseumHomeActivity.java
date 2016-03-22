@@ -27,6 +27,7 @@ import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.service.DownloadService;
 import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.MyHttpUtil;
 import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
@@ -78,7 +79,7 @@ public class MuseumHomeActivity extends BaseActivity {
         if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             setPlayStateImageToOpen();
         }else{
-            setPlayStateImageToOpen();
+            setPlayStateImageToClose();
         }
     }
 
@@ -113,28 +114,12 @@ public class MuseumHomeActivity extends BaseActivity {
                         List<MuseumBean> museumBeanList = DataBiz.getEntityListFromNet(MuseumBean.class, url);
                         if (museumBeanList != null && museumBeanList.size() > 0) {
                             currentMuseum = museumBeanList.get(0);
-                        } else {
-                            onError();
                         }
                     }
                 }
-
-            }
-        }.start();
-
-        new Thread(){
-            @Override
-            public void run() {
-                while(currentMuseum==null){
-                    if(System.currentTimeMillis()-startTime>1000){
-                        onError();
-                        return;
-                    }
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                if(currentMuseum==null){
+                    onError();
+                    return;
                 }
                 initAudio();
                 //保存临时数据，当前博物馆id
@@ -146,6 +131,23 @@ public class MuseumHomeActivity extends BaseActivity {
                         iconUrlList.add(imgUrl);
                     }
                 }
+
+                //判断当前博物馆基本数据是否已经加载
+                boolean isBasicDataSave = DataBiz.isBasicDataSave(currentMuseumId);
+                if (!isBasicDataSave) {
+                    DataBiz.saveAllJsonData(currentMuseumId);
+                }
+                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                initAllData();
+            }
+        }.start();
+    }
+
+
+    public void initAllData(){
+        new Thread(){
+            @Override
+            public void run() {
                 //已经下载当前博物馆基本数据，通知更新显示数据
                 //判断当前是否在博物馆，根据beacon回调时存储的Boolean值
                 boolean isInMuseum = (boolean) DataBiz.getTempValue(MuseumHomeActivity.this, SP_IS_IN_MUSEUM, false);
@@ -158,20 +160,11 @@ public class MuseumHomeActivity extends BaseActivity {
                         DownloadService.startActionBaz(MuseumHomeActivity.this, currentMuseumId);
                     }
                 }
-                //判断当前博物馆基本数据是否已经加载
-                boolean isBasicDataSave = DataBiz.isBasicDataSave(currentMuseumId);
-                if (isBasicDataSave) {
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                } else {
-                    DataBiz.saveAllJsonData(currentMuseumId);
-                    //Tools.saveValue(MuseumHomeActivity.this, SP_IS_MUSEUM_DATA_SAVE, true);
-                    if (handler != null) {
-                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                    }
-                }
+
             }
         }.start();
     }
+
 
     @Override
     void registerReceiver() {
@@ -392,6 +385,8 @@ public class MuseumHomeActivity extends BaseActivity {
                     }
                     if(error<3){
                         initAudio();
+                    }else{
+                        LogUtil.i(TAG,"博物馆音频加载失败");
                     }
                 }
             }

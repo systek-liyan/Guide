@@ -36,7 +36,7 @@ import java.lang.ref.WeakReference;
  */
 public abstract class BaseActivity extends AppCompatActivity implements IConstants{
 
-    private String TAG = getClass().getSimpleName();//类的唯一标记
+    public String TAG = getClass().getSimpleName();//类的唯一标记
     protected Drawer drawer;//抽屉
     protected Toolbar toolbar;
     protected TextView toolbarTitle;

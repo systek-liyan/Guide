@@ -131,17 +131,26 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
             @Override
             public void onItemClick(View view, int position) {
 
-                nearlyGalleryAdapter.notifyItemChanged(position);
+
                 ExhibitBean exhibitBean = currentExhibitList.get(position);
                 ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-                nearlyGalleryAdapter.setSelectIndex(exhibitBean);
+
+                if(bean==null||!bean.equals(exhibitBean)){
+                    nearlyGalleryAdapter.setSelectIndex(exhibitBean);
+                }
+                mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                nearlyGalleryAdapter.notifyDataSetChanged();
+
+                Intent intent1 = new Intent(LockScreenActivity.this, PlayActivity.class);
                 if (bean == null || !bean.equals(exhibitBean)) {
                     String str = JSON.toJSONString(exhibitBean);
                     Intent intent = new Intent();
                     intent.setAction(INTENT_EXHIBIT);
                     intent.putExtra(INTENT_EXHIBIT, str);
-                    getActivity().sendBroadcast(intent);
+                    sendBroadcast(intent);
+                    intent1.putExtra(INTENT_EXHIBIT, str);
                 }
+                startActivity(intent1);
             }
         });
 
