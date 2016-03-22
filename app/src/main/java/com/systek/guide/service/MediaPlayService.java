@@ -33,7 +33,7 @@ import java.util.List;
 
 
     private MediaPlayer mediaPlayer; // 播放器*/
-    private boolean isPlaying = false; //是否正在播放*/
+    private boolean isPlaying ; //是否正在播放*/
     private Binder mediaServiceBinder = new MediaServiceBinder();///服务Binder*/
     private ExhibitBean currentExhibit; //当前展品*/
     private String  currentMuseumId;//当前博物馆id*/
@@ -45,7 +45,7 @@ import java.util.List;
     private List<ExhibitBean> playExhibitList;
     private int playMode ; //默认设置自动点击播放
     private boolean isSendProgress;
-
+    private boolean isPause;
     //private boolean hasPlay; /*是否播放过*/
     //private int errorCount;
 
@@ -124,6 +124,7 @@ import java.util.List;
             }else{
                 mp.seekTo(0);
                 mp.pause();
+                isPause=true;
                 Intent intent=new Intent();
                 intent.setAction(INTENT_CHANGE_PLAY_STOP);
                 sendBroadcast(intent);
@@ -191,8 +192,14 @@ import java.util.List;
         if(!isPlaying||mediaPlayer==null){return false;}
         mediaPlayer.pause();
         isPlaying=false;
+        isPause=true;
         return true;
     }
+
+    public boolean isPauseOrNot(){
+        return isPause;
+    }
+
 
     private void play(ExhibitBean bean) {
         setCurrentExhibit(bean);
@@ -344,8 +351,9 @@ import java.util.List;
         public boolean isPlaying() {
             return mediaPlayer != null && isPlaying;
         }
+
         public boolean isPause() {
-            return mediaPlayer != null && isPlaying;
+            return mediaPlayer != null && isPauseOrNot();
         }
 
         /**暂停后开始播放*/
