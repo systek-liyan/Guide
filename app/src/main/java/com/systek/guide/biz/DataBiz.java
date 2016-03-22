@@ -176,6 +176,18 @@ public class DataBiz implements IConstants{
         return list;
     }
 
+    public synchronized static List<ExhibitBean> searchFromSQLite(String museumId,String s) {
+        List<ExhibitBean> list=null;
+        try {
+            //list= db.findAll(Selector.from(ExhibitBean.class).where(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
+            list= getDb().findAll(Selector.from(ExhibitBean.class).where(MUSEUM_ID,LIKE,"%"+museumId+"%").and(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
+        } catch (Exception e) {
+            ExceptionUtil.handleException(e);
+        }
+        return list;
+    }
+
+
 
     /**
      * 从本地数据数据库查询实体类

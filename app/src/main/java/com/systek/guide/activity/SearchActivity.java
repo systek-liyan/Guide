@@ -10,14 +10,11 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
+import com.systek.guide.biz.DataBiz;
 import com.systek.guide.custom.ClearEditText;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.ExceptionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +29,17 @@ public class SearchActivity extends BaseActivity {
     private ClearEditText mClearEditText;
     private List<ExhibitBean> exhibitBeanList;
     private ExhibitAdapter exhibitAdapter;
+    private String currentMuseumId;
 
     @Override
     protected void setView() {
         setContentView(R.layout.activity_search);
         initDrawer();
-        //initView();
-        //addListener();
     }
 
+    @Override
+    protected void addListener() {
 
-    void addListener() {
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -62,14 +59,14 @@ public class SearchActivity extends BaseActivity {
         listViewExhibit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExhibitBean exhibitBean=exhibitBeanList.get(position);
-                String str= JSON.toJSONString(exhibitBean);
-                Intent intent =new Intent();
+                ExhibitBean exhibitBean = exhibitBeanList.get(position);
+                String str = JSON.toJSONString(exhibitBean);
+                Intent intent = new Intent();
                 intent.setAction(INTENT_EXHIBIT);
                 intent.putExtra(INTENT_EXHIBIT, str);
                 sendBroadcast(intent);
-                Intent intent1 =new Intent(SearchActivity.this,PlayActivity.class);
-                intent1.putExtra(INTENT_EXHIBIT,str);
+                Intent intent1 = new Intent(SearchActivity.this, PlayActivity.class);
+                intent1.putExtra(INTENT_EXHIBIT, str);
                 startActivity(intent1);
                 finish();
             }
@@ -78,94 +75,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    void initData() {
-
-    }
-
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
-        if(exhibitAdapter!=null){
-            exhibitAdapter.updateData(exhibitBeanList);
-        }
-    }
-
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
-
-    private  void filterData(final String s) {
-        new Thread(){
-            @Override
-            public void run() {
-                //exhibitBeanList=new ArrayList<>();
-                if(TextUtils.isEmpty(s)){
-                    exhibitBeanList=new ArrayList<>();
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                    return;
-                }
-                exhibitBeanList=searchFromSQLite(s);
-                if(exhibitBeanList==null){
-                    exhibitBeanList=new ArrayList<>();
-                }
-                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-            }
-        }.start();
-
-    }
-
-    private synchronized static List<ExhibitBean> searchFromSQLite(String s) {
-        List<ExhibitBean> list=null;
-        DbUtils db=null;
-        try {
-            db=DbUtils.create(MyApplication.get());
-            list= db.findAll(Selector.from(ExhibitBean.class).where(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
-        } catch (Exception e) {
-            ExceptionUtil.handleException(e);
-        }finally {
-            if(db!=null){
-                db.close();
-            }
-        }
-        return list;
-    }
-    @Override
-    void initView() {
+    protected void initView() {
 
         setTitleBar();
         setTitleBarTitle("搜索");
@@ -177,6 +87,80 @@ public class SearchActivity extends BaseActivity {
         exhibitAdapter=new ExhibitAdapter(this,exhibitBeanList);
         listViewExhibit.setAdapter(exhibitAdapter);
         listViewExhibit.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+    }
+
+
+    @Override
+    protected void initData() {
+        Intent intent=getIntent();
+        currentMuseumId=intent.getStringExtra(MUSEUM_ID);
+    }
+
+    @Override
+    protected void refreshView() {
+        if(exhibitAdapter!=null){
+            exhibitAdapter.updateData(exhibitBeanList);
+        }
+    }
+
+    @Override
+    protected void registerReceiver() {
+
+    }
+
+    @Override
+    protected void unRegisterReceiver() {
+
+    }
+
+    @Override
+    protected void refreshExhibit() {
+
+    }
+
+    @Override
+    protected void refreshTitle() {
+
+    }
+
+    @Override
+    protected void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    protected void refreshProgress() {
+
+    }
+
+    @Override
+    protected void refreshIcon() {
+
+    }
+
+    @Override
+    protected void refreshState() {
+
+    }
+
+    private  void filterData(final String s) {
+        new Thread(){
+            @Override
+            public void run() {
+                if(TextUtils.isEmpty(s)){
+                    exhibitBeanList=new ArrayList<>();
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    return;
+                }
+                if(TextUtils.isEmpty(currentMuseumId)){return;}
+                exhibitBeanList= DataBiz.searchFromSQLite(currentMuseumId,s);
+                if(exhibitBeanList==null){
+                    exhibitBeanList=new ArrayList<>();
+                }
+                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+            }
+        }.start();
+
     }
 
 

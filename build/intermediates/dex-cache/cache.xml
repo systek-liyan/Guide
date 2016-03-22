@@ -1,12 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2" />
 
-    <item
-        jar="D:\Android\work\Guide\app\libs\systek-beacon-libray.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="0ec7578295284b9aabcddf093e17c2e8907cc226">
-        <dex dex="D:\Android\work\Guide\app\build\intermediates\pre-dexed\debug\systek-beacon-libray_e6772aa8addc76a63ff6c462361def002698d695.jar" />
-    </item>
-
-</items>

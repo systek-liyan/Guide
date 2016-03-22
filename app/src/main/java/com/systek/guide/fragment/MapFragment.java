@@ -55,10 +55,9 @@ import com.systek.guide.utils.ExceptionUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapFragment extends Fragment implements IConstants, MapEventsListener, OnMapTouchListener {
+public class MapFragment extends BaseFragment implements IConstants, MapEventsListener, OnMapTouchListener {
 
 
-    private View view;
     private static final String TAG = "MapFragment";
     private static final Integer PERSON_LAYER = 0;//人员定位图层
     private static final Integer EXHIBITS_LAYER = 1;//展品显示图层
@@ -114,11 +113,14 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         activity.registerReceiver(mapReceiver,filter);
     }
 
-    //加载View,初始化数据
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_map, container, false);
+    void initView() {
+        setContentView(R.layout.fragment_map);
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         nextObjectId = 0;
         model = new MapObjectContainer();
         //initTestLocationPoints();
@@ -136,7 +138,8 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         if(topicExhibitList!=null){
             drawerTopicExhibitsPoint(topicExhibitList);
         }
-        return view;
+
+
     }
 
     //初始化地图
@@ -161,7 +164,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         //MapGraphicsConfig graphicsConfig = config.getGraphicsConfig();
         //graphicsConfig.setAccuracyAreaColor(0x550000FF); // Blue with transparency
         // graphicsConfig.setAccuracyAreaBorderColor(Color.BLUE); // Blue without transparency
-        RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.mapLayout);
+        RelativeLayout layout = (RelativeLayout) contentView.findViewById(R.id.mapLayout);
         // Adding the map to the layout
         layout.addView(map, 0);
         layout.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -477,7 +480,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
 
 
     private void showLocationsPopup(int x, int y, MapObjectModel objectModel) {
-        RelativeLayout mapLayout = (RelativeLayout) view.findViewById(R.id.mapLayout);
+        RelativeLayout mapLayout = (RelativeLayout) contentView.findViewById(R.id.mapLayout);
 
         if (mapObjectInfoPopup != null) {
             mapObjectInfoPopup.hide();
@@ -553,7 +556,7 @@ public class MapFragment extends Fragment implements IConstants, MapEventsListen
         public void handleMessage(Message msg) {
             if (msg.what == MSG_WHAT_DRAW_POINT) {
                 //地图界面加载后绘点
-                if (view != null) {
+                if (contentView != null) {
                     initModel();//创建地图对象(图标点)
                     initMapObjects(map.getLayerById(PERSON_LAYER));//绘制地图对象
                 }

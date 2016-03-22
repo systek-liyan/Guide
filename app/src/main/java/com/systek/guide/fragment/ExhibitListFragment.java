@@ -1,7 +1,6 @@
 package com.systek.guide.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -31,7 +28,7 @@ import java.util.List;
 /**
  * 展品列表 Fragment
  */
-public class ExhibitListFragment extends Fragment implements IConstants {
+public class ExhibitListFragment extends BaseFragment implements IConstants {
 
     private Context activity;
     private ListView listView;
@@ -73,7 +70,14 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     @Override
     public void onResume() {
         super.onResume();
-        currentExhibit=mediaServiceManager.getCurrentExhibit();
+        if(mediaServiceManager!=null){
+            currentExhibit=mediaServiceManager.getCurrentExhibit();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     private void registerReceiver() {
@@ -83,14 +87,17 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         activity.registerReceiver(listChangeReceiver, intentFilter);
     }
 
+    @Override
+    void initView() {
+        setContentView(R.layout.fragment_exhibit_list);
+        initView(contentView);
+    }
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exhibit_list, container, false);
-        initView(view);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initData();
-        return view;
     }
 
     private void initData() {
@@ -99,6 +106,8 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         listView.setAdapter(exhibitAdapter);
         listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
+
+
 
     private void initView(View view) {
         listView=(ListView)view.findViewById(R.id.lv_exhibit_list);

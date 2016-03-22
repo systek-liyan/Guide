@@ -1,7 +1,5 @@
 package com.systek.guide.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -301,8 +299,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      */
     private void setDefaultFragment() {
         String flag=getIntent().getStringExtra(INTENT_FLAG_GUIDE_MAP);
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
         exhibitListFragment = ExhibitListFragment.newInstance();
         mapFragment = MapFragment.newInstance();
         if (flag.equals(INTENT_FLAG_GUIDE)){
@@ -328,9 +326,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-            FragmentManager fm = getFragmentManager();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             // 开启Fragment事务
-            FragmentTransaction transaction = fm.beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
             switch(checkedId){
                 case R.id.radioButtonList:
                     if (exhibitListFragment == null) {

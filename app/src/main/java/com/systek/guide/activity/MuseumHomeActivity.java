@@ -348,6 +348,9 @@ public class MuseumHomeActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent=new Intent(MuseumHomeActivity.this,SearchActivity.class);
+        if(!TextUtils.isEmpty(currentMuseumId)){
+            intent.putExtra(MUSEUM_ID,currentMuseumId);
+        }
         startActivity(intent);
         return true;
     }
