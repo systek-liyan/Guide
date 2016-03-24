@@ -33,6 +33,8 @@ import java.lang.ref.WeakReference;
 
 /**
  * Created by Qiang on 2015/12/30.
+ *
+ * activity基类
  */
 public abstract class BaseActivity extends AppCompatActivity implements IConstants{
 

@@ -110,18 +110,6 @@ public class MuseumListActivity extends BaseActivity {
     @Override
     void initData() {
         showDialog("正在加载...");
-        if(!NetworkUtil.isOnline(MuseumListActivity.this)){
-            showErrors(true);
-            refreshBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mErrorView.setVisibility(View.GONE);
-                    initData();
-                }
-            });
-            closeDialog();
-            return;
-        }
         new Thread(){
             @Override
             public void run() {
@@ -133,14 +121,31 @@ public class MuseumListActivity extends BaseActivity {
                     }else{
                         city=cityStr;
                     }
-                    if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE){
-                        String url=BASE_URL+URL_MUSEUM_LIST;
-                        museumList=DataBiz.getEntityListFromNet(MuseumBean.class,url);
-                    }
-                    if(museumList!=null&&museumList.size()>0){
-                        DataBiz.saveListToSQLite(museumList);
-                    }
                     museumList=DataBiz.getEntityListLocalByColumn(CITY,city,MuseumBean.class);
+                    if(museumList==null){
+
+                        if(!NetworkUtil.isOnline(MuseumListActivity.this)){
+                            showErrors(true);
+                            refreshBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mErrorView.setVisibility(View.GONE);
+                                    initData();
+                                }
+                            });
+                            closeDialog();
+                            return;
+                        }
+
+                        if(MyApplication.currentNetworkType!=INTERNET_TYPE_NONE){
+                            String url=BASE_URL+URL_MUSEUM_LIST;
+                            museumList=DataBiz.getEntityListFromNet(MuseumBean.class,url);
+                        }
+                        if(museumList!=null&&museumList.size()>0){
+                            DataBiz.saveListToSQLite(museumList);
+                        }
+                    }
+
                 }catch (Exception e){
                     ExceptionUtil.handleException(e);
                     onDataError();

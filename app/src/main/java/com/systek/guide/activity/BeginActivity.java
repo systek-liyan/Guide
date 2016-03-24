@@ -5,13 +5,12 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
 
-public class BeginActivity extends BaseActivity implements IConstants{
+public class BeginActivity extends BaseActivity{
 
 
     private Class<?> targetClass;

@@ -19,6 +19,7 @@ import com.systek.guide.R;
 import com.systek.guide.activity.PlayActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 
 import java.lang.ref.WeakReference;
@@ -176,6 +177,7 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
     public void updateView(){
         if(exhibitAdapter ==null||currentExhibitList==null){return;}
         exhibitAdapter.updateData(currentExhibitList);
+        BluetoothManager.newInstance(getActivity()).setIsInGuide(false);
     }
 
 

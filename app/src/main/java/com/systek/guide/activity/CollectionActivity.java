@@ -50,7 +50,29 @@ public class CollectionActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+
             ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
+            ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+
+            if(bean==null||!bean.equals(exhibitBean)){
+                exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+            }
+            mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+            exhibitAdapter.notifyDataSetInvalidated();
+
+            Intent intent1 = new Intent(CollectionActivity.this, PlayActivity.class);
+            if (bean == null || !bean.equals(exhibitBean)) {
+                String str = JSON.toJSONString(exhibitBean);
+                Intent intent = new Intent();
+                intent.setAction(INTENT_EXHIBIT);
+                intent.putExtra(INTENT_EXHIBIT, str);
+                sendBroadcast(intent);
+                intent1.putExtra(INTENT_EXHIBIT, str);
+            }
+            startActivity(intent1);
+
+           /* ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
             ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
             if (bean != null && !bean.equals(exhibitBean)) {
                 mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
@@ -67,7 +89,7 @@ public class CollectionActivity extends BaseActivity {
                 sendBroadcast(intent);
                 intent1.putExtra(INTENT_EXHIBIT, str);
             }
-            startActivity(intent1);
+            startActivity(intent1);*/
         }
     };
 

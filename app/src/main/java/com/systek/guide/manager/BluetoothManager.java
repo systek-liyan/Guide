@@ -13,7 +13,6 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.LogUtil;
 
 import org.altbeacon.beacon.Beacon;
 
@@ -28,6 +27,15 @@ import java.util.concurrent.ThreadPoolExecutor;
  * 蓝牙管理类
  */
 public class BluetoothManager implements IConstants {
+
+
+    public static final boolean NOT_IN_GUIDE_VIEW=true;
+
+    private boolean isInGuide=NOT_IN_GUIDE_VIEW;
+
+    public void setIsInGuide(boolean isInGuide) {
+        this.isInGuide = isInGuide;
+    }
 
     private Context context;
     private static BluetoothManager bluetoothManager;
@@ -104,8 +112,6 @@ public class BluetoothManager implements IConstants {
 
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
 
-        long time=System.currentTimeMillis();
-
         @Override
         public void getNearestBeacon(Beacon beacon) {
 
@@ -125,11 +131,14 @@ public class BluetoothManager implements IConstants {
          */
         @Override
         public void getBeacons(boolean isSwitch, boolean refresh, List<SystekBeacon> list) {
-            LogUtil.i("ZHANG", "IsSwitch==" + isSwitch + "  refresh=" + refresh);
             if(list!=null){
-                DataBiz.saveTempValue(MyApplication.get(),SP_IS_IN_MUSEUM,true);
+                DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, true);
+            }else{
+                return;
             }
-            if(!refresh||list==null){return;}
+            if(!isInGuide&&!refresh){
+                return;
+            }
             executor.execute(new MyBeaconTask(isSwitch,list));
         }
 
