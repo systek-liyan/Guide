@@ -8,12 +8,23 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 
 import com.liulishuo.filedownloader.FileDownloader;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
 import com.systek.guide.utils.ExceptionUtil;
+import com.systek.guide.utils.LogUtil;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 
@@ -27,20 +38,10 @@ public class MyApplication extends Application implements IConstants{
     private static MyApplication myApplication;
     /*软件是否开发完毕*/
     public static final boolean isRelease = false;
-
     public MediaServiceManager getmServiceManager() {
         return mServiceManager;
     }
-
     public MediaServiceManager mServiceManager;
-
-    public static int getCurrentNetworkType() {
-        return currentNetworkType;
-    }
-
-    public static void setCurrentNetworkType(int currentNetworkType) {
-        MyApplication.currentNetworkType = currentNetworkType;
-    }
 
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
@@ -52,6 +53,7 @@ public class MyApplication extends Application implements IConstants{
         //setTypeface();
         //初始化下载框架
         FileDownloader.init(this);
+        ImageLoader.getInstance().init(newConfig());
         // 防止重启两次,非相同名字的则返回
         if (!isSameAppName()) {return;}
         myApplication = this;
@@ -88,7 +90,39 @@ public class MyApplication extends Application implements IConstants{
         }
     }
 
-
+    private  ImageLoaderConfiguration newConfig(){
+        // See the sample project how to use ImageLoader correctly.
+        Context context= getApplicationContext();
+        //File cacheDir = StorageUtils.getCacheDirectory(context);
+        String  cacheDirPath = getFilesDir().getAbsolutePath()+"/guide";
+        File cacheDir=new File(cacheDirPath);
+        if(!cacheDir.isDirectory()){
+            if(cacheDir.mkdirs()) ;
+        }
+        LogUtil.i("ZHANG", "cacheDirPath==" + cacheDir.getAbsolutePath());
+        return new ImageLoaderConfiguration
+                .Builder(context)
+                .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
+                        //.diskCacheExtraOptions(480, 800, null)// Can slow ImageLoader, use it carefully (Better don't use it)/设置缓存的详细信息，最好不要设置这个
+                        //.taskExecutor(...)
+                        //.taskExecutorForCachedImages(...)
+                .threadPoolSize(3) // 线程池内加载的数量
+                .threadPriority(Thread.NORM_PRIORITY - 2) // default
+                .tasksProcessingOrder(QueueProcessingType.FIFO) // default
+                .denyCacheImageMultipleSizesInMemory()
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+                .memoryCacheSize(2 * 1024 * 1024)
+                .memoryCacheSizePercentage(13) // default
+                .diskCache(new UnlimitedDiskCache(cacheDir)) // default
+                .diskCacheSize(50 * 1024 * 1024)
+                .diskCacheFileCount(100)
+                .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
+                .imageDownloader(new BaseImageDownloader(context)) // default
+                .imageDecoder(new BaseImageDecoder(true)) // default
+                .defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
+                        //.writeDebugLogs()
+                .build();
+    }
 
 
     public void initBlueTooth() {

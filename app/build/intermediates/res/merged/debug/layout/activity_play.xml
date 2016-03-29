@@ -6,119 +6,126 @@
               android:orientation="vertical"
               android:background="@color/md_grey_700"
               tools:context=".activity.PlayActivity">
-
-    <include
-        android:id="@+id/mErrorView"
-        layout="@layout/activity_error"
-        android:visibility="gone"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_weight="4"
-        android:layout_height="0dp">
-        <ImageView
-            android:id="@+id/ivExhibitIcon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpagerWordImage"
-            android:layout_marginTop="60dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/tvExhibitName"
-            android:layout_gravity="top|center_horizontal"
-            android:textSize="18sp"
-            android:layout_marginTop="30dp"
-            android:textColor="@color/md_red_400"
-            style="@style/text_view_title_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <include layout="@layout/toolbar_alpha"/>
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginEnd="@dimen/simple_4dp"
-        android:layout_marginStart="@dimen/simple_4dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:layout_marginTop="4dp"
-        android:focusableInTouchMode="false"
-        android:descendantFocusability="blocksDescendants"
-        android:background="@color/md_grey_300"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="3">
+        android:layout_height="match_parent"
+        android:background="@drawable/fullscreen_bg_gradient"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/mErrorView"
+            layout="@layout/activity_error"
+            android:visibility="gone"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_weight="4"
+            android:layout_height="0dp">
+            <ImageView
+                android:id="@+id/ivExhibitIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpagerWordImage"
+                android:layout_marginTop="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/tvExhibitName"
+                android:layout_gravity="top|center_horizontal"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/md_red_400"
+                style="@style/text_view_title_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <include layout="@layout/toolbar_alpha"/>
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginEnd="@dimen/simple_4dp"
+            android:layout_marginStart="@dimen/simple_4dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginTop="4dp"
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"
+            android:background="@color/md_grey_300"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <FrameLayout
+            android:orientation="vertical"
+            android:layout_weight="3">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3">
+                android:layout_weight="3"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycleMultiAngle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:scrollbars="none"/>
-        </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycleMultiAngle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:scrollbars="none"/>
+                </FrameLayout>
 
 
-            <SeekBar
-                android:id="@+id/seekBarProgress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:maxHeight="5dp"
-                android:minHeight="5dp"
-                android:progressDrawable="@drawable/seek_bar_bg"
-                android:thumb="@drawable/thumb_bar_selector"/>
+                <SeekBar
+                    android:id="@+id/seekBarProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:maxHeight="5dp"
+                    android:minHeight="5dp"
+                    android:progressDrawable="@drawable/seek_bar_bg"
+                    android:thumb="@drawable/thumb_bar_selector"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tvPlayTime"
+                        android:textColor="@color/md_white_1000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:textSize="@dimen/normal_textSize"
+                        android:layout_marginStart="10dp"/>
+                    <TextView
+                        android:id="@+id/tvTotalTime"
+                        android:textColor="@color/md_white_1000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="@dimen/normal_textSize"/>
+                </RelativeLayout>
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tvPlayTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"
-                    android:textSize="@dimen/normal_textSize"
-                    android:layout_marginStart="10dp"/>
-                <TextView
-                    android:id="@+id/tvTotalTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
-                    android:textSize="@dimen/normal_textSize"/>
+                android:orientation="horizontal"
+                android:layout_height="0dp"
+                android:layout_weight="1.5">
+                <ImageView
+                    android:id="@+id/ivPlayCtrl"
+                    style="@style/normal_image_view"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
             </RelativeLayout>
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="0dp"
-            android:layout_weight="1.5">
-            <ImageView
-                android:id="@+id/ivPlayCtrl"
-                style="@style/normal_image_view"
-                android:layout_centerInParent="true"
-                android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
-        </RelativeLayout>
     </LinearLayout>
-
 </LinearLayout>

@@ -9,27 +9,27 @@ import com.systek.guide.entity.base.BaseEntity;
 
 public class ExhibitBean extends BaseEntity {
 
-    private String id;
-    private String name;
-    private String museumId;
-    private String beaconId;
-    private String introduce;
-    private String address;
-    private float mapx;
-    private float mapy;
-    private int floor;
-    private String iconurl;
-    private String imgsurl;
-    private String audiourl;
-    private String texturl;
-    private String labels;
+    private String id;//id
+    private String name;//名字
+    private String museumId;//博物馆id
+    private String beaconId;//信标id
+    private String introduce;//简介
+    private String address;//位置
+    private float mapx;//地图x坐标
+    private float mapy;//地图y坐标
+    private int floor;//所在楼层
+    private String iconurl;//icon 地址
+    private String imgsurl;//多角度图片地址
+    private String audiourl;//音频地址
+    private String texturl;//介绍地址
+    private String labels;//标签-->年代材质等
     private String lexhibit;
     private String rexhibit;
-    private String number;
-    private String content;
-    private int version;
-    private int priority;
-    private double distance;
+    private String number;//博物馆内id号码
+    private String content;//详细介绍内容
+    private int version;//版本
+    private int priority;//优先级
+    private double distance;//距离
     private boolean saveForPerson;
 
     public ExhibitBean(){}

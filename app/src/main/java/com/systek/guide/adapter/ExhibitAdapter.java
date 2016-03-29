@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,7 +121,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
             switch (state) {
                 case STATE_PLAYABLE:
                     viewHolder.ivPlayAnim.setImageDrawable(
-                            context.getResources().getDrawable(R.drawable.ic_play_arrow_black_36dp));
+                            context.getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
                     viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
                     break;
                 case STATE_PLAYING:
@@ -150,11 +149,11 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         viewHolder.tvExhibitName.setText(exhibitBean.getName());
         viewHolder.tvExhibitYears.setText(exhibitBean.getLabels());
         viewHolder.tvExhibitNumber.setText(exhibitBean.getNumber());
-        String beaconId=exhibitBean.getBeaconId();
-        if(!TextUtils.isEmpty(beaconId)){
-            String disId=beaconId.substring(beaconId.length()-6,beaconId.length());
-            viewHolder.tvExhibitPosition.setText(disId);// TODO: 2015/12/30 改为展厅
-        }
+        //String beaconId=exhibitBean.getBeaconId();
+        //if(!TextUtils.isEmpty(beaconId)){
+           // String disId=beaconId.substring(beaconId.length()-6,beaconId.length());
+            //viewHolder.tvExhibitPosition.setText(disId);// TODO: 2015/12/30 改为展厅
+        //}
         String distance=String.valueOf(exhibitBean.getDistance());
         if(distance.length()>6){
             distance=distance.substring(0,6);

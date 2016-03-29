@@ -88,10 +88,6 @@
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_36dp.png"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\ic_launcher.png",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-xxxhdpi\\ic_launcher.png"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_btn_checkbox_checked_mtrl.png",
         "source": "D:\\Android\\work\\Guide\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxxhdpi\\abc_btn_checkbox_checked_mtrl.png"
     },

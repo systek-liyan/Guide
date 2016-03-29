@@ -75,8 +75,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -154,7 +153,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
                         if (lvLyric.getVisibility() == View.VISIBLE) {
                             lvLyric.setVisibility(View.INVISIBLE);
                             tvContent.setVisibility(View.VISIBLE);
-                            contentView.setBackgroundResource(R.drawable.bg_lyric_blur);
+                            contentView.setBackgroundResource(R.drawable.fullscreen_bg_gradient);
                         } else {
                             lvLyric.setVisibility(View.VISIBLE);
                             tvContent.setVisibility(View.INVISIBLE);

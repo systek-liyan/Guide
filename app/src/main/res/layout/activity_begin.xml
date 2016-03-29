@@ -1,9 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/ivBeginImg"
-    android:scaleType="fitXY"
-    android:src="@drawable/iv_begin_activty"
-    tools:context=".activity.BeginActivity"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical"
+              android:gravity="center_horizontal"
+              android:background="@color/md_red_400"
+              tools:context=".activity.BeginActivity">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"/>
+        <ImageView
+            android:src="@drawable/iv_begin_up_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"/>
+
+        <ImageView
+            android:src="@drawable/iv_begin"
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+        </LinearLayout>
+        <TextView
+            android:layout_weight="0.45"
+            android:textSize="13sp"
+            android:textColor="@color/md_white_1000"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="2015  e导游 by 北京森泰英睿"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

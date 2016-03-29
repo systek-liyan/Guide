@@ -1,9 +1,7 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.systek.guide.R;
 import com.systek.guide.manager.BluetoothManager;
@@ -16,14 +14,11 @@ public class BeginActivity extends BaseActivity{
     private Class<?> targetClass;
     private boolean isFirstLogin;
     private String currentMuseumId;
-    private Handler handler;
 
 
     @Override
     protected void setView() {
-        View view = View.inflate(this, R.layout.activity_begin, null);
-        setContentView(view);
-        handler=new MyHandler(this);
+        setContentView(R.layout.activity_begin);
     }
 
     @Override

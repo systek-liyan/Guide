@@ -36,14 +36,121 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ImageUtil.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/utils/ImageUtil.java">
+      <file leaf-file-name="item_list_exhibit.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_list_exhibit.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.3534245">
-              <caret line="144" column="5" selection-start-line="144" selection-start-column="5" selection-end-line="144" selection-end-column="5" />
+            <state vertical-scroll-proportion="-16.266666">
+              <caret line="94" column="41" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LockScreenActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/LockScreenActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="82" column="48" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="48" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NearlyGalleryAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/NearlyGalleryAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="item_multi_angle_img.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_multi_angle_img.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.7">
+              <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#137#172#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_lock_screen.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_lock_screen.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.17">
+              <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="item_nearly_gallery.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_nearly_gallery.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.2">
+              <caret line="18" column="47" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
+              <folding>
+                <element signature="e#742#766#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_play.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_play.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.7">
+              <caret line="107" column="64" selection-start-line="107" selection-start-column="64" selection-end-line="107" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BluetoothManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/manager/BluetoothManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="229" column="50" selection-start-line="229" selection-start-column="50" selection-end-line="229" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExhibitListFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/fragment/ExhibitListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MediaServiceManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/manager/MediaServiceManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="307" column="62" selection-start-line="307" selection-start-column="62" selection-end-line="307" selection-end-column="62" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1756,22 +1863,39 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/MuseumAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/NearlyGalleryAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/ExhibitAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/download/TaskItemAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/ListAndMapActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/fragment/LockScreenFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/utils/ImageLoaderUtil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/MuseumIconAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_download_museum.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_list_exhibit.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/MultiAngleImgAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/CollectionActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/LockScreenActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/PlayActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/DataBiz.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/btn_bg_red.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_museum.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/MyApplication.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_download_museum.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/utils/ImageUtil.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/fullscreen_bg_gradient.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_museum_home.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_lyric.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/fragment/LyricFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/MuseumHomeActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/DataBiz.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/BeginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_begin.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/lock_screen.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_lock_screen.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/ListAndMapActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/entity/ExhibitBean.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/ExhibitAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_list_exhibit.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/systek/guide/manager/MediaServiceManager.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_play.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_nearly_gallery.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_lock_screen.xml" />
       </list>
     </option>
   </component>
@@ -1908,6 +2032,134 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragment" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="adapter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guide" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="activity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -1919,7 +2171,16 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../android_sdk" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="a55697a6" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="07d782eb0129ed91" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi" />
+    <property name="last_opened_file_path" value="D:/studio_space/MeidaProject" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Android\work\Guide\app\src\main\res\drawable-xhdpi" />
+      <recent name="D:\Android\work\Guide\app\src\main\res\drawable-hdpi" />
+      <recent name="D:\Android\work\Guide\app\src\main\res\drawable" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -2085,8 +2346,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1554" height="916" extended-state="0" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1554" height="916" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32806325" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2096,8 +2357,8 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37285903" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32931727" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.63241106" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25502008" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2105,7 +2366,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24966533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24966533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Android WiFi ADB" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2131,148 +2392,285 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/app/libs/universal-image-loader-1.9.5.jar!/com/nostra13/universalimageloader/utils/StorageUtils.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.892857">
-          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/libs/universal-image-loader-1.9.5.jar!/com/nostra13/universalimageloader/core/decode/BaseImageDecoder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34615386">
-          <caret line="33" column="44" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
-          <folding>
-            <element signature="e#1692#1693#0" expanded="true" />
-            <element signature="e#1744#1745#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/base/MuseumDownloadAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/base/ViewPagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/base/ViewPagerStateAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/map/MapObjectContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/map/MapObjectModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/map/MapPopupBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/map/TextPopup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/Dot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/LoadingDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/MyTextView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/RoundImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/SideBar.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/SwipeBackLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/fragment/LockScreenFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="123" column="107" selection-start-line="123" selection-start-column="107" selection-end-line="123" selection-end-column="107" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/download/TaskItemAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="55" selection-start-line="70" selection-start-column="55" selection-end-line="70" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/download_start.png">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/maps_blue_dot.png">
       <provider selected="true" editor-type-id="images">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/loading_bg.9.png">
+      <provider selected="true" editor-type-id="ninepatcheditor">
+        <state />
+      </provider>
+      <provider editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ll_loading_outside.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/iv_word_ctrl_switch.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/iv_tab.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_begin.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_city_choose.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_collection.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_download.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_error.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_list_and_map.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_museum_home.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_museum_list.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_search.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_setting.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_app_update.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/footer.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_exhibit_list.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_icon_image.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_image.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_lyric.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header_museum_list.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_city.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_download_museum.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_image.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_museum.xml">
@@ -2286,11 +2684,115 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_welcome.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="48" selection-start-line="44" selection-start-column="48" selection-end-line="44" selection-end-column="48" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_topic.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.5333333">
+          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/SettingActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="25" selection-start-line="101" selection-start-column="25" selection-end-line="101" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/ListAndMapActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="238" column="6" selection-start-line="238" selection-start-column="6" selection-end-line="238" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar_alpha.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/toolbar.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.9333334">
+          <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/progress_dialog.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/line_lyric.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout_title_radio_btn_bar.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/entity/ExhibitBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="34" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/ExhibitAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="107" column="95" selection-start-line="107" selection-start-column="95" selection-end-line="107" selection-end-column="95" />
+          <folding>
+            <element signature="e#6535#7503#0" expanded="false" />
+            <element signature="e#7502#7503#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2299,718 +2801,105 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.0">
-          <caret line="113" column="47" selection-start-line="113" selection-start-column="47" selection-end-line="113" selection-end-column="47" />
-          <folding>
-            <element signature="e#3254#3290#0" expanded="true" />
-            <element signature="e#4182#4219#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_download_museum.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-29.0">
-          <caret line="62" column="8" selection-start-line="62" selection-start-column="8" selection-end-line="62" selection-end-column="8" />
+        <state vertical-scroll-proportion="-16.266666">
+          <caret line="94" column="41" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/BaseActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/manager/BluetoothManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="385" column="0" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#BaseActivity#0" expanded="false" />
-            <element signature="docComment;field#MSG_WHAT_UPDATE_DATA_SUCCESS#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onCreate#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onPause#0;class#BaseActivity#0" expanded="false" />
-            <element signature="docComment;method#setView#0;class#BaseActivity#0" expanded="false" />
-            <element signature="class#MyHandler#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#handleMessage#0;class#MyHandler#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#registerBluetoothReceiver#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#showDialog#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#closeDialog#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#showErrors#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#setHomeIcon#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#setHomeIcon#1;class#BaseActivity#0" expanded="false" />
-            <element signature="method#setHomeClickListener#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#setTitleBar#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#setTitleBarTitle#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#setTitleBarTitle#1;class#BaseActivity#0" expanded="false" />
-            <element signature="docComment;method#initDrawer#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#initDrawer#0;class#BaseActivity#0" expanded="false" />
-            <element signature="docComment;method#getTag#0;class#BaseActivity#0" expanded="false" />
-            <element signature="docComment;method#getActivity#0;class#BaseActivity#0" expanded="false" />
-            <element signature="docComment;method#showToast#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#showToast#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#keyBack#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onDataError#0;class#BaseActivity#0" expanded="false" />
-            <element signature="method#onNoData#0;class#BaseActivity#0" expanded="false" />
-          </folding>
+          <caret line="229" column="50" selection-start-line="229" selection-start-column="50" selection-end-line="229" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/BeginActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/service/MediaPlayService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding>
-            <element signature="method#setView#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#BeginActivity#0" expanded="false" />
-            <element signature="method#goToNextActivity#0;class#BeginActivity#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="-6.8">
+          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/CityChooseActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/fragment/ExhibitListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="145" column="0" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
-          <folding>
-            <element signature="method#setView#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="docComment;method#filterData#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#filterData#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#initLocation#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="method#onLocationChanged#0;class#CityChooseActivity#0" expanded="false" />
-            <element signature="class#7988:8403" expanded="false" />
-            <element signature="method#onTextChanged#0;class#7988:8403" expanded="false" />
-            <element signature="method#beforeTextChanged#0;class#7988:8403" expanded="false" />
-            <element signature="method#afterTextChanged#0;class#7988:8403" expanded="false" />
-            <element signature="method#onDestroy#0;class#CityChooseActivity#0" expanded="false" />
-          </folding>
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/CollectionActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/manager/MediaServiceManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#setView#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="docComment;method#addListener#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="docComment;method#initData#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="docComment;method#initView#0;class#CollectionActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#CollectionActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/DownloadManagerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#setView#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#postNotifyDataChanged#0;class#DownloadManagerActivity#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#DownloadManagerActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/ListAndMapActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="104" column="32" selection-start-line="104" selection-start-column="32" selection-end-line="104" selection-end-column="32" />
-          <folding>
-            <element signature="docComment;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#setView#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;method#initMediaManager#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;method#registerReceiver#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#setMyTitleBar#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;method#refreshModeIcon#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#refreshModeIcon#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;field#onClickListener#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;field#onSeekBarChangeListener#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="class#8937:9498" expanded="false" />
-            <element signature="method#onProgressChanged#0;class#8937:9498" expanded="false" />
-            <element signature="method#onStartTrackingTouch#0;class#8937:9498" expanded="false" />
-            <element signature="method#onStopTrackingTouch#0;class#8937:9498" expanded="false" />
-            <element signature="docComment;method#setDefaultFragment#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#setDefaultFragment#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;field#radioButtonCheckListener#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;method#onFragmentInteraction#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="method#onFragmentInteraction#0;class#ListAndMapActivity#0" expanded="false" />
-            <element signature="docComment;field#receiver#0;class#ListAndMapActivity#0" expanded="false" />
-          </folding>
+          <caret line="307" column="62" selection-start-line="307" selection-start-column="62" selection-end-line="307" selection-end-column="62" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/LockScreenActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="347" column="30" selection-start-line="347" selection-start-column="30" selection-end-line="347" selection-end-column="30" />
-          <folding>
-            <element signature="method#setView#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#initIcon#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#onPause#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#LockScreenActivity#0" expanded="false" />
-            <element signature="class#9093:9654" expanded="false" />
-            <element signature="method#onProgressChanged#0;class#9093:9654" expanded="false" />
-            <element signature="method#onStartTrackingTouch#0;class#9093:9654" expanded="false" />
-            <element signature="method#onStopTrackingTouch#0;class#9093:9654" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/MuseumHomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="52" column="21" selection-start-line="52" selection-start-column="21" selection-end-line="52" selection-end-column="21" />
-          <folding>
-            <element signature="method#setView#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onNewIntent#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onRestart#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshPlayState#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#initAllData#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="e#5138#5162#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#setPlayStateImageToClose#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#setPlayStateImageToOpen#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onError#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#initAudio#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onSaveInstanceState#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#MuseumHomeActivity#0" expanded="false" />
-            <element signature="method#onStop#0;class#MuseumHomeActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/MuseumListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="110" column="20" selection-start-line="110" selection-start-column="20" selection-end-line="110" selection-end-column="20" />
-          <folding>
-            <element signature="docComment;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#onRestart#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#setView#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#onNewIntent#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="docComment;method#addListener#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="docComment;field#onItemClickListener#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="docComment;method#initData#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="docComment;method#initView#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#MuseumListActivity#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#MuseumListActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/PlayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="238" column="5" selection-start-line="238" selection-start-column="5" selection-end-line="238" selection-end-column="5" />
-          <folding>
-            <element signature="method#setView#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#onNewIntent#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#PlayActivity#0" expanded="false" />
-            <element signature="docComment;method#addListener#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#PlayActivity#0" expanded="false" />
-            <element signature="class#3994:4397" expanded="false" />
-            <element signature="method#onPageScrolled#0;class#3994:4397" expanded="false" />
-            <element signature="method#onPageScrollStateChanged#0;class#3994:4397" expanded="false" />
-            <element signature="docComment;method#registerReceiver#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#PlayActivity#0" expanded="false" />
-            <element signature="docComment;method#refreshView#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#PlayActivity#0" expanded="false" />
-            <element signature="docComment;method#initIcon#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#initIcon#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#setMyTitleBar#0;class#PlayActivity#0" expanded="false" />
-            <element signature="class#9427:9988" expanded="false" />
-            <element signature="method#onProgressChanged#0;class#9427:9988" expanded="false" />
-            <element signature="method#onStartTrackingTouch#0;class#9427:9988" expanded="false" />
-            <element signature="method#onStopTrackingTouch#0;class#9427:9988" expanded="false" />
-            <element signature="method#onFragmentInteraction#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#initMultiImgs#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#PlayActivity#0" expanded="false" />
-            <element signature="docComment;method#refreshIcon#0;class#PlayActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#PlayActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/SearchActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#SearchActivity#0" expanded="false" />
-            <element signature="method#setView#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#SearchActivity#0" expanded="false" />
-            <element signature="class#1085:1548" expanded="false" />
-            <element signature="method#onTextChanged#0;class#1085:1548" expanded="false" />
-            <element signature="method#beforeTextChanged#0;class#1085:1548" expanded="false" />
-            <element signature="method#afterTextChanged#0;class#1085:1548" expanded="false" />
-            <element signature="method#initView#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#SearchActivity#0" expanded="false" />
-            <element signature="method#filterData#0;class#SearchActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/SettingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding>
-            <element signature="method#setView#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#checkUpdate#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#alreadyNewest#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#SettingActivity#0" expanded="false" />
-            <element signature="class#MyHandler#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#MyHandler#0;class#MyHandler#0;class#SettingActivity#0" expanded="false" />
-            <element signature="method#handleMessage#0;class#MyHandler#0;class#SettingActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/SwipeBackActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-          <folding>
-            <element signature="docComment;class#SwipeBackActivity#0" expanded="false" />
-            <element signature="method#onCreate#0;class#SwipeBackActivity#0" expanded="false" />
-            <element signature="method#startActivity#0;class#SwipeBackActivity#0" expanded="false" />
-            <element signature="method#onBackPressed#0;class#SwipeBackActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/TestActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <caret line="82" column="48" selection-start-line="82" selection-start-column="48" selection-end-line="82" selection-end-column="48" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/TopicActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#TopicActivity#0" expanded="false" />
-            <element signature="docComment;field#totalExhibitList#0;class#TopicActivity#0" expanded="false" />
-            <element signature="docComment;field#checkExhibitList#0;class#TopicActivity#0" expanded="false" />
-            <element signature="docComment;field#disPlayCheckExhibitList#0;class#TopicActivity#0" expanded="false" />
-            <element signature="docComment;field#ll_collection_has_choose#0;class#TopicActivity#0" expanded="false" />
-            <element signature="docComment;field#lv_collection_listView#0;class#TopicActivity#0" expanded="false" />
-            <element signature="docComment;field#tvList#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#setView#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#onResume#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#initView#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#onKeyDown#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#onCreateOptionsMenu#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#onOptionsItemSelected#0;class#TopicActivity#0" expanded="false" />
-            <element signature="method#setManyBtnListener#0;class#TopicActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/activity/WelcomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding>
-            <element signature="method#initView#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#addListener#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#initData#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#registerReceiver#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#unRegisterReceiver#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshView#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshExhibit#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshTitle#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshViewBottomTab#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshProgress#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshIcon#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#refreshState#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="docComment;method#dotSelect#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#dotSelect#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#onPageScrollStateChanged#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#onPageScrolled#0;class#WelcomeActivity#0" expanded="false" />
-            <element signature="method#onPageSelected#0;class#WelcomeActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/CityAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#CityAdapter#0" expanded="false" />
-            <element signature="method#CityAdapter#0;class#CityAdapter#0" expanded="false" />
-            <element signature="docComment;method#updateListView#0;class#CityAdapter#0" expanded="false" />
-            <element signature="method#updateListView#0;class#CityAdapter#0" expanded="false" />
-            <element signature="method#getView#0;class#CityAdapter#0" expanded="false" />
-            <element signature="class#ViewHolder#0;class#CityAdapter#0" expanded="false" />
-            <element signature="docComment;method#getPositionForSection#0;class#CityAdapter#0" expanded="false" />
-            <element signature="method#getPositionForSection#0;class#CityAdapter#0" expanded="false" />
-            <element signature="docComment;method#getSectionForPosition#0;class#CityAdapter#0" expanded="false" />
-            <element signature="method#getSectionForPosition#0;class#CityAdapter#0" expanded="false" />
-            <element signature="docComment;method#getAlpha#0;class#CityAdapter#0" expanded="false" />
-            <element signature="method#getAlpha#0;class#CityAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/ExhibitAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="94" column="80" selection-start-line="94" selection-start-column="80" selection-end-line="94" selection-end-column="80" />
-          <folding>
-            <element signature="docComment;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="method#setState#0;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="method#ExhibitAdapter#0;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="method#updateData#0;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="method#getView#0;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="method#initializeColorStateLists#0;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="method#tintColor#0;class#ExhibitAdapter#0" expanded="false" />
-            <element signature="class#ViewHolder#0;class#ExhibitAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/MultiAngleImgAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
-          <folding>
-            <element signature="docComment;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#setOnItemClickListener#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#MultiAngleImgAdapter#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#onCreateViewHolder#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#onBindViewHolder#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="docComment;method#updateData#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#updateData#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="docComment;class#OnItemClickListener#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="class#OnItemClickListener#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="class#ViewHolder#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#ViewHolder#0;class#ViewHolder#0;class#MultiAngleImgAdapter#0" expanded="false" />
-            <element signature="method#onClick#0;class#ViewHolder#0;class#MultiAngleImgAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/MuseumAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="74" selection-start-line="62" selection-start-column="74" selection-end-line="62" selection-end-column="74" />
-          <folding>
-            <element signature="docComment;class#MuseumAdapter#0" expanded="false" />
-            <element signature="method#MuseumAdapter#0;class#MuseumAdapter#0" expanded="false" />
-            <element signature="docComment;method#updateData#0;class#MuseumAdapter#0" expanded="false" />
-            <element signature="method#updateData#0;class#MuseumAdapter#0" expanded="false" />
-            <element signature="method#getView#0;class#MuseumAdapter#0" expanded="false" />
-            <element signature="class#ViewHolder#0;class#MuseumAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/MuseumIconAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
-          <folding>
-            <element signature="docComment;class#MuseumIconAdapter#0" expanded="false" />
-            <element signature="method#MuseumIconAdapter#0;class#MuseumIconAdapter#0" expanded="false" />
-            <element signature="method#updateData#0;class#MuseumIconAdapter#0" expanded="false" />
-            <element signature="method#onCreateViewHolder#0;class#MuseumIconAdapter#0" expanded="false" />
-            <element signature="method#onBindViewHolder#0;class#MuseumIconAdapter#0" expanded="false" />
-            <element signature="class#ViewHolder#0;class#MuseumIconAdapter#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/adapter/NearlyGalleryAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="78" column="78" selection-start-line="78" selection-start-column="78" selection-end-line="78" selection-end-column="78" />
-          <folding>
-            <element signature="docComment;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="method#NearlyGalleryAdapter#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="docComment;method#updateData#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="method#updateData#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="method#getEntity#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="docComment;class#OnItemClickListener#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="class#OnItemClickListener#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="method#setOnItemClickListener#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="method#onCreateViewHolder#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="method#onBindViewHolder#0;class#NearlyGalleryAdapter#0" expanded="false" />
-            <element signature="class#ViewHolder#0;class#NearlyGalleryAdapter#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/BizFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/DataBiz.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="205" column="0" selection-start-line="205" selection-start-column="0" selection-end-line="205" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;class#DataBiz#0" expanded="false" />
-            <element signature="method#getDb#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#closeDB#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#updateDb#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#isExist#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#isExist#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getEntityListFromNet#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getEntityListFromNet#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getEntityListLocal#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getEntityListLocal#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#searchFromSQLite#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getEntityLocalById#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getEntityLocalById#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getEntityListLocalByColumn#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getEntityListLocalByColumn#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#deleteSQLiteDataFromClass#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#deleteSQLiteDataFromClass#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#deleteSQLiteDataFromID#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#deleteSQLiteDataFromID#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#saveListToSQLite#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#saveListToSQLite#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#saveEntityToSQLite#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#saveEntityToSQLite#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#deleteOldJsonData#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#deleteOldJsonData#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getCollectionExhibitListFromDB#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getCollectionExhibitListFromDB#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getCollectionExhibitListFromDBById#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getCollectionExhibitListFromDBById#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getExhibitFromDBById#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#isBasicDataSave#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#isBasicDataSave#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#saveAllJsonData#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#saveAllJsonData#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getLocalListById#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getLocalListById#0;class#DataBiz#0" expanded="false" />
-            <element signature="e#13265#13286#0" expanded="false" />
-            <element signature="docComment;method#saveOrUpdate#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#saveOrUpdate#0;class#DataBiz#0" expanded="false" />
-            <element signature="e#13773#13794#0" expanded="false" />
-            <element signature="docComment;method#getExhibitListByBeaconId#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getExhibitListByBeaconId#0;class#DataBiz#0" expanded="false" />
-            <element signature="e#14319#14340#0" expanded="false" />
-            <element signature="docComment;method#saveTempValue#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#saveTempValue#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getCurrentMuseumId#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getTempValue#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getTempValue#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#clearTempValues#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#clearTempValues#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#saveBitmap#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#saveBitmap#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getBeaconMinorAndMajor#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getBeaconMinorAndMajor#0;class#DataBiz#0" expanded="false" />
-            <element signature="docComment;method#getExhibitListByLabel#0;class#DataBiz#0" expanded="false" />
-            <element signature="method#getExhibitListByLabel#0;class#DataBiz#0" expanded="false" />
-          </folding>
-        </state>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_play.xml">
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/service/DownloadService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3328767">
-          <caret line="107" column="38" selection-start-line="107" selection-start-column="38" selection-end-line="107" selection-end-column="38" />
+        <state vertical-scroll-proportion="-15.7">
+          <caret line="107" column="64" selection-start-line="107" selection-start-column="64" selection-end-line="107" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/biz/DownloadBiz.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="26" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
-          <folding />
-        </state>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_nearly_gallery.xml">
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/custom/ClearEditText.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7219178">
-          <caret line="97" column="5" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
+        <state vertical-scroll-proportion="-10.2">
+          <caret line="18" column="47" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
           <folding>
-            <element signature="docComment;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;field#mClearDrawable#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#ClearEditText#1;class#ClearEditText#0" expanded="false" />
-            <element signature="method#ClearEditText#2;class#ClearEditText#0" expanded="false" />
-            <element signature="method#init#0;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;method#onTouchEvent#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#onTouchEvent#0;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;method#onFocusChange#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#onFocusChange#0;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;method#setClearIconVisible#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#setClearIconVisible#0;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;method#onTextChanged#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#onTextChanged#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#beforeTextChanged#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#afterTextChanged#0;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;method#setShakeAnimation#0;class#ClearEditText#0" expanded="false" />
-            <element signature="docComment;method#shakeAnimation#0;class#ClearEditText#0" expanded="false" />
-            <element signature="method#shakeAnimation#0;class#ClearEditText#0" expanded="false" />
+            <element signature="e#742#766#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/app/libs/universal-image-loader-1.9.5.jar!/com/nostra13/universalimageloader/core/ImageLoader.class">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_multi_angle_img.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.678572">
-          <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
-          <folding />
+        <state vertical-scroll-proportion="-1.7">
+          <caret line="3" column="40" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
+          <folding>
+            <element signature="e#137#172#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/systek/guide/utils/ImageUtil.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_lock_screen.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.3534245">
-          <caret line="144" column="5" selection-start-line="144" selection-start-column="5" selection-end-line="144" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.17">
+          <caret line="7" column="36" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>

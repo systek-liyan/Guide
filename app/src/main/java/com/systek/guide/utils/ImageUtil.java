@@ -11,23 +11,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
+import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 
 import java.io.File;
@@ -39,43 +32,9 @@ import java.io.File;
  */
 public class ImageUtil implements IConstants {
 
-
-    private static ImageLoaderConfiguration config;
     private static DisplayImageOptions normalOption;
     private static DisplayImageOptions roundOption;
 
-
-    private static synchronized ImageLoaderConfiguration newConfig(){
-        if(config==null){
-            // DON'T COPY THIS CODE TO YOUR PROJECT! This is just example of ALL options using.
-            // See the sample project how to use ImageLoader correctly.
-            Context context= MyApplication.get();
-            File cacheDir = StorageUtils.getCacheDirectory(context);
-            config=new ImageLoaderConfiguration
-                    .Builder(context)
-                    .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
-                    //.diskCacheExtraOptions(480, 800, null)// Can slow ImageLoader, use it carefully (Better don't use it)/设置缓存的详细信息，最好不要设置这个
-                            //.taskExecutor(...)
-                            //.taskExecutorForCachedImages(...)
-                    .threadPoolSize(3) // 线程池内加载的数量
-                    .threadPriority(Thread.NORM_PRIORITY - 2) // default
-                    .tasksProcessingOrder(QueueProcessingType.FIFO) // default
-                    .denyCacheImageMultipleSizesInMemory()
-                    .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-                    .memoryCacheSize(2 * 1024 * 1024)
-                    .memoryCacheSizePercentage(13) // default
-                    .diskCache(new UnlimitedDiskCache(cacheDir)) // default
-                    .diskCacheSize(50 * 1024 * 1024)
-                    .diskCacheFileCount(100)
-                    .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
-                    .imageDownloader(new BaseImageDownloader(context)) // default
-                    .imageDecoder(new BaseImageDecoder(true)) // default
-                    .defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
-                    //.writeDebugLogs()
-                    .build();
-        }
-        return config;
-    }
     private static synchronized DisplayImageOptions newNormalOptions(){
         if(normalOption==null){
             normalOption = new DisplayImageOptions.Builder()
@@ -83,7 +42,7 @@ public class ImageUtil implements IConstants {
                     //.showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
                     //.showImageOnFail(R.drawable.ic_error) // resource or drawable
                     .resetViewBeforeLoading(false)  // default
-                    .delayBeforeLoading(1000)
+                    .delayBeforeLoading(500)
                     .cacheInMemory(false) // default
                     .cacheOnDisk(false) // default
                             //.preProcessor(...)
@@ -91,7 +50,8 @@ public class ImageUtil implements IConstants {
                             //.extraForDownloader(...)
                     .considerExifParams(false) // default
                     .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
-                    .bitmapConfig(Bitmap.Config.ARGB_8888) // default
+                    //.bitmapConfig(Bitmap.Config.ARGB_8888) // default
+                    .bitmapConfig(Bitmap.Config.RGB_565) // default
                             //.decodingOptions(...)
                     .displayer(new SimpleBitmapDisplayer()) // default
                     .handler(new Handler()) // default
@@ -106,7 +66,7 @@ public class ImageUtil implements IConstants {
             roundOption = new DisplayImageOptions.Builder()
                     //.showImageOnLoading(R.drawable.ic_stub) // resource or drawable
                     //.showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
-                    //.showImageOnFail(R.drawable.ic_error) // resource or drawable
+                    .showImageOnFail(R.drawable.emotionstore_progresscancelbtn) // resource or drawable
                     .resetViewBeforeLoading(false)  // default
                     .delayBeforeLoading(1000)
                     .cacheInMemory(false) // default
@@ -116,7 +76,8 @@ public class ImageUtil implements IConstants {
                             //.extraForDownloader(...)
                     .considerExifParams(false) // default
                     .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
-                    .bitmapConfig(Bitmap.Config.ARGB_8888) // default
+                    //.bitmapConfig(Bitmap.Config.ARGB_8888) // default
+                    .bitmapConfig(Bitmap.Config.RGB_565) // default
                             //.decodingOptions(...)
                     .displayer(new RoundedBitmapDisplayer(20)) // default
                     .handler(new Handler()) // default
@@ -128,44 +89,29 @@ public class ImageUtil implements IConstants {
 
 
     public static void displayNetworkImage(final Context context,final String imageUrl,final ImageView imageView){
-        ImageLoader imageLoader=ImageLoader.getInstance();
-        newConfig();
         newNormalOptions();
-        imageLoader.init(config);
-        imageLoader.displayImage(imageUrl, imageView,normalOption, new MyImageLoadingListener(context,imageView));
+        ImageLoader.getInstance().displayImage(imageUrl, imageView, normalOption, new MyImageLoadingListener(context, imageView));
 
     }
     public static void displayRoundNetworkImage(final Context context,final String imageUrl,final ImageView imageView){
-        ImageLoader imageLoader=ImageLoader.getInstance();
-        newConfig();
         newRoundOptions();
-        imageLoader.init(config);
-        imageLoader.displayImage(imageUrl, imageView,roundOption, new MyImageLoadingListener(context,imageView));
+        ImageLoader.getInstance().displayImage(imageUrl, imageView, roundOption, new MyImageLoadingListener(context, imageView));
 
     }
 
-    public static void displaySdcardImage(final Context context, String filePathName,final ImageView ivImage) {
-        ImageLoader imageLoader=ImageLoader.getInstance();
-        newConfig();
+    public static void displaySdcardImage( String filePathName,final ImageView ivImage) {
         newNormalOptions();
-        imageLoader.init(config);
-        imageLoader.displayImage("file:///" + filePathName, ivImage,normalOption);
+        ImageLoader.getInstance().displayImage("file:///" + filePathName, ivImage, normalOption);
     }
-    public static void displayRoundSdcardImage(final Context context, String filePathName,final ImageView ivImage) {
-        ImageLoader imageLoader=ImageLoader.getInstance();
-        newConfig();
+    public static void displayRoundSdcardImage( String filePathName,final ImageView ivImage) {
         newRoundOptions();
-        imageLoader.init(config);
-        imageLoader.displayImage("file:///" + filePathName, ivImage,roundOption);
+        ImageLoader.getInstance().displayImage("file:///" + filePathName, ivImage, roundOption);
     }
 
     public static void displaySdcardBlurImage(final Context context, String filePathName,final ImageView imageView) {
 
-        ImageLoader imageLoader=ImageLoader.getInstance();
-        newConfig();
         newNormalOptions();
-        imageLoader.init(config);
-        imageLoader.loadImage("file:///" + filePathName,new ImageLoadingListener() {
+        ImageLoader.getInstance().loadImage("file:///" + filePathName, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
             }
@@ -173,13 +119,15 @@ public class ImageUtil implements IConstants {
             @Override
             public void onLoadingFailed(String s, View view, FailReason failReason) {
             }
+
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                if(bitmap!=null){
-                    Bitmap mBitmap= blurBitmap(context,bitmap);//FastBlur.doBlur(bitmap,2,true)
+                if (bitmap != null) {
+                    Bitmap mBitmap = blurBitmap(context, bitmap);//FastBlur.doBlur(bitmap,2,true)
                     imageView.setImageBitmap(mBitmap);
                 }
             }
+
             @Override
             public void onLoadingCancelled(String s, View view) {
             }
@@ -333,7 +281,7 @@ public class ImageUtil implements IConstants {
             if(isBlur){
                 displaySdcardBlurImage(MyApplication.get(), path, imageView);
             }else{
-                displaySdcardImage(MyApplication.get(), path, imageView);
+                displaySdcardImage(path, imageView);
             }
         }else{
             if(isBlur){
@@ -362,9 +310,9 @@ public class ImageUtil implements IConstants {
                 displaySdcardBlurImage(MyApplication.get(), path, imageView);
             }else{
                 if(isRound){
-                    displayRoundSdcardImage(MyApplication.get(),path,imageView);
+                    displayRoundSdcardImage(path,imageView);
                 }else{
-                    displaySdcardImage(MyApplication.get(), path, imageView);
+                    displaySdcardImage( path, imageView);
                 }
             }
         }else{

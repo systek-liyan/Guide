@@ -398,20 +398,20 @@ public class DataBiz implements IConstants{
 
     /**
      * 保存博物馆下展品，beacon，label数据
-     * @param museumID
+     * @param museumId
      * @return
      */
-    public synchronized static boolean saveAllJsonData(String museumID) {
-        String beaconUrl=BASE_URL+URL_BEACON_LIST + museumID;
+    public synchronized static boolean saveAllJsonData(String museumId) {
+        String beaconUrl=BASE_URL+URL_BEACON_LIST + museumId;
         List<BeaconBean> beaconList = getEntityListFromNet(BeaconBean.class, beaconUrl);
-        String labelUrl=BASE_URL+URL_LABELS_LIST + museumID;
+        String labelUrl=BASE_URL+URL_LABELS_LIST + museumId;
         List<LabelBean> labelList = getEntityListFromNet(LabelBean.class, labelUrl);
-        String exhibitUrl=BASE_URL+URL_EXHIBIT_LIST + museumID;
+        String exhibitUrl=BASE_URL+URL_EXHIBIT_LIST + museumId;
         List<ExhibitBean> exhibitList = getEntityListFromNet(ExhibitBean.class, exhibitUrl);
         if(beaconList == null || labelList == null || exhibitList == null //|| mapList == null//|| mapList.size() == 0
                 || beaconList.size() == 0 || labelList.size() == 0 || exhibitList.size() == 0 ){return false;}
 
-        List<ExhibitBean> collectionList= getCollectionExhibitListFromDBById(museumID);
+        List<ExhibitBean> collectionList= getCollectionExhibitListFromDBById(museumId);
         if(collectionList!=null&&collectionList.size()>0){
             exhibitList.removeAll(collectionList);
         }

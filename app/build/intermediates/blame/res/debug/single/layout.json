@@ -12,10 +12,6 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\footer.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\lock_screen.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\lock_screen.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_mini_profile.xml",
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\layout\\material_drawer_item_mini_profile.xml"
     },
@@ -84,12 +80,12 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\activity_test.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_profile.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\layout\\material_drawer_item_profile.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_dialog_title_material.xml",
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_profile.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\layout\\material_drawer_item_profile.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\material_drawer_item_section.xml",
@@ -184,10 +180,6 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\header_museum_list.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\empty_layout.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\empty_layout.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_city_choose.xml",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\activity_city_choose.xml"
     },
@@ -246,10 +238,6 @@
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view.xml",
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.0\\res\\layout\\abc_activity_chooser_view.xml"
-    },
-    {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_lock_screen.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\fragment_lock_screen.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
@@ -388,12 +376,12 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\toolbar_alpha.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\layout_title_bar.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\layout_title_bar.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_exhibit_list.xml",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\fragment_exhibit_list.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\layout_title_bar.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\layout\\layout_title_bar.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_item_layout.xml",

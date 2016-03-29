@@ -21,15 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/largest_icon_height">
-                <LinearLayout
-                    android:id="@+id/llMuseumLargestIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
-            </HorizontalScrollView-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleViewMuseumIcon"
                 android:layout_width="match_parent"
