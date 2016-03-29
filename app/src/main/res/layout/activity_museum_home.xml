@@ -8,6 +8,11 @@
 
     <include layout="@layout/toolbar"/>
 
+    <include
+        android:id="@+id/mErrorView"
+        layout="@layout/activity_error"
+        android:visibility="gone"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <HorizontalScrollView
+            <!--HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/largest_icon_height">
                 <LinearLayout
@@ -24,8 +29,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"/>
-            </HorizontalScrollView>
-
+            </HorizontalScrollView-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleViewMuseumIcon"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/largest_icon_height"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -186,16 +194,6 @@
                 android:background="@color/md_grey_300"
                 android:gravity="center_vertical">
 
-                <!--android.support.v7.widget.SwitchCompat
-                    android:id="@+id/auto_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|end"
-                    android:paddingEnd="0dp"
-                    android:layout_centerHorizontal="true"
-                    android:paddingLeft="@dimen/material_drawer_padding"
-                    android:paddingRight="0dp"
-                    android:textSize="@dimen/material_drawer_item_primary_text"/-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -215,15 +213,16 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/iv_sound_open"/>
+                    android:src="@drawable/iv_sound_close"/>
 
             </RelativeLayout>
 
-            <TextView
+            <com.systek.guide.custom.MyTextView
                 android:id="@+id/tvMuseumIntroduce"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:lineSpacingMultiplier="1.2"
                 android:textSize="@dimen/tv_home_page_exhibit_introduce_size"
                 android:layout_height="wrap_content" />
         </LinearLayout>

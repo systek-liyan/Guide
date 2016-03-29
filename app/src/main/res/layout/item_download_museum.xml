@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/deleteMuseum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/delete_museum_bg"
+        android:layout_marginStart="2dp"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/deleteMuseum" >
+
+        <ImageView
+            android:id="@+id/museumIcon"
+            android:layout_marginLeft="8dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="11dp"/>
+
+        <TextView
+            android:id="@+id/museumName"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/museumIcon"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/museumIcon"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="保利博物馆"
+            android:textColor="@color/md_grey_850"
+            android:textSize="14dp" />
+
+        <ProgressBar
+            android:id="@+id/downloadProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="155dp"
+            android:layout_height="4dp"
+            android:layout_alignBottom="@id/museumIcon"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="11dp"
+            android:layout_toRightOf="@id/museumIcon"
+            android:progressDrawable="@drawable/progress_bg" />
+
+        <CheckBox
+            android:id="@+id/museumIconCheckbox"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignLeft="@id/museumIcon"
+            android:layout_alignTop="@id/museumIcon"
+            android:layout_marginLeft="0.5dp"
+            android:button="@drawable/movie_headimage_selector"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/toDownloadFileSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/museumName"
+            android:layout_below="@+id/museumName"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#23b5bc"
+            android:layout_marginTop="2dp"
+            android:textSize="10sp" />
+        <TextView
+            android:id="@+id/task_status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/museumName"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/toDownloadFileSize"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#23b5bc"
+            android:textSize="9sp" />
+
+
+        <TextView
+            android:id="@+id/downloadBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/download_start"
+            android:layout_toRightOf="@id/downloadProgressBar"
+            android:textColor="@android:color/background_dark"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/currentProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/downloadProgressBar"
+            android:layout_alignEnd="@id/downloadBtn"
+            android:layout_toEndOf="@id/downloadProgressBar"
+            android:layout_marginStart="3dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#23b5bc"
+            android:textSize="9sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

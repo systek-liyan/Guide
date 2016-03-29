@@ -43,6 +43,11 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         notifyDataSetChanged();
     }
 
+    public ExhibitBean getEntity(int position){
+        if(exhibitBeanList==null){return null;}
+        return exhibitBeanList.get(position);
+    }
+
 
     /**
      * 内部接口，用于点击事件
@@ -63,6 +68,7 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = inflater.inflate(R.layout.item_nearly_gallery, viewGroup, false);
+       // FontManager.applyFont(context,view);
         ViewHolder viewHolder = new ViewHolder(view);
         viewHolder.mImg = (ImageView) view.findViewById(R.id.iv_item_nearly_exhibit);
         viewHolder.mTxt = (TextView) view.findViewById(R.id.tv_item_nearly_exhibit);
@@ -78,14 +84,6 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         String museumId=exhibitBean.getMuseumId();
 
         ImageLoaderUtil.displayImage(path,museumId,holder.mImg);
-
-        /*String imageName=path.replaceAll("/", "_");
-        String imgLocalUrl = LOCAL_ASSETS_PATH + museumId + "/" + LOCAL_FILE_TYPE_IMAGE +"/"+ imageName;
-        if(Tools.isFileExist(imgLocalUrl)){
-            ImageLoaderUtil.displaySdcardImage(context, imgLocalUrl, holder.mImg);
-        }else{
-            ImageLoaderUtil.displayNetworkImage(context, BASE_URL +path,holder.mImg);
-        }*/
 
         holder.mTxt.setText(exhibitBean.getName());
         if(exhibitBean.equals(selectIndex)){

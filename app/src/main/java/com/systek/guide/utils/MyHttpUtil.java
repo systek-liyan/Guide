@@ -23,10 +23,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class MyHttpUtil {
 
 
-
-
-
-
     /**
      * Get请求，获得返回数据
      *
@@ -174,10 +170,6 @@ public class MyHttpUtil {
     }
 
 
-
-
-
-
     /**
      *  发送 http get 请求
      */
@@ -246,7 +238,7 @@ public class MyHttpUtil {
 		 * 只有设置contentType为application/x-www-form-urlencoded，
 		 * servlet就可以直接使用request.getParameter("username");直接得到所需要信息
 		 */
-            conn.setRequestProperty("contentType","application/x-www-form-urlencoded");
+            conn.setRequestProperty("contentType", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length));
             //默认为false
             conn.setDoOutput(true);
@@ -340,102 +332,43 @@ public class MyHttpUtil {
     }
 
 
-    private static final int BUFFER_SIZE = 8192;
+    private static final int BUFFER_SIZE = 4096;
 
     /**
-     * Downloads a file from a URL
-     * @param fileURL HTTP URL of the file to be downloaded
-     * @param saveDir path of the directory to save the file
+     *  Downloads a file from a URL
+     * @param urlStr HTTP URL of the file to be downloaded
+     * @param savePath path of the directory to save the file
      * @throws IOException
      */
-    public static void downloadFile(String fileURL, String saveDir,String name)
-            throws IOException {
-        URL url = new URL(fileURL);
-        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-        int responseCode = httpConn.getResponseCode();
-
-        // always check HTTP response code first
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            /*String fileName = "";
-            String disposition = httpConn.getHeaderField("Content-Disposition");
-            //String contentType = httpConn.getContentType();
-           // int contentLength = httpConn.getContentLength();
-
-            if (disposition != null) {
-                // extracts file name from header field
-                int index = disposition.indexOf("filename=");
-                if (index > 0) {
-                    fileName = disposition.substring(index + 10,
-                            disposition.length() - 1);
-                }
-            } else {
-                // extracts file name from URL
-                fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
-                        fileURL.length());
-            }*/
-
-           /* System.out.println("Content-Type = " + contentType);
-            System.out.println("Content-Disposition = " + disposition);
-            System.out.println("Content-Length = " + contentLength);
-            System.out.println("fileName = " + fileName);*/
-
-            // opens input stream from the HTTP connection
-            InputStream inputStream = httpConn.getInputStream();
-
-            File savePath=new File(saveDir);
-            if(!savePath.exists()){
-                savePath.mkdirs();
-            }
-            String saveFilePath = saveDir + File.separator + name;
-
-            // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
-
-            int bytesRead = -1;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            outputStream.close();
-            inputStream.close();
-
-            System.out.println("File downloaded");
-        } else {
-            System.out.println("No file to download. Server replied HTTP code: " + responseCode);
-        }
-        httpConn.disconnect();
-    }
-
-
-    public static void  downLoadFromUrl(String urlStr,String fileName,String savePath) throws IOException{
+    public static void  downLoadFromUrl(String urlStr,String savePath,String fileName) throws IOException{
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         //设置超时间为10秒
         conn.setRequestMethod("GET");
         conn.setReadTimeout(5000);
-        conn.setConnectTimeout(10*1000);
+        conn.setConnectTimeout(20*1000);
         //防止屏蔽程序抓取而返回403错误
-        conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-        //conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0");
+        //conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0");
         if (conn.getResponseCode() == 200) {
-            //得到输入流
+
             InputStream inputStream = conn.getInputStream();
-            //获取自己数组
-            byte[] getData = readInputStream(inputStream);
-            //文件保存位置
-            File saveDir = new File(savePath);
+            File saveDir=new File(savePath);
             if(!saveDir.exists()){
                 saveDir.mkdirs();
             }
-            File file = new File(saveDir+File.separator+fileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(getData);
-            fos.close();
-            if(inputStream!=null){
-                inputStream.close();
+            String saveFile = saveDir + File.separator + fileName;
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(saveFile);
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
             }
-            LogUtil.i("ZHANG","文件保存成功");
+            outputStream.close();
+            inputStream.close();
+            LogUtil.i("ZHANG","File downloaded=="+fileName);
+
         }
     }
 

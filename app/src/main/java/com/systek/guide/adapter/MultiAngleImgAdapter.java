@@ -44,6 +44,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_multi_angle_img, parent, false);
+        //FontManager.applyFont(context, view);
         ViewHolder viewHolder = new ViewHolder(view,onItemClickListener);
         viewHolder.ivMultiAngle = (ImageView) view.findViewById(R.id.ivMultiAngle);
         return viewHolder;
@@ -54,18 +55,6 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
         MultiAngleImg multiAngleImg=list.get(position);
         String url = multiAngleImg.getUrl();
         ImageLoaderUtil.displayImage(url,holder.ivMultiAngle);
-
-        /*String name = Tools.changePathToName(url);
-        String currentMuseumId = (String) DataBiz.getTempValue(context,SP_MUSEUM_ID,"");
-        //博物馆id不为空，显示图片
-        if (currentMuseumId != null) {
-            String path = LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_IMAGE + "/" + name;
-            if (Tools.isFileExist(path)) {
-                ImageLoaderUtil.displaySdcardImage(context, path, holder.ivMultiAngle);
-            } else {
-                ImageLoaderUtil.displayNetworkImage(context, BASE_URL + url, holder.ivMultiAngle);
-            }
-        }*/
     }
 
     @Override
@@ -92,7 +81,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
 
 
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         OnItemClickListener onItemClickListener;
         ImageView ivMultiAngle;
         public ViewHolder(View itemView,OnItemClickListener onItemClickListener) {

@@ -61,6 +61,7 @@ public class CityAdapter extends BaseAdapter implements SectionIndexer {
         ViewHolder viewHolder=null;
         if(convertView==null){
             convertView=inflater.inflate(R.layout.item_city, null);
+            //FontManager.applyFont(context,convertView);
             viewHolder=new ViewHolder();
             viewHolder.alpha=(TextView)convertView.findViewById(R.id.itemCityAlpha);
             viewHolder.name=(TextView)convertView.findViewById(R.id.itemCityName);

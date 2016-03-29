@@ -3,9 +3,6 @@ package com.systek.guide.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
@@ -50,12 +47,10 @@ public class IconImageFragment extends BaseFragment implements IConstants{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_icon_image, container, false);
-        return view;
-
+    void initView() {
+       setContentView(R.layout.fragment_icon_image);
     }
+
 
     public void onButtonPressed(ExhibitBean exhibit) {
         if (mListener != null) {

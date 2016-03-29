@@ -1,12 +1,11 @@
 package com.systek.guide.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -26,10 +25,9 @@ import java.io.File;
 import java.util.List;
 
 public class LyricFragment extends BaseFragment implements IConstants{
+
     private static final String ARG_PARAM1 = "param1";
-
     private ExhibitBean exhibit;
-
     private OnFragmentInteractionListener mListener;
     private String currentLyricUrl;
     private String currentMuseumId;
@@ -39,50 +37,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
     private TextView tvContent;
     private ImageView ivWordCtrl;
 
-    private View view;
-
     public LyricFragment() {
-    }
-
-    public ExhibitBean getExhibit() {
-        return exhibit;
-    }
-
-    public void setExhibit(ExhibitBean exhibit) {
-        this.exhibit = exhibit;
-        currentMuseumId=exhibit.getMuseumId();
-    }
-
-    public void loadLyricByHand() {
-
-        if(exhibit==null){return;}
-        try{
-            currentLyricUrl = exhibit.getTexturl();
-            String name = currentLyricUrl.replaceAll("/", "_");
-            // 取得歌曲同目录下的歌词文件绝对路径
-            String lyricFilePath = LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_LYRIC+"/"+ name;
-            File lyricFile = new File(lyricFilePath);
-            if (lyricFile.exists()&&mLyricLoadHelper!=null) {
-                // 本地有歌词，直接读取
-                mLyricLoadHelper.loadLyric(lyricFilePath);
-            } else {
-                //mIsLyricDownloading = true;
-                // 尝试网络获取歌词
-                //LogUtil.i("ZHANG", "loadLyric()--->本地无歌词，尝试从网络获取");
-                new LyricDownloadAsyncTask().execute(currentLyricUrl);
-            }
-
-            //tvContent.setText(exhibit.getContent());
-
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-        }
-    }
-
-    public void notifyTime(long time){
-        if(mLyricLoadHelper!=null){
-            mLyricLoadHelper.notifyTime(time);
-        }
     }
 
     public static LyricFragment newInstance(String exhibitJson) {
@@ -95,11 +50,11 @@ public class LyricFragment extends BaseFragment implements IConstants{
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLyricLoadHelper = new LyricLoadHelper();
-        mLyricAdapter = new LyricAdapter(getActivity());
+        initView(contentView);
         if (getArguments() != null) {
             String exhibitJson = getArguments().getString(ARG_PARAM1);
             if(!TextUtils.isEmpty(exhibitJson)){
@@ -108,38 +63,105 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
     }
 
+    @Override
+    void initView() {
+        setContentView(R.layout.fragment_lyric);
+    }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view =inflater.inflate(R.layout.fragment_lyric, container, false);
-        initView(view);
-        addListener();
-        return view;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadLyricByHand();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mLyricLoadHelper = new LyricLoadHelper();
+        mLyricLoadHelper.setLyricListener(mLyricListener);
+        mLyricAdapter = new LyricAdapter(getActivity());
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public void setExhibit(ExhibitBean exhibit) {
+        this.exhibit = exhibit;
+        currentMuseumId=exhibit.getMuseumId();
+    }
+
+    private void loadLyricByHand() {
+
+        if(exhibit==null){return;}
+        try{
+            if(mLyricLoadHelper==null){
+                mLyricLoadHelper=new LyricLoadHelper();
+                mLyricLoadHelper.setLyricListener(mLyricListener);
+            }
+            if(mLyricAdapter==null){
+                mLyricAdapter = new LyricAdapter(getActivity());
+                lvLyric.setAdapter(mLyricAdapter);
+            }
+
+            currentLyricUrl = exhibit.getTexturl();
+            String name = currentLyricUrl.replaceAll("/", "_");
+            // 取得歌曲同目录下的歌词文件绝对路径
+            String lyricFilePath = LOCAL_ASSETS_PATH+currentMuseumId+"/"+ name;
+            File lyricFile = new File(lyricFilePath);
+            if (lyricFile.exists()) {
+                // 本地有歌词，直接读取
+                mLyricLoadHelper.loadLyric(lyricFilePath);
+            } else {
+                //mIsLyricDownloading = true;
+                // 尝试网络获取歌词
+                //LogUtil.i("ZHANG", "loadLyric()--->本地无歌词，尝试从网络获取");
+                new LyricDownloadAsyncTask().execute(currentLyricUrl);
+            }
+        }catch (Exception e){
+            ExceptionUtil.handleException(e);
+        }
+    }
+
+    public void notifyTime(long time){
+        if(mLyricLoadHelper!=null){
+            mLyricLoadHelper.notifyTime(time);
+        }
     }
 
     private void addListener() {
         ivWordCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.ivWordCtrl:
-                        if(lvLyric.getVisibility()==View.VISIBLE){
+                        if (lvLyric.getVisibility() == View.VISIBLE) {
                             lvLyric.setVisibility(View.INVISIBLE);
                             tvContent.setVisibility(View.VISIBLE);
-                            view.setBackgroundResource(R.drawable.bg_lyric_blur);
-                        }else{
+                            contentView.setBackgroundResource(R.drawable.bg_lyric_blur);
+                        } else {
                             lvLyric.setVisibility(View.VISIBLE);
                             tvContent.setVisibility(View.INVISIBLE);
-                            view.setBackgroundResource(0);
+                            contentView.setBackgroundResource(0);
                         }
                         break;
+                    default:break;
                 }
             }
         });
@@ -149,10 +171,9 @@ public class LyricFragment extends BaseFragment implements IConstants{
         lvLyric=(ListView)view.findViewById(R.id.lvLyric);
         tvContent=(TextView)view.findViewById(R.id.tvContent);
         ivWordCtrl=(ImageView)view.findViewById(R.id.ivWordCtrl);
-        //imgExhibitIcon=(ImageView)view.findViewById(R.id.iv_exhibit_icon);
-        mLyricLoadHelper.setLyricListener(mLyricListener);
         lvLyric.setAdapter(mLyricAdapter);
         lvLyric.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        addListener();
     }
 
     private LyricLoadHelper.LyricListener mLyricListener = new LyricLoadHelper.LyricListener() {
@@ -161,6 +182,10 @@ public class LyricFragment extends BaseFragment implements IConstants{
         public void onLyricLoaded(List<LyricSentence> lyricSentences, int index) {
             if (lyricSentences != null) {
                 //LogUtil.i(TAG, "onLyricLoaded--->歌词句子数目=" + lyricSentences.size() + ",当前句子索引=" + index);
+                if(mLyricAdapter==null){
+                    mLyricAdapter=new LyricAdapter(getActivity());
+                    lvLyric.setAdapter(mLyricAdapter);
+                }
                 mLyricAdapter.setLyric(lyricSentences);
                 mLyricAdapter.setCurrentSentenceIndex(index);
                 mLyricAdapter.notifyDataSetChanged();
@@ -168,6 +193,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
         @Override
         public void onLyricSentenceChanged(int indexOfCurSentence) {
+            if(mLyricAdapter==null){return;}
             mLyricAdapter.setCurrentSentenceIndex(indexOfCurSentence);
             mLyricAdapter.notifyDataSetChanged();
             lvLyric.smoothScrollToPositionFromTop(indexOfCurSentence, lvLyric.getHeight() / 2, 500);
@@ -182,22 +208,6 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
     public interface OnFragmentInteractionListener {
@@ -210,11 +220,11 @@ public class LyricFragment extends BaseFragment implements IConstants{
         protected String doInBackground(String... params) {
             LyricDownloadManager mLyricDownloadManager = new LyricDownloadManager(getActivity());
             // 从网络获取歌词，然后保存到本地
-            String lyricFilePath = mLyricDownloadManager.searchLyricFromWeb(params[0],
-                    LOCAL_ASSETS_PATH + currentMuseumId + "/" + LOCAL_FILE_TYPE_LYRIC);
+            String savePath=LOCAL_ASSETS_PATH + currentMuseumId + "/";
+            String lyricName=params[0];
             // 返回本地歌词路径
             // mIsLyricDownloading = false;
-            return lyricFilePath;
+            return mLyricDownloadManager.searchLyricFromWeb(lyricName, savePath);
         }
 
         @Override

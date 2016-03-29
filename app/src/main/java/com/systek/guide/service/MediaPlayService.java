@@ -21,6 +21,7 @@ import com.systek.guide.utils.MyHttpUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import java.util.List;
 
 
     private MediaPlayer mediaPlayer; // 播放器*/
-    private boolean isPlaying = false; //是否正在播放*/
+    private boolean isPlaying ; //是否正在播放*/
     private Binder mediaServiceBinder = new MediaServiceBinder();///服务Binder*/
     private ExhibitBean currentExhibit; //当前展品*/
     private String  currentMuseumId;//当前博物馆id*/
@@ -44,18 +45,22 @@ import java.util.List;
     private List<ExhibitBean> playExhibitList;
     private int playMode ; //默认设置自动点击播放
     private boolean isSendProgress;
-
+    private boolean isPause;
     //private boolean hasPlay; /*是否播放过*/
     //private int errorCount;
 
+    private static final int MSG_WHAT_UPDATE_PROGRESS=1;
+
+
+
     public void onCreate() {
         super.onCreate();
-        handler=new MyHandler();
+        handler=new MyHandler(this);
         playMode= PLAY_MODE_HAND;
         recordExhibitList=new ArrayList<>();
         playExhibitList=new ArrayList<>();
         initMediaPlayer();
-        //registerReceiver();// TODO: 2016/2/26 暂时不开启锁屏界面
+        registerReceiver();// TODO: 2016/2/26 暂时不开启锁屏界面
     }
 
     public int toGetDuration() {
@@ -66,6 +71,13 @@ import java.util.List;
     public IBinder onBind(Intent intent) {
         return mediaServiceBinder;
     }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_STICKY;
+    }
+
     /**
      * 锁屏广播接收器
      * */
@@ -101,13 +113,18 @@ import java.util.List;
     private MediaPlayer.OnCompletionListener completionListener=new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-
+            try{}catch (Exception e){
+                ExceptionUtil.handleException(e);
+            }
             if(playMode==PLAY_MODE_AUTO){
                 toStartPlay();
             }else if(playMode==PLAY_MODE_AUTO_PAUSE){
                 toSetPlayMode(PLAY_MODE_AUTO);
+                toStartPlay();
             }else{
+                mp.seekTo(0);
                 mp.pause();
+                isPause=true;
                 Intent intent=new Intent();
                 intent.setAction(INTENT_CHANGE_PLAY_STOP);
                 sendBroadcast(intent);
@@ -170,16 +187,19 @@ import java.util.List;
         if (mediaPlayer == null ) {return;}
         handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
     }
-    private void toUpdateDuration(int time) {
-        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DURATION);
-    }
 
     public boolean toPause(){
         if(!isPlaying||mediaPlayer==null){return false;}
         mediaPlayer.pause();
         isPlaying=false;
+        isPause=true;
         return true;
     }
+
+    public boolean isPauseOrNot(){
+        return isPause;
+    }
+
 
     private void play(ExhibitBean bean) {
         setCurrentExhibit(bean);
@@ -230,8 +250,9 @@ import java.util.List;
     public int toGetCurrentPosition(){
         return currentPosition;
     }
+
     private String  getCurrentAudioPath(){
-        return LOCAL_ASSETS_PATH+currentMuseumId+"/"+LOCAL_FILE_TYPE_AUDIO;
+        return LOCAL_ASSETS_PATH+currentMuseumId+"/";
     }
 
     /**播放博物馆讲解*/
@@ -277,13 +298,25 @@ import java.util.List;
         return playExhibitList;
     }
 
-    class MyHandler extends Handler{
+    static class MyHandler extends Handler{
+
+        WeakReference<MediaPlayService> mediaPlayServiceWeakReference;
+
+        MyHandler(MediaPlayService mediaPlayService){
+            this.mediaPlayServiceWeakReference=new WeakReference<>(mediaPlayService);
+        }
+
+
 
         @Override
         public void handleMessage(Message msg) {
+
+            if(mediaPlayServiceWeakReference==null){return;}
+            MediaPlayService mediaPlayService=mediaPlayServiceWeakReference.get();
+            if(mediaPlayService==null){return;}
             switch (msg.what) {
                 case MSG_WHAT_UPDATE_PROGRESS:
-                    doUpdateProgress();
+                    mediaPlayService.doUpdateProgress();
                     break;
             }
         }
@@ -318,8 +351,9 @@ import java.util.List;
         public boolean isPlaying() {
             return mediaPlayer != null && isPlaying;
         }
+
         public boolean isPause() {
-            return mediaPlayer != null && isPlaying;
+            return mediaPlayer != null && isPauseOrNot();
         }
 
         /**暂停后开始播放*/
@@ -386,14 +420,13 @@ import java.util.List;
 
     class DownloadAudioTask extends AsyncTask<String,Void,String>{
 
-
         @Override
         protected String doInBackground(String... params) {
             String audioUrl=params[0];
             String audioName=params[1];
             String saveDir=getCurrentAudioPath();
             try {
-                MyHttpUtil.downLoadFromUrl(audioUrl, audioName,saveDir);
+                MyHttpUtil.downLoadFromUrl(audioUrl, saveDir,audioName);
             } catch (IOException e) {
                 ExceptionUtil.handleException(e);
             }

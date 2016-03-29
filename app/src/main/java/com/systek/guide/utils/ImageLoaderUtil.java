@@ -17,13 +17,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
-import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 
 import java.io.ByteArrayOutputStream;
@@ -252,7 +251,7 @@ public class ImageLoaderUtil implements IConstants{
 
         @Override
         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-            imageView.setImageResource(R.drawable.emotionstore_progresscancelbtn);
+            //imageView.setImageResource(R.drawable.emotionstore_progresscancelbtn);
             LogUtil.i("图片加载失败",failReason.toString());
         }
 
@@ -261,12 +260,13 @@ public class ImageLoaderUtil implements IConstants{
             Bitmap bitmap=blurBitmap(context,loadedImage);
             imageView.setImageBitmap(bitmap);
             try{
+                LogUtil.i("ZHANG","onLoadingComplete");
                 if(!imageUri.startsWith(BASE_URL)){return;}
                 String path=imageUri.substring(imageUri.indexOf(BASE_URL) + BASE_URL.length());
                 String name=Tools.changePathToName(path);
                 String museumId= DataBiz.getCurrentMuseumId();
                 if(TextUtils.isEmpty(museumId)){return;}
-                String savePath=APP_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE;
+                String savePath=LOCAL_ASSETS_PATH+museumId+"/";
                 File dir=new File(savePath);
                 if(!dir.exists()){dir.mkdirs();}
                 DataBiz.saveBitmap(savePath, name, loadedImage);
@@ -288,12 +288,13 @@ public class ImageLoaderUtil implements IConstants{
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             try{
+                //LogUtil.i("ZHANG","onLoadingComplete");
                 if(!imageUri.startsWith(BASE_URL)){return;}
                 String path=imageUri.substring(imageUri.indexOf(BASE_URL) + BASE_URL.length());
                 String name=Tools.changePathToName(path);
                 String museumId= DataBiz.getCurrentMuseumId();
                 if(TextUtils.isEmpty(museumId)){return;}
-                String savePath=APP_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE;
+                String savePath=LOCAL_ASSETS_PATH+museumId+"/";
                 File dir=new File(savePath);
                 if(!dir.exists()){dir.mkdirs();}
                 DataBiz.saveBitmap(savePath, name, loadedImage);
@@ -336,7 +337,7 @@ public class ImageLoaderUtil implements IConstants{
 
     public static void displayImage(String iconPath,ImageView imageView){
         String name= Tools.changePathToName(iconPath);
-        String path=LOCAL_ASSETS_PATH+DataBiz.getCurrentMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        String path=LOCAL_ASSETS_PATH+DataBiz.getCurrentMuseumId()+"/"+name;
         if(Tools.isFileExist(path)){
             ImageLoaderUtil.displaySdcardImage(MyApplication.get(), path, imageView);
         }else{
@@ -346,7 +347,7 @@ public class ImageLoaderUtil implements IConstants{
     }
     public static void displayImage(String iconPath,String museumId,ImageView imageView){
         String name= Tools.changePathToName(iconPath);
-        String path=LOCAL_ASSETS_PATH+museumId+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
+        String path=LOCAL_ASSETS_PATH+museumId+"/"+name;
         if(Tools.isFileExist(path)){
             ImageLoaderUtil.displaySdcardImage(MyApplication.get(), path, imageView);
         }else{

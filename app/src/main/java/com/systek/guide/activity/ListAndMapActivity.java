@@ -1,14 +1,9 @@
 package com.systek.guide.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -26,7 +21,6 @@ import com.systek.guide.fragment.ExhibitListFragment;
 import com.systek.guide.fragment.MapFragment;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ImageLoaderUtil;
-import com.systek.guide.utils.Tools;
 
 import java.util.List;
 
@@ -44,29 +38,24 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private int currentProgress;
     private int currentDuration;
     private SeekBar seekBarProgress;
-    private Handler handler;
-    private PlayStateReceiver receiver;
-    private String currentMuseumId;
     private TextView exhibitName;
     private ImageView exhibitIcon;
     private ImageView ivPlayCtrl;
     private MediaServiceManager mediaServiceManager;
+    private ImageView ivGuideMode;
+    private TextView tvToast;
 
+    private static final int PLAY_STATE_START=1;
+    private static final int PLAY_STATE_STOP=2;
+    private int state=PLAY_STATE_STOP;
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_list_and_map);
-        handler=new MyHandler();
+    protected void setView() {
+
+        View view = View.inflate(this, R.layout.activity_list_and_map, null);
+        setContentView(view);
         //加载播放器
         initMediaManager();
-        //加载view
-        initView();
-        //添加监听器
-        addListener();
-        //设置默认fragment
-        setDefaultFragment();
-        //注册广播接收器
-        registerReceiver();
     }
 
     /**
@@ -79,8 +68,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     /**
      * 注册广播
      */
-    private void registerReceiver() {
-        receiver=new PlayStateReceiver();
+    @Override
+    void registerReceiver() {
+        registerBluetoothReceiver();
         IntentFilter filter=new IntentFilter();
         filter.addAction(INTENT_EXHIBIT_PROGRESS);
         filter.addAction(INTENT_EXHIBIT_DURATION);
@@ -90,21 +80,88 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         registerReceiver(receiver, filter);
     }
 
-    /**
-     * 添加监听器
-     */
-    private void addListener() {
+    @Override
+    void unRegisterReceiver() {
+        unRegisterBluetoothReceiver();
+        unregisterReceiver(receiver);
+    }
+
+    @Override
+    void refreshView() {
+
+    }
+
+    @Override
+    void refreshExhibit() {
+        refreshViewBottomTab();
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+        if(currentExhibit==null||exhibitName==null||exhibitIcon==null){return;}
+        exhibitName.setText(currentExhibit.getName());
+        String iconPath=currentExhibit.getIconurl();
+        ImageLoaderUtil.displayImage(iconPath, currentExhibit.getMuseumId(), exhibitIcon);
+    }
+
+    @Override
+    void refreshProgress() {
+        if(seekBarProgress!=null&&currentDuration>=0&&currentProgress>=0){
+            seekBarProgress.setMax(currentDuration);
+            seekBarProgress.setProgress(currentProgress);
+        }
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+        if(mediaServiceManager!=null){
+            switch (mediaServiceManager.getPlayMode()){
+                case PLAY_MODE_AUTO:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
+                    break;
+                case PLAY_MODE_HAND:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
+                    break;
+                case PLAY_MODE_AUTO_PAUSE:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
+                    break;
+            }
+        }
+        if(state==PLAY_STATE_START) {
+            ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
+        }else{
+            ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
+        }
+
+    }
+
+    @Override
+    void addListener() {
         radioGroupTitle.setOnCheckedChangeListener(radioButtonCheckListener);
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
         exhibitIcon.setOnClickListener(onClickListener);
+        ivGuideMode.setOnClickListener(onClickListener);
     }
 
-    /**
-     * 加载视图
-     */
-    private void initView() {
+    @Override
+    void initData() {
+        //设置默认fragment
+        setDefaultFragment();
+    }
 
+    void initView() {
         setMyTitleBar();
         setHomeIcon();
         toolbar.setNavigationOnClickListener(backOnClickListener);
@@ -115,6 +172,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         exhibitName=(TextView)findViewById(R.id.exhibitName);
         exhibitIcon=(ImageView)findViewById(R.id.exhibitIcon);
         ivPlayCtrl=(ImageView)findViewById(R.id.ivPlayCtrl);
+        ivGuideMode=(ImageView)findViewById(R.id.ivGuideMode);
+        tvToast=(TextView)findViewById(R.id.tvToast);
     }
 
     private void setMyTitleBar() {
@@ -125,6 +184,26 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
             ActionBar actionBar= getSupportActionBar();
             if(actionBar==null){ return;}
             actionBar.setDisplayShowTitleEnabled(false);
+        }
+    }
+
+
+    /**
+     * 根据状态切换模式图标
+     */
+    private void refreshModeIcon() {
+        if(mediaServiceManager!=null){
+            switch (mediaServiceManager.getPlayMode()){
+                case PLAY_MODE_AUTO:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
+                    break;
+                case PLAY_MODE_HAND:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
+                    break;
+                case PLAY_MODE_AUTO_PAUSE:
+                    ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
+                    break;
+            }
         }
     }
 
@@ -144,9 +223,49 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     Intent intent1=new Intent(ListAndMapActivity.this,PlayActivity.class);
                     startActivity(intent1);
                     break;
+
+                case R.id.ivGuideMode:
+                    tvToast.setVisibility(View.VISIBLE);
+                    int  mode = mediaServiceManager.getPlayMode();
+                    switch (mode){
+                        case PLAY_MODE_AUTO:
+                            mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                            tvToast.setText("手动模式");
+                            break;
+                        case PLAY_MODE_HAND:
+                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
+                            tvToast.setText("自动模式");
+                            break;
+                        case PLAY_MODE_AUTO_PAUSE:
+                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
+                            break;
+                    }
+                    refreshModeIcon();
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tvToast.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }.start();
+                    break;
+
                 case R.id.titleBarDrawer:
                     finish();
                     break;
+                default:break;
+
+
+
             }
         }
     };
@@ -181,8 +300,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      */
     private void setDefaultFragment() {
         String flag=getIntent().getStringExtra(INTENT_FLAG_GUIDE_MAP);
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
         exhibitListFragment = ExhibitListFragment.newInstance();
         mapFragment = MapFragment.newInstance();
         if (flag.equals(INTENT_FLAG_GUIDE)){
@@ -208,9 +327,9 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-            FragmentManager fm = getFragmentManager();
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             // 开启Fragment事务
-            FragmentTransaction transaction = fm.beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
             switch(checkedId){
                 case R.id.radioButtonList:
                     if (exhibitListFragment == null) {
@@ -236,23 +355,22 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         super.onResume();
         ExhibitBean exhibitBean=mediaServiceManager.getCurrentExhibit();
         if(exhibitBean!=null){
-            exhibitName.setText(exhibitBean.getName());
-            refreshBottomTab(exhibitBean);
+            currentExhibit=exhibitBean;
+            exhibitName.setText(currentExhibit.getName());
+            refreshViewBottomTab();
         }
-
         if(mediaServiceManager.isPlaying()){
-            handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+            state=PLAY_STATE_START;
         }else{
-            handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+            state=PLAY_STATE_STOP;
         }
-
+        refreshState();
     }
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
-        handler.removeCallbacksAndMessages(null);
         exhibitListFragment=null;
+        mediaServiceManager=null;
         mapFragment=null;
         super.onDestroy();
     }
@@ -265,52 +383,13 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     @Override
     public void onFragmentInteraction(ExhibitBean bean) {
         this.currentExhibit=bean;
-        refreshBottomTab(bean);
-    }
-
-    private class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case MSG_WHAT_CHANGE_EXHIBIT:
-                    refreshBottomTab(currentExhibit);
-                    break;
-                case MSG_WHAT_UPDATE_PROGRESS:
-                    seekBarProgress.setMax(currentDuration);
-                    seekBarProgress.setProgress(currentProgress);
-                    break;
-                case MSG_WHAT_PAUSE_MUSIC:
-                    break;
-                case MSG_WHAT_CONTINUE_MUSIC:
-                    break;
-                case MSG_WHAT_CHANGE_PLAY_START:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
-                    break;
-                case MSG_WHAT_CHANGE_PLAY_STOP:
-                    ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
-                    break;
-            }
-        }
-    }
-
-    private void refreshBottomTab(ExhibitBean exhibitBean) {
-        if(exhibitBean==null){return;}
-        currentExhibit=exhibitBean;
-        String iconPath=currentExhibit.getIconurl();
-        String name= Tools.changePathToName(iconPath);
-        exhibitName.setText(currentExhibit.getName());
-        String path=LOCAL_ASSETS_PATH+currentExhibit.getMuseumId()+"/"+LOCAL_FILE_TYPE_IMAGE+"/"+name;
-        if(Tools.isFileExist(path)){
-            ImageLoaderUtil.displaySdcardImage(ListAndMapActivity.this, path, exhibitIcon);
-        }else{
-            ImageLoaderUtil.displayNetworkImage(ListAndMapActivity.this, BASE_URL + iconPath, exhibitIcon);
-        }
+        refreshViewBottomTab();
     }
 
     /**
      * 广播接受器，监听播放状态
      */
-    class PlayStateReceiver extends BroadcastReceiver {
+    private  BroadcastReceiver receiver=new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -325,10 +404,12 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     break;
                 //停止播放
                 case INTENT_CHANGE_PLAY_STOP:
+                    state=PLAY_STATE_STOP;
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
                     break;
                 //继续播放
                 case INTENT_CHANGE_PLAY_PLAY:
+                    state=PLAY_STATE_START;
                     handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
                     break;
                 //切换展品
@@ -343,13 +424,12 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     }
                     if (currentExhibit == null || !currentExhibit.equals(exhibitBean)) {
                         currentExhibit = exhibitBean;
-                        currentMuseumId = currentExhibit.getMuseumId();
                         handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
                     }
                     break;
+                default:break;
             }
         }
-    }
-
+    };
 
 }

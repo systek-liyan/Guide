@@ -15,7 +15,6 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.service.MediaPlayService;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.LogUtil;
 
 import java.util.List;
 
@@ -277,6 +276,7 @@ public class MediaServiceManager implements IConstants {
 
                 /*广播为展品时，通知切换展品*/
                 case INTENT_EXHIBIT:
+                    if(mediaServiceBinder==null){return;}
                     String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
                     if (TextUtils.isEmpty(exhibitStr)) {return;}
                     ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
@@ -285,6 +285,7 @@ public class MediaServiceManager implements IConstants {
                     break;
                 /*广播为切换播放状态，判断当前状态，切换暂停或播放*/
                 case INTENT_CHANGE_PLAY_STATE:
+                    if(mediaServiceBinder==null){return;}
                     intent1 = new Intent();
                     if (mediaServiceBinder.isPlaying()) {
                         mediaServiceBinder.pause();
@@ -302,23 +303,18 @@ public class MediaServiceManager implements IConstants {
                     break;
                 /*广播为展品集合*/
                 case INTENT_EXHIBIT_LIST:
-                    /*如果不是自动模式，不做处理*/
-                    if(mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO){break;}
                     /*获取并解析展品集合*/
                     String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
                     List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
                     /*当展品集合不为空并且为自动播放模式，没有暂停的情况下自动播放*/
-                    if(currentExhibitList==null ||currentExhibitList.size()==0
-                            ||mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO){
-                        break;
-                    }
-                    if(!mediaServiceBinder.isPlaying()&&mediaServiceBinder.getCurrentExhibit()!=null){
-                        break;
-                    }
+                    if(currentExhibitList==null || currentExhibitList.size()==0){break;}
                     //是否切换
-                    boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,true);
-                    LogUtil.i("ZHANG","isSwitch=="+isSwitch);
-                    if(!isSwitch){break;}
+                    boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,false);
+                    //LogUtil.i("ZHANG","isSwitch=="+isSwitch);
+                    /*如果不是自动模式，不做处理*/
+
+                    if(mediaServiceBinder==null|| mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO|| !isSwitch){break;}
+                    if(mediaServiceBinder.isPause()){break;}
                         /*获取展品集合第一个，发送广播，通知播放*/
                     ExhibitBean exhibit=currentExhibitList.get(0);
                     ExhibitBean currentExhibit=getCurrentExhibit();
@@ -334,34 +330,4 @@ public class MediaServiceManager implements IConstants {
         }
     }
 
-//暂无以下方法
-    /*public boolean rePlay() {
-        if (mediaServiceBinder != null) {
-            mediaServiceBinder.rePlay();
-            return true;
-        }
-        return false;
-    }
-    public boolean prev() {
-        if (mediaServiceBinder != null) {
-            return mediaPlayService.prev();
-        }
-        return false;
-    }
-    public void reset(){
-        mediaServiceBinder.reset();
-    }
-    public String getCurMusicId() {
-        if (mediaServiceBinder != null) {
-            return mediaServiceBinder.getCurMusicId();
-        }
-        return -1;
-    }
- public void sendBroadcast() {
-        if (mediaServiceBinder != null) {
-            mediaServiceBinder.sendPlayStateBrocast();
-        }
-    }
-
-    */
 }

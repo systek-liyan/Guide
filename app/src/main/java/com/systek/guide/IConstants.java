@@ -12,27 +12,8 @@ public interface IConstants {
     String SP_NOT_FIRST_LOGIN="sp_not_first_login";//是否首次登陆
     String SP_MUSEUM_ID="sp_museum_id";//博物馆id
     String SP_DOWNLOAD_MUSEUM_COUNT="sp_download_museum_count";//下载博物馆数据个数
-    String SP_IS_MUSEUM_DATA_SAVE="sp_is_museum_data_save";//是否保存了博物馆数据
     String SP_IS_IN_MUSEUM="sp_is_in_museum";//是否在博物馆
 
-
-    /**消息类型*/
-
-    int MSG_WHAT_UPDATE_DATA_SUCCESS = 1;//数据获取成功
-    int MSG_WHAT_UPDATE_NO_DATA = 2;//数据获取成功
-
-    int MSG_WHAT_UPDATE_DATA_FAIL = 3;//数据获取失败
-    int MSG_WHAT_REFRESH_DATA = 4;//刷新数据
-    int MSG_WHAT_UPDATE_PROGRESS = 5;//message类型之更新进度
-    int MSG_WHAT_UPDATE_CURRENT_MUSEUM = 6;//message类型之更新展品
-    int MSG_WHAT_UPDATE_DURATION = 7;//message类型之更新播放长度
-    int MSG_WHAT_CHANGE_ICON=8;
-    int MSG_WHAT_CHANGE_EXHIBIT=9;
-    int MSG_WHAT_PAUSE_MUSIC=10;
-    int MSG_WHAT_CONTINUE_MUSIC=11;
-    int MSG_WHAT_CHANGE_PLAY_STOP=12;
-    int MSG_WHAT_CHANGE_PLAY_START=13;
-    int MSG_WHAT_REFRESH_VIEW=14;
     /**关于URL*/
 
     String BASE_URL ="http://182.92.82.70";
@@ -40,7 +21,7 @@ public interface IConstants {
 
     String URL_CITY_LIST="/api/cityService/cityList"; //城市路径
     String URL_MUSEUM_LIST="/api/museumService/museumList";//city下博物馆列表
-    String URL_GET_MUSEUM_BY_ID="/api/museumService/museumList?museumId="; //博物馆列表下博物馆*/
+    String URL_GET_MUSEUM_BY_ID="/api/museumService/museumList?id="; //博物馆列表下博物馆*/
     String URL_ALL_MUSEUM_ASSETS ="/api/assetsService/assetsList?museumId=";//资源路径*/
     String URL_ALL_BEACON_LIST="/api/beaconService/beaconList";//beacon列表
     String URL_EXHIBIT_LIST="/api/exhibitService/exhibitList?museumId="; //博物馆下展品列表*/
@@ -101,12 +82,7 @@ public interface IConstants {
     String APP_ROOT= MyApplication.get().getFilesDir().getAbsolutePath();//存储至本地sdcard位置
     String SDCARD_ROOT= Environment.getExternalStorageDirectory().getAbsolutePath();//存储至本地sdcard位置
     //String LOCAL_ASSETS_PATH=SDCARD_ROOT+"/Guide/";//sdcard存储图片的位置*/
-    String LOCAL_ASSETS_PATH=APP_ROOT+"/";
-    String APP_ASSETS_PATH=APP_ROOT+"/";//sdcard存储图片的位置*/
-    String LOCAL_FILE_TYPE_IMAGE="image";
-    String LOCAL_FILE_TYPE_AUDIO="audio";
-    String LOCAL_FILE_TYPE_LYRIC="lyric";
-
+    String LOCAL_ASSETS_PATH= APP_ROOT+"/";//app内部存储图片的位置*/
 
     /**数据库字段*/
 

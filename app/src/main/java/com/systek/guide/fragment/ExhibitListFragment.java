@@ -1,7 +1,6 @@
 package com.systek.guide.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -22,15 +19,17 @@ import com.systek.guide.R;
 import com.systek.guide.activity.PlayActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 展品列表 Fragment
  */
-public class ExhibitListFragment extends Fragment implements IConstants {
+public class ExhibitListFragment extends BaseFragment implements IConstants {
 
     private Context activity;
     private ListView listView;
@@ -42,6 +41,9 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     private OnFragmentInteractionListener mListener;
     private MediaServiceManager mediaServiceManager;
     private ExhibitBean currentExhibit;
+
+
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -62,14 +64,21 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         super.onCreate(savedInstanceState);
         exhibitListFragment=this;
         mediaServiceManager=MediaServiceManager.getInstance(activity);
-        handler=new MyHandler();
+        handler=new MyHandler(this);
         registerReceiver();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        currentExhibit=mediaServiceManager.getCurrentExhibit();
+        if(mediaServiceManager!=null){
+            currentExhibit=mediaServiceManager.getCurrentExhibit();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     private void registerReceiver() {
@@ -79,14 +88,17 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         activity.registerReceiver(listChangeReceiver, intentFilter);
     }
 
+    @Override
+    void initView() {
+        setContentView(R.layout.fragment_exhibit_list);
+        initView(contentView);
+    }
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_exhibit_list, container, false);
-        initView(view);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initData();
-        return view;
     }
 
     private void initData() {
@@ -95,6 +107,8 @@ public class ExhibitListFragment extends Fragment implements IConstants {
         listView.setAdapter(exhibitAdapter);
         listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
+
+
 
     private void initView(View view) {
         listView=(ListView)view.findViewById(R.id.lv_exhibit_list);
@@ -127,23 +141,6 @@ public class ExhibitListFragment extends Fragment implements IConstants {
                 }
                 startActivity(intent1);
 
-                /*ExhibitBean exhibitBean= exhibitAdapter.getItem(position);
-                currentExhibit=mediaServiceManager.getCurrentExhibit();
-                Intent intent1 =new Intent(activity,PlayActivity.class);
-                if(currentExhibit==null||!currentExhibit.equals(exhibitBean)){
-                    mListener.onFragmentInteraction(exhibitBean);
-
-                    if(mediaServiceManager.getPlayMode()==PLAY_MODE_AUTO){
-                        mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
-                    }
-                    String str= JSON.toJSONString(exhibitBean);
-                    Intent intent =new Intent();
-                    intent.setAction(INTENT_EXHIBIT);
-                    intent.putExtra(INTENT_EXHIBIT, str);
-                    activity.sendBroadcast(intent);
-                    intent1.putExtra(INTENT_EXHIBIT, str);
-                }
-                startActivity(intent1);*/
             }
         });
     }
@@ -173,15 +170,30 @@ public class ExhibitListFragment extends Fragment implements IConstants {
     public void onDestroy() {
         activity.unregisterReceiver(listChangeReceiver);
         handler.removeCallbacksAndMessages(null);
+        BluetoothManager.newInstance(getActivity()).setIsInGuide(true);
         super.onDestroy();
         exhibitListFragment=null;
     }
-    class MyHandler extends Handler{
+
+    public void updateView(){
+        if(exhibitAdapter ==null||currentExhibitList==null){return;}
+        exhibitAdapter.updateData(currentExhibitList);
+        BluetoothManager.newInstance(getActivity()).setIsInGuide(false);
+    }
+
+
+    static class MyHandler extends Handler{
+        WeakReference<ExhibitListFragment> weakReference;
+        MyHandler(ExhibitListFragment exhibitListFragment){
+            this.weakReference=new WeakReference<>(exhibitListFragment);
+        }
         @Override
         public void handleMessage(Message msg) {
+            if(weakReference==null){return;}
+            ExhibitListFragment exhibitListFragment=weakReference.get();
+            if(exhibitListFragment==null){return;}
             if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
-                if(exhibitAdapter ==null||currentExhibitList==null){return;}
-                exhibitAdapter.updateData(currentExhibitList);
+                exhibitListFragment.updateView();
             }
         }
     }

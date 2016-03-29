@@ -22,6 +22,7 @@
     <dimen name="topic_label_textSize">15sp</dimen>
     <dimen name="tv_home_page_exhibit_introduce_size">15sp</dimen>
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
+    <dimen name="width_screen">820dp</dimen>
     <string name="action_settings">Settings</string>
     <string name="activity_collection_has_choose">已选择</string>
     <string name="activity_collection_material">材质</string>

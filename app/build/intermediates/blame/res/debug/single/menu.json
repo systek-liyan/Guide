@@ -4,11 +4,23 @@
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     },
     {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\normal_menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\normal_menu.xml"
+    },
+    {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
     },
     {
         "merged": "D:\\Android\\Guide\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\normal_menu.xml",
         "source": "D:\\Android\\Guide\\Guide\\app\\src\\main\\res\\menu\\normal_menu.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     }
 ]

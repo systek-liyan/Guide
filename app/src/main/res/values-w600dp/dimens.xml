@@ -52,4 +52,7 @@
     <!--museum list item  -->
     <dimen name="tv_museum_name_size">20sp</dimen>
 
+    <!--屏幕宽度  -->
+    <dimen name="width_screen">610dp</dimen>
+
 </resources>

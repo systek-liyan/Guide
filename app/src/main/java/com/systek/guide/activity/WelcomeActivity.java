@@ -1,7 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
@@ -23,26 +22,52 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
     private int lastPage = 0;
     private int dotWidth = 40;
     private int dotHeight = 35;
-    private ArrayList<Dot> mDots = new ArrayList<>();
+    private ArrayList<Dot> mDots;
     private Button btn_into_app;
     private ViewPager viewPager;
     private LinearLayout linearLayout_dots;
     private String[] list_image;
     private Class<?> targetClass;
     private Intent intent;
+
+
     @Override
-    protected void initialize(Bundle savedInstanceState) {
+    protected void setView() {
         setContentView(R.layout.activity_welcome);
+    }
+    @Override
+    void initView() {
+        btn_into_app=(Button)findViewById(R.id.btn_into_app);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        linearLayout_dots = (LinearLayout) findViewById(R.id.linearLayout_dots);
+    }
+
+    @Override
+    void addListener() {
+        // 设置page切换监听
+        viewPager.addOnPageChangeListener(this);
+        //去除阴影
+        viewPager.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        btn_into_app.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(WelcomeActivity.this, targetClass);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    @Override
+    void initData() {
         targetClass=MuseumListActivity.class;
-        initView();
+        mDots = new ArrayList<>();
         //得到assets/welcome_images/目录下的所有文件的文件名，以便后面打开操作时使用
         try {
             list_image = getAssets().list("welcome_images");
         } catch (IOException e) {
             ExceptionUtil.handleException(e);
         }
-        // 设置page切换监听
-        viewPager.addOnPageChangeListener(this);
         // 遍历图片数组
         ArrayList<BaseFragment> baseFragments = new ArrayList<>();
         for (String aList_image : list_image) {
@@ -57,25 +82,55 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
         }
         // 设置适配器
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), baseFragments));
-        //去除阴影
-        viewPager.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
         // 默认选中第一位
         dotSelect(0);
-        btn_into_app.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent=new Intent(WelcomeActivity.this,targetClass);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
-    private void initView() {
-        btn_into_app=(Button)findViewById(R.id.btn_into_app);
-        // 控件实例化
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        linearLayout_dots = (LinearLayout) findViewById(R.id.linearlayout_dots);
+
+    @Override
+    void registerReceiver() {
+
     }
+
+    @Override
+    void unRegisterReceiver() {
+
+    }
+
+    @Override
+    void refreshView() {
+
+    }
+
+    @Override
+    void refreshExhibit() {
+
+    }
+
+    @Override
+    void refreshTitle() {
+
+    }
+
+    @Override
+    void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    void refreshProgress() {
+
+    }
+
+    @Override
+    void refreshIcon() {
+
+    }
+
+    @Override
+    void refreshState() {
+
+    }
+
     /**
      * 页面选择
      *

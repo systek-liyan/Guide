@@ -1,9 +1,6 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -13,14 +10,11 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
+import com.systek.guide.biz.DataBiz;
 import com.systek.guide.custom.ClearEditText;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.ExceptionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +26,20 @@ import java.util.List;
 public class SearchActivity extends BaseActivity {
 
     private ListView listViewExhibit;
-    private Handler handler;
     private ClearEditText mClearEditText;
     private List<ExhibitBean> exhibitBeanList;
     private ExhibitAdapter exhibitAdapter;
+    private String currentMuseumId;
 
     @Override
-    protected void initialize(Bundle savedInstanceState) {
+    protected void setView() {
         setContentView(R.layout.activity_search);
         initDrawer();
-        initView();
-        addListener();
     }
 
+    @Override
+    protected void addListener() {
 
-    private void addListener() {
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -66,14 +59,14 @@ public class SearchActivity extends BaseActivity {
         listViewExhibit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExhibitBean exhibitBean=exhibitBeanList.get(position);
-                String str= JSON.toJSONString(exhibitBean);
-                Intent intent =new Intent();
+                ExhibitBean exhibitBean = exhibitBeanList.get(position);
+                String str = JSON.toJSONString(exhibitBean);
+                Intent intent = new Intent();
                 intent.setAction(INTENT_EXHIBIT);
                 intent.putExtra(INTENT_EXHIBIT, str);
                 sendBroadcast(intent);
-                Intent intent1 =new Intent(SearchActivity.this,PlayActivity.class);
-                intent1.putExtra(INTENT_EXHIBIT,str);
+                Intent intent1 = new Intent(SearchActivity.this, PlayActivity.class);
+                intent1.putExtra(INTENT_EXHIBIT, str);
                 startActivity(intent1);
                 finish();
             }
@@ -81,17 +74,86 @@ public class SearchActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void initView() {
+
+        setTitleBar();
+        setTitleBarTitle("搜索");
+        setHomeIcon();
+        setHomeClickListener(backOnClickListener);
+        exhibitBeanList=new ArrayList<>();
+        mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
+        listViewExhibit=(ListView)findViewById(R.id.listViewExhibit);
+        exhibitAdapter=new ExhibitAdapter(this,exhibitBeanList);
+        listViewExhibit.setAdapter(exhibitAdapter);
+        listViewExhibit.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+    }
+
+
+    @Override
+    protected void initData() {
+        Intent intent=getIntent();
+        currentMuseumId=intent.getStringExtra(MUSEUM_ID);
+    }
+
+    @Override
+    protected void refreshView() {
+        if(exhibitAdapter!=null){
+            exhibitAdapter.updateData(exhibitBeanList);
+        }
+    }
+
+    @Override
+    protected void registerReceiver() {
+
+    }
+
+    @Override
+    protected void unRegisterReceiver() {
+
+    }
+
+    @Override
+    protected void refreshExhibit() {
+
+    }
+
+    @Override
+    protected void refreshTitle() {
+
+    }
+
+    @Override
+    protected void refreshViewBottomTab() {
+
+    }
+
+    @Override
+    protected void refreshProgress() {
+
+    }
+
+    @Override
+    protected void refreshIcon() {
+
+    }
+
+    @Override
+    protected void refreshState() {
+
+    }
+
     private  void filterData(final String s) {
         new Thread(){
             @Override
             public void run() {
-                //exhibitBeanList=new ArrayList<>();
                 if(TextUtils.isEmpty(s)){
                     exhibitBeanList=new ArrayList<>();
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
                     return;
                 }
-                exhibitBeanList=searchFromSQLite(s);
+                if(TextUtils.isEmpty(currentMuseumId)){return;}
+                exhibitBeanList= DataBiz.searchFromSQLite(currentMuseumId,s);
                 if(exhibitBeanList==null){
                     exhibitBeanList=new ArrayList<>();
                 }
@@ -101,50 +163,9 @@ public class SearchActivity extends BaseActivity {
 
     }
 
-    private synchronized static List<ExhibitBean> searchFromSQLite(String s) {
-        List<ExhibitBean> list=null;
-        DbUtils db=null;
-        try {
-            db=DbUtils.create(MyApplication.get());
-            list= db.findAll(Selector.from(ExhibitBean.class).where(LABELS,LIKE,"%"+s+"%").or(NAME,LIKE,"%"+s+"%"));
-        } catch (Exception e) {
-            ExceptionUtil.handleException(e);
-        }finally {
-            if(db!=null){
-                db.close();
-            }
-        }
-        return list;
-    }
-
-    private void initView() {
-
-        setTitleBar();
-        setTitleBarTitle("搜索");
-        setHomeIcon();
-        setHomeClickListener(backOnClickListener);
-
-        handler=new MyHandler();
-        exhibitBeanList=new ArrayList<>();
-        mClearEditText = (ClearEditText) findViewById(R.id.filter_edit);
-        listViewExhibit=(ListView)findViewById(R.id.listViewExhibit);
-        exhibitAdapter=new ExhibitAdapter(this,exhibitBeanList);
-        listViewExhibit.setAdapter(exhibitAdapter);
-        listViewExhibit.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
-    }
-
-    class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            if(msg.what==MSG_WHAT_UPDATE_DATA_SUCCESS){
-                exhibitAdapter.updateData(exhibitBeanList);
-            }
-        }
-    }
 
     @Override
     protected void onDestroy() {
-        handler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 

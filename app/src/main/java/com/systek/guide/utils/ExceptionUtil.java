@@ -2,10 +2,10 @@ package com.systek.guide.utils;
 
 import android.content.Context;
 
+import com.lidroid.xutils.exception.HttpException;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 
-import org.apache.http.HttpException;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 
@@ -26,7 +26,7 @@ public class ExceptionUtil {
         e.printStackTrace(printWriter);
         String str = stringWriter.toString();
         String type=exceptionCode(e);
-        // 开发中
+        //开发中
         LogUtil.e("ZHANG",type+"=="+ str);
     }
 
@@ -48,6 +48,9 @@ public class ExceptionUtil {
 
         }else if (e instanceof JSONException) {
             return context.getString(R.string.json_error);          //json格式转换异常
+
+        }else if (e instanceof NullPointerException) {
+            return context.getString(R.string.nullPoint);          //空指针
 
         }else {
             return context.getString(R.string.canNotGetConnected);  // 无法连接网络

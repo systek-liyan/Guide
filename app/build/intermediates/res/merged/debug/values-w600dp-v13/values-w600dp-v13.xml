@@ -33,6 +33,7 @@
     <dimen name="tv_home_page_exhibit_introduce_size">25sp</dimen>
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
     <dimen name="tv_museum_name_size">20sp</dimen>
+    <dimen name="width_screen">610dp</dimen>
     <integer name="abc_max_action_buttons">5</integer>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -63,7 +64,7 @@
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
         <item name="material_drawer_selected_text">@color/md_red_400</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
-
+        <item name="android:typeface">serif</item>
 
     </style>
     <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">

@@ -21,7 +21,7 @@
             android:background="@drawable/btn_guide_left_selector"
             android:button="@null"
             android:gravity="center_vertical|center_horizontal"
-            android:text="列表"
+            android:text="附近"
             android:textColor="@drawable/text_color_guide_map_selector"
             android:textSize="11sp" />
 

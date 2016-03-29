@@ -23,6 +23,7 @@
     <!--展品item -->
     <dimen name="height_exhibit_item">94dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-
+    <!--屏幕宽度  -->
+    <dimen name="width_screen">820dp</dimen>
 
 </resources>
