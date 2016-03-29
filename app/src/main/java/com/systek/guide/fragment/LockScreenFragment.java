@@ -18,7 +18,7 @@ import com.systek.guide.R;
 import com.systek.guide.adapter.NearlyGalleryAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -112,7 +112,7 @@ public class LockScreenFragment extends BaseFragment implements IConstants {
     private void initIcon() {
         if(currentExhibit==null){return;}
         currentIconUrl=currentExhibit.getIconurl();
-        ImageLoaderUtil.displayImage(currentIconUrl,fullscreenImage);
+        ImageUtil.displayImage(currentIconUrl, fullscreenImage);
         /*String imageName = Tools.changePathToName(currentIconUrl);
         String imgLocalUrl = LOCAL_ASSETS_PATH+currentExhibit.getMuseumId()+"/"+imageName;
         File file = new File(imgLocalUrl);

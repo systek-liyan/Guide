@@ -69,8 +69,6 @@ public class DataBiz implements IConstants{
         }*/
     }
 
-
-
     private static void updateDb(DbUtils db, String tableName) {
 
         try {
@@ -144,7 +142,6 @@ public class DataBiz implements IConstants{
         return !(dbFildsList == null || fildName == null || dbFildsList.size() == 0 || fildName.equals("")) && dbFildsList.contains(fildName);
     }
 
-
     /**
      * 根据实体类，url获取对象集合
      * @param clazz 实体类
@@ -188,7 +185,6 @@ public class DataBiz implements IConstants{
     }
 
 
-
     /**
      * 从本地数据数据库查询实体类
      * @param clazz 类
@@ -206,8 +202,6 @@ public class DataBiz implements IConstants{
         }
         return t;
     }
-
-
 
     /**
      * 查询数据库下某column列下值为value的集合

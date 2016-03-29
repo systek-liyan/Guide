@@ -195,9 +195,14 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     }
 
 
-    public void showErrors(boolean forceError) {
-        mErrorView = findViewById(R.id.mErrorView);
-        mErrorView.setVisibility(forceError ? View.VISIBLE : View.GONE);
+    public void showErrors(final boolean forceError) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mErrorView = findViewById(R.id.mErrorView);
+                mErrorView.setVisibility(forceError ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
 
@@ -378,9 +383,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                     a.initBlueTooth();
             }
         }
-
-
-
             /*String stateExtra = BluetoothAdapter.EXTRA_STATE;
             int state = intent.getIntExtra(stateExtra, -1);
             switch(state) {

@@ -21,7 +21,7 @@ import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 
 import java.util.List;
 
@@ -187,7 +187,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         });
         // 显示图片
         String iconUrl = exhibitBean.getIconurl();
-        ImageLoaderUtil.displayImage(iconUrl,viewHolder.ivExhibitIcon);
+        ImageUtil.displayImage(iconUrl, viewHolder.ivExhibitIcon,true,false);
         return convertView;
     }
 

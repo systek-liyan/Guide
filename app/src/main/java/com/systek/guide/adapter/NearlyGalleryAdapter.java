@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class NearlyGalleryAdapter extends RecyclerView.Adapter<NearlyGalleryAdap
         String path=exhibitBean.getIconurl();
         String museumId=exhibitBean.getMuseumId();
 
-        ImageLoaderUtil.displayImage(path,museumId,holder.mImg);
+        ImageUtil.displayImage(path, holder.mImg, museumId,true,false);
 
         holder.mTxt.setText(exhibitBean.getName());
         if(exhibitBean.equals(selectIndex)){

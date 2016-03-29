@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.entity.MultiAngleImg;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class MultiAngleImgAdapter extends RecyclerView.Adapter<MultiAngleImgAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         MultiAngleImg multiAngleImg=list.get(position);
         String url = multiAngleImg.getUrl();
-        ImageLoaderUtil.displayImage(url,holder.ivMultiAngle);
+        ImageUtil.displayImage(url, holder.ivMultiAngle,true,false);
     }
 
     @Override

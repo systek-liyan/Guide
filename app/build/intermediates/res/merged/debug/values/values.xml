@@ -604,8 +604,8 @@
     <dimen name="text_drawer_menu_size">20sp</dimen>
     <dimen name="text_edit_text">15sp</dimen>
     <dimen name="text_exhibit_item_icon_size">120dp</dimen>
-    <dimen name="text_exhibit_item_label_size">13sp</dimen>
-    <dimen name="text_exhibit_item_name_size">15sp</dimen>
+    <dimen name="text_exhibit_item_label_size">15sp</dimen>
+    <dimen name="text_exhibit_item_name_size">17sp</dimen>
     <dimen name="text_home_menu_size">13sp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="titleBar_small_textSize">13dp</dimen>

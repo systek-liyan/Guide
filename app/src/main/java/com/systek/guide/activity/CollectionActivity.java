@@ -42,7 +42,8 @@ public class CollectionActivity extends BaseActivity {
     /**
      * 给控件添加监听器
      */
-    void addListener() {
+    @Override
+    protected void addListener() {
         collectionListView.setOnItemClickListener(adapterViewListener);
     }
 
@@ -72,24 +73,6 @@ public class CollectionActivity extends BaseActivity {
             }
             startActivity(intent1);
 
-           /* ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
-            ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-            if (bean != null && !bean.equals(exhibitBean)) {
-                mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
-            }
-            exhibitAdapter.setSelectItem(position);
-            exhibitAdapter.notifyDataSetInvalidated();
-
-            Intent intent1 = new Intent(CollectionActivity.this, PlayActivity.class);
-            if (bean == null || !bean.equals(exhibitBean)) {
-                String str = JSON.toJSONString(exhibitBean);
-                Intent intent = new Intent();
-                intent.setAction(INTENT_EXHIBIT);
-                intent.putExtra(INTENT_EXHIBIT, str);
-                sendBroadcast(intent);
-                intent1.putExtra(INTENT_EXHIBIT, str);
-            }
-            startActivity(intent1);*/
         }
     };
 

@@ -20,7 +20,7 @@ import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.fragment.ExhibitListFragment;
 import com.systek.guide.fragment.MapFragment;
 import com.systek.guide.manager.MediaServiceManager;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 
 import java.util.List;
 
@@ -106,7 +106,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         if(currentExhibit==null||exhibitName==null||exhibitIcon==null){return;}
         exhibitName.setText(currentExhibit.getName());
         String iconPath=currentExhibit.getIconurl();
-        ImageLoaderUtil.displayImage(iconPath, currentExhibit.getMuseumId(), exhibitIcon);
+        ImageUtil.displayImage(iconPath, exhibitIcon, currentExhibit.getMuseumId(),true,false);
     }
 
     @Override

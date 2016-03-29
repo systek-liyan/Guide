@@ -27,11 +27,9 @@ import com.systek.guide.fragment.IconImageFragment;
 import com.systek.guide.fragment.LyricFragment;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.TimeUtil;
-import com.systek.guide.utils.Tools;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class PlayActivity extends BaseActivity implements LyricFragment.OnFragmentInteractionListener,IconImageFragment.OnFragmentInteractionListener {
@@ -232,24 +230,11 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
      */
     private void initIcon() {
 
-        if(currentIconUrl==null){return;}
-        String imageName = Tools.changePathToName(currentIconUrl);
-        String imgLocalUrl = LOCAL_ASSETS_PATH+currentMuseumId +"/"+imageName;
-        File file = new File(imgLocalUrl);
-        // 判断sdcard上有没有图片
-        if (file.exists()) {
-            // 显示sdcard
-            if (viewpagerWordImage.getCurrentItem()==0) {
-                ImageLoaderUtil.displaySdcardBlurImage(this, imgLocalUrl, ivExhibitIcon);
-            }else{
-                ImageLoaderUtil.displaySdcardImage(this, imgLocalUrl, ivExhibitIcon);
-            }
-        } else {
-            if (viewpagerWordImage.getCurrentItem()==0) {
-                ImageLoaderUtil.displayNetworkBlurImage(this, BASE_URL + currentIconUrl, ivExhibitIcon);
-            }else{
-                ImageLoaderUtil.displayNetworkImage(this, BASE_URL + currentIconUrl, ivExhibitIcon);
-            }
+        if(TextUtils.isEmpty(currentIconUrl)){return;}
+        if (viewpagerWordImage.getCurrentItem()==0) {
+            ImageUtil.displayImage(currentIconUrl,ivExhibitIcon,false,true);
+        }else{
+            ImageUtil.displayImage(currentIconUrl,ivExhibitIcon,false,false);
         }
     }
 

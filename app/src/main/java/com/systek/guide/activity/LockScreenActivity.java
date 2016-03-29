@@ -22,7 +22,7 @@ import com.systek.guide.R;
 import com.systek.guide.adapter.NearlyGalleryAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.TimeUtil;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     private void initIcon() {
         if(currentExhibit==null){return;}
         currentIconUrl=currentExhibit.getIconurl();
-        ImageLoaderUtil.displayImage(currentIconUrl, fullscreenImage);
+        ImageUtil.displayImage(currentIconUrl, fullscreenImage);
     }
 
 
@@ -308,7 +308,7 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     }
 
 
-     BroadcastReceiver listChangeReceiver = new  BroadcastReceiver() {
+    BroadcastReceiver listChangeReceiver = new  BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -345,6 +345,7 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
                     currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
                     if(currentExhibitList==null){return;}
                     handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                default:break;
             }
         }
     };

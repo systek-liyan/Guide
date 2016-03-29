@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class MuseumIconAdapter extends RecyclerView.Adapter<MuseumIconAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String  url=list.get(position);
-        ImageLoaderUtil.displayImage(url, holder.imageView);
+        ImageUtil.displayImage(url, holder.imageView,false,false);
     }
 
     @Override

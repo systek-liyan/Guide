@@ -15,7 +15,7 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.activity.DownloadManagerActivity;
 import com.systek.guide.entity.MuseumBean;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.Tools;
 
 import java.util.List;
@@ -127,7 +127,7 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
         String imageUrl = museumBean.getIconUrl();
         //每个博物馆的资源以ID为目录
         String museumId = museumBean.getId();
-        ImageLoaderUtil.displayImage(imageUrl,museumId,viewHolder.museumListIcon);
+        ImageUtil.displayImage(imageUrl, viewHolder.museumListIcon, museumId,true,false);
         return convertView;
     }
 

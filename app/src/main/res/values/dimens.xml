@@ -42,8 +42,8 @@
 
     <!--展品 item  -->
     <dimen name="text_exhibit_item_icon_size">120dp</dimen>
-    <dimen name="text_exhibit_item_name_size">15sp</dimen>
-    <dimen name="text_exhibit_item_label_size">13sp</dimen>
+    <dimen name="text_exhibit_item_name_size">17sp</dimen>
+    <dimen name="text_exhibit_item_label_size">15sp</dimen>
 
     <!--ListAndMap 底部 item  -->
     <dimen name="iv_list_map_bottom_exhibit_width">60dp</dimen>

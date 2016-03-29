@@ -10,7 +10,7 @@ import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
-import com.systek.guide.utils.ImageLoaderUtil;
+import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.NetworkUtil;
 
 import java.io.File;
@@ -82,7 +82,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemViewHolder> im
         holder.update(model.getDownloadId(), position);
         holder.taskActionBtn.setTag(holder);
         holder.taskNameTv.setText(model.getName());
-        ImageLoaderUtil.displayImage(model.getIconUrl(),holder.museumIcon);
+        ImageUtil.displayImage(model.getIconUrl(), holder.museumIcon,true,false);
         TasksManager.getImpl().updateViewHolder(holder.id, holder);
 
         holder.taskActionBtn.setEnabled(true);
