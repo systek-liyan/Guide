@@ -8,6 +8,7 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MuseumNetInfo;
 import com.systek.guide.utils.LogUtil;
+import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.WifiAdmin;
 
 import java.util.ArrayList;
@@ -22,10 +23,16 @@ public class WifiManager implements IConstants{
 
     public static MuseumNetInfo connectWifi(String museumId){
         long startTime=System.currentTimeMillis();
-        String url=BASE_URL+URL_LOCAL_HOSTS+museumId;
-        List<MuseumNetInfo> netInfoList= DataBiz.getEntityListFromNet(MuseumNetInfo.class, url);
+        List<MuseumNetInfo> netInfoList= null;
+        netInfoList= DataBiz.getEntityListLocalByColumn(MUSEUM_ID,museumId,MuseumNetInfo.class);
+        if(netInfoList==null){
+            if(! NetworkUtil.isOnline(MyApplication.get())){return null;}
+            String url=BASE_URL+URL_LOCAL_HOSTS+museumId;
+            netInfoList=DataBiz.getEntityListFromNet(MuseumNetInfo.class, url);
+        }
         //当博物馆中没有WiFi，不去下载
         if(netInfoList==null||netInfoList.size()==0){return null;}
+        DataBiz.saveListToSQLite(netInfoList);
         WifiAdmin wifiAdmin = new WifiAdmin(MyApplication.get());
         //若WiFi没有打开，打开WiFi
         if(!wifiAdmin.isWifiEnable()){

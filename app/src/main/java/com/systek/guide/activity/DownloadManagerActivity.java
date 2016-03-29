@@ -22,7 +22,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.liulishuo.filedownloader.FileDownloader;
 import com.systek.guide.R;
 import com.systek.guide.download.TaskItemAdapter;
 import com.systek.guide.download.TasksManager;
@@ -132,10 +131,7 @@ public class DownloadManagerActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        TasksManager.getImpl().pauseAllTask();
-        TasksManager.getImpl().onDestroy();
         adapter = null;
-        FileDownloader.getImpl().pauseAll();
         super.onDestroy();
     }
 }

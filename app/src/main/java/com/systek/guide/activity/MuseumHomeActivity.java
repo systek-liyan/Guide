@@ -71,7 +71,7 @@ public class MuseumHomeActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        initAudio();
+        initData();
         refreshPlayState();
     }
 
@@ -83,7 +83,8 @@ public class MuseumHomeActivity extends BaseActivity {
         }
     }
 
-    void addListener() {
+    @Override
+    protected void addListener() {
         rlGuideHome.setOnClickListener(onClickListener);
         rlMapHome.setOnClickListener(onClickListener);
         rlTopicHome.setOnClickListener(onClickListener);
@@ -93,7 +94,7 @@ public class MuseumHomeActivity extends BaseActivity {
     }
 
     @Override
-    void initData() {
+    protected void initData() {
         Intent intent =getIntent();
         currentMuseumId=intent.getStringExtra(INTENT_MUSEUM_ID);
         startTime=System.currentTimeMillis();
@@ -216,6 +217,8 @@ public class MuseumHomeActivity extends BaseActivity {
     void refreshState() {
 
     }
+
+
 
 
     private View.OnClickListener onClickListener=new View.OnClickListener() {

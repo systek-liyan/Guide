@@ -170,6 +170,7 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
     public void onDestroy() {
         activity.unregisterReceiver(listChangeReceiver);
         handler.removeCallbacksAndMessages(null);
+        BluetoothManager.newInstance(getActivity()).setIsInGuide(true);
         super.onDestroy();
         exhibitListFragment=null;
     }

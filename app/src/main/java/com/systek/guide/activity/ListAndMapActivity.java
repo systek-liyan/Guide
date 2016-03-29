@@ -103,7 +103,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     @Override
     void refreshViewBottomTab() {
-        if(currentExhibit==null){return;}
+        if(currentExhibit==null||exhibitName==null||exhibitIcon==null){return;}
+        exhibitName.setText(currentExhibit.getName());
         String iconPath=currentExhibit.getIconurl();
         ImageLoaderUtil.displayImage(iconPath, currentExhibit.getMuseumId(), exhibitIcon);
     }
@@ -369,6 +370,7 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     @Override
     protected void onDestroy() {
         exhibitListFragment=null;
+        mediaServiceManager=null;
         mapFragment=null;
         super.onDestroy();
     }

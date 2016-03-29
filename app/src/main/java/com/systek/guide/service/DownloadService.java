@@ -165,7 +165,7 @@ public class DownloadService extends IntentService implements IConstants{
      */
     private void handleActionBaz(String museumId) {
         MuseumNetInfo wifi= WifiManager.connectWifi(museumId);
-        if(wifi==null){return;}
+        if(wifi==null){return;}// TODO: 2016/3/25 连接WiFi失败，是否提示用户 ?
         String ip=wifi.getIp();
         MuseumBean museum=DataBiz.getEntityLocalById(MuseumBean.class, museumId);
         if(museum==null){return;}

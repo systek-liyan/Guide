@@ -2,6 +2,7 @@ package com.systek.guide.download;
 
 
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
@@ -52,7 +53,7 @@ public class TaskManagerDBController implements IConstants{
 
         TasksMuseumModel tasksMuseumModel=null;
         try {
-            tasksMuseumModel= getDb().findById(TasksMuseumModel.class,id);
+            tasksMuseumModel= getDb().findFirst(Selector.from(TasksMuseumModel.class).where("downloadId","=",id));
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         } finally {
@@ -94,7 +95,7 @@ public class TaskManagerDBController implements IConstants{
         if(task==null){return;} // TODO: 2016/3/9
         task.setStatus(state);
         try {
-            getDb().save(task);
+            getDb().saveOrUpdate(task);
         } catch (DbException e) {
             ExceptionUtil.handleException(e);
         }finally {
@@ -122,9 +123,9 @@ public class TaskManagerDBController implements IConstants{
 
 
     public void closeDB(){
-        if(db!=null){
+        /*if(db!=null){
             db.close();
-        }
+        }*/
     }
 
 }

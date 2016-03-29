@@ -15,7 +15,6 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.service.MediaPlayService;
 import com.systek.guide.utils.ExceptionUtil;
-import com.systek.guide.utils.LogUtil;
 
 import java.util.List;
 
@@ -311,12 +310,10 @@ public class MediaServiceManager implements IConstants {
                     if(currentExhibitList==null || currentExhibitList.size()==0){break;}
                     //是否切换
                     boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,false);
-                    LogUtil.i("ZHANG","isSwitch=="+isSwitch);
+                    //LogUtil.i("ZHANG","isSwitch=="+isSwitch);
                     /*如果不是自动模式，不做处理*/
 
-                    if(mediaServiceBinder==null||
-                            mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO||
-                            !isSwitch){break;}
+                    if(mediaServiceBinder==null|| mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO|| !isSwitch){break;}
                     if(mediaServiceBinder.isPause()){break;}
                         /*获取展品集合第一个，发送广播，通知播放*/
                     ExhibitBean exhibit=currentExhibitList.get(0);
@@ -333,34 +330,4 @@ public class MediaServiceManager implements IConstants {
         }
     }
 
-//暂无以下方法
-    /*public boolean rePlay() {
-        if (mediaServiceBinder != null) {
-            mediaServiceBinder.rePlay();
-            return true;
-        }
-        return false;
-    }
-    public boolean prev() {
-        if (mediaServiceBinder != null) {
-            return mediaPlayService.prev();
-        }
-        return false;
-    }
-    public void reset(){
-        mediaServiceBinder.reset();
-    }
-    public String getCurMusicId() {
-        if (mediaServiceBinder != null) {
-            return mediaServiceBinder.getCurMusicId();
-        }
-        return -1;
-    }
- public void sendBroadcast() {
-        if (mediaServiceBinder != null) {
-            mediaServiceBinder.sendPlayStateBrocast();
-        }
-    }
-
-    */
 }

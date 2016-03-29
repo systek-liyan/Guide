@@ -78,11 +78,22 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         setView();
         initView();
         addListener();
-        registerReceiver();
-        //registerBluetoothReceiver();
         initData();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unRegisterReceiver();
+    }
 
     /**
      * 初始化控件
@@ -164,7 +175,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     @Override
     protected void onDestroy() {
         handler.removeCallbacksAndMessages(null);
-        unRegisterReceiver();
         super.onDestroy();
     }
 
@@ -182,7 +192,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     }
     public void showErrorView(){
         showErrors(true);
-        showToast("数据获取失败，请检查网络...");
     }
 
 
