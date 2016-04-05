@@ -6,7 +6,7 @@
     android:layout_height="?attr/actionBarSize"
     android:minHeight="?attr/actionBarSize"
     style="@style/AppTheme"
-    android:background="@color/md_red_400">
+    android:background="@color/my_own_red_300">
     <TextView
         android:id="@+id/toolbar_title"
         android:textColor="@color/md_white_1000"

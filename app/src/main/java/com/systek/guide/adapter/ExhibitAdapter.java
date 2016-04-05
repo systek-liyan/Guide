@@ -33,6 +33,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     private List<ExhibitBean> list;
     private LayoutInflater inflater;
     private int state;
+    private ExhibitBean selectIndex;
 
     private int  selectItem=-1;
 
@@ -46,14 +47,10 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
 
 
     private static ColorStateList sColorStateNotPlaying;
-    private  boolean scrollState=false;
 
     public void setState(int item ,int state) {
         this.selectItem = item;
         this.state = state;
-    }
-    public void setScrollState(boolean scrollState) {
-        this.scrollState = scrollState;
     }
 
     public ExhibitAdapter(Context context, List<ExhibitBean> list) {
@@ -68,6 +65,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     }
     public  void setSelectItem(int selectItem) {
         this.selectItem = selectItem;
+        selectIndex=list.get(selectItem);
     }
 
     @Override
@@ -117,32 +115,6 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if (position == selectItem) {
-            switch (state) {
-                case STATE_PLAYABLE:
-                    viewHolder.ivPlayAnim.setImageDrawable(
-                            context.getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
-                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
-                    break;
-                case STATE_PLAYING:
-                    AnimationDrawable animation = (AnimationDrawable)
-                            context.getResources().getDrawable(R.drawable.ic_equalizer_white_36dp);
-                    viewHolder.ivPlayAnim.setImageDrawable(animation);
-                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
-                    if (animation != null) animation.start();
-                    break;
-                case STATE_PAUSED:
-                    viewHolder.ivPlayAnim.setImageDrawable(
-                            context.getResources().getDrawable(R.drawable.ic_equalizer1_white_36dp));
-                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    viewHolder.ivPlayAnim.setVisibility(View.GONE);
-            }
-
-        }else{
-            viewHolder.ivPlayAnim.setVisibility(View.GONE);
-        }
 
         // 取数据
         final ExhibitBean exhibitBean = list.get(position);
@@ -187,6 +159,38 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         // 显示图片
         String iconUrl = exhibitBean.getIconurl();
         ImageUtil.displayImage(iconUrl, viewHolder.ivExhibitIcon,true,false);
+
+
+        if (exhibitBean.equals(selectIndex)) {
+            switch (state) {
+                case STATE_PLAYABLE:
+                    viewHolder.ivPlayAnim.setImageDrawable(
+                            context.getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
+                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
+                    break;
+                case STATE_PLAYING:
+                    AnimationDrawable animation = (AnimationDrawable)
+                            context.getResources().getDrawable(R.drawable.ic_equalizer_white_36dp);
+                    viewHolder.ivPlayAnim.setImageDrawable(animation);
+                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
+                    if (animation != null) animation.start();
+                    break;
+                case STATE_PAUSED:
+                    viewHolder.ivPlayAnim.setImageDrawable(
+                            context.getResources().getDrawable(R.drawable.ic_equalizer1_white_36dp));
+                    viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    viewHolder.ivPlayAnim.setVisibility(View.GONE);
+            }
+
+        }else{
+            viewHolder.ivPlayAnim.setVisibility(View.GONE);
+        }
+
+
+
+
         return convertView;
     }
 

@@ -6,7 +6,7 @@
               android:fitsSystemWindows="true"
               android:orientation="vertical"
               android:gravity="center_horizontal"
-              android:background="@color/md_red_400"
+              android:background="@color/my_own_red_300"
               tools:context=".activity.BeginActivity">
         <TextView
             android:layout_width="match_parent"

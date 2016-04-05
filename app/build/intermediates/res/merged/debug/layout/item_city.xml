@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/md_grey_300"
-        android:textColor="@color/md_red_400"
+        android:textColor="@color/my_own_red_300"
         android:layout_weight="1.0"
         android:paddingStart="15dp"
         android:textSize="@dimen/text_city_name"

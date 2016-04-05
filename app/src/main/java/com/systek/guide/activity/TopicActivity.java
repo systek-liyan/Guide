@@ -227,7 +227,7 @@ public class TopicActivity extends BaseActivity {
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
                 ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-
+                exhibitAdapter.setSelectItem(position);
                 if(bean==null||!bean.equals(exhibitBean)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
                 }

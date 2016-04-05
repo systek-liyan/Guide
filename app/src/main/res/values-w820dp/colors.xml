@@ -2,5 +2,11 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#fc777a</color>
+
+    <color name="my_own_red_300">#fc777a</color>
+
+    <color name="media_item_icon_playing">@color/my_own_red_300</color>
+    <color name="media_item_icon_not_playing">#ccc</color>
+
 </resources>

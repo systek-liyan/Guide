@@ -35,7 +35,7 @@
                 android:layout_gravity="top|center_horizontal"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/md_red_400"
+                android:textColor="@color/my_own_red_300"
                 style="@style/text_view_title_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

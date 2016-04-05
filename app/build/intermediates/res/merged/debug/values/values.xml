@@ -40,7 +40,7 @@
     <color name="cardview_light_background">#FFFAFAFA</color>
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#fc777a</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#BBDEFB</color>
@@ -372,7 +372,8 @@
     <color name="md_yellow_A400">#FFEA00</color>
     <color name="md_yellow_A700">#FFD600</color>
     <color name="media_item_icon_not_playing">#ccc</color>
-    <color name="media_item_icon_playing">@color/md_red_400</color>
+    <color name="media_item_icon_playing">@color/my_own_red_300</color>
+    <color name="my_own_red_300">#fc777a</color>
     <color name="primary">@color/colorPrimary</color>
     <color name="primary_dark">@color/colorPrimaryDark</color>
     <color name="primary_dark_material_dark">@android:color/black</color>
@@ -769,15 +770,15 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--导航栏底色-->
-        <item name="colorPrimary">@color/md_red_400</item>
+        <item name="colorPrimary">@color/my_own_red_300</item>
         <!--状态栏底色-->
-        <item name="colorPrimaryDark">@color/md_red_400</item>
+        <item name="colorPrimaryDark">@color/my_own_red_300</item>
         <!--导航栏上的标题颜色-->
         <item name="android:textColorPrimary">@color/md_grey_850</item>
         <!--Activity窗口的颜色-->
         <!--item name="android:windowBackground">@color/md_blue_300</item-->
         <!--按钮选中或者点击获得焦点后的颜色-->
-        <item name="colorAccent">@color/md_red_400</item>
+        <item name="colorAccent">@color/my_own_red_300</item>
         <!--和 colorAccent相反，正常状态下按钮的颜色-->
         <item name="colorControlNormal">@color/md_white_1000</item>
         <!--Button按钮正常状态颜色-->
@@ -792,7 +793,7 @@
         <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
         <item name="material_drawer_divider">@color/md_white_1000</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_selected_text">@color/my_own_red_300</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
         <item name="android:typeface">serif</item>
 
@@ -1773,7 +1774,7 @@
     </style>
     <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
         <!-- ...and here we setting appcompat’s color theme attrs -->
-        <item name="colorPrimary">@color/md_red_400</item>
+        <item name="colorPrimary">@color/my_own_red_300</item>
         <item name="colorPrimaryDark">#D03033</item>
         <item name="colorAccent">#02A8F3</item>
         <!-- MaterialDrawer specific values -->
@@ -1783,7 +1784,7 @@
         <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
         <item name="material_drawer_divider">@color/md_white_1000</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/md_red_400</item>
+        <item name="material_drawer_selected_text">@color/my_own_red_300</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
         <!-- CAB :D -->
         <item name="windowActionModeOverlay">true</item>
