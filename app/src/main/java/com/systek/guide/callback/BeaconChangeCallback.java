@@ -12,7 +12,5 @@ public interface BeaconChangeCallback {
 
     void getExhibits(List<ExhibitBean> exhibits);
     void getNearestExhibit(ExhibitBean exhibit);
-    void getNearestExhibits(List<ExhibitBean> exhibits);
-    void getNearestBeaconList(List<BeaconBean> beans);
     void getNearestBeacon(BeaconBean bean);
 }

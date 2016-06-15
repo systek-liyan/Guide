@@ -1,10 +1,8 @@
 package com.systek.guide.manager;
 
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
@@ -76,20 +74,8 @@ public class MediaServiceManager implements IConstants {
      */
     public void init(){
         initConn();
-        registerReceiver();
     }
 
-    /**
-     * 注册广播
-     */
-    private void registerReceiver(){
-        IntentFilter filter=new IntentFilter();
-        filter.addAction(INTENT_EXHIBIT);
-        filter.addAction(INTENT_CHANGE_PLAY_STATE);
-        filter.addAction(INTENT_SEEK_BAR_CHANG);
-        filter.addAction(INTENT_EXHIBIT_LIST);
-        mContext.registerReceiver(playCtrlReceiver, filter);
-    }
 
     private void initConn() {
         mConn = new ServiceConnection() {
@@ -116,7 +102,6 @@ public class MediaServiceManager implements IConstants {
      */
     public void disConnectService() {
         if (mediaServiceBinder == null) {return;}
-        mContext.unregisterReceiver(playCtrlReceiver);
         mContext.unbindService(mConn);
         mContext.stopService(new Intent(mContext, MediaPlayService.class));
 
@@ -294,78 +279,5 @@ public class MediaServiceManager implements IConstants {
             stateChangeCallback.onStateChanged(state);
         }
     }
-
-
-
-    /**
-     * 播放控制广播接受器
-     */
-    private BroadcastReceiver  playCtrlReceiver=new BroadcastReceiver(){
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            Intent intent1=null;
-            switch (action) {
-
-               /* *//*广播为展品时，通知切换展品*//*
-                case INTENT_EXHIBIT:
-                    if(mediaServiceBinder==null){return;}
-                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
-                    if (TextUtils.isEmpty(exhibitStr)) {return;}
-                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (exhibitBean == null || mediaServiceBinder == null) {return;}
-                    mediaServiceBinder.notifyExhibitChange(exhibitBean);
-                    break;*/
-                /*广播为切换播放状态，判断当前状态，切换暂停或播放*/
-               /* case INTENT_CHANGE_PLAY_STATE:
-                    if(mediaServiceBinder==null){return;}
-                    intent1 = new Intent();
-                    if (mediaServiceBinder.isPlaying()) {
-                        mediaServiceBinder.pause();
-                        intent1.setAction(INTENT_CHANGE_PLAY_STOP);
-                    } else {
-                        mediaServiceBinder.continuePlay();
-                        intent1.setAction(INTENT_CHANGE_PLAY_PLAY);
-                    }
-                    context.sendBroadcast(intent1);
-                    break;*/
-                /*广播为跳转播放进度
-                case INTENT_SEEK_BAR_CHANG:
-                    int progress = intent.getIntExtra(INTENT_SEEK_BAR_CHANG, 0);
-                    mediaServiceBinder.seekTo(progress);
-                    break;*/
-               /* *//*广播为展品集合*//*
-                case INTENT_EXHIBIT_LIST:
-                    *//*获取并解析展品集合*//*
-                    String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
-                    if(TextUtils.isEmpty(exhibitJson)){break;}
-                    List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
-                    *//*当展品集合不为空并且为自动播放模式，没有暂停的情况下自动播放*//*
-                    if(currentExhibitList==null || currentExhibitList.size()==0){break;}
-                    //是否切换
-                    boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,false);
-                    //LogUtil.i("ZHANG","isSwitch=="+isSwitch);
-                    *//*如果不是自动模式，不做处理*//*
-
-                    if(mediaServiceBinder==null|| mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO|| !isSwitch){break;}
-                    if(mediaServiceBinder.isPause()){break;}
-                        *//*获取展品集合第一个，发送广播，通知播放*//*
-                    ExhibitBean exhibit=currentExhibitList.get(0);
-                    ExhibitBean currentExhibit=getCurrentExhibit();
-                    if(currentExhibit==null||!currentExhibit.equals(exhibit)){
-                        String str= JSON.toJSONString(exhibit);
-                        Intent intent2 =new Intent();
-                        intent2.setAction(INTENT_EXHIBIT);
-                        intent2.putExtra(INTENT_EXHIBIT, str);
-                        context.sendBroadcast(intent2);
-                    }
-                    break;*/
-            }
-        }
-    };
-
-
-
 
 }

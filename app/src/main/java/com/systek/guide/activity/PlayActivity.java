@@ -43,10 +43,10 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -83,59 +83,43 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     @Override
     public void onBeaconServiceConnect() {
+
         beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, org.altbeacon.beacon.Region region) {
+
                 if(beacons==null||beacons.size()==0){return ; }
-                scanTime=System.currentTimeMillis();
-                if (beacons.size() > 0) {
-                    ArrayList<Beacon> beaconList=new ArrayList<>(beacons);
-                    Collections.sort(beaconList, new Comparator<Beacon>() {
-                        @Override
-                        public int compare(Beacon lhs, Beacon rhs) {
-                            double dis=lhs.getDistance()-rhs.getDistance();
-                            if(dis==0){return 0;
-                            }else{
-                                return dis>0 ?1 :-1 ;
-                            }
-                        }
-                    });
-                    executor.execute(new MyBeaconTask(true,beaconList, new BeaconChangeCallback() {
-                        @Override
-                        public void getExhibits(List<ExhibitBean> exhibits) {
-                            MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
-                            if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()&&exhibits.size()>0){
-                                ExhibitBean exhibitBean=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
-                                if(exhibitBean==null||!exhibitBean.equals(exhibits.get(0))){
-                                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibits.get(0));
+                executor.execute(new MyBeaconTask(beacons, new BeaconChangeCallback() {
+                    @Override
+                    public void getExhibits(List<ExhibitBean> exhibits) {
+                    }
+
+                    @Override
+                    public void getNearestExhibit(final ExhibitBean exhibit) {
+
+                        if(exhibit==null){return;}
+                        MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
+                        if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
+                            if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
+                                SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                                LogUtil.i("ZHANG","equals= "+df.format(new Date()));
+                                return;}
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibit);
                                 }
-                            }
+                            });
                         }
-
-                        @Override
-                        public void getNearestExhibit(ExhibitBean exhibit) {
-
-                        }
-
-                        @Override
-                        public void getNearestExhibits(List<ExhibitBean> exhibits) {
-
-                        }
-
-                        @Override
-                        public void getNearestBeaconList(List<BeaconBean> beans) {
-
-                        }
+                    }
 
 
-                        @Override
-                        public void getNearestBeacon(BeaconBean bean) {
+                    @Override
+                    public void getNearestBeacon(BeaconBean bean) {
 
-                        }
-                    }));
-                }else{
-                    LogUtil.i("ZHANG","beacons  为空");
-                }
+                    }
+
+                }));
             }
         });
         try {
@@ -207,12 +191,30 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.bind(this);
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
         handler=new MyHandler(this);
+        initFragment();
         initView();
         addListener();
         initData();
 
+    }
+
+    private void initFragment() {
+        if(iconImageFragment==null){
+            iconImageFragment=new IconImageFragment();
+        }
+        if(lyricFragment==null){
+            lyricFragment=new LyricFragment();
+        }
+        ArrayList<BaseFragment> fragments=new ArrayList<>();
+        fragments.add(lyricFragment);
+        fragments.add(iconImageFragment);
+        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),fragments);
+        viewpagerWordImage=(ViewPager)findViewById(R.id.viewpagerWordImage);
+        if(viewpagerWordImage==null){return;}
+        viewpagerWordImage.setAdapter(viewPagerAdapter);
     }
 
     private void initData() {
@@ -259,6 +261,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private void addListener() {
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
+
         mulTiAngleImgAdapter.setOnItemClickListener(new MultiAngleImgAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -318,24 +321,13 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private void refreshView() {
         if(currentExhibit==null){return;}
         currentMuseumId=currentExhibit.getMuseumId();
-        if(iconImageFragment==null){
-            iconImageFragment=new IconImageFragment();
-        }
-        if(lyricFragment==null){
-            lyricFragment=new LyricFragment();
-        }
-        lyricFragment.setExhibit(currentExhibit);
-        ArrayList<BaseFragment> fragments=new ArrayList<>();
-        fragments.add(lyricFragment);
-        fragments.add(iconImageFragment);
-        ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager(),fragments);
-        viewpagerWordImage.setAdapter(viewPagerAdapter);
         setTitleBarTitle(currentExhibit.getName());
         initMultiImgs();
-        if(currentExhibit!=null){
-            currentIconUrl=currentExhibit.getIconurl();
-        }
+        currentIconUrl=currentExhibit.getIconurl();
+        lyricFragment.setExhibit(currentExhibit);
+        lyricFragment.loadLyricByHand();
         initIcon();
+
     }
 
     private void refreshState() {
@@ -379,7 +371,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         setMyTitleBar();
         setHomeIcon();
         setHomeClickListener(backOnClickListener);
-        viewpagerWordImage=(ViewPager)findViewById(R.id.viewpagerWordImage);
         //mediaServiceManager=MediaServiceManager.getInstance(this);
         //去除滑动到末尾时的阴影
         viewpagerWordImage.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
@@ -468,6 +459,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     @Override
     protected void onDestroy() {
         viewpagerWordImage.removeAllViewsInLayout();
+        beaconManager.unbind(this);
         super.onDestroy();
     }
 

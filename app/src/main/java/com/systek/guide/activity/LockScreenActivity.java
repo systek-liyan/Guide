@@ -1,9 +1,6 @@
 package com.systek.guide.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,50 +53,6 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     private static final int MSG_WHAT_CHANGE_PLAY_STOP=4;
     private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=5;
 
-    BroadcastReceiver listChangeReceiver = new  BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case INTENT_EXHIBIT_PROGRESS:
-                    currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
-                    currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
-                    break;
-                case INTENT_EXHIBIT:
-                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
-                    if (TextUtils.isEmpty(exhibitStr)) {
-                        return;
-                    }
-                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (currentExhibit.equals(exhibitBean)) {
-                        return;
-                    }else{
-                        currentExhibit=exhibitBean;
-                    }
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
-                    break;
-                case INTENT_CHANGE_PLAY_PLAY:
-                    //state=PLAY_STATE_START;
-                    state= PlayChangeCallback.STATE_PLAYING;
-
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
-                    break;
-                case INTENT_CHANGE_PLAY_STOP:
-                    //state=PLAY_STATE_STOP;
-                    state= PlayChangeCallback.STATE_PLAYING;
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
-                    break;
-                case INTENT_EXHIBIT_LIST:
-                    String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
-                    currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
-                    if(currentExhibitList==null){return;}
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                default:break;
-            }
-        }
-    };
 
 
     static class MyHandler extends Handler {
@@ -189,7 +142,6 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver();
         if(mediaServiceManager.isPlaying()){
             //state=PLAY_STATE_START;
             state= PlayChangeCallback.STATE_PLAYING;
@@ -214,7 +166,6 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     protected void onPause() {
         super.onPause();
         animArrowDrawable.stop();
-        unRegisterReceiver();
     }
 
 
@@ -295,20 +246,7 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
 
 
 
-    private void registerReceiver() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(INTENT_EXHIBIT);
-        filter.addAction(INTENT_EXHIBIT_PROGRESS);
-        filter.addAction(INTENT_EXHIBIT_DURATION);
-        filter.addAction(INTENT_CHANGE_PLAY_PLAY);
-        filter.addAction(INTENT_CHANGE_PLAY_STOP);
-        filter.addAction(INTENT_EXHIBIT_LIST);
-        getActivity().registerReceiver(listChangeReceiver, filter);
-    }
 
-    private void unRegisterReceiver() {
-        unregisterReceiver(listChangeReceiver);
-    }
 
     private void refreshView() {
         if(nearlyGalleryAdapter!=null&&currentExhibitList!=null){
@@ -362,3 +300,47 @@ public class LockScreenActivity extends SwipeBackActivity implements IConstants{
     };
 
 }
+   /* BroadcastReceiver listChangeReceiver = new  BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case INTENT_EXHIBIT_PROGRESS:
+                    currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
+                    currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+                    break;
+                case INTENT_EXHIBIT:
+                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
+                    if (TextUtils.isEmpty(exhibitStr)) {
+                        return;
+                    }
+                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
+                    if (currentExhibit.equals(exhibitBean)) {
+                        return;
+                    }else{
+                        currentExhibit=exhibitBean;
+                    }
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+                    break;
+                case INTENT_CHANGE_PLAY_PLAY:
+                    //state=PLAY_STATE_START;
+                    state= PlayChangeCallback.STATE_PLAYING;
+
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
+                    break;
+                case INTENT_CHANGE_PLAY_STOP:
+                    //state=PLAY_STATE_STOP;
+                    state= PlayChangeCallback.STATE_PLAYING;
+                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
+                    break;
+                case INTENT_EXHIBIT_LIST:
+                    String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
+                    currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
+                    if(currentExhibitList==null){return;}
+                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                default:break;
+            }
+        }
+    };*/

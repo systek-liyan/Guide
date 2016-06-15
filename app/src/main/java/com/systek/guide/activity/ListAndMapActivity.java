@@ -110,24 +110,6 @@ public class ListAndMapActivity extends BaseActivity
                             }
                         }
 
-                        @Override
-                        public void getNearestExhibits(List<ExhibitBean> exhibits) {
-                            if(exhibitListFragment==null||exhibits==null||exhibits.size()==0){return;}
-                            final ExhibitBean mExhibit=exhibits.get(0);
-                            MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
-                            if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
-                                if(currentExhibit!=null&&mExhibit.equals(currentExhibit)){
-                                    LogUtil.i("ZHANG","equals= "+System.currentTimeMillis());
-                                    return;}
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(mExhibit);
-                                    }
-                                });
-                            }
-
-                        }
 
                         @Override
                         public void getNearestBeacon(BeaconBean bean) {
@@ -136,10 +118,6 @@ public class ListAndMapActivity extends BaseActivity
                             mapFragment.getHandler().sendEmptyMessage(MapFragment.MSG_WHAT_DRAW_POINT);
                         }
 
-                        @Override
-                        public void getNearestBeaconList(List<BeaconBean> beans) {
-
-                        }
                     }));
                 }
         });
@@ -237,7 +215,6 @@ public class ListAndMapActivity extends BaseActivity
             refreshViewBottomTab();
         }
         refreshState();
-        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
     }
 
     @Override
@@ -245,6 +222,7 @@ public class ListAndMapActivity extends BaseActivity
         super.onResume();
         registerReceiver();
         MediaServiceManager.getInstance(this).setStateChangeCallback(this);
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
     }
 
     @Override
@@ -252,6 +230,7 @@ public class ListAndMapActivity extends BaseActivity
         super.onPause();
         unRegisterReceiver();
         MediaServiceManager.getInstance(this).removeStateChangeCallback();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
     }
 
     @Override
@@ -260,7 +239,6 @@ public class ListAndMapActivity extends BaseActivity
         mapFragment=null;
         super.onDestroy();
         beaconManager.unbind(this);
-        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
     }
 
     /**
@@ -403,6 +381,7 @@ public class ListAndMapActivity extends BaseActivity
                 case R.id.exhibitIcon:
                     Intent intent1=new Intent(ListAndMapActivity.this,PlayActivity.class);
                     startActivity(intent1);
+                    finish();
                     break;
                 case R.id.ivGuideMode:
                     tvToast.setVisibility(View.VISIBLE);

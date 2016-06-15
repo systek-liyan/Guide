@@ -40,17 +40,6 @@ public class LyricFragment extends BaseFragment implements IConstants{
     public LyricFragment() {
     }
 
-    public static LyricFragment newInstance(String exhibitJson) {
-        LyricFragment fragment = new LyricFragment();
-        if(!TextUtils.isEmpty(exhibitJson)){
-            Bundle args = new Bundle();
-            args.putString(ARG_PARAM1, exhibitJson);
-            fragment.setArguments(args);
-        }
-        return fragment;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +68,6 @@ public class LyricFragment extends BaseFragment implements IConstants{
         }
     }
 
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        loadLyricByHand();
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -94,6 +75,13 @@ public class LyricFragment extends BaseFragment implements IConstants{
         mLyricLoadHelper.setLyricListener(mLyricListener);
         mLyricAdapter = new LyricAdapter(getActivity());
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadLyricByHand();
+    }
+
 
     @Override
     public void onDetach() {
@@ -106,7 +94,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
         currentMuseumId=exhibit.getMuseumId();
     }
 
-    private void loadLyricByHand() {
+    public void loadLyricByHand() {
 
         if(exhibit==null){return;}
         try{
