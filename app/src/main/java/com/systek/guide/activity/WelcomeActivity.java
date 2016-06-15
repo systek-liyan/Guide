@@ -1,6 +1,7 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
@@ -32,18 +33,22 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
 
 
     @Override
-    protected void setView() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        initView();
+        addListener();
+        initData();
     }
-    @Override
-    void initView() {
+
+    private void initView() {
         btn_into_app=(Button)findViewById(R.id.btn_into_app);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         linearLayout_dots = (LinearLayout) findViewById(R.id.linearLayout_dots);
     }
 
-    @Override
-    void addListener() {
+    private void addListener() {
         // 设置page切换监听
         viewPager.addOnPageChangeListener(this);
         //去除阴影
@@ -58,8 +63,7 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
         });
     }
 
-    @Override
-    void initData() {
+    private void initData() {
         targetClass=MuseumListActivity.class;
         mDots = new ArrayList<>();
         //得到assets/welcome_images/目录下的所有文件的文件名，以便后面打开操作时使用
@@ -84,51 +88,6 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), baseFragments));
         // 默认选中第一位
         dotSelect(0);
-    }
-
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
-
-    }
-
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
     }
 
     /**

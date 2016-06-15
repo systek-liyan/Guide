@@ -1,9 +1,10 @@
 package com.systek.guide.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.RemoteException;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,10 @@ import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MultiAngleImgAdapter;
 import com.systek.guide.adapter.base.ViewPagerAdapter;
+import com.systek.guide.biz.MyBeaconTask;
+import com.systek.guide.callback.BeaconChangeCallback;
+import com.systek.guide.callback.PlayChangeCallback;
+import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.entity.MultiAngleImg;
 import com.systek.guide.fragment.BaseFragment;
@@ -28,11 +33,26 @@ import com.systek.guide.fragment.LyricFragment;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
+import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
 
-import java.util.ArrayList;
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
 
-public class PlayActivity extends BaseActivity implements LyricFragment.OnFragmentInteractionListener,IconImageFragment.OnFragmentInteractionListener {
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class PlayActivity extends BaseActivity implements LyricFragment.OnFragmentInteractionListener,
+        IconImageFragment.OnFragmentInteractionListener,BeaconConsumer {
 
     private ImageView ivExhibitIcon;//歌词背景大图
     private ArrayList<MultiAngleImg> multiAngleImgs;//多角度图片
@@ -47,19 +67,155 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private int currentDuration;
     private RecyclerView recycleMultiAngle;
     private String currentIconUrl;
-    private MediaServiceManager mediaServiceManager;
     private TextView tvTotalTime;
     private ViewPager viewpagerWordImage;
     private LyricFragment lyricFragment;
     private IconImageFragment iconImageFragment;
 
+    private static final int MSG_WHAT_CHANGE_EXHIBIT=1;
+    private static final int MSG_WHAT_REFRESH_STATE=2;
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=4;
+    private static final int MSG_WHAT_UPDATE_PROGRESS=5;
+
+    private BeaconManager beaconManager;
+    private ThreadPoolExecutor executor;
+    private long scanTime;
+
     @Override
-    void setView() {
-        View view = View.inflate(this, R.layout.activity_play, null);
-        setContentView(view);
+    public void onBeaconServiceConnect() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if(beacons==null||beacons.size()==0){return ; }
+                scanTime=System.currentTimeMillis();
+                if (beacons.size() > 0) {
+                    ArrayList<Beacon> beaconList=new ArrayList<>(beacons);
+                    Collections.sort(beaconList, new Comparator<Beacon>() {
+                        @Override
+                        public int compare(Beacon lhs, Beacon rhs) {
+                            double dis=lhs.getDistance()-rhs.getDistance();
+                            if(dis==0){return 0;
+                            }else{
+                                return dis>0 ?1 :-1 ;
+                            }
+                        }
+                    });
+                    executor.execute(new MyBeaconTask(true,beaconList, new BeaconChangeCallback() {
+                        @Override
+                        public void getExhibits(List<ExhibitBean> exhibits) {
+                            MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
+                            if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()&&exhibits.size()>0){
+                                ExhibitBean exhibitBean=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                                if(exhibitBean==null||!exhibitBean.equals(exhibits.get(0))){
+                                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibits.get(0));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void getNearestExhibit(ExhibitBean exhibit) {
+
+                        }
+
+                        @Override
+                        public void getNearestExhibits(List<ExhibitBean> exhibits) {
+
+                        }
+
+                        @Override
+                        public void getNearestBeaconList(List<BeaconBean> beans) {
+
+                        }
+
+
+                        @Override
+                        public void getNearestBeacon(BeaconBean bean) {
+
+                        }
+                    }));
+                }else{
+                    LogUtil.i("ZHANG","beacons  为空");
+                }
+            }
+        });
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region(BEACON_LAYOUT, null, null, null));
+        } catch (RemoteException e) {
+            ExceptionUtil.handleException(e);
+        }
     }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<PlayActivity> activityWeakReference;
+        MyHandler(PlayActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            PlayActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_PROGRESS:
+                    activity.refreshProgress();
+                    break;
+                case MSG_WHAT_CHANGE_EXHIBIT:
+                    activity.refreshView();
+                    break;
+                case MSG_WHAT_REFRESH_STATE:
+                    activity.refreshState();
+                    break;
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                default:break;
+            }
+        }
+    }
+
     @Override
-    void initData() {
+    public void onStateChanged(final int state) {
+        super.onStateChanged(state);
+        this.state=state;
+        handler.sendEmptyMessage(MSG_WHAT_REFRESH_STATE);// TODO: 2016/5/26
+
+    }
+
+    @Override
+    public void onExhibitChanged(ExhibitBean exhibit) {
+        if(currentExhibit!=exhibit){
+            currentExhibit=exhibit;
+            handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+        }
+
+    }
+
+    @Override
+    public void onPositionChanged(int duration, int position) {
+        super.onPositionChanged(duration, position);
+        this.currentDuration=duration;
+        this.currentProgress=position;
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_play);
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        handler=new MyHandler(this);
+        initView();
+        addListener();
+        initData();
+
+    }
+
+    private void initData() {
         Intent intent=getIntent();
         String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
         if(!TextUtils.isEmpty(exhibitStr)){
@@ -68,7 +224,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
                 currentExhibit = bean;
             }
         }else{
-            currentExhibit=mediaServiceManager.getCurrentExhibit();
+            currentExhibit=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
         }
         handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
     }
@@ -83,19 +239,24 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     @Override
     protected void onResume() {
         super.onResume();
-        if(mediaServiceManager.isPlaying()){
-            state=PLAY_STATE_START;
-        }else{
-            state=PLAY_STATE_STOP;
-        }
         refreshState();
+        registerReceiver();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
+        MediaServiceManager.getInstance(this).setStateChangeCallback(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unRegisterReceiver();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
+        MediaServiceManager.getInstance(this).removeStateChangeCallback();
+    }
 
     /**
      * 添加监听器
      */
-    void addListener() {
+    private void addListener() {
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
         mulTiAngleImgAdapter.setOnItemClickListener(new MultiAngleImgAdapter.OnItemClickListener() {
@@ -134,10 +295,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.ivPlayCtrl:
-                    Intent intent=new Intent();
-                    intent.setAction(INTENT_CHANGE_PLAY_STATE);
-                    sendBroadcast(intent);
-                    break;
+                    MediaServiceManager.getInstance(getActivity()).onStateChange();
             }
 
         }
@@ -146,28 +304,18 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     /**
      * 注册广播接收器
      */
-    void registerReceiver() {
+    private void registerReceiver() {
         registerBluetoothReceiver();
-        IntentFilter filter=new IntentFilter();
-        filter.addAction(INTENT_EXHIBIT);
-        filter.addAction(INTENT_EXHIBIT_PROGRESS);
-        filter.addAction(INTENT_EXHIBIT_DURATION);
-        filter.addAction(INTENT_CHANGE_PLAY_PLAY);
-        filter.addAction(INTENT_CHANGE_PLAY_STOP);
-        registerReceiver(receiver, filter);
     }
 
-    @Override
-    void unRegisterReceiver() {
-        unregisterReceiver(receiver);
+    private void unRegisterReceiver() {
         unRegisterBluetoothReceiver();
     }
 
     /**
      * 刷新界面
      */
-    @Override
-    void refreshView() {
+    private void refreshView() {
         if(currentExhibit==null){return;}
         currentMuseumId=currentExhibit.getMuseumId();
         if(iconImageFragment==null){
@@ -190,33 +338,20 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         initIcon();
     }
 
-    @Override
-    void refreshExhibit() {
-        refreshView();
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-
-    @Override
-    void refreshState() {
-        if(state==PLAY_STATE_START){
+    private void refreshState() {
+        if(MediaServiceManager.getInstance(this).isPlaying()){
+            state= PlayChangeCallback.STATE_PLAYING;
+        }else{
+            state= PlayChangeCallback.STATE_STOP;
+        }
+        if(state== PlayChangeCallback.STATE_PLAYING){//state==PLAY_STATE_START
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_48dp));//iv_play_state_open_big,ic_pause_black_36dp
         }else{
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_48dp));
         }
     }
 
-    @Override
-    void refreshProgress() {
+    private void refreshProgress() {
         seekBarProgress.setMax(currentDuration);
         seekBarProgress.setProgress(currentProgress);
         lyricFragment.notifyTime(currentProgress);
@@ -239,13 +374,13 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     }
 
     /*初始化界面控件*/
-    void initView() {
+    private void initView() {
 
         setMyTitleBar();
         setHomeIcon();
         setHomeClickListener(backOnClickListener);
         viewpagerWordImage=(ViewPager)findViewById(R.id.viewpagerWordImage);
-        mediaServiceManager=MediaServiceManager.getInstance(this);
+        //mediaServiceManager=MediaServiceManager.getInstance(this);
         //去除滑动到末尾时的阴影
         viewpagerWordImage.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
         seekBarProgress=(SeekBar)findViewById(R.id.seekBarProgress);
@@ -282,10 +417,8 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if(!fromUser){return;}
-            Intent intent=new Intent();
-            intent.setAction(INTENT_SEEK_BAR_CHANG);
-            intent.putExtra(INTENT_SEEK_BAR_CHANG,progress);
-            sendBroadcast(intent);
+
+            MediaServiceManager.getInstance(getActivity()).seekTo(progress);
         }
 
         @Override
@@ -337,41 +470,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         viewpagerWordImage.removeAllViewsInLayout();
         super.onDestroy();
     }
-
-
-    BroadcastReceiver receiver=new BroadcastReceiver(){
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case INTENT_EXHIBIT_PROGRESS:
-                    currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
-                    currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
-                    break;
-                case INTENT_EXHIBIT:
-                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
-                    if (TextUtils.isEmpty(exhibitStr)) {
-                        return;
-                    }
-                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (currentExhibit==null||!currentExhibit.equals(exhibitBean)) {
-                        currentExhibit=exhibitBean;
-                        handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
-                    }
-                    break;
-                case INTENT_CHANGE_PLAY_PLAY:
-                    state=PLAY_STATE_START;
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
-                    break;
-                case INTENT_CHANGE_PLAY_STOP:
-                    state=PLAY_STATE_STOP;
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
-                    break;
-            }
-        }
-    };
 
     /**
      * 刷新icon图标

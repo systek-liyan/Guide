@@ -13,8 +13,10 @@ import android.os.Message;
 import android.widget.Toast;
 
 import com.systek.guide.IConstants;
+import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.entity.MuseumBean;
+import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.LockScreenReceiver;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.MyHttpUtil;
@@ -29,12 +31,10 @@ import java.util.List;
  *  播放器服务类
  *
  */
- public class MediaPlayService extends Service implements IConstants {
+public class MediaPlayService extends Service implements IConstants {
 
 
     private MediaPlayer mediaPlayer; // 播放器*/
-    private boolean isPlaying ; //是否正在播放*/
-    private Binder mediaServiceBinder = new MediaServiceBinder();///服务Binder*/
     private ExhibitBean currentExhibit; //当前展品*/
     private String  currentMuseumId;//当前博物馆id*/
     private int currentPosition;//当前位置*/
@@ -44,13 +44,14 @@ import java.util.List;
     private List<ExhibitBean> recordExhibitList;
     private List<ExhibitBean> playExhibitList;
     private int playMode ; //默认设置自动点击播放
+    private Binder mediaServiceBinder = new MediaServiceBinder();///服务Binder*/
     private boolean isSendProgress;
-    private boolean isPause;
-    //private boolean hasPlay; /*是否播放过*/
     //private int errorCount;
-
+    //private boolean isPause;
+    //private boolean hasPlay; /*是否播放过*/
+    //private boolean isPlaying ; //是否正在播放*/
     private static final int MSG_WHAT_UPDATE_PROGRESS=1;
-
+    private int playState;
 
 
     public void onCreate() {
@@ -124,10 +125,15 @@ import java.util.List;
             }else{
                 mp.seekTo(0);
                 mp.pause();
-                isPause=true;
-                Intent intent=new Intent();
+                //isPause=true;
+                playState= PlayChangeCallback.STATE_PAUSE;
+                PlayChangeCallback callback=MediaServiceManager.getInstance(getApplicationContext()).getStateChangeCallback();
+                if(callback!=null){
+                    callback.onStateChanged(playState);
+                }
+                /*Intent intent=new Intent();
                 intent.setAction(INTENT_CHANGE_PLAY_STOP);
-                sendBroadcast(intent);
+                sendBroadcast(intent);*/
             }
         }
     };
@@ -148,10 +154,15 @@ import java.util.List;
         if(mediaPlayer==null){return false;}
         try {
             mediaPlayer.start();
-            Intent intent=new Intent();
+            playState= PlayChangeCallback.STATE_PLAYING;
+            PlayChangeCallback callback=MediaServiceManager.getInstance(getApplicationContext()).getStateChangeCallback();
+            if(callback!=null){
+                callback.onStateChanged(playState);
+            }
+            /*Intent intent=new Intent();
             intent.setAction(INTENT_CHANGE_PLAY_PLAY);
-            sendBroadcast(intent);
-            isPlaying=true;
+            sendBroadcast(intent);*/
+            //isPlaying=true;
             addRecord(currentExhibit);
             duration = mediaPlayer.getDuration();
             handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
@@ -189,22 +200,25 @@ import java.util.List;
     }
 
     public boolean toPause(){
-        if(!isPlaying||mediaPlayer==null){return false;}
+        if(playState== PlayChangeCallback.STATE_PAUSE||mediaPlayer==null){return true;}
+        //if(!isPlaying||mediaPlayer==null){return true;}
         mediaPlayer.pause();
-        isPlaying=false;
-        isPause=true;
+        playState= PlayChangeCallback.STATE_PAUSE;
+        //isPlaying=false;
+        //isPause=true;
         return true;
     }
 
     public boolean isPauseOrNot(){
-        return isPause;
+        //return isPause;
+        return playState== PlayChangeCallback.STATE_PAUSE;
     }
 
 
     private void play(ExhibitBean bean) {
         setCurrentExhibit(bean);
         currentMuseumId=bean.getMuseumId();
-        isPlaying=false;
+        //isPlaying=false;
         currentPosition=0;
         mediaPlayer.reset();
         handler.removeCallbacksAndMessages(null);
@@ -285,9 +299,10 @@ import java.util.List;
 
     /**停止播放*/
     private void stop() {
-        if(mediaPlayer!=null&&isPlaying){
+        if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             mediaPlayer.stop();
-            isPlaying = false;
+            //isPlaying = false;
+            playState= PlayChangeCallback.STATE_STOP;
         }
     }
 
@@ -305,8 +320,6 @@ import java.util.List;
         MyHandler(MediaPlayService mediaPlayService){
             this.mediaPlayServiceWeakReference=new WeakReference<>(mediaPlayService);
         }
-
-
 
         @Override
         public void handleMessage(Message msg) {
@@ -335,11 +348,15 @@ import java.util.List;
         if(mediaPlayer==null||!isSendProgress){ return;}
         currentPosition = mediaPlayer.getCurrentPosition();
         duration=mediaPlayer.getDuration();
-        Intent intent=new Intent();
+        PlayChangeCallback callback=MediaServiceManager.getInstance(getApplicationContext()).getStateChangeCallback();
+        if(callback!=null){
+            callback.onPositionChanged(duration,currentPosition);
+        }
+       /* Intent intent=new Intent();
         intent.setAction(INTENT_EXHIBIT_PROGRESS);
         intent.putExtra(INTENT_EXHIBIT_PROGRESS, currentPosition);
         intent.putExtra(INTENT_EXHIBIT_DURATION,duration);
-        sendBroadcast(intent);
+        sendBroadcast(intent);*/
         handler.sendEmptyMessageDelayed(MSG_WHAT_UPDATE_PROGRESS,800);
     }
 
@@ -349,8 +366,13 @@ import java.util.List;
             stop();
         }
         public boolean isPlaying() {
-            return mediaPlayer != null && isPlaying;
+            return mediaPlayer != null && playState== PlayChangeCallback.STATE_PLAYING;
         }
+
+        public int getPlayState(){
+            return playState;
+        }
+
 
         public boolean isPause() {
             return mediaPlayer != null && isPauseOrNot();

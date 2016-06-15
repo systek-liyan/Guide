@@ -19,6 +19,7 @@ import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
 
@@ -33,7 +34,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     private List<ExhibitBean> list;
     private LayoutInflater inflater;
     private int state;
-    private ExhibitBean selectIndex;
+    private ExhibitBean selectExhibit;
 
     private int  selectItem=-1;
 
@@ -63,9 +64,12 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         this.list=list;
         notifyDataSetChanged();
     }
-    public  void setSelectItem(int selectItem) {
+   /* public  void setSelectItem(int selectItem) {
         this.selectItem = selectItem;
-        selectIndex=list.get(selectItem);
+        selectExhibit =list.get(selectItem);
+    }*/
+    public  void setSelectExhibit(ExhibitBean exhibit) {
+        selectExhibit =exhibit;
     }
 
     @Override
@@ -160,8 +164,15 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         String iconUrl = exhibitBean.getIconurl();
         ImageUtil.displayImage(iconUrl, viewHolder.ivExhibitIcon,true,false);
 
-
-        if (exhibitBean.equals(selectIndex)) {
+        ExhibitBean currentExhibit= MediaServiceManager.getInstance(context).getCurrentExhibit();
+        if(currentExhibit!=null){
+            setSelectExhibit(currentExhibit);
+        }
+        boolean isPlaying=MediaServiceManager.getInstance(context).isPlaying();
+        if(isPlaying){
+            state=STATE_PLAYING;
+        }
+        if (currentExhibit!=null&&exhibitBean.equals(currentExhibit)){
             switch (state) {
                 case STATE_PLAYABLE:
                     viewHolder.ivPlayAnim.setImageDrawable(

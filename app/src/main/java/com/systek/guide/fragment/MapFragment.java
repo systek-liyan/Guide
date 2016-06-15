@@ -1,7 +1,6 @@
 package com.systek.guide.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,13 +14,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -52,6 +49,7 @@ import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,12 +69,27 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
     private Location points[];
     private int currentPoint;
     private BluetoothManager bluetoothManager;
-    private BeaconBean beacon;
+
     private static MapFragment mapFragment;
     private List<ExhibitBean> topicExhibitList;
-    private MediaServiceManager mediaServiceManager;
+    //private MediaServiceManager mediaServiceManager;
     private List<ExhibitBean> tempList;
     private MapReceiver mapReceiver;
+    private BeaconBean beacon;
+
+    private Handler handler;
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public BeaconBean getBeacon() {
+        return beacon;
+    }
+
+    public void setBeacon(BeaconBean beacon) {
+        this.beacon = beacon;
+    }
 
 
     public static MapFragment newInstance(){
@@ -98,11 +111,8 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
     public void onAttach(Activity activity) {
         this.activity = activity;
         registerReceiver();
-        /*bluetoothManager =new  BluetoothManager(activity);
-        bluetoothManager.initBeaconSearcher();
-        bluetoothManager.setNearestBeaconListener(nearestBeaconListener);*/
-        mediaServiceManager=MediaServiceManager.getInstance(activity);
-        handler = new MyHandler();
+        //mediaServiceManager=MediaServiceManager.getInstance(activity);
+        handler = new MyHandler(this);
         super.onAttach(activity);
     }
 
@@ -114,10 +124,28 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
     }
 
 
+    /**
+     * 蓝牙扫描对象
+     */
+
+
+    /*//蓝牙模块返回最近的信标
+    private NearestBeaconListener nearestBeaconListener = new NearestBeaconListener() {
+        @Override
+        public void nearestBeaconCallBack(BeaconBean b) {
+            beacon = b;
+            tempList= DataBiz.getExhibitListByBeaconId(beacon.getMuseumId(), beacon.getId());
+            handler.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
+        }
+    };*/
+
+
+    public static final int MSG_WHAT_DRAW_POINT = 1;
     @Override
     void initView() {
         setContentView(R.layout.fragment_map);
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -173,6 +201,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
         map.createLayer(EXHIBITS_LAYER);//创建展品显示图层
     }
 
+
     public void drawerTopicExhibitsPoint(List<ExhibitBean> exhibitList) {
         for(ExhibitBean bean:exhibitList){
             MapObjectModel objectModel = new MapObjectModel(bean.getId(),(int)bean.getMapx(), (int)bean.getMapy(),bean.getAddress());
@@ -212,7 +241,6 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
 //		}
     }
 
-
     //初始化地图对象
     private void initMapObjects(Layer layer) {
 
@@ -227,6 +255,13 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
 //		addNotScalableMapObject(800, 350,layer2);//地图放大缩小图标点自动适应
     }
 
+
+    private void toInitMapObjects(){
+        if(map==null){return;}
+        initMapObjects(map.getLayerById(PERSON_LAYER));//绘制地图对象
+    }
+
+
     //绘制不可扩展的地图对象
     private void addNotScalableMapObject(MapObjectModel objectModel, Layer layer) {
         if (objectModel.getLocation() != null) {
@@ -235,7 +270,6 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
             addNotScalableMapObject(objectModel.getId(),objectModel.getX(), objectModel.getY(), layer);
         }
     }
-
 
     //绘制不可扩展的地图对象(x,y)
     private void addNotScalableMapObject(String id,int x, int y, Layer layer) {
@@ -266,6 +300,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
 
     }
 
+
     //绘制不可扩展的地图对象(location)
     private void addNotScalableMapObject(Location location, Layer layer) {
         try {
@@ -291,7 +326,6 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
             ExceptionUtil.handleException(e);
         }
     }
-
 
     //绘制可扩展的地图对象
     private void addScalableMapObject(int x, int y, Layer layer) {
@@ -423,6 +457,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
         }
     }
 
+
     //* On map touch listener implemetnation 地图上的触摸监听器实现 *//
     @Override
     public void onTouch(MapWidget v, MapTouchedEvent event) {
@@ -478,7 +513,6 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
         }
     }
 
-
     private void showLocationsPopup(int x, int y, MapObjectModel objectModel) {
         RelativeLayout mapLayout = (RelativeLayout) contentView.findViewById(R.id.mapLayout);
 
@@ -501,7 +535,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
                     if (mapObjectInfoPopup != null) {
                         mapObjectInfoPopup.hide();
                         }
-                    ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+                    ExhibitBean bean = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
                     if (bean == null || !bean.equals(exhibit)) {
                         String str = JSON.toJSONString(exhibit);
                         Intent intent = new Intent();
@@ -532,33 +566,25 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
         return (int) (mapCoord * map.getScale() - map.getScrollY());
     }
 
-    /**
-     * 蓝牙扫描对象
-     */
-    private MyHandler handler;
+    static class MyHandler extends Handler {
 
+        WeakReference<MapFragment> mapFragmentWeakReference;
 
-    /*//蓝牙模块返回最近的信标
-    private NearestBeaconListener nearestBeaconListener = new NearestBeaconListener() {
-        @Override
-        public void nearestBeaconCallBack(BeaconBean b) {
-            beacon = b;
-            tempList= DataBiz.getExhibitListByBeaconId(beacon.getMuseumId(), beacon.getId());
-            handler.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
+        protected MyHandler(MapFragment fragment){
+            this.mapFragmentWeakReference=new WeakReference<>(fragment);
         }
-    };*/
 
-
-    private final int MSG_WHAT_DRAW_POINT = 1;
-
-    class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
+
+            if(mapFragmentWeakReference==null){return;}
+            MapFragment mapFragment=mapFragmentWeakReference.get();
+            if(mapFragment==null){return;}
             if (msg.what == MSG_WHAT_DRAW_POINT) {
                 //地图界面加载后绘点
-                if (contentView != null) {
-                    initModel();//创建地图对象(图标点)
-                    initMapObjects(map.getLayerById(PERSON_LAYER));//绘制地图对象
+                if (mapFragment.contentView != null) {
+                    mapFragment.initModel();//创建地图对象(图标点)
+                    mapFragment.toInitMapObjects();
                 }
             }
         }

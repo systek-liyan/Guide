@@ -1,25 +1,15 @@
 package com.systek.guide.manager;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.Intent;
 
-import com.alibaba.fastjson.JSON;
-import com.systek.beacon.core.BeaconSearcher;
-import com.systek.beacon.listener.BeaconsListener;
-import com.systek.beacon.model.SystekBeacon;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 
-import org.altbeacon.beacon.Beacon;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Qiang on 2015/12/11.
@@ -40,7 +30,6 @@ public class BluetoothManager implements IConstants {
     private Context context;
     private static BluetoothManager bluetoothManager;
     /*蓝牙扫描对象*/
-    private BeaconSearcher mBeaconSearcher;
 
     public String getCurrentMuseumId() {
         return currentMuseumId;
@@ -63,92 +52,7 @@ public class BluetoothManager implements IConstants {
         return bluetoothManager;
     }
 
-    public void disConnectBluetoothService(){
 
-        if (mBeaconSearcher != null) {
-            mBeaconSearcher.closeSearcher();
-            mBeaconSearcher=null;
-        }
-        context=null;
-        bluetoothManager=null;
-    }
-
-    public void initBeaconSearcher() {
-        if (mBeaconSearcher == null) {
-            // 设定用于展品定位的最小停留时间(ms)
-            mBeaconSearcher = BeaconSearcher.getInstance(context);
-            // NearestBeacon.GET_EXHIBIT_BEACON：展品定位beacon
-            // NearestBeacon.GET_EXHIBIT_BEACON：游客定位beacon。可以不用设置上述的最小停留时间和最小距离
-            //mBeaconSearcher.setMin_stay_milliseconds(1500);
-            // 设定用于展品定位的最小距离(m)
-            // mBeaconSearcher.setExhibit_distance(0.5);
-            // 设置获取距离最近的beacon类型
-            // 当蓝牙打开时，打开beacon搜索器，开始搜索距离最近的Beacon
-            // 设置beacon监听器
-            mBeaconSearcher.setNearestBeaconListener(onNearestBeaconListener);
-            // 添加导游模式切换监听
-            if (mBeaconSearcher != null && mBeaconSearcher.checkBLEEnable()) {
-                mBeaconSearcher.openSearcher();
-            } else {
-                BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                if (mBluetoothAdapter != null) {
-                    if (!mBluetoothAdapter.isEnabled()) {
-                        mBluetoothAdapter.enable();
-                        mBeaconSearcher.openSearcher();
-                    }
-                }
-            }
-        } else {
-            if (mBeaconSearcher.checkBLEEnable()) {
-                mBeaconSearcher.openSearcher();
-            }
-        }
-    }
-
-
-    /**实现beacon搜索监听，或得BeaconSearcher搜索到的beacon对象*/
-
-    private BeaconsListener onNearestBeaconListener=new BeaconsListener(){
-
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
-
-        @Override
-        public void getNearestBeacon(Beacon beacon) {
-
-        }
-
-        @Override
-        public void getBeacons(List<SystekBeacon> list) {
-
-        }
-
-
-        /**
-         * 获得 beacon列表 解析beacon像播放控制发送数据
-         * @param isSwitch switch
-         * @param refresh refresh
-         * @param list SystekBeacon
-         */
-        @Override
-        public void getBeacons(boolean isSwitch, boolean refresh, List<SystekBeacon> list) {
-            if(list!=null){
-                DataBiz.saveTempValue(MyApplication.get(), SP_IS_IN_MUSEUM, true);
-            }else{
-                return;
-            }
-            if(!isInGuide&&!refresh){
-                return;
-            }
-            executor.execute(new MyBeaconTask(isSwitch,list));
-        }
-
-        @Override
-        public void getBeacons(boolean b, boolean b1, List<SystekBeacon> list, String s) {
-
-        }
-
-
-    };
 
     /**
      * 根据beacon集合找出展品集合
@@ -184,7 +88,7 @@ public class BluetoothManager implements IConstants {
      * @param dis 规定距离内beacon
      * @return
      */
-    private static List<BeaconBean> changeToBeaconList(List<SystekBeacon> systekBeacons,double dis) {
+   /* private static List<BeaconBean> changeToBeaconList(List<SystekBeacon> systekBeacons,double dis) {
         List <BeaconBean> beaconBeans=new ArrayList<>();
         for (int i = 0; i < systekBeacons.size(); i++) {
             SystekBeacon systekBeacon=systekBeacons.get(i);
@@ -196,8 +100,8 @@ public class BluetoothManager implements IConstants {
             if(beaconBean==null){continue;}
             beaconBean.setDistance(systekBeacon.getDistance());
             //设定距离范围，暂定小于1米则放入列表
-          /* if(systekBeacon.getDistance()<dis){
-            }*/
+          *//* if(systekBeacon.getDistance()<dis){
+            }*//*
             beaconBeans.add(beaconBean);
         }
         return beaconBeans;
@@ -232,7 +136,7 @@ public class BluetoothManager implements IConstants {
             intent.putExtra(INTENT_SWITCH_FLAG,isSwitch);
             MyApplication.get().sendBroadcast(intent);
         }
-    }
+    }*/
 
 
 }

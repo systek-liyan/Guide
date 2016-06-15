@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -24,6 +27,7 @@ import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.NetworkUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +41,71 @@ public class MuseumListActivity extends BaseActivity {
     private String city;//当前所在城市
     private List<MuseumBean> museumList;//展品列表
     private MuseumAdapter adapter;//适配器
-    private static final int MSG_WHAT_REFRESH_CITY=22;
+
+    private static final int MSG_WHAT_UPDATE_NO_DATA=2;
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=3;
+    private static final int MSG_WHAT_REFRESH_TITLE=4;
+    private static final int MSG_WHAT_REFRESH_DATA=5;
+
+    private BroadcastReceiver receiver=new  BroadcastReceiver(){
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            if(action.equals(ACTION_NET_IS_COMING)){
+                handler.sendEmptyMessage(MSG_WHAT_REFRESH_DATA);
+            }
+        }
+    };
+
+    static class MyHandler extends Handler {
+
+        WeakReference<MuseumListActivity> activityWeakReference;
+        MyHandler(MuseumListActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            MuseumListActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_REFRESH_DATA:
+                    activity.initData();
+                    break;
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.closeDialog();
+                    activity.refreshView();
+                    break;
+                case MSG_WHAT_REFRESH_TITLE:
+                    activity.refreshTitle();
+                    break;
+                case MSG_WHAT_UPDATE_NO_DATA:
+                    activity.closeDialog();
+                    activity.onNoData();
+                    break;
+                default:break;
+            }
+        }
+    }
 
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_museum_list);
+        handler=new MyHandler(this);
+        //加载抽屉
+        initDrawer();
+        initView();
+        addListener();
+        showDialog("正在加载...");
+        initData();
+
+    }
 
     @Override
     protected void onRestart() {
@@ -47,13 +113,16 @@ public class MuseumListActivity extends BaseActivity {
         refreshView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
 
     @Override
-    protected void setView() {
-        View view = View.inflate(this, R.layout.activity_museum_list, null);
-        setContentView(view);
-        //加载抽屉
-        initDrawer();
+    protected void onPause() {
+        super.onPause();
+        unRegisterReceiver();
     }
 
     @Override
@@ -64,13 +133,10 @@ public class MuseumListActivity extends BaseActivity {
         initData();
     }
 
-
-
     /**
      * 添加监听器
      */
-    @Override
-    void addListener() {
+    private void addListener() {
         museumListView.setOnItemClickListener(onItemClickListener);
         setHomeClickListener(new View.OnClickListener() {
             @Override
@@ -107,9 +173,7 @@ public class MuseumListActivity extends BaseActivity {
     /**
      * 加载数据
      */
-    @Override
-    void initData() {
-        showDialog("正在加载...");
+    private void initData() {
         new Thread(){
             @Override
             public void run() {
@@ -163,59 +227,32 @@ public class MuseumListActivity extends BaseActivity {
         }.start();
     }
 
-    @Override
-    void registerReceiver() {
+    private void registerReceiver() {
         IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMING);
         filter.addAction(ACTION_NET_IS_OUT);
         registerReceiver(receiver, filter);
     }
 
-    @Override
-    void unRegisterReceiver() {
+    private void unRegisterReceiver() {
         unregisterReceiver(receiver);
     }
 
-    @Override
-    void refreshView() {
+    private void refreshView() {
         if(museumList==null||museumList.size()==0){return;}
+        if(adapter==null){return;}
         adapter.updateData(museumList);
     }
 
-    @Override
-    void refreshExhibit() {
 
-    }
-
-    @Override
-    void refreshTitle() {
+    private void refreshTitle() {
         setTitleBarTitle(city);
     }
 
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
 
     /**
      * 加载view
      */
-    @Override
-    void initView() {
+    private void initView() {
         long startTime=System.currentTimeMillis();
         setTitleBar();
         setHomeIcon();
@@ -274,17 +311,4 @@ public class MuseumListActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-    private BroadcastReceiver receiver=new  BroadcastReceiver(){
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            if(action.equals(ACTION_NET_IS_COMING)){
-                handler.sendEmptyMessage(MSG_WHAT_REFRESH_DATA);
-            }
-        }
-    };
-
 }

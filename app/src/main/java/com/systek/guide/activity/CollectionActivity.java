@@ -1,6 +1,9 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +18,7 @@ import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,19 +35,46 @@ public class CollectionActivity extends BaseActivity {
     private String museumId;
     private MediaServiceManager mediaServiceManager;
 
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
+
+    static class MyHandler extends Handler {
+
+        WeakReference<CollectionActivity> activityWeakReference;
+        MyHandler(CollectionActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            CollectionActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                default:break;
+            }
+        }
+    }
+
     @Override
-    protected void setView() {
-        View view = View.inflate(this, R.layout.activity_collection, null);
-        setContentView(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_collection);
+        handler=new MyHandler(this);
         //加载抽屉
         initDrawer();
+        initView();
+        addListener();
+        initData();
     }
 
     /**
      * 给控件添加监听器
      */
-    @Override
-    protected void addListener() {
+    private void addListener() {
         collectionListView.setOnItemClickListener(adapterViewListener);
     }
 
@@ -51,11 +82,10 @@ public class CollectionActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
             ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
             ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-
+            //exhibitAdapter.setSelectItem(position);
+            exhibitAdapter.setSelectExhibit(exhibitBean);
             if(bean==null||!bean.equals(exhibitBean)){
                 exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
             }
@@ -72,15 +102,13 @@ public class CollectionActivity extends BaseActivity {
                 intent1.putExtra(INTENT_EXHIBIT, str);
             }
             startActivity(intent1);
-
         }
     };
 
     /**
      * 加载数据
      */
-    @Override
-    void initData() {
+    private void initData() {
         museumId = getIntent().getStringExtra(INTENT_MUSEUM_ID);
         new Thread() {
             @Override
@@ -107,58 +135,20 @@ public class CollectionActivity extends BaseActivity {
         }.start();
     }
 
-    @Override
-    void registerReceiver() {
 
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
+    private void refreshView() {
         if (exhibitAdapter != null && collectionExhibitList != null && collectionExhibitList.size() > 0) {
             exhibitAdapter.updateData(collectionExhibitList);
         }
     }
 
-    @Override
-    void refreshExhibit() {
 
-    }
 
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
 
     /**
      * 加载视图
      */
-    @Override
-    void initView() {
+    private void initView() {
 
         setTitleBar();
         setTitleBarTitle("收藏");

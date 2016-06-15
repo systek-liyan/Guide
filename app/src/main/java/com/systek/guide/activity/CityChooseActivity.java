@@ -1,6 +1,9 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -26,6 +29,7 @@ import com.systek.guide.parser.CharacterParser;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.PinyinComparator;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +39,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
 
     private ListView cityListView;//城市列表
     private SideBar sideBar;//自定义控件，右侧abc...
-    private CityAdapter adapter;
+    private CityAdapter adapter;//适配器
     private ClearEditText mClearEditText;
     private List<CityBean> cities;
     private CharacterParser characterParser;
@@ -45,21 +49,27 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     private AMapLocationClientOption locationOption;
     private TextView currentCity,suggestCity;
 
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
+    private static final int MSG_WHAT_UPDATE_DATA_FAIL=2;
+
 
     @Override
-    protected void setView() {
-        View view = View.inflate(this, R.layout.activity_city_choose, null);
-        setContentView(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_city_choose);
+        handler=new MyHandler(this);
         //加载标题栏
         setTitleBar();
         //加载抽屉
         initDrawer();
         //加载高德地图
         initLocation();
+        initView();
+        addListener();
+        initData();
     }
 
-    @Override
-    void addListener() {
+    private void addListener() {
         suggestCity.setOnClickListener(onClickListener);
         currentCity.setOnClickListener(onClickListener);
         //设置右侧触摸监听
@@ -93,8 +103,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         adapter.updateListView(filterDateList);
     }
 
-    @Override
-    void initView() {
+   private  void initView() {
 
         setTitleBarTitle("城市选择");
         setHomeIcon();
@@ -124,8 +133,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
 
     }
 
-    @Override
-    void initData() {
+    private void initData() {
         new Thread(){
             @Override
             public void run() {
@@ -133,65 +141,26 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
                 if(cities==null||cities.size()==0){
                     String url=BASE_URL+URL_CITY_LIST;
                     cities=DataBiz.getEntityListFromNet(CityBean.class,url);
-                    if(cities!=null&&cities.size()>0){DataBiz.saveListToSQLite(cities);}
+                    if(cities!=null&&cities.size()>0){
+                        DataBiz.saveListToSQLite(cities);
+                    }
                 }
-                int msg=MSG_WHAT_UPDATE_DATA_SUCCESS;
+                int msgWhat=MSG_WHAT_UPDATE_DATA_SUCCESS;
                 if(cities==null||cities.size()==0){
-                    msg=MSG_WHAT_UPDATE_DATA_FAIL;
+                    msgWhat=MSG_WHAT_UPDATE_DATA_FAIL;
                 }
-                handler.sendEmptyMessage(msg);
+                handler.sendEmptyMessage(msgWhat);
             }
         }.start();
     }
 
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
+    private void refreshView() {
         if(adapter!=null&&cities!=null&&cities.size()>0){
             adapter.updateListView(cities);
         }
         if(currentCity!=null&&!TextUtils.isEmpty(chooseCity)){
             currentCity.setText(chooseCity);
         }
-    }
-
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
     }
 
     private void initLocation() {// TODO: 2016/2/16
@@ -319,4 +288,31 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         }
 
     }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<CityChooseActivity> activityWeakReference;
+        MyHandler(CityChooseActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            CityChooseActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                case MSG_WHAT_UPDATE_DATA_FAIL:
+                    activity.onDataError();
+                default:break;
+            }
+        }
+    }
+
+
+
 }

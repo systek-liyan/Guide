@@ -24,6 +24,13 @@ import com.systek.guide.receiver.NetworkStateChangedReceiver;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
+import org.altbeacon.beacon.startup.BootstrapNotifier;
+import org.altbeacon.beacon.startup.RegionBootstrap;
+
 import java.io.File;
 import java.lang.reflect.Field;
 
@@ -33,19 +40,23 @@ import java.lang.reflect.Field;
  *
  *
  */
-public class MyApplication extends Application implements IConstants{
+public class MyApplication extends Application implements IConstants, BootstrapNotifier {
 
     private static MyApplication myApplication;
+    private BackgroundPowerSaver backgroundPowerSaver;
+    private RegionBootstrap regionBootstrap;
     /*软件是否开发完毕*/
     public static final boolean isRelease = false;
     public MediaServiceManager getmServiceManager() {
         return mServiceManager;
     }
     public MediaServiceManager mServiceManager;
+    private boolean haveDetectedBeaconsSinceBoot = false;
 
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
     private BluetoothManager bluetoothManager;
+
 
     @Override
     public void onCreate() {
@@ -58,10 +69,26 @@ public class MyApplication extends Application implements IConstants{
         if (!isSameAppName()) {return;}
         myApplication = this;
         registerNetWorkReceiver();
-        initBlueTooth();
         //初始化检查内存泄露
         //LeakCanary.install(this);
         //FontUtils.getInstance().replaceSystemDefaultFontFromAsset(this, "fonts/aaa.ttf");
+        initBluetoothFrame();
+    }
+
+    private void initBluetoothFrame() {
+        BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.setForegroundScanPeriod(450);
+        beaconManager.setBackgroundScanPeriod(450);
+        beaconManager.getBeaconParsers().clear();
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout(BEACON_LAYOUT));//"m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"
+        // wake up the app when a beacon is seen
+        Region region = new Region("backgroundRegion", null, null, null);
+        regionBootstrap = new RegionBootstrap(this, region);
+        // simply constructing this class and holding a reference to it in your custom Application
+        // class will automatically cause the BeaconLibrary to save battery whenever the application
+        // is not visible.  This reduces bluetooth power usage by about 60%
+        backgroundPowerSaver = new BackgroundPowerSaver(this);
     }
 
     public void initMediaService() {
@@ -125,12 +152,7 @@ public class MyApplication extends Application implements IConstants{
     }
 
 
-    public void initBlueTooth() {
-        if(bluetoothManager==null){
-            bluetoothManager =BluetoothManager.newInstance(this);
-        }
-        bluetoothManager.initBeaconSearcher();
-    }
+
     public  static Context getAppContext(){
         return myApplication.getApplicationContext();
     }
@@ -174,7 +196,6 @@ public class MyApplication extends Application implements IConstants{
     /*退出程序*/
     public  void exit() {
         if(bluetoothManager!=null){
-            bluetoothManager.disConnectBluetoothService();
         }
         if(mServiceManager!=null){
             mServiceManager.disConnectService();
@@ -189,10 +210,47 @@ public class MyApplication extends Application implements IConstants{
     /**
      * 获取application对象
      *
-     * @return JApplication
+     * @return MyApplication
      */
     public static MyApplication get() {
         return myApplication;
     }
 
+    @Override
+    public void didEnterRegion(Region region) {
+        // In this example, this class sends a notification to the user whenever a Beacon
+        // matching a Region (defined above) are first seen.
+        if (!haveDetectedBeaconsSinceBoot) {
+
+            // The very first time since boot that we detect an beacon, we launch the
+            // MainActivity
+            //Intent intent = new Intent(this, MonitoringActivity.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // Important:  make sure to add android:launchMode="singleInstance" in the manifest
+            // to keep multiple copies of this activity from getting created if the user has
+            // already manually launched the app.
+            //this.startActivity(intent);
+            haveDetectedBeaconsSinceBoot = true;
+        } else {
+            //if (monitoringActivity != null) {
+                // If the Monitoring Activity is visible, we log info about the beacons we have
+                // seen on its display
+               // monitoringActivity.logToDisplay("I see a beacon again" );
+           // } else {
+                // If we have already seen beacons before, but the monitoring activity is not in
+                // the foreground, we send a notification to the user on subsequent detections.
+               // Log.d(TAG, "Sending notification.");
+                //sendNotification();
+            }
+    }
+
+    @Override
+    public void didExitRegion(Region region) {
+
+    }
+
+    @Override
+    public void didDetermineStateForRegion(int i, Region region) {
+
+    }
 }

@@ -1,6 +1,9 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -23,6 +26,7 @@ import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +53,7 @@ public class TopicActivity extends BaseActivity {
     /**已选标签控件集合*/
     private List<TextView> tvList;
 
-    private MediaServiceManager mediaServiceManager;
+    //private MediaServiceManager mediaServiceManager;
     private String currentMuseumId;
 
     private TextView  tv_collection_dongwei,tv_collection_beiqi, tv_collection_beiwei, tv_collection_xizhou,
@@ -61,16 +65,44 @@ public class TopicActivity extends BaseActivity {
     private LinearLayout ll_collection_years;
     private LinearLayout ll_collection_material;
 
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
 
-    @Override
-    protected void setView() {
-        View view = View.inflate(this, R.layout.activity_topic, null);
-        setContentView(view);
-        initDrawer();
+
+    static class MyHandler extends Handler {
+
+        WeakReference<TopicActivity> activityWeakReference;
+        MyHandler(TopicActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            TopicActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                default:break;
+            }
+        }
     }
 
     @Override
-    void initData() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_topic);
+        handler=new MyHandler(this);
+        initDrawer();
+        initView();
+        addListener();
+        initData();
+
+    }
+
+    private void initData() {
         Intent intent=getIntent();
         currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
         new Thread(){
@@ -87,52 +119,10 @@ public class TopicActivity extends BaseActivity {
     }
 
 
-    @Override
-    void refreshView() {
+    private void refreshView() {
         if(exhibitAdapter!=null){
             exhibitAdapter.updateData(totalExhibitList);// TODO: 2016/1/3
         }
-    }
-
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
-
-
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
     }
 
     @Override
@@ -142,15 +132,14 @@ public class TopicActivity extends BaseActivity {
     }
 
 
-    @Override
-    void initView() {
+   private void initView() {
         setTitleBar();
         setTitleBarTitle(R.string.title_bar_topic);
         setHomeIcon();
         setHomeClickListener(backOnClickListener);
 
         tvList=new ArrayList<>();
-        mediaServiceManager=MediaServiceManager.getInstance(this);
+        //mediaServiceManager=MediaServiceManager.getInstance(this);
 
         ll_collection_has_choose=(LinearLayout)findViewById(R.id.ll_collection_has_choose);
         ll_collection_years=(LinearLayout)findViewById(R.id.ll_collection_years);
@@ -198,8 +187,7 @@ public class TopicActivity extends BaseActivity {
         //去除滑动到末尾时的阴影
         lv_collection_listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
-    @Override
-    void addListener() {
+    private void addListener() {
 
         tvLabelClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,15 +214,16 @@ public class TopicActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
-                ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-                exhibitAdapter.setSelectItem(position);
+                ExhibitBean bean = MediaServiceManager.getInstance(TopicActivity.this).getCurrentExhibit();
+                //exhibitAdapter.setSelectItem(position);
+                exhibitAdapter.setSelectExhibit(exhibitBean);
                 if(bean==null||!bean.equals(exhibitBean)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
                 }
-                mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                MediaServiceManager.getInstance(TopicActivity.this).setPlayMode(PLAY_MODE_HAND);
                 exhibitAdapter.notifyDataSetInvalidated();
-
-                Intent intent1 = new Intent(TopicActivity.this, PlayActivity.class);
+                MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibitBean);
+                /*Intent intent1 = new Intent(TopicActivity.this, PlayActivity.class);
                 if (bean == null || !bean.equals(exhibitBean)) {
                     String str = JSON.toJSONString(exhibitBean);
                     Intent intent = new Intent();
@@ -243,7 +232,7 @@ public class TopicActivity extends BaseActivity {
                     sendBroadcast(intent);
                     intent1.putExtra(INTENT_EXHIBIT, str);
                 }
-                startActivity(intent1);
+                startActivity(intent1);*/
             }
         });
         setManyBtnListener();
@@ -374,7 +363,6 @@ public class TopicActivity extends BaseActivity {
         tv_collection_tongqi.setOnClickListener(labelClickListener);
         tv_collection_shike.setOnClickListener(labelClickListener);
     }
-
 
 
 }

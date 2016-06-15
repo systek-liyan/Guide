@@ -3,6 +3,8 @@ package com.systek.guide.activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +35,7 @@ import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,14 +56,42 @@ public class MuseumHomeActivity extends BaseActivity {
     private MuseumIconAdapter iconAdapter;
 
 
-    @Override
-    protected void setView() {
-        MyApplication application= (MyApplication) getApplication();
-        application.initMediaService();
-        View view = View.inflate(this, R.layout.activity_museum_home, null);
-        setContentView(view);
-        initDrawer();
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
+
+    static class MyHandler extends Handler {
+
+        WeakReference<MuseumHomeActivity> activityWeakReference;
+        MyHandler(MuseumHomeActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            MuseumHomeActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                default:break;
+            }
+        }
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((MyApplication)getApplication()).initMediaService();
+        setContentView(R.layout.activity_museum_home);
+        handler=new MyHandler(this);
+        initDrawer();
+        initView();
+        addListener();
+        initData();
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         currentMuseumId=intent.getStringExtra(INTENT_MUSEUM_ID);
@@ -75,6 +106,16 @@ public class MuseumHomeActivity extends BaseActivity {
         refreshPlayState();
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+            setPlayStateImageToClose();
+        }
+    }
+
     private void refreshPlayState() {
         if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             setPlayStateImageToOpen();
@@ -83,8 +124,7 @@ public class MuseumHomeActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void addListener() {
+    private void addListener() {
         rlGuideHome.setOnClickListener(onClickListener);
         rlMapHome.setOnClickListener(onClickListener);
         rlTopicHome.setOnClickListener(onClickListener);
@@ -93,11 +133,10 @@ public class MuseumHomeActivity extends BaseActivity {
         rlNearlyHome.setOnClickListener(onClickListener);
     }
 
-    @Override
-    protected void initData() {
+    private void initData() {
+
         Intent intent =getIntent();
         currentMuseumId=intent.getStringExtra(INTENT_MUSEUM_ID);
-        startTime=System.currentTimeMillis();
         showDialog("正在加载...");
         if(TextUtils.isEmpty(currentMuseumId)){
             onError();
@@ -118,12 +157,12 @@ public class MuseumHomeActivity extends BaseActivity {
                         }
                     }
                 }
-                if(currentMuseum==null){
+               if(currentMuseum==null){
                     onError();
                     return;
                 }
-                initAudio();
-                //保存临时数据，当前博物馆id
+                 initAudio();
+               //保存临时数据，当前博物馆id
                 DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID, currentMuseumId);
                 String imgStr = currentMuseum.getImgUrl();
                 String[] imgs = imgStr.split(",");
@@ -139,13 +178,13 @@ public class MuseumHomeActivity extends BaseActivity {
                     DataBiz.saveAllJsonData(currentMuseumId);
                 }
                 handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
-                initAllData();
+                //initAllData();
             }
         }.start();
     }
 
 
-    public void initAllData(){
+    private void initAllData(){
         new Thread(){
             @Override
             public void run() {
@@ -167,18 +206,7 @@ public class MuseumHomeActivity extends BaseActivity {
     }
 
 
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
+    private void refreshView() {
         if(currentMuseum!=null){
             setTitleBarTitle(currentMuseum.getName());
             /**加载博物馆介绍*/
@@ -187,39 +215,6 @@ public class MuseumHomeActivity extends BaseActivity {
             closeDialog();
         }
     }
-
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
-
-
-
 
     private View.OnClickListener onClickListener=new View.OnClickListener() {
         @Override
@@ -274,9 +269,6 @@ public class MuseumHomeActivity extends BaseActivity {
         if(ivPlayStateCtrl==null){return;}
         ivPlayStateCtrl.setImageDrawable(getResources().getDrawable(R.drawable.iv_sound_open));
     }
-
-
-    long startTime;
 
     private void onError() {
         runOnUiThread(new Runnable() {
@@ -442,19 +434,5 @@ public class MuseumHomeActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
-            mediaPlayer.stop();
-            setPlayStateImageToClose();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
 }

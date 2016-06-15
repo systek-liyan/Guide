@@ -14,6 +14,9 @@ public interface IConstants {
     String SP_DOWNLOAD_MUSEUM_COUNT="sp_download_museum_count";//下载博物馆数据个数
     String SP_IS_IN_MUSEUM="sp_is_in_museum";//是否在博物馆
 
+
+    String BEACON_LAYOUT="m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
+
     /**关于URL*/
 
     String BASE_URL ="http://182.92.82.70";

@@ -7,11 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.text.TextUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
+import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.service.MediaPlayService;
 import com.systek.guide.utils.ExceptionUtil;
@@ -30,8 +29,22 @@ public class MediaServiceManager implements IConstants {
     private Context mContext;
     private ServiceConnection mConn;
     public MediaPlayService.MediaServiceBinder mediaServiceBinder;
-    private PlayCtrlReceiver playCtrlReceiver;
     private static MediaServiceManager instance;
+
+    private PlayChangeCallback stateChangeCallback;
+
+    public PlayChangeCallback getStateChangeCallback() {
+        return stateChangeCallback;
+    }
+
+    public void setStateChangeCallback(PlayChangeCallback stateChangeCallback) {
+        this.stateChangeCallback = stateChangeCallback;
+    }
+    public void removeStateChangeCallback() {
+        if(stateChangeCallback!=null){
+            stateChangeCallback=null;
+        }
+    }
 
     /**
      * 单例构造方法
@@ -70,7 +83,6 @@ public class MediaServiceManager implements IConstants {
      * 注册广播
      */
     private void registerReceiver(){
-        playCtrlReceiver=new PlayCtrlReceiver();
         IntentFilter filter=new IntentFilter();
         filter.addAction(INTENT_EXHIBIT);
         filter.addAction(INTENT_CHANGE_PLAY_STATE);
@@ -125,6 +137,9 @@ public class MediaServiceManager implements IConstants {
     public void stop() {
         if (mediaServiceBinder == null) {return;}
         mediaServiceBinder.stopPlay();
+        if(stateChangeCallback!=null){
+            stateChangeCallback.onStateChanged(mediaServiceBinder.getPlayState());
+        }
     }
 
     /**
@@ -185,6 +200,8 @@ public class MediaServiceManager implements IConstants {
     public void notifyExhibitChange(ExhibitBean exhibitBean){
         if (mediaServiceBinder == null) {return;}
         mediaServiceBinder.notifyExhibitChange(exhibitBean);
+        if (stateChangeCallback==null){return;}
+        stateChangeCallback.onExhibitChanged(exhibitBean);
     }
 
     /**
@@ -263,10 +280,27 @@ public class MediaServiceManager implements IConstants {
         mContext.stopService(new Intent(mContext, MediaPlayService.class));
     }
 
+    public void onStateChange(){
+        int state=0;
+        if(mediaServiceBinder==null){return;}
+        if (mediaServiceBinder.isPlaying()) {
+            mediaServiceBinder.pause();
+            state=PlayChangeCallback.STATE_PAUSE;
+        } else {
+            mediaServiceBinder.continuePlay();
+            state=PlayChangeCallback.STATE_PLAYING;
+        }
+        if(stateChangeCallback!=null){
+            stateChangeCallback.onStateChanged(state);
+        }
+    }
+
+
+
     /**
      * 播放控制广播接受器
      */
-    private class PlayCtrlReceiver extends BroadcastReceiver{
+    private BroadcastReceiver  playCtrlReceiver=new BroadcastReceiver(){
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -274,7 +308,7 @@ public class MediaServiceManager implements IConstants {
             Intent intent1=null;
             switch (action) {
 
-                /*广播为展品时，通知切换展品*/
+               /* *//*广播为展品时，通知切换展品*//*
                 case INTENT_EXHIBIT:
                     if(mediaServiceBinder==null){return;}
                     String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
@@ -282,9 +316,9 @@ public class MediaServiceManager implements IConstants {
                     ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
                     if (exhibitBean == null || mediaServiceBinder == null) {return;}
                     mediaServiceBinder.notifyExhibitChange(exhibitBean);
-                    break;
+                    break;*/
                 /*广播为切换播放状态，判断当前状态，切换暂停或播放*/
-                case INTENT_CHANGE_PLAY_STATE:
+               /* case INTENT_CHANGE_PLAY_STATE:
                     if(mediaServiceBinder==null){return;}
                     intent1 = new Intent();
                     if (mediaServiceBinder.isPlaying()) {
@@ -295,28 +329,28 @@ public class MediaServiceManager implements IConstants {
                         intent1.setAction(INTENT_CHANGE_PLAY_PLAY);
                     }
                     context.sendBroadcast(intent1);
-                    break;
-                /*广播为跳转播放进度*/
+                    break;*/
+                /*广播为跳转播放进度
                 case INTENT_SEEK_BAR_CHANG:
                     int progress = intent.getIntExtra(INTENT_SEEK_BAR_CHANG, 0);
                     mediaServiceBinder.seekTo(progress);
-                    break;
-                /*广播为展品集合*/
+                    break;*/
+               /* *//*广播为展品集合*//*
                 case INTENT_EXHIBIT_LIST:
-                    /*获取并解析展品集合*/
+                    *//*获取并解析展品集合*//*
                     String exhibitJson=intent.getStringExtra(INTENT_EXHIBIT_LIST);
                     if(TextUtils.isEmpty(exhibitJson)){break;}
                     List<ExhibitBean> currentExhibitList= JSON.parseArray(exhibitJson,ExhibitBean.class);
-                    /*当展品集合不为空并且为自动播放模式，没有暂停的情况下自动播放*/
+                    *//*当展品集合不为空并且为自动播放模式，没有暂停的情况下自动播放*//*
                     if(currentExhibitList==null || currentExhibitList.size()==0){break;}
                     //是否切换
                     boolean isSwitch=intent.getBooleanExtra(INTENT_SWITCH_FLAG,false);
                     //LogUtil.i("ZHANG","isSwitch=="+isSwitch);
-                    /*如果不是自动模式，不做处理*/
+                    *//*如果不是自动模式，不做处理*//*
 
                     if(mediaServiceBinder==null|| mediaServiceBinder.getPlayMode()!=PLAY_MODE_AUTO|| !isSwitch){break;}
                     if(mediaServiceBinder.isPause()){break;}
-                        /*获取展品集合第一个，发送广播，通知播放*/
+                        *//*获取展品集合第一个，发送广播，通知播放*//*
                     ExhibitBean exhibit=currentExhibitList.get(0);
                     ExhibitBean currentExhibit=getCurrentExhibit();
                     if(currentExhibit==null||!currentExhibit.equals(exhibit)){
@@ -326,9 +360,12 @@ public class MediaServiceManager implements IConstants {
                         intent2.putExtra(INTENT_EXHIBIT, str);
                         context.sendBroadcast(intent2);
                     }
-                    break;
+                    break;*/
             }
         }
-    }
+    };
+
+
+
 
 }

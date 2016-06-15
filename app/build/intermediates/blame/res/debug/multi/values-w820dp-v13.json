@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "outputFile": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -30,7 +30,14 @@
                     "endOffset": 143
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endColumn": 46,
+                        "endOffset": 99
+                    }
                 }
             },
             {
@@ -42,7 +49,14 @@
                     "endOffset": 194
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 105,
+                        "endColumn": 50,
+                        "endOffset": 151
+                    }
                 }
             },
             {
@@ -54,7 +68,7 @@
                     "endOffset": 253
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -73,7 +87,7 @@
                     "endOffset": 325
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -92,7 +106,7 @@
                     "endOffset": 374
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -111,7 +125,14 @@
                     "endOffset": 432
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 90,
+                        "endColumn": 57,
+                        "endOffset": 143
+                    }
                 }
             },
             {
@@ -123,7 +144,14 @@
                     "endOffset": 488
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 149,
+                        "endColumn": 55,
+                        "endOffset": 200
+                    }
                 }
             },
             {
@@ -135,7 +163,14 @@
                     "endOffset": 542
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 902,
+                        "endColumn": 53,
+                        "endOffset": 951
+                    }
                 }
             },
             {
@@ -147,7 +182,14 @@
                     "endOffset": 597
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 493,
+                        "endColumn": 54,
+                        "endOffset": 543
+                    }
                 }
             },
             {
@@ -159,7 +201,14 @@
                     "endOffset": 650
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 835,
+                        "endColumn": 52,
+                        "endOffset": 883
+                    }
                 }
             },
             {
@@ -171,7 +220,14 @@
                     "endOffset": 701
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1093,
+                        "endColumn": 50,
+                        "endOffset": 1139
+                    }
                 }
             },
             {
@@ -183,7 +239,14 @@
                     "endOffset": 753
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 424,
+                        "endColumn": 51,
+                        "endOffset": 471
+                    }
                 }
             },
             {
@@ -195,7 +258,14 @@
                     "endOffset": 800
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 970,
+                        "endColumn": 46,
+                        "endOffset": 1012
+                    }
                 }
             },
             {
@@ -207,7 +277,14 @@
                     "endOffset": 842
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 294,
+                        "endColumn": 41,
+                        "endOffset": 331
+                    }
                 }
             },
             {
@@ -219,7 +296,14 @@
                     "endOffset": 884
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 337,
+                        "endColumn": 41,
+                        "endOffset": 374
+                    }
                 }
             },
             {
@@ -231,7 +315,14 @@
                     "endOffset": 927
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 250,
+                        "endColumn": 42,
+                        "endOffset": 288
+                    }
                 }
             },
             {
@@ -243,7 +334,14 @@
                     "endOffset": 970
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 380,
+                        "endColumn": 42,
+                        "endOffset": 418
+                    }
                 }
             },
             {
@@ -255,7 +353,14 @@
                     "endOffset": 1011
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 208,
+                        "endColumn": 40,
+                        "endOffset": 244
+                    }
                 }
             },
             {
@@ -267,7 +372,14 @@
                     "endOffset": 1054
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1145,
+                        "endColumn": 42,
+                        "endOffset": 1183
+                    }
                 }
             },
             {
@@ -279,7 +391,14 @@
                     "endOffset": 1109
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 686,
+                        "endColumn": 54,
+                        "endOffset": 736
+                    }
                 }
             },
             {
@@ -291,7 +410,14 @@
                     "endOffset": 1158
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 625,
+                        "endColumn": 48,
+                        "endOffset": 669
+                    }
                 }
             },
             {
@@ -303,7 +429,14 @@
                     "endOffset": 1210
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 1018,
+                        "endColumn": 51,
+                        "endOffset": 1065
+                    }
                 }
             },
             {
@@ -315,7 +448,14 @@
                     "endOffset": 1277
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 755,
+                        "endColumn": 66,
+                        "endOffset": 817
+                    }
                 }
             },
             {
@@ -327,7 +467,14 @@
                     "endOffset": 1339
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 562,
+                        "endColumn": 61,
+                        "endOffset": 619
+                    }
                 }
             },
             {
@@ -339,7 +486,14 @@
                     "endOffset": 1384
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1208,
+                        "endColumn": 44,
+                        "endOffset": 1248
+                    }
                 }
             },
             {
@@ -351,7 +505,14 @@
                     "endOffset": 1437
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 86,
+                        "endColumn": 52,
+                        "endOffset": 134
+                    }
                 }
             },
             {
@@ -363,7 +524,14 @@
                     "endOffset": 1500
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 142,
+                        "endColumn": 62,
+                        "endOffset": 200
+                    }
                 }
             },
             {
@@ -375,7 +543,14 @@
                     "endOffset": 1560
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 264,
+                        "endColumn": 59,
+                        "endOffset": 319
+                    }
                 }
             },
             {
@@ -387,7 +562,14 @@
                     "endOffset": 1617
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 206,
+                        "endColumn": 56,
+                        "endOffset": 258
+                    }
                 }
             },
             {
@@ -399,7 +581,14 @@
                     "endOffset": 1657
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endColumn": 39,
+                        "endOffset": 52
+                    }
                 }
             },
             {
@@ -411,7 +600,14 @@
                     "endOffset": 1727
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 1653,
+                        "endColumn": 69,
+                        "endOffset": 1718
+                    }
                 }
             },
             {
@@ -423,7 +619,14 @@
                     "endOffset": 1790
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 409,
+                        "endColumn": 62,
+                        "endOffset": 467
+                    }
                 }
             },
             {
@@ -435,7 +638,14 @@
                     "endOffset": 1854
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 473,
+                        "endColumn": 63,
+                        "endOffset": 532
+                    }
                 }
             },
             {
@@ -447,7 +657,14 @@
                     "endOffset": 1919
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 852,
+                        "endColumn": 64,
+                        "endOffset": 912
+                    }
                 }
             },
             {
@@ -459,7 +676,14 @@
                     "endOffset": 1984
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 343,
+                        "endColumn": 64,
+                        "endOffset": 403
+                    }
                 }
             },
             {
@@ -471,7 +695,14 @@
                     "endOffset": 2045
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 790,
+                        "endColumn": 60,
+                        "endOffset": 846
+                    }
                 }
             },
             {
@@ -483,7 +714,14 @@
                     "endOffset": 2106
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 984,
+                        "endColumn": 60,
+                        "endOffset": 1040
+                    }
                 }
             },
             {
@@ -495,7 +733,14 @@
                     "endOffset": 2172
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 1115,
+                        "endColumn": 65,
+                        "endOffset": 1176
+                    }
                 }
             },
             {
@@ -507,7 +752,14 @@
                     "endOffset": 2234
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 603,
+                        "endColumn": 61,
+                        "endOffset": 660
+                    }
                 }
             },
             {
@@ -519,7 +771,14 @@
                     "endOffset": 2297
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 25,
+                        "startColumn": 4,
+                        "startOffset": 1247,
+                        "endColumn": 62,
+                        "endOffset": 1305
+                    }
                 }
             },
             {
@@ -531,7 +790,14 @@
                     "endOffset": 2363
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1048,
+                        "endColumn": 65,
+                        "endOffset": 1109
+                    }
                 }
             },
             {
@@ -543,7 +809,14 @@
                     "endOffset": 2423
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 666,
+                        "endColumn": 59,
+                        "endOffset": 721
+                    }
                 }
             },
             {
@@ -555,7 +828,14 @@
                     "endOffset": 2485
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 727,
+                        "endColumn": 61,
+                        "endOffset": 784
+                    }
                 }
             },
             {
@@ -567,7 +847,14 @@
                     "endOffset": 2549
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 24,
+                        "startColumn": 4,
+                        "startOffset": 1182,
+                        "endColumn": 63,
+                        "endOffset": 1241
+                    }
                 }
             },
             {
@@ -579,7 +866,14 @@
                     "endOffset": 2613
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 538,
+                        "endColumn": 63,
+                        "endOffset": 597
+                    }
                 }
             },
             {
@@ -591,7 +885,14 @@
                     "endOffset": 2678
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 918,
+                        "endColumn": 64,
+                        "endOffset": 978
+                    }
                 }
             },
             {
@@ -603,7 +904,14 @@
                     "endOffset": 2731
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 28,
+                        "startColumn": 4,
+                        "startOffset": 1315,
+                        "endColumn": 58,
+                        "endOffset": 1369
+                    }
                 }
             },
             {
@@ -615,7 +923,14 @@
                     "endOffset": 2786
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 31,
+                        "startColumn": 4,
+                        "startOffset": 1476,
+                        "endColumn": 54,
+                        "endOffset": 1526
+                    }
                 }
             },
             {
@@ -627,7 +942,14 @@
                     "endOffset": 2838
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 30,
+                        "startColumn": 4,
+                        "startOffset": 1423,
+                        "endColumn": 51,
+                        "endOffset": 1470
+                    }
                 }
             },
             {
@@ -639,7 +961,14 @@
                     "endOffset": 2897
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1532,
+                        "endColumn": 58,
+                        "endOffset": 1586
+                    }
                 }
             },
             {
@@ -651,7 +980,14 @@
                     "endOffset": 2944
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1375,
+                        "endColumn": 46,
+                        "endOffset": 1417
+                    }
                 }
             },
             {
@@ -664,7 +1000,15 @@
                     "endOffset": 3263
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 376
+                    }
                 }
             },
             {
@@ -677,7 +1021,15 @@
                     "endOffset": 4419
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 490,
+                        "endLine": 29,
+                        "endColumn": 12,
+                        "endOffset": 1657
+                    }
                 }
             },
             {
@@ -689,7 +1041,14 @@
                     "endOffset": 4520
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 384,
+                        "endColumn": 100,
+                        "endOffset": 480
+                    }
                 }
             },
             {
@@ -702,7 +1061,15 @@
                     "endOffset": 5084
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 90,
+                        "startColumn": 4,
+                        "startOffset": 4015,
+                        "endLine": 98,
+                        "endColumn": 12,
+                        "endOffset": 4582
+                    }
                 }
             },
             {
@@ -715,7 +1082,15 @@
                     "endOffset": 5314
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 34,
+                        "startColumn": 4,
+                        "startOffset": 1671,
+                        "endLine": 38,
+                        "endColumn": 12,
+                        "endOffset": 1900
+                    }
                 }
             },
             {
@@ -728,7 +1103,15 @@
                     "endOffset": 5486
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 45,
+                        "startColumn": 4,
+                        "startOffset": 2042,
+                        "endLine": 48,
+                        "endColumn": 12,
+                        "endOffset": 2212
+                    }
                 }
             },
             {
@@ -741,7 +1124,15 @@
                     "endOffset": 5613
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 40,
+                        "startColumn": 4,
+                        "startOffset": 1908,
+                        "endLine": 42,
+                        "endColumn": 12,
+                        "endOffset": 2032
+                    }
                 }
             },
             {
@@ -754,7 +1145,15 @@
                     "endOffset": 6009
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 2220,
+                        "endLine": 56,
+                        "endColumn": 12,
+                        "endOffset": 2617
+                    }
                 }
             },
             {
@@ -767,7 +1166,15 @@
                     "endOffset": 6384
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 81,
+                        "startColumn": 4,
+                        "startOffset": 3629,
+                        "endLine": 87,
+                        "endColumn": 12,
+                        "endOffset": 4005
+                    }
                 }
             },
             {
@@ -780,7 +1187,15 @@
                     "endOffset": 6811
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 61,
+                        "startColumn": 4,
+                        "startOffset": 2655,
+                        "endLine": 68,
+                        "endColumn": 12,
+                        "endOffset": 3085
+                    }
                 }
             },
             {
@@ -793,7 +1208,15 @@
                     "endOffset": 7309
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml"
+                    "file": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "position": {
+                        "startLine": 70,
+                        "startColumn": 4,
+                        "startOffset": 3093,
+                        "endLine": 78,
+                        "endColumn": 12,
+                        "endOffset": 3595
+                    }
                 }
             }
         ]

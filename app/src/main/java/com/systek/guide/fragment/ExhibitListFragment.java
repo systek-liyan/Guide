@@ -10,13 +10,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
-import com.systek.guide.activity.PlayActivity;
+import com.systek.guide.activity.ListAndMapActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.BluetoothManager;
@@ -34,16 +35,19 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
     private Context activity;
     private ListView listView;
     private ExhibitAdapter exhibitAdapter;
+
     private Handler handler;
-    private static ExhibitListFragment exhibitListFragment;
+
     private ListChangeReceiver listChangeReceiver;
     private List<ExhibitBean> currentExhibitList;
     private OnFragmentInteractionListener mListener;
-    private MediaServiceManager mediaServiceManager;
+    //private MediaServiceManager mediaServiceManager;
     private ExhibitBean currentExhibit;
+    private LinearLayout loadingView;
+    public static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
 
 
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
+    private static ExhibitListFragment exhibitListFragment;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,12 +62,19 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
         }
         return exhibitListFragment;
     }
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setCurrentExhibitList(List<ExhibitBean> currentExhibitList) {
+        this.currentExhibitList = currentExhibitList;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         exhibitListFragment=this;
-        mediaServiceManager=MediaServiceManager.getInstance(activity);
+        //mediaServiceManager=MediaServiceManager.getInstance(activity);
         handler=new MyHandler(this);
         registerReceiver();
     }
@@ -71,9 +82,10 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
     @Override
     public void onResume() {
         super.onResume();
-        if(mediaServiceManager!=null){
+        /*if(mediaServiceManager!=null){
             currentExhibit=mediaServiceManager.getCurrentExhibit();
-        }
+        }*/
+        currentExhibit=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
     }
 
     @Override
@@ -108,38 +120,39 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
         listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
 
+    private void hideLoadingView(){
+        if(loadingView!=null){
+            loadingView.setVisibility(View.GONE);
+        }
+    }
 
+    private void showLoadingView(){
+        if(loadingView!=null){
+            loadingView.setVisibility(View.GONE);
+        }
+    }
 
     private void initView(View view) {
         listView=(ListView)view.findViewById(R.id.lv_exhibit_list);
+        loadingView=(LinearLayout) view.findViewById(R.id.loadingView);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
-                currentExhibit=mediaServiceManager.getCurrentExhibit();
-                if(currentExhibit!=null&&!currentExhibit.equals(exhibitBean)){
-                    mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                //ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+                ExhibitBean bean = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                //exhibitAdapter.setSelectItem(position);
+                exhibitAdapter.setSelectExhibit(exhibitBean);
+                if(bean==null||!bean.equals(exhibitBean)){
+                    exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+                    MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                    exhibitAdapter.notifyDataSetInvalidated();
+                    ((ListAndMapActivity)getActivity()).onFragmentInteraction(exhibitBean);
+                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibitBean);
                 }
-                exhibitAdapter.setSelectItem(position);
-                exhibitAdapter.notifyDataSetInvalidated();
-                Context context=getActivity();
-                Intent intent1 = new Intent(context, PlayActivity.class);
-                if (currentExhibit == null || !currentExhibit.equals(exhibitBean)) {
-                    mListener.onFragmentInteraction(exhibitBean);
-                    if(mediaServiceManager.getPlayMode()==PLAY_MODE_AUTO){
-                        mediaServiceManager.setPlayMode(PLAY_MODE_AUTO_PAUSE);
-                    }
-
-                    String str = JSON.toJSONString(exhibitBean);
-                    Intent intent = new Intent();
-                    intent.setAction(INTENT_EXHIBIT);
-                    intent.putExtra(INTENT_EXHIBIT, str);
-                    context.sendBroadcast(intent);
-                    intent1.putExtra(INTENT_EXHIBIT, str);
-                }
-                startActivity(intent1);
 
             }
         });
@@ -177,6 +190,11 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
 
     public void updateView(){
         if(exhibitAdapter ==null||currentExhibitList==null){return;}
+        if(currentExhibitList.size()==0){
+            showLoadingView();
+        }else{
+            hideLoadingView();
+        }
         exhibitAdapter.updateData(currentExhibitList);
         BluetoothManager.newInstance(getActivity()).setIsInGuide(false);
     }

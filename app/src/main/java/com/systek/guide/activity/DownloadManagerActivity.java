@@ -17,9 +17,9 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Button;
 
 import com.systek.guide.R;
@@ -37,15 +37,19 @@ public class DownloadManagerActivity extends BaseActivity {
 
     private TaskItemAdapter adapter;
 
+
+
     @Override
-    void setView() {
-        View view = View.inflate(this, R.layout.activity_download, null);
-        setContentView(view);
-        handler=new MyHandler(this);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_download);
         initDrawer();
+        initView();
+        addListener();
+        initData();
     }
-    @Override
-    void initView() {
+
+    private void initView() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mErrorView=findViewById(R.id.mErrorView);
         refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
@@ -57,63 +61,21 @@ public class DownloadManagerActivity extends BaseActivity {
         setHomeIcon();
     }
 
-    @Override
-    void addListener() {
+    private void addListener() {
         toolbar.setNavigationOnClickListener(backOnClickListener);
     }
 
-    @Override
-    void initData() {
+    private void initData() {
         Intent intent =getIntent();
         MuseumBean museumBean= (MuseumBean) intent.getSerializableExtra(INTENT_MUSEUM);
         TasksManager.getImpl().addTask(museumBean);
         TasksManager.getImpl().onCreate(new WeakReference<>(this));
     }
 
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
+    private void refreshView() {
         postNotifyDataChanged();
     }
 
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
 
 
     public void postNotifyDataChanged() {
@@ -134,4 +96,6 @@ public class DownloadManagerActivity extends BaseActivity {
         adapter = null;
         super.onDestroy();
     }
+
+
 }

@@ -1,9 +1,11 @@
 package com.systek.guide.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.RemoteException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,18 +18,37 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
+import com.systek.guide.biz.MyBeaconTask;
+import com.systek.guide.callback.BeaconChangeCallback;
+import com.systek.guide.callback.PlayChangeCallback;
+import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.fragment.ExhibitListFragment;
 import com.systek.guide.fragment.MapFragment;
 import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
+import com.systek.guide.utils.LogUtil;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
+import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 附近展品列表和地图activity
  */
-public class ListAndMapActivity extends BaseActivity implements ExhibitListFragment.OnFragmentInteractionListener{
+public class ListAndMapActivity extends BaseActivity
+        implements ExhibitListFragment.OnFragmentInteractionListener, BeaconConsumer {
 
     private RadioButton radioButtonList;
     private RadioButton radioButtonMap;
@@ -41,104 +62,261 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
     private TextView exhibitName;
     private ImageView exhibitIcon;
     private ImageView ivPlayCtrl;
-    private MediaServiceManager mediaServiceManager;
     private ImageView ivGuideMode;
     private TextView tvToast;
+    private ThreadPoolExecutor executor ;
+    private final static int  MSG_WHAT_UPDATE_PROGRESS=1;
+    private final static int  MSG_WHAT_REFRESH_STATE=2;
+    private final static int  MSG_WHAT_CHANGE_EXHIBIT=4;
 
-    private static final int PLAY_STATE_START=1;
-    private static final int PLAY_STATE_STOP=2;
-    private int state=PLAY_STATE_STOP;
-
+    private BeaconManager beaconManager;
+    long t=System.currentTimeMillis();
     @Override
-    protected void setView() {
+    public void onBeaconServiceConnect() {
 
-        View view = View.inflate(this, R.layout.activity_list_and_map, null);
-        setContentView(view);
-        //加载播放器
-        initMediaManager();
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, org.altbeacon.beacon.Region region) {
+
+                    if(beacons==null||beacons.size()==0){return ; }
+                    executor.execute(new MyBeaconTask(beacons, new BeaconChangeCallback() {
+                        @Override
+                        public void getExhibits(List<ExhibitBean> exhibits) {
+                            if(exhibitListFragment==null||exhibits==null||exhibitListFragment.getHandler()==null){return;}
+                            if(System.currentTimeMillis()-t<4000){
+                                return;
+                            }
+                            t=System.currentTimeMillis();
+                            exhibitListFragment.setCurrentExhibitList(exhibits);
+                            exhibitListFragment.getHandler().sendEmptyMessage(ExhibitListFragment.MSG_WHAT_UPDATE_DATA_SUCCESS);
+                        }
+
+                        @Override
+                        public void getNearestExhibit(final ExhibitBean exhibit) {
+
+                            if(exhibitListFragment==null||exhibit==null){return;}
+                            MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
+                            if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
+                                if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
+                                    SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                                    LogUtil.i("ZHANG","equals= "+df.format(new Date()));
+                                    return;}
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibit);
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void getNearestExhibits(List<ExhibitBean> exhibits) {
+                            if(exhibitListFragment==null||exhibits==null||exhibits.size()==0){return;}
+                            final ExhibitBean mExhibit=exhibits.get(0);
+                            MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
+                            if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
+                                if(currentExhibit!=null&&mExhibit.equals(currentExhibit)){
+                                    LogUtil.i("ZHANG","equals= "+System.currentTimeMillis());
+                                    return;}
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(mExhibit);
+                                    }
+                                });
+                            }
+
+                        }
+
+                        @Override
+                        public void getNearestBeacon(BeaconBean bean) {
+                            if(mapFragment==null||bean==null||mapFragment.getHandler()==null){return;}
+                            mapFragment.setBeacon(bean);
+                            mapFragment.getHandler().sendEmptyMessage(MapFragment.MSG_WHAT_DRAW_POINT);
+                        }
+
+                        @Override
+                        public void getNearestBeaconList(List<BeaconBean> beans) {
+
+                        }
+                    }));
+                }
+        });
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region(BEACON_LAYOUT, null, null, null));
+        } catch (RemoteException e) {
+            ExceptionUtil.handleException(e);
+        }
+
     }
 
-    /**
-     * 加载播放器
-     */
-    private void initMediaManager() {
-        mediaServiceManager= MediaServiceManager.getInstance(this);
+
+    @Override
+    public void onStateChanged(final int state) {
+        super.onStateChanged(state);
+        this.state=state;
+        handler.sendEmptyMessage(MSG_WHAT_REFRESH_STATE);// TODO: 2016/5/26
+
+    }
+
+    @Override
+    public void onExhibitChanged(ExhibitBean exhibit) {
+
+        if(currentExhibit==null||!currentExhibit.equals(exhibit)){
+            currentExhibit=exhibit;
+            handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+        }else{
+            LogUtil.i("ZHANG","onExhibitChanged : exhibit "+exhibit.equals(currentExhibit) );
+        }
+
+    }
+
+    @Override
+    public void onPositionChanged(int duration, int position) {
+        super.onPositionChanged(duration, position);
+        this.currentDuration=duration;
+        this.currentProgress=position;
+        handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
+
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<ListAndMapActivity> activityWeakReference;
+        MyHandler(ListAndMapActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            ListAndMapActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_PROGRESS:
+                    activity.refreshProgress();
+                    break;
+                case MSG_WHAT_REFRESH_STATE:
+                    activity.refreshState();
+                    break;
+                case MSG_WHAT_CHANGE_EXHIBIT:
+                    activity.refreshViewBottomTab();
+                    break;
+
+                default:break;
+            }
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_and_map);
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+        //绑定蓝牙扫描服务
+        beaconManager.bind(this);
+
+        //加载播放器
+        handler=new MyHandler(this);
+        initView();
+        addListener();
+        initData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        ExhibitBean exhibitBean=MediaServiceManager.getInstance(this).getCurrentExhibit();
+        if(exhibitBean!=null){
+            currentExhibit=exhibitBean;
+            exhibitName.setText(currentExhibit.getName());
+            refreshViewBottomTab();
+        }
+        refreshState();
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+        MediaServiceManager.getInstance(this).setStateChangeCallback(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unRegisterReceiver();
+        MediaServiceManager.getInstance(this).removeStateChangeCallback();
+    }
+
+    @Override
+    protected void onDestroy() {
+        exhibitListFragment=null;
+        mapFragment=null;
+        super.onDestroy();
+        beaconManager.unbind(this);
+        if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
     }
 
     /**
      * 注册广播
      */
-    @Override
-    void registerReceiver() {
+    private void registerReceiver() {
         registerBluetoothReceiver();
-        IntentFilter filter=new IntentFilter();
-        filter.addAction(INTENT_EXHIBIT_PROGRESS);
-        filter.addAction(INTENT_EXHIBIT_DURATION);
-        filter.addAction(INTENT_CHANGE_PLAY_PLAY);
-        filter.addAction(INTENT_CHANGE_PLAY_STOP);
-        filter.addAction(INTENT_EXHIBIT);
-        registerReceiver(receiver, filter);
     }
 
-    @Override
-    void unRegisterReceiver() {
+
+    private void unRegisterReceiver() {
         unRegisterBluetoothReceiver();
-        unregisterReceiver(receiver);
     }
 
-    @Override
-    void refreshView() {
+    /**
+     * 加载播放器
 
-    }
+     private void initMediaManager() {
+     mediaServiceManager= MediaServiceManager.getInstance(this);
+     }*/
 
-    @Override
-    void refreshExhibit() {
-        refreshViewBottomTab();
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
+    private void refreshViewBottomTab() {
         if(currentExhibit==null||exhibitName==null||exhibitIcon==null){return;}
         exhibitName.setText(currentExhibit.getName());
         String iconPath=currentExhibit.getIconurl();
         ImageUtil.displayImage(iconPath, exhibitIcon, currentExhibit.getMuseumId(),true,false);
     }
 
-    @Override
-    void refreshProgress() {
+    private void refreshProgress() {
         if(seekBarProgress!=null&&currentDuration>=0&&currentProgress>=0){
             seekBarProgress.setMax(currentDuration);
             seekBarProgress.setProgress(currentProgress);
         }
     }
 
-    @Override
-    void refreshIcon() {
 
-    }
+    private void refreshState() {
+        if(MediaServiceManager.getInstance(this).isPlaying()){
+            state= PlayChangeCallback.STATE_PLAYING;
 
-    @Override
-    void refreshState() {
-
-        if(mediaServiceManager!=null){
-            switch (mediaServiceManager.getPlayMode()){
-                case PLAY_MODE_AUTO:
-                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
-                    break;
-                case PLAY_MODE_HAND:
-                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
-                    break;
-                case PLAY_MODE_AUTO_PAUSE:
-                    ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
-                    break;
-            }
+        }else{
+            state= PlayChangeCallback.STATE_STOP;
         }
-        if(state==PLAY_STATE_START) {
+        switch (MediaServiceManager.getInstance(this).getPlayMode()){
+            case PLAY_MODE_AUTO:
+                ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
+                break;
+            case PLAY_MODE_HAND:
+                ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
+                break;
+            case PLAY_MODE_AUTO_PAUSE:
+                ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
+                break;
+        }
+        //}
+        if(state== PlayChangeCallback.STATE_PLAYING) {
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
         }else{
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
@@ -146,8 +324,8 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
     }
 
-    @Override
-    void addListener() {
+
+    private void addListener() {
         radioGroupTitle.setOnCheckedChangeListener(radioButtonCheckListener);
         ivPlayCtrl.setOnClickListener(onClickListener);
         seekBarProgress.setOnSeekBarChangeListener(onSeekBarChangeListener);
@@ -155,13 +333,19 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         ivGuideMode.setOnClickListener(onClickListener);
     }
 
-    @Override
-    void initData() {
+    private void initData() {
         //设置默认fragment
         setDefaultFragment();
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter != null) {
+            if (!mBluetoothAdapter.isEnabled()) {
+                mBluetoothAdapter.enable();
+            }
+        }
     }
 
-    void initView() {
+    private void initView() {
         setMyTitleBar();
         setHomeIcon();
         toolbar.setNavigationOnClickListener(backOnClickListener);
@@ -192,19 +376,18 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      * 根据状态切换模式图标
      */
     private void refreshModeIcon() {
-        if(mediaServiceManager!=null){
-            switch (mediaServiceManager.getPlayMode()){
-                case PLAY_MODE_AUTO:
-                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
-                    break;
-                case PLAY_MODE_HAND:
-                    ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
-                    break;
-                case PLAY_MODE_AUTO_PAUSE:
-                    ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
-                    break;
-            }
+        switch (MediaServiceManager.getInstance(this).getPlayMode()){
+            case PLAY_MODE_AUTO:
+                ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
+                break;
+            case PLAY_MODE_HAND:
+                ivGuideMode.setBackgroundResource(R.drawable.play_mode_hand);
+                break;
+            case PLAY_MODE_AUTO_PAUSE:
+                ivGuideMode.setBackgroundResource(R.drawable.play_auto_pause);
+                break;
         }
+        //}
     }
 
     /**
@@ -215,29 +398,26 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.ivPlayCtrl:
-                    Intent intent=new Intent();
-                    intent.setAction(INTENT_CHANGE_PLAY_STATE);
-                    sendBroadcast(intent);
+                    MediaServiceManager.getInstance(getApplicationContext()).onStateChange();
                     break;
                 case R.id.exhibitIcon:
                     Intent intent1=new Intent(ListAndMapActivity.this,PlayActivity.class);
                     startActivity(intent1);
                     break;
-
                 case R.id.ivGuideMode:
                     tvToast.setVisibility(View.VISIBLE);
-                    int  mode = mediaServiceManager.getPlayMode();
+                    int  mode = MediaServiceManager.getInstance(getActivity()).getPlayMode();
                     switch (mode){
                         case PLAY_MODE_AUTO:
-                            mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+                            MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
                             tvToast.setText("手动模式");
                             break;
                         case PLAY_MODE_HAND:
-                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
+                            MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_AUTO);
                             tvToast.setText("自动模式");
                             break;
                         case PLAY_MODE_AUTO_PAUSE:
-                            mediaServiceManager.setPlayMode(PLAY_MODE_AUTO);
+                            MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_AUTO);
                             break;
                     }
                     refreshModeIcon();
@@ -263,9 +443,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
                     finish();
                     break;
                 default:break;
-
-
-
             }
         }
     };
@@ -274,13 +451,11 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
      * SeekBar 进度改变监听器
      */
     SeekBar.OnSeekBarChangeListener onSeekBarChangeListener=new SeekBar.OnSeekBarChangeListener() {
+
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if(!fromUser){return;}
-            Intent intent=new Intent();
-            intent.setAction(INTENT_SEEK_BAR_CHANG);
-            intent.putExtra(INTENT_SEEK_BAR_CHANG,progress);
-            sendBroadcast(intent);
+            MediaServiceManager.getInstance(getActivity()).seekTo(progress);
         }
 
         @Override
@@ -293,7 +468,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
 
         }
     };
-
 
     /**
      * 设置默认fragment
@@ -350,31 +524,6 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         }
     };
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ExhibitBean exhibitBean=mediaServiceManager.getCurrentExhibit();
-        if(exhibitBean!=null){
-            currentExhibit=exhibitBean;
-            exhibitName.setText(currentExhibit.getName());
-            refreshViewBottomTab();
-        }
-        if(mediaServiceManager.isPlaying()){
-            state=PLAY_STATE_START;
-        }else{
-            state=PLAY_STATE_STOP;
-        }
-        refreshState();
-    }
-
-    @Override
-    protected void onDestroy() {
-        exhibitListFragment=null;
-        mediaServiceManager=null;
-        mapFragment=null;
-        super.onDestroy();
-    }
-
 
     /**
      * 回调方法，用于反给activity数据
@@ -385,51 +534,5 @@ public class ListAndMapActivity extends BaseActivity implements ExhibitListFragm
         this.currentExhibit=bean;
         refreshViewBottomTab();
     }
-
-    /**
-     * 广播接受器，监听播放状态
-     */
-    private  BroadcastReceiver receiver=new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-
-                //更新进度
-                case INTENT_EXHIBIT_PROGRESS:
-                    currentDuration = intent.getIntExtra(INTENT_EXHIBIT_DURATION, 0);
-                    currentProgress = intent.getIntExtra(INTENT_EXHIBIT_PROGRESS, 0);
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
-                    break;
-                //停止播放
-                case INTENT_CHANGE_PLAY_STOP:
-                    state=PLAY_STATE_STOP;
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_STOP);
-                    break;
-                //继续播放
-                case INTENT_CHANGE_PLAY_PLAY:
-                    state=PLAY_STATE_START;
-                    handler.sendEmptyMessage(MSG_WHAT_CHANGE_PLAY_START);
-                    break;
-                //切换展品
-                case INTENT_EXHIBIT:
-                    String exhibitStr = intent.getStringExtra(INTENT_EXHIBIT);
-                    if (TextUtils.isEmpty(exhibitStr)) {
-                        break;
-                    }
-                    ExhibitBean exhibitBean = JSON.parseObject(exhibitStr, ExhibitBean.class);
-                    if (exhibitBean == null) {
-                        break;
-                    }
-                    if (currentExhibit == null || !currentExhibit.equals(exhibitBean)) {
-                        currentExhibit = exhibitBean;
-                        handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
-                    }
-                    break;
-                default:break;
-            }
-        }
-    };
 
 }

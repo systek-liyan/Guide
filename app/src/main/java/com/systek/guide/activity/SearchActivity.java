@@ -1,6 +1,9 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -9,13 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
-import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.custom.ClearEditText;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.manager.MediaServiceManager;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +35,44 @@ public class SearchActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
     private String currentMuseumId;
 
-    @Override
-    protected void setView() {
-        setContentView(R.layout.activity_search);
-        initDrawer();
+    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
+
+    static class MyHandler extends Handler {
+
+        WeakReference<SearchActivity> activityWeakReference;
+        MyHandler(SearchActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            SearchActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                    activity.refreshView();
+                    break;
+                default:break;
+            }
+        }
     }
 
     @Override
-    protected void addListener() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        handler=new MyHandler(this);
+        initDrawer();
+        initView();
+        addListener();
+        initData();
+
+    }
+
+
+    private void addListener() {
 
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,24 +93,26 @@ public class SearchActivity extends BaseActivity {
         listViewExhibit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ExhibitBean exhibitBean = exhibitBeanList.get(position);
-                String str = JSON.toJSONString(exhibitBean);
-                Intent intent = new Intent();
-                intent.setAction(INTENT_EXHIBIT);
-                intent.putExtra(INTENT_EXHIBIT, str);
-                sendBroadcast(intent);
-                Intent intent1 = new Intent(SearchActivity.this, PlayActivity.class);
-                intent1.putExtra(INTENT_EXHIBIT, str);
-                startActivity(intent1);
+
+                ExhibitBean clickExhibit = exhibitAdapter.getItem(position);
+                //ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+                ExhibitBean currentExhibit = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                //exhibitAdapter.setSelectItem(position);
+                exhibitAdapter.setSelectExhibit(clickExhibit);
+                if(currentExhibit==null||!currentExhibit.equals(clickExhibit)){
+                    exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+                }
+                MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                exhibitAdapter.notifyDataSetInvalidated();
+                MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(clickExhibit);
+                startActivity(new Intent(SearchActivity.this,PlayActivity.class));
                 finish();
             }
         });
 
     }
 
-    @Override
-    protected void initView() {
-
+    private void initView() {
         setTitleBar();
         setTitleBarTitle("搜索");
         setHomeIcon();
@@ -90,58 +126,18 @@ public class SearchActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void initData() {
+    private void initData() {
         Intent intent=getIntent();
         currentMuseumId=intent.getStringExtra(MUSEUM_ID);
     }
 
-    @Override
-    protected void refreshView() {
+    private void refreshView() {
         if(exhibitAdapter!=null){
             exhibitAdapter.updateData(exhibitBeanList);
         }
     }
 
-    @Override
-    protected void registerReceiver() {
 
-    }
-
-    @Override
-    protected void unRegisterReceiver() {
-
-    }
-
-    @Override
-    protected void refreshExhibit() {
-
-    }
-
-    @Override
-    protected void refreshTitle() {
-
-    }
-
-    @Override
-    protected void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    protected void refreshProgress() {
-
-    }
-
-    @Override
-    protected void refreshIcon() {
-
-    }
-
-    @Override
-    protected void refreshState() {
-
-    }
 
     private  void filterData(final String s) {
         new Thread(){
@@ -161,12 +157,6 @@ public class SearchActivity extends BaseActivity {
             }
         }.start();
 
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
 }

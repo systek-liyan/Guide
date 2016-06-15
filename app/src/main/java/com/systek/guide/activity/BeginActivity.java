@@ -1,12 +1,16 @@
 package com.systek.guide.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.systek.guide.R;
 import com.systek.guide.manager.BluetoothManager;
-import com.systek.guide.utils.NetworkUtil;
 import com.systek.guide.utils.Tools;
+
+import java.lang.ref.WeakReference;
 
 public class BeginActivity extends BaseActivity{
 
@@ -14,29 +18,20 @@ public class BeginActivity extends BaseActivity{
     private Class<?> targetClass;
     private boolean isFirstLogin;
     private String currentMuseumId;
-
+    private static final int MSG_WHAT_CHANGE_ACTIVITY=1;
 
     @Override
-    protected void setView() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
+        handler=new MyHandler(this);
+        initData();
     }
 
-    @Override
-    void initView() {
-
-    }
-
-    @Override
-    void addListener() {
-
-    }
-
-    @Override
-    void initData() {
+    private void initData() {
         new Thread(){
             @Override
             public void run() {
-                NetworkUtil.checkNet(BeginActivity.this);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -47,66 +42,22 @@ public class BeginActivity extends BaseActivity{
                     Tools.saveValue(BeginActivity.this,SP_NOT_FIRST_LOGIN,false);
                     targetClass=WelcomeActivity.class;
                 }else{
-                            /*默认跳转界面为城市选择*/
+                        /*默认跳转界面为城市选择*/
                     targetClass=MuseumListActivity.class;
                     //targetClass=CityChooseActivity.class;
                 }
                 if(!isFirstLogin){
-                    BluetoothManager bluetoothManager=BluetoothManager.newInstance(BeginActivity.this);
+                    BluetoothManager bluetoothManager= BluetoothManager.newInstance(BeginActivity.this);
                     currentMuseumId=bluetoothManager.getCurrentMuseumId();
                     if(!TextUtils.isEmpty(currentMuseumId)){
                         targetClass=MuseumHomeActivity.class;
                     }
                 }
-                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                handler.sendEmptyMessage(MSG_WHAT_CHANGE_ACTIVITY);
             }
         }.start();
     }
 
-    @Override
-    void registerReceiver() {
-
-    }
-
-    @Override
-    void unRegisterReceiver() {
-
-    }
-
-    @Override
-    void refreshView() {
-        goToNextActivity();
-    }
-
-    @Override
-    void refreshExhibit() {
-
-    }
-
-    @Override
-    void refreshTitle() {
-
-    }
-
-    @Override
-    void refreshViewBottomTab() {
-
-    }
-
-    @Override
-    void refreshProgress() {
-
-    }
-
-    @Override
-    void refreshIcon() {
-
-    }
-
-    @Override
-    void refreshState() {
-
-    }
 
     private void goToNextActivity(){
         Intent intent=new Intent();
@@ -117,4 +68,28 @@ public class BeginActivity extends BaseActivity{
         startActivity(intent);
         finish();
     }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<BeginActivity> activityWeakReference;
+        MyHandler(BeginActivity activity){
+            this.activityWeakReference=new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(activityWeakReference==null){return;}
+            BeginActivity activity=activityWeakReference.get();
+            if(activity==null){return;}
+            switch (msg.what){
+                case MSG_WHAT_CHANGE_ACTIVITY:
+                    activity.goToNextActivity();
+                    break;
+               default:break;
+            }
+        }
+    }
+
+
 }

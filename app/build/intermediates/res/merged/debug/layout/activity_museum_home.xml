@@ -82,22 +82,27 @@
                         style="@style/tv_home_menu"
                         android:layout_below="@id/iv_home_circle_title" />
                 </RelativeLayout>
+
+
                 <RelativeLayout
+                    android:id="@+id/rlCollectionHome"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/iv_home_circle_essence"
-                        android:src="@drawable/iv_home_circle_essence"
+                        android:id="@+id/iv_home_circle_collect"
+                        android:src="@drawable/iv_home_circle_collect"
                         android:layout_centerHorizontal="true"
                         style="@style/normal_image_view" />
 
                     <TextView
-                        android:text="精品"
+                        android:text="收藏"
                         style="@style/tv_home_menu"
-                        android:layout_below="@id/iv_home_circle_essence" />
+                        android:layout_below="@id/iv_home_circle_collect" />
                 </RelativeLayout>
+
+
 
 
             </LinearLayout>
@@ -124,23 +129,24 @@
                         style="@style/tv_home_menu"
                         android:layout_below="@id/iv_home_circle_nearly"/>
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:id="@+id/rlCollectionHome"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/iv_home_circle_collect"
-                        android:src="@drawable/iv_home_circle_collect"
+                        android:id="@+id/iv_home_circle_essence"
+                        android:src="@drawable/iv_home_circle_essence"
                         android:layout_centerHorizontal="true"
                         style="@style/normal_image_view" />
 
                     <TextView
-                        android:text="收藏"
+                        android:text="精品"
                         style="@style/tv_home_menu"
-                        android:layout_below="@id/iv_home_circle_collect" />
+                        android:layout_below="@id/iv_home_circle_essence" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
