@@ -19,6 +19,7 @@
     <dimen name="dialog_button_textSize">13sp</dimen>//对话框中内容字体的大小
     <dimen name="normal_textSize">13sp</dimen>
     <dimen name="topic_label_textSize">15sp</dimen>
+    <dimen name="lock_screen_bottom_margin_top">0dp</dimen>
 
     <!--展品item -->
     <dimen name="height_exhibit_item">94dp</dimen>

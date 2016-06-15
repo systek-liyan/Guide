@@ -37,9 +37,7 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -98,8 +96,8 @@ public class ListAndMapActivity extends BaseActivity
                             MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
                             if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
                                 if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
-                                    SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-                                    LogUtil.i("ZHANG","equals= "+df.format(new Date()));
+                                    /*SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                                    LogUtil.i("ZHANG","equals= "+df.format(new Date()));*/
                                     return;}
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -158,6 +156,7 @@ public class ListAndMapActivity extends BaseActivity
         handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
 
     }
+
 
     static class MyHandler extends Handler {
 

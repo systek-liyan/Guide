@@ -13,6 +13,7 @@
     <dimen name="dialog_title_textSize">14sp</dimen>
     <dimen name="height_exhibit_item">94dp</dimen>
     <dimen name="largest_icon_height">188dp</dimen>
+    <dimen name="lock_screen_bottom_margin_top">30dp</dimen>
     <dimen name="normal_textSize">13sp</dimen>
     <dimen name="simple38dp">38dp</dimen>
     <dimen name="simple40dp">40dp</dimen>

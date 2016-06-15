@@ -33,7 +33,6 @@ import com.systek.guide.fragment.LyricFragment;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
-import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
 
 import org.altbeacon.beacon.Beacon;
@@ -43,10 +42,8 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -101,8 +98,8 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
                         MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
                         if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
                             if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
-                                SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-                                LogUtil.i("ZHANG","equals= "+df.format(new Date()));
+                               /* SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                                LogUtil.i("ZHANG","equals= "+df.format(new Date()));*/
                                 return;}
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -162,7 +159,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     @Override
     public void onStateChanged(final int state) {
-        super.onStateChanged(state);
         this.state=state;
         handler.sendEmptyMessage(MSG_WHAT_REFRESH_STATE);// TODO: 2016/5/26
 
@@ -170,7 +166,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     @Override
     public void onExhibitChanged(ExhibitBean exhibit) {
-        if(currentExhibit!=exhibit){
+        if(currentExhibit==null||!currentExhibit.equals(exhibit)){
             currentExhibit=exhibit;
             handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
         }

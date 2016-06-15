@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:descendantFocusability="afterDescendants"
     android:background="@color/md_grey_700"
     tools:context=".activity.LockScreenActivity">
     <LinearLayout
@@ -13,14 +14,13 @@
         android:background="@drawable/fullscreen_bg_gradient"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/tvLockTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="60sp"
             android:text="12:25"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="@dimen/simple_10dp"
             android:textColor="@color/md_white_1000" />
         <TextView
@@ -43,14 +43,15 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="5"
+                android:layout_weight="4.5"
                 android:layout_height="0dp"/>
 
             <android.support.v7.widget.RecyclerView
+
                 android:id="@+id/recycleNearly"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3.8"
+                android:layout_weight="3"
                 android:layout_marginTop="10dp"
                 android:scrollbars="none"/>
 
@@ -58,6 +59,7 @@
                 android:id="@+id/seekBarProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/simple_10dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:maxHeight="5dp"
@@ -94,33 +96,35 @@
 
                 <ImageView
                     android:id="@+id/ivPlayCtrl"
-                    style="@style/normal_image_view"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/uamp_ic_play_arrow_white_48dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/lock_screen_bottom_margin_top"
+                    android:orientation="horizontal">
+                    <!-- hint_unlock -->
+                    <TextView  android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/md_white_1000"
+                        android:text="@string/hint_unlock"/>
+                    <!-- Arrow Animation -->
+                    <ImageView android:id="@+id/getup_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:background="@anim/slider_tip_anim"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <!-- hint_unlock -->
-                <TextView  android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:textSize="15sp"
-                           android:textColor="@color/md_white_1000"
-                           android:text="@string/hint_unlock"/>
-                <!-- Arrow Animation -->
-                <ImageView android:id="@+id/getup_arrow"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:layout_marginStart="5dp"
-                           android:background="@anim/slider_tip_anim"/>
-
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

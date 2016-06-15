@@ -519,6 +519,7 @@
     <dimen name="iv_list_map_bottom_exhibit_width">60dp</dimen>
     <dimen name="iv_multi_angle_image_width">120dp</dimen>
     <dimen name="largest_icon_height">228dp</dimen>
+    <dimen name="lock_screen_bottom_margin_top">0dp</dimen>
     <dimen name="material_drawer_account_header_compact">56dp</dimen>
     <dimen name="material_drawer_account_header_dropdown">22dp</dimen>
     <dimen name="material_drawer_account_header_dropdown_margin_bottom">14dp</dimen>
