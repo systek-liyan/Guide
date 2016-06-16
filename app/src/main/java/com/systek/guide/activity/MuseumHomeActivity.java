@@ -306,7 +306,9 @@ public class MuseumHomeActivity extends BaseActivity {
         });
 
         mErrorView=findViewById(R.id.mErrorView);
-        refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
+        if (mErrorView != null) {
+            refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
+        }
 
         ivPlayStateCtrl = (ImageView) findViewById(R.id.ivPlayStateCtrl);
         //llMuseumLargestIcon = (LinearLayout) findViewById(R.id.llMuseumLargestIcon);

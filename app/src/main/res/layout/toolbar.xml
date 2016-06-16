@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:minHeight="?attr/actionBarSize"
-    style="@style/AppTheme"
-    android:background="@color/my_own_red_300">
+    style="@style/AppTheme">
     <TextView
         android:id="@+id/toolbar_title"
         android:textColor="@color/md_white_1000"

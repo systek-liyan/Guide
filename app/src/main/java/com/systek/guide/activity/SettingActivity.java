@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.systek.guide.R;
 import com.systek.guide.entity.base.VersionBean;
 import com.systek.guide.manager.UpdateManager;
+import com.systek.guide.utils.Tools;
 
 import java.lang.ref.WeakReference;
 
@@ -20,6 +21,8 @@ public class SettingActivity extends BaseActivity {
     private static final int MSG_WHAT_CURRENT_VERSION_IS_NEAREST=1;
     private static final int MSG_WHAT_CURRENT_VERSION_NOT_NEAREST=2;
     private UpdateManager updateManager;
+    private Button themeNormal;
+    private Button themeBlue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,9 @@ public class SettingActivity extends BaseActivity {
     private void addListener() {
         updateManager=new UpdateManager(SettingActivity.this);
         btn_update.setOnClickListener(onClickListener);
+        themeNormal.setOnClickListener(onClickListener);
+        themeBlue.setOnClickListener(onClickListener);
+
     }
 
     public  void initView() {
@@ -42,6 +48,8 @@ public class SettingActivity extends BaseActivity {
         setHomeIcon();
         setHomeClickListener(backOnClickListener);
         btn_update=(Button)findViewById(R.id.btn_update);
+        themeNormal=(Button)findViewById(R.id.themeNormal);
+        themeBlue=(Button)findViewById(R.id.themeBlue);
     }
 
 
@@ -54,6 +62,16 @@ public class SettingActivity extends BaseActivity {
                     break;
                 case R.id.titleBarDrawer:
                     finish();
+                    break;
+                case R.id.themeBlue:
+                    Tools.saveValue(getApplicationContext(),THEME,R.style.BlueAppTheme);
+                    getApplication().setTheme(R.style.BlueAppTheme);
+                    recreate();
+                    break;
+                case R.id.themeNormal:
+                    Tools.saveValue(getApplicationContext(),THEME,R.style.AppTheme);
+                    getApplication().setTheme(R.style.AppTheme);
+                    recreate();
                     break;
             }
         }

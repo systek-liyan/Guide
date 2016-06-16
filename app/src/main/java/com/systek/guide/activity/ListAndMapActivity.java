@@ -190,7 +190,14 @@ public class ListAndMapActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_and_map);
+        switch (theme){
+            case R.style.AppTheme:
+                setContentView(R.layout.activity_list_and_map);
+                break;
+            case R.style.BlueAppTheme:
+                setContentView(R.layout.activity_list_and_map_blue);
+                break;
+        }
         beaconManager = BeaconManager.getInstanceForApplication(this);
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
         //绑定蓝牙扫描服务
@@ -342,6 +349,11 @@ public class ListAndMapActivity extends BaseActivity
         if (v != null) {
             toolbar = (Toolbar) v;
             setSupportActionBar(toolbar);
+            if(theme==R.style.AppTheme){
+                toolbar.setBackgroundColor(getResources().getColor(R.color.my_own_red_300));
+            }else{
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlue));
+            }
             ActionBar actionBar= getSupportActionBar();
             if(actionBar==null){ return;}
             actionBar.setDisplayShowTitleEnabled(false);

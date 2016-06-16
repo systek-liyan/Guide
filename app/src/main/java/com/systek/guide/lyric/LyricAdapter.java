@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.systek.guide.R;
+import com.systek.guide.activity.BaseActivity;
 import com.systek.guide.utils.LogUtil;
+import com.systek.guide.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +103,15 @@ public class LyricAdapter extends BaseAdapter {
         if (position >= 0 && position < mLyricSentences.size()) {
             holder.lyric_line.setText(mLyricSentences.get(position).getContentText());
         }
+        int theme= (int) Tools.getValue(mContext, BaseActivity.THEME,R.style.AppTheme);
         if (mIndexOfCurrentSentence == position) {
             // 当前播放到的句子设置为白色，字体大小更大
-            holder.lyric_line.setTextColor(mContext.getResources().getColor(R.color.md_red_300));
+
+            if(theme==R.style.AppTheme){
+                holder.lyric_line.setTextColor(mContext.getResources().getColor(R.color.md_red_300));
+            }else if(theme==R.style.BlueAppTheme){
+                holder.lyric_line.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryBlue));
+            }
             holder.lyric_line.setTextSize(mCurrentSize);
         } else {
             // 其他的句子设置为暗色，字体大小较小

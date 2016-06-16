@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#fc777a</color>
+    <color name="colorPrimary">#fc777a</color><!-- #3F51B5-->
+    <color name="colorPrimaryDark">#fc777a</color>
+    <color name="colorAccent">#fc473a</color>
 
-    <color name="my_own_red_300">#fc777a</color>
+    <color name="my_own_red_300">#fc777a</color><!--#fc777a #303F9F-->
 
     <color name="media_item_icon_playing">@color/my_own_red_300</color>
     <color name="media_item_icon_not_playing">#ccc</color>
 
+    <color name="colorPrimaryBlue">#3F51B5</color><!-- #3F51B5-->
+    <color name="colorPrimaryDarkBlue">#303F9F</color>
+    <color name="colorAccentBlue">#FF4081</color>
 
+    <color name="myOwnBlue">#3F51B5</color><!--#fc777a #303F9F-->
 
 
 

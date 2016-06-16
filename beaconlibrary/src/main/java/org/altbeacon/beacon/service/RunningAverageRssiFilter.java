@@ -16,7 +16,7 @@ import java.util.Iterator;
 public class RunningAverageRssiFilter implements RssiFilter {
 
     private static final String TAG = "RunningAverageRssiFilter";
-    public static final long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 2000; /* 20 seconds */
+    public static final long DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS = 3000; /* 20 seconds */
     private static long sampleExpirationMilliseconds = DEFAULT_SAMPLE_EXPIRATION_MILLISECONDS;
     private ArrayList<Measurement> mMeasurements = new ArrayList<Measurement>();
 

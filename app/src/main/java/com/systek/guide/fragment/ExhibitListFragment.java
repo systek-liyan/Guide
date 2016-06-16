@@ -17,11 +17,14 @@ import android.widget.ScrollView;
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
+import com.systek.guide.activity.BaseActivity;
 import com.systek.guide.activity.ListAndMapActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.utils.Tools;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -48,6 +51,8 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
 
 
     private static ExhibitListFragment exhibitListFragment;
+    private AVLoadingIndicatorView avLoadingView;
+    private int theme;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -102,8 +107,17 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
 
     @Override
     void initView() {
-        setContentView(R.layout.fragment_exhibit_list);
-        initView(contentView);
+        theme= (int) Tools.getValue(getActivity(), BaseActivity.THEME,R.style.AppTheme);
+        if(theme==R.style.AppTheme){
+            setContentView(R.layout.fragment_exhibit_list);
+        }else {
+            setContentView(R.layout.fragment_exhibit_list_blue);
+        }
+        try {
+            initView(contentView);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -132,14 +146,12 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
         }
     }
 
-    private void initView(View view) {
+    private void initView(View view) throws IllegalAccessException {
         listView=(ListView)view.findViewById(R.id.lv_exhibit_list);
         loadingView=(LinearLayout) view.findViewById(R.id.loadingView);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
                 //ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
@@ -229,6 +241,5 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
             }
         }
     }
-
 
 }

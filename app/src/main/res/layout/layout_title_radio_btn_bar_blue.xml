@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar_radio"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:minHeight="?attr/actionBarSize">
+    <RadioGroup
+        android:id="@+id/radioGroupTitle"
+        android:layout_gravity="center"
+        android:layout_width="123dp"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radioButtonList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_guide_left_selector_blue"
+            android:button="@null"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="附近"
+            android:textColor="@drawable/text_color_guide_map_selector_blue"
+            android:textSize="11sp" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_map_right_selector_blue"
+            android:button="@null"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="地图"
+            android:textColor="@drawable/text_color_guide_map_selector_blue"
+            android:textSize="11sp" />
+    </RadioGroup>
+</android.support.v7.widget.Toolbar>
+
+
+
+

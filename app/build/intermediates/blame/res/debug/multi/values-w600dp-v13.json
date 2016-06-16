@@ -143,14 +143,7 @@
                     "endOffset": 732
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml",
-                    "position": {
-                        "startLine": 22,
-                        "startColumn": 4,
-                        "startOffset": 1073,
-                        "endColumn": 60,
-                        "endOffset": 1129
-                    }
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\dimens.xml"
                 }
             },
             {
@@ -448,32 +441,70 @@
                     "startOffset": 1944,
                     "endLine": 69,
                     "endColumn": 12,
-                    "endOffset": 3636
+                    "endOffset": 3654
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 57,
+                        "endLine": 34,
+                        "endColumn": 12,
+                        "endOffset": 1798
+                    }
                 }
             },
             {
                 "to": {
                     "startLine": 70,
                     "startColumn": 4,
-                    "startOffset": 3641,
+                    "startOffset": 3659,
                     "endLine": 86,
                     "endColumn": 12,
-                    "endOffset": 4792
+                    "endOffset": 4839
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 41,
+                        "startColumn": 4,
+                        "startOffset": 1977,
+                        "endLine": 57,
+                        "endColumn": 12,
+                        "endOffset": 3173
+                    }
                 }
             },
             {
                 "to": {
                     "startLine": 87,
                     "startColumn": 4,
-                    "startOffset": 4797,
-                    "endColumn": 100,
-                    "endOffset": 4893
+                    "startOffset": 4844,
+                    "endLine": 89,
+                    "endColumn": 12,
+                    "endOffset": 5003
+                },
+                "from": {
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml",
+                    "position": {
+                        "startLine": 36,
+                        "startColumn": 4,
+                        "startOffset": 1806,
+                        "endLine": 38,
+                        "endColumn": 12,
+                        "endOffset": 1967
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 90,
+                    "startColumn": 4,
+                    "startOffset": 5008,
+                    "endLine": 98,
+                    "endColumn": 12,
+                    "endOffset": 5567
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -481,12 +512,12 @@
             },
             {
                 "to": {
-                    "startLine": 88,
+                    "startLine": 99,
                     "startColumn": 4,
-                    "startOffset": 4898,
-                    "endLine": 96,
+                    "startOffset": 5572,
+                    "endLine": 103,
                     "endColumn": 12,
-                    "endOffset": 5457
+                    "endOffset": 5797
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -494,12 +525,12 @@
             },
             {
                 "to": {
-                    "startLine": 97,
+                    "startLine": 104,
                     "startColumn": 4,
-                    "startOffset": 5462,
-                    "endLine": 101,
+                    "startOffset": 5802,
+                    "endLine": 107,
                     "endColumn": 12,
-                    "endOffset": 5687
+                    "endOffset": 5969
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -507,12 +538,12 @@
             },
             {
                 "to": {
-                    "startLine": 102,
+                    "startLine": 108,
                     "startColumn": 4,
-                    "startOffset": 5692,
-                    "endLine": 105,
+                    "startOffset": 5974,
+                    "endLine": 110,
                     "endColumn": 12,
-                    "endOffset": 5859
+                    "endOffset": 6096
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -520,12 +551,12 @@
             },
             {
                 "to": {
-                    "startLine": 106,
+                    "startLine": 111,
                     "startColumn": 4,
-                    "startOffset": 5864,
-                    "endLine": 108,
+                    "startOffset": 6101,
+                    "endLine": 117,
                     "endColumn": 12,
-                    "endOffset": 5986
+                    "endOffset": 6492
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -533,12 +564,12 @@
             },
             {
                 "to": {
-                    "startLine": 109,
+                    "startLine": 118,
                     "startColumn": 4,
-                    "startOffset": 5991,
-                    "endLine": 115,
+                    "startOffset": 6497,
+                    "endLine": 124,
                     "endColumn": 12,
-                    "endOffset": 6382
+                    "endOffset": 6867
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -546,12 +577,12 @@
             },
             {
                 "to": {
-                    "startLine": 116,
+                    "startLine": 125,
                     "startColumn": 4,
-                    "startOffset": 6387,
-                    "endLine": 122,
+                    "startOffset": 6872,
+                    "endLine": 132,
                     "endColumn": 12,
-                    "endOffset": 6757
+                    "endOffset": 7294
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
@@ -559,25 +590,12 @@
             },
             {
                 "to": {
-                    "startLine": 123,
+                    "startLine": 133,
                     "startColumn": 4,
-                    "startOffset": 6762,
-                    "endLine": 130,
+                    "startOffset": 7299,
+                    "endLine": 141,
                     "endColumn": 12,
-                    "endOffset": 7184
-                },
-                "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"
-                }
-            },
-            {
-                "to": {
-                    "startLine": 131,
-                    "startColumn": 4,
-                    "startOffset": 7189,
-                    "endLine": 139,
-                    "endColumn": 12,
-                    "endOffset": 7682
+                    "endOffset": 7792
                 },
                 "from": {
                     "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w600dp\\styles.xml"

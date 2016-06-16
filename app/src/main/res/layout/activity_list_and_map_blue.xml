@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ListAndMapActivity">
+
+    <include layout="@layout/layout_title_radio_btn_bar_blue"/>
+
+    <include
+        android:id="@+id/mErrorView"
+        layout="@layout/activity_error"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+        <LinearLayout
+            android:id="@+id/llExhibitListContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+        <TextView
+            android:id="@+id/tvToast"
+            android:visibility="gone"
+            android:textColor="@color/md_white_1000"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg_black"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/simple_10dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/llTabControlPlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:background="@color/md_grey_700">
+        <ImageView
+            style="@style/normal_image_view"
+            android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/simple_4dp"
+            android:src="@drawable/iv_left_gray_line"/>
+        <ImageView
+            android:id="@+id/exhibitIcon"
+            android:src="@drawable/iv_app_logo"
+            android:layout_margin="@dimen/simple_4dp"
+            android:layout_width="@dimen/iv_list_map_bottom_exhibit_width"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <SeekBar
+                android:id="@+id/seekBarProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:maxHeight="5dp"
+                android:minHeight="5dp"
+                android:progressDrawable="@drawable/seek_bar_bg"
+                android:thumb="@drawable/thumb_bar_selector"/>
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/exhibitName"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:text="暂无展品"
+                    android:textSize="@dimen/tv_list_map_bottom_exhibit_name"
+                    android:textColor="@color/md_white_1000" />
+                <ImageView
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:scaleType="fitXY"
+                    android:id="@+id/ivPlayCtrl"
+                    android:layout_marginEnd="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/uamp_ic_play_arrow_white_24dp"/>
+
+                <ImageView
+                    android:id="@+id/ivGuideMode"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/ivPlayCtrl"
+                    android:layout_marginEnd="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

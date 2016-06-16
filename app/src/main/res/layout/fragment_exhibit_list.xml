@@ -14,6 +14,7 @@
         android:layout_gravity="center_horizontal">
 
         <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avLoadingView"
             app:indicator="LineSpinFadeLoader"
             app:indicator_color="@color/my_own_red_300"
             android:layout_gravity="center_vertical"

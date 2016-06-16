@@ -33,7 +33,6 @@
                 android:gravity="center"
                 android:background="@color/md_white_1000"
                 android:text="@string/activity_collection_has_choose"
-                android:textColor="@color/md_red_400"
                 android:textSize="14sp" />
         </LinearLayout>
         <HorizontalScrollView

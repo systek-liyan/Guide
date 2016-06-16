@@ -23,6 +23,7 @@ import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
+import com.systek.guide.utils.Tools;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -73,6 +74,13 @@ public class MyApplication extends Application implements IConstants, BootstrapN
         //LeakCanary.install(this);
         //FontUtils.getInstance().replaceSystemDefaultFontFromAsset(this, "fonts/aaa.ttf");
         initBluetoothFrame();
+        int theme= (int) Tools.getValue(this,"theme",R.style.AppTheme);
+        switch (theme) {
+            case R.style.AppTheme:
+                setTheme(R.style.AppTheme);
+            case R.style.BlueAppTheme:
+                setTheme(R.style.BlueAppTheme);
+        }
     }
 
     private void initBluetoothFrame() {

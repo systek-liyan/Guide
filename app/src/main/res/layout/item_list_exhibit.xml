@@ -68,7 +68,6 @@
                     <TextView
                         android:id="@+id/tvExhibitNumber"
                         android:textSize="@dimen/text_exhibit_item_name_size"
-                        android:textColor="@color/my_own_red_300"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content" />
@@ -76,7 +75,6 @@
                     <TextView
                         android:id="@+id/tvExhibitName"
                         android:textSize="@dimen/text_exhibit_item_name_size"
-                        android:textColor="@color/my_own_red_300"
                         android:layout_width="0dp"
                         android:layout_weight="5"
                         android:layout_height="wrap_content" />

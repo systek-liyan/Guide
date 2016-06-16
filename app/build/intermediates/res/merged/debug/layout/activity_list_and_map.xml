@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.ListAndMapActivity">
+
     <include layout="@layout/layout_title_radio_btn_bar"/>
 
     <include

@@ -29,6 +29,7 @@ import com.systek.guide.R;
 import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.custom.LoadingDialog;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.utils.Tools;
 
 /**
  * Created by Qiang on 2015/12/30.
@@ -47,11 +48,34 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     public  int state= PlayChangeCallback.STATE_INVALID;
 
     protected Handler handler;
+    public static final String THEME="theme";
+    protected  int  theme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        theme= (int) Tools.getValue(this,THEME,R.style.AppTheme);
+        switch (theme){
+            case R.style.AppTheme:
+                getApplication().setTheme(R.style.AppTheme);
+                setTheme(R.style.AppTheme);
+                break;
+            case R.style.BlueAppTheme:
+                getApplication().setTheme(R.style.BlueAppTheme);
+                setTheme(R.style.BlueAppTheme);
+                break;
+        }
         super.onCreate(savedInstanceState);
         setIntent(getIntent());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int mTheme= (int) Tools.getValue(this,THEME,R.style.AppTheme);
+        if(mTheme!=theme){
+          recreate();
+        }
     }
 
     @Override
@@ -142,6 +166,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             toolbar = (Toolbar) v;
             setSupportActionBar(toolbar);
             toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
+            if(theme==R.style.AppTheme){
+                toolbar.setBackgroundColor(getResources().getColor(R.color.my_own_red_300));
+            }else{
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlue));
+            }
             if (toolbarTitle == null) {return;}
             ActionBar actionBar= getSupportActionBar();
             if(actionBar==null){ return;}
@@ -177,7 +206,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     protected void initDrawer() {
         drawer = new DrawerBuilder()
                 .withActivity(this)
-                        //.withFullscreen(true)
+                //.withFullscreen(true)
                 .withHeader(R.layout.header)
                 .inflateMenu(R.menu.drawer_menu)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -288,11 +317,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             } else {
                 //the device support bluetooth
                 if(!bluetoothAdapter.isEnabled()) {
-                bluetoothAdapter.enable();
+                    bluetoothAdapter.enable();
                     MyApplication a = (MyApplication) getApplication();
                     //a.initBlueTooth();
+                }
             }
-        }
             /*String stateExtra = BluetoothAdapter.EXTRA_STATE;
             int state = intent.getIntExtra(stateExtra, -1);
             switch(state) {

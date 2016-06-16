@@ -36,6 +36,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
     private ListView lvLyric;
     private TextView tvContent;
     private ImageView ivWordCtrl;
+    private Activity activity;
 
     public LyricFragment() {
     }
@@ -71,9 +72,10 @@ public class LyricFragment extends BaseFragment implements IConstants{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        this.activity=activity;
         mLyricLoadHelper = new LyricLoadHelper();
         mLyricLoadHelper.setLyricListener(mLyricListener);
-        mLyricAdapter = new LyricAdapter(getActivity());
+        mLyricAdapter = new LyricAdapter(activity);
     }
 
     @Override
@@ -103,7 +105,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
                 mLyricLoadHelper.setLyricListener(mLyricListener);
             }
             if(mLyricAdapter==null){
-                mLyricAdapter = new LyricAdapter(getActivity());
+                mLyricAdapter = new LyricAdapter(activity);
                 lvLyric.setAdapter(mLyricAdapter);
             }
 
@@ -170,7 +172,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
             if (lyricSentences != null) {
                 //LogUtil.i(TAG, "onLyricLoaded--->歌词句子数目=" + lyricSentences.size() + ",当前句子索引=" + index);
                 if(mLyricAdapter==null){
-                    mLyricAdapter=new LyricAdapter(getActivity());
+                    mLyricAdapter=new LyricAdapter(activity);
                     lvLyric.setAdapter(mLyricAdapter);
                 }
                 mLyricAdapter.setLyric(lyricSentences);
@@ -205,7 +207,7 @@ public class LyricFragment extends BaseFragment implements IConstants{
 
         @Override
         protected String doInBackground(String... params) {
-            LyricDownloadManager mLyricDownloadManager = new LyricDownloadManager(getActivity());
+            LyricDownloadManager mLyricDownloadManager = new LyricDownloadManager(activity);
             // 从网络获取歌词，然后保存到本地
             String savePath=LOCAL_ASSETS_PATH + currentMuseumId + "/";
             String lyricName=params[0];
