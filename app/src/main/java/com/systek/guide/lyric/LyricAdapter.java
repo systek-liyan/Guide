@@ -35,6 +35,7 @@ public class LyricAdapter extends BaseAdapter {
     float mNotCurrentSize = 13;
 
     public LyricAdapter(Context context) {
+        if(context==null){return;}
         mContext = context.getApplicationContext();
         mLyricSentences = new ArrayList<>();
         mIndexOfCurrentSentence = 0;
@@ -44,6 +45,7 @@ public class LyricAdapter extends BaseAdapter {
      * 设置歌词，由外部调用
      */
     public void setLyric(List<LyricSentence> lyric) {
+        if(mLyricSentences==null){return;}
         mLyricSentences.clear();
         if (lyric != null) {
             mLyricSentences.addAll(lyric);
@@ -110,7 +112,7 @@ public class LyricAdapter extends BaseAdapter {
             if(theme==R.style.AppTheme){
                 holder.lyric_line.setTextColor(mContext.getResources().getColor(R.color.md_red_300));
             }else if(theme==R.style.BlueAppTheme){
-                holder.lyric_line.setTextColor(mContext.getResources().getColor(R.color.colorPrimaryBlue));
+                holder.lyric_line.setTextColor(mContext.getResources().getColor(R.color.colorAccentBlue));
             }
             holder.lyric_line.setTextSize(mCurrentSize);
         } else {

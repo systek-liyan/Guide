@@ -157,12 +157,12 @@ public class MuseumHomeActivity extends BaseActivity {
                         }
                     }
                 }
-               if(currentMuseum==null){
+                if(currentMuseum==null){
                     onError();
                     return;
                 }
-                 initAudio();
-               //保存临时数据，当前博物馆id
+                initAudio();
+                //保存临时数据，当前博物馆id
                 DataBiz.saveTempValue(MuseumHomeActivity.this, SP_MUSEUM_ID, currentMuseumId);
                 String imgStr = currentMuseum.getImgUrl();
                 String[] imgs = imgStr.split(",");
@@ -338,7 +338,6 @@ public class MuseumHomeActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.normal_menu, menu);
-        menu.getItem(0).setIcon(R.drawable.iv_search);
         return true;
     }
 

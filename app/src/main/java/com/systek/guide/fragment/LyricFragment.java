@@ -106,7 +106,9 @@ public class LyricFragment extends BaseFragment implements IConstants{
             }
             if(mLyricAdapter==null){
                 mLyricAdapter = new LyricAdapter(activity);
-                lvLyric.setAdapter(mLyricAdapter);
+                if(lvLyric!=null){
+                    lvLyric.setAdapter(mLyricAdapter);
+                }
             }
 
             currentLyricUrl = exhibit.getTexturl();

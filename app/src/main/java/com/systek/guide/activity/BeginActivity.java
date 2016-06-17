@@ -19,13 +19,13 @@ public class BeginActivity extends BaseActivity{
     private boolean isFirstLogin;
     private String currentMuseumId;
     private static final int MSG_WHAT_CHANGE_ACTIVITY=1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
         handler=new MyHandler(this);
         initData();
+
     }
 
     private void initData() {

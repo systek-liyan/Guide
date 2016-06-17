@@ -256,6 +256,10 @@
         "source": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\drawable-xxhdpi\\ic_equalizer1_white_36dp.png"
     },
     {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_camera_alt_white_48dp.png",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-xxhdpi\\ic_camera_alt_white_48dp.png"
+    },
+    {
         "merged": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_list_pressed_holo_dark.9.png",
         "source": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-xxhdpi-v4\\abc_list_pressed_holo_dark.9.png"
     },
@@ -386,6 +390,10 @@
     {
         "merged": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_ic_menu_share_material.png",
         "source": "D:\\Android\\work3\\Guide\\app\\build\\generated\\res\\pngs\\debug\\drawable-xxhdpi\\abc_ic_menu_share_material.png"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_share_white_48dp.png",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-xxhdpi\\ic_share_white_48dp.png"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\abc_ic_menu_share_mtrl_alpha.png",

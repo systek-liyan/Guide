@@ -1,21 +1,31 @@
 package com.systek.guide.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
@@ -33,6 +43,7 @@ import com.systek.guide.fragment.LyricFragment;
 import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
+import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.TimeUtil;
 
 import org.altbeacon.beacon.Beacon;
@@ -41,10 +52,16 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -77,6 +94,10 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private BeaconManager beaconManager;
     private ThreadPoolExecutor executor;
     private long scanTime;
+    private static final int TAKE_PHOTE_QUEST=15;
+
+
+
 
     @Override
     public void onBeaconServiceConnect() {
@@ -249,6 +270,84 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         unRegisterReceiver();
         if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
         MediaServiceManager.getInstance(this).removeStateChangeCallback();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.play_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.share:
+                Intent intentShare=new Intent(Intent.ACTION_SEND);
+                intentShare.setType("text/plain");
+                intentShare.putExtra(Intent.EXTRA_SUBJECT, "分享");
+                intentShare.putExtra(Intent.EXTRA_TEXT, "我是阿强，我正在分享我的数据...");
+                startActivity(Intent.createChooser(intentShare, "分享到"));
+                break;
+            case R.id.camera:
+                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intentCamera, TAKE_PHOTE_QUEST);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+
+            if(requestCode==TAKE_PHOTE_QUEST) {
+                LogUtil.i("ZHANG", "请求码是" + TAKE_PHOTE_QUEST);
+
+                String sdStatus = Environment.getExternalStorageState();
+                if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+                    Log.i("TestFile",
+                            "SD card is not avaiable/writeable right now.");
+                    return;
+                }
+                String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+                FileOutputStream b = null;
+                File file = new File("/sdcard/myImage/");
+                if (!file.exists()) {
+                    file.mkdirs();// 创建文件夹
+                }
+                String fileName = "/sdcard/myImage/" + name;
+                try {
+                    b = new FileOutputStream(fileName);
+                    if (bitmap != null) {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
+                    }
+                    Toast.makeText(this, "图片已保存在" + fileName, Toast.LENGTH_LONG).show();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (b != null) {
+                            b.flush();
+                        }
+                        if (b != null) {
+                            b.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (bitmap != null) {
+                        bitmap.recycle();
+                    }
+                }
+            }
+        }
+
+
     }
 
     /**
