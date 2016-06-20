@@ -27614,7 +27614,14 @@
                     "endOffset": 54706
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values\\dimens.xml"
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values\\dimens.xml",
+                    "position": {
+                        "startLine": 50,
+                        "startColumn": 4,
+                        "startOffset": 2024,
+                        "endColumn": 62,
+                        "endOffset": 2082
+                    }
                 }
             },
             {
@@ -29286,15 +29293,7 @@
                     "endOffset": 66318
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values\\styles.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 57,
-                        "endLine": 35,
-                        "endColumn": 12,
-                        "endOffset": 1939
-                    }
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values\\styles.xml"
                 }
             },
             {
@@ -30996,15 +30995,7 @@
                     "endOffset": 128000
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values\\styles.xml",
-                    "position": {
-                        "startLine": 39,
-                        "startColumn": 4,
-                        "startOffset": 1951,
-                        "endLine": 52,
-                        "endColumn": 12,
-                        "endOffset": 2548
-                    }
+                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values\\styles.xml"
                 }
             },
             {

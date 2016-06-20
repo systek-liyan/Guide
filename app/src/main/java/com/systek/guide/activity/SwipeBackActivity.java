@@ -20,8 +20,7 @@ public abstract class SwipeBackActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(
-                R.layout.swipe_back_base, null);
+        layout = (SwipeBackLayout) LayoutInflater.from(this).inflate(R.layout.swipe_back_base, null);
         layout.attachToActivity(this);
     }
 

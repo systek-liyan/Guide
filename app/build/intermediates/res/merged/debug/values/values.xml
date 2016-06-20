@@ -621,7 +621,7 @@
     <dimen name="topic_label_textSize">15sp</dimen>
     <dimen name="tv_home_page_exhibit_introduce_size">16sp</dimen>
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
-    <dimen name="tv_list_map_bottom_exhibit_name">15dp</dimen>
+    <dimen name="tv_list_map_bottom_exhibit_name">15sp</dimen>
     <dimen name="tv_museum_name_size">15sp</dimen>
     <dimen name="width_screen">360dp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>

@@ -48,7 +48,7 @@
 
     <!--ListAndMap 底部 item  -->
     <dimen name="iv_list_map_bottom_exhibit_width">60dp</dimen>
-    <dimen name="tv_list_map_bottom_exhibit_name">15dp</dimen>
+    <dimen name="tv_list_map_bottom_exhibit_name">15sp</dimen>
 
 
     <!--多角度图片 item  -->

@@ -88,9 +88,7 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:maxHeight="5dp"
-                    android:minHeight="5dp"
-                    android:progressDrawable="@drawable/seek_bar_bg"
-                    android:thumb="@drawable/thumb_bar_selector"/>
+                    android:minHeight="5dp" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

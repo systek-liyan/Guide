@@ -42,7 +42,7 @@
         android:id="@+id/llTabControlPlay"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
         android:orientation="horizontal"
@@ -68,19 +68,15 @@
                 android:id="@+id/seekBarProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:maxHeight="5dp"
-                android:minHeight="5dp"
-                android:progressDrawable="@drawable/seek_bar_bg"
-                android:thumb="@drawable/thumb_bar_selector"/>
+                android:paddingEnd="8dp"/>
 
             <RelativeLayout
                 android:orientation="horizontal"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/exhibitName"
                     android:layout_centerVertical="true"

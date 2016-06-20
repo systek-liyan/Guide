@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -38,7 +39,8 @@ public class SwipeBackLayout extends FrameLayout {
     private boolean isFinish;
     private Drawable mShadowDrawable;
     private Activity mActivity;
-    private List<ViewPager> mViewPagers = new LinkedList<ViewPager>();
+    private List<ViewPager> mViewPagers = new LinkedList<>();
+    private List<RecyclerView> mRecycleViews = new LinkedList<>();
 
     public SwipeBackLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -56,8 +58,7 @@ public class SwipeBackLayout extends FrameLayout {
 
     public void attachToActivity(Activity activity) {
         mActivity = activity;
-        TypedArray a = activity.getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.windowBackground });
+        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[] { android.R.attr.windowBackground });
         int background = a.getResourceId(0, 0);
         a.recycle();
 
@@ -74,6 +75,20 @@ public class SwipeBackLayout extends FrameLayout {
         mContentView = (View) decorChild.getParent();
     }
 
+
+
+    /**
+     * 计算指定的 View 在屏幕中的坐标。
+     */
+    public static RectF calcViewScreenLocation(View view) {
+        int[] location = new int[2];
+        // 获取控件在屏幕中的位置，返回的数组分别为控件左顶点的 x、y 的值
+        view.getLocationOnScreen(location);
+        return new RectF(location[0], location[1], location[0] + view.getWidth(),
+                location[1] + view.getHeight());
+    }
+
+
     /**
      * 事件拦截操作
      */
@@ -86,7 +101,10 @@ public class SwipeBackLayout extends FrameLayout {
         if(mViewPager != null && mViewPager.getCurrentItem() != 0){
             return super.onInterceptTouchEvent(ev);
         }
-
+        RecyclerView recyclerView = getTouchRecyclerView(mRecycleViews, ev);
+        if(recyclerView != null){
+            return super.onInterceptTouchEvent(ev);
+        }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downX = tempX = (int) ev.getRawX();
@@ -152,8 +170,42 @@ public class SwipeBackLayout extends FrameLayout {
             }
         }
     }
+    /**
+     * 获取SwipeBackLayout里面的ViewPager的集合
+     * @param mRecyclerView
+     * @param parent
+     */
+    private void getAlLRecycleViews(List<RecyclerView> mRecyclerView, ViewGroup parent){
+        int childCount = parent.getChildCount();
+        for(int i=0; i<childCount; i++){
+            View child = parent.getChildAt(i);
+            if(child instanceof RecyclerView){
+                mRecyclerView.add((RecyclerView)child);
+            }else if(child instanceof ViewGroup){
+                getAlLRecycleViews(mRecyclerView, (ViewGroup)child);
+            }
+        }
+    }
 
+    /**
+     * 返回我们touch的RecyclerView
+     * @param mRecycleViews
+     * @param ev
+     * @return
+     */
+    private RecyclerView getTouchRecyclerView(List<RecyclerView> mRecycleViews, MotionEvent ev){
 
+        if(mRecycleViews == null || mRecycleViews.size() == 0){
+            return null;
+        }
+        for(RecyclerView r : mRecycleViews){
+            RectF rectF=calcViewScreenLocation(r);
+            if(rectF.contains(ev.getX(),ev.getY())){
+                return r;
+            }
+        }
+        return null;
+    }
     /**
      * 返回我们touch的ViewPager
      * @param mViewPagers
@@ -164,11 +216,9 @@ public class SwipeBackLayout extends FrameLayout {
         if(mViewPagers == null || mViewPagers.size() == 0){
             return null;
         }
-        Rect mRect = new Rect();
         for(ViewPager v : mViewPagers){
-            v.getHitRect(mRect);
-
-            if(mRect.contains((int)ev.getX(), (int)ev.getY())){
+            RectF rectF=calcViewScreenLocation(v);
+            if(rectF.contains(ev.getX(),ev.getY())){
                 return v;
             }
         }
@@ -182,6 +232,7 @@ public class SwipeBackLayout extends FrameLayout {
             viewWidth = this.getWidth();
 
             getAlLViewPager(mViewPagers, this);
+            getAlLRecycleViews(mRecycleViews, this);
             Log.i(TAG, "ViewPager size = " + mViewPagers.size());
         }
     }
