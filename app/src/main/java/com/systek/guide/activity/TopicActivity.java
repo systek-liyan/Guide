@@ -65,9 +65,6 @@ public class TopicActivity extends BaseActivity {
     private LinearLayout ll_collection_years;
     private LinearLayout ll_collection_material;
 
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
-
-
     static class MyHandler extends Handler {
 
         WeakReference<TopicActivity> activityWeakReference;
@@ -82,7 +79,7 @@ public class TopicActivity extends BaseActivity {
             TopicActivity activity=activityWeakReference.get();
             if(activity==null){return;}
             switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 default:break;
@@ -111,7 +108,7 @@ public class TopicActivity extends BaseActivity {
                 if(TextUtils.isEmpty(currentMuseumId)){return;}
                 totalExhibitList=DataBiz.getLocalListById(ExhibitBean.class, currentMuseumId);
                 if(totalExhibitList!=null&&totalExhibitList.size()>0){
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
                 }
             }
         }.start();

@@ -55,9 +55,6 @@ public class MuseumHomeActivity extends BaseActivity {
     private ArrayList<String> iconUrlList;
     private MuseumIconAdapter iconAdapter;
 
-
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
-
     static class MyHandler extends Handler {
 
         WeakReference<MuseumHomeActivity> activityWeakReference;
@@ -72,7 +69,7 @@ public class MuseumHomeActivity extends BaseActivity {
             MuseumHomeActivity activity=activityWeakReference.get();
             if(activity==null){return;}
             switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 default:break;
@@ -177,7 +174,7 @@ public class MuseumHomeActivity extends BaseActivity {
                 if (!isBasicDataSave) {
                     DataBiz.saveAllJsonData(currentMuseumId);
                 }
-                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
                 //initAllData();
             }
         }.start();
@@ -324,11 +321,13 @@ public class MuseumHomeActivity extends BaseActivity {
          /*设置为横向*/
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recycleViewMuseumIcon.setLayoutManager(linearLayoutManager);
-        iconUrlList=new ArrayList<>();
-        iconAdapter=new MuseumIconAdapter(this,iconUrlList);
-        recycleViewMuseumIcon.setAdapter(iconAdapter);
-        recycleViewMuseumIcon.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        if (recycleViewMuseumIcon != null) {
+            recycleViewMuseumIcon.setLayoutManager(linearLayoutManager);
+            iconUrlList=new ArrayList<>();
+            iconAdapter=new MuseumIconAdapter(this,iconUrlList);
+            recycleViewMuseumIcon.setAdapter(iconAdapter);
+            recycleViewMuseumIcon.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        }
 
     }
 

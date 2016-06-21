@@ -86,9 +86,8 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     private LyricFragment lyricFragment;
     private IconImageFragment iconImageFragment;
 
-    private static final int MSG_WHAT_CHANGE_EXHIBIT=1;
     private static final int MSG_WHAT_REFRESH_STATE=2;
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=4;
+    private static final int MSG_WHAT_REFRESH_VIEW =4;
     private static final int MSG_WHAT_UPDATE_PROGRESS=5;
 
     private BeaconManager beaconManager;
@@ -164,13 +163,10 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
                 case MSG_WHAT_UPDATE_PROGRESS:
                     activity.refreshProgress();
                     break;
-                case MSG_WHAT_CHANGE_EXHIBIT:
-                    activity.refreshView();
-                    break;
                 case MSG_WHAT_REFRESH_STATE:
                     activity.refreshState();
                     break;
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 default:break;
@@ -189,7 +185,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     public void onExhibitChanged(ExhibitBean exhibit) {
         if(currentExhibit==null||!currentExhibit.equals(exhibit)){
             currentExhibit=exhibit;
-            handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
+            handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
         }
 
     }
@@ -245,7 +241,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
         }else{
             currentExhibit=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
         }
-        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+        handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
     }
 
 

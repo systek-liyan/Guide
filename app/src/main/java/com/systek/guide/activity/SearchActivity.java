@@ -35,8 +35,6 @@ public class SearchActivity extends BaseActivity {
     private ExhibitAdapter exhibitAdapter;
     private String currentMuseumId;
 
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
-
     static class MyHandler extends Handler {
 
         WeakReference<SearchActivity> activityWeakReference;
@@ -51,7 +49,7 @@ public class SearchActivity extends BaseActivity {
             SearchActivity activity=activityWeakReference.get();
             if(activity==null){return;}
             switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 default:break;
@@ -145,7 +143,7 @@ public class SearchActivity extends BaseActivity {
             public void run() {
                 if(TextUtils.isEmpty(s)){
                     exhibitBeanList=new ArrayList<>();
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
                     return;
                 }
                 if(TextUtils.isEmpty(currentMuseumId)){return;}
@@ -153,7 +151,7 @@ public class SearchActivity extends BaseActivity {
                 if(exhibitBeanList==null){
                     exhibitBeanList=new ArrayList<>();
                 }
-                handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
             }
         }.start();
 

@@ -35,8 +35,6 @@ public class CollectionActivity extends BaseActivity {
     private String museumId;
     private MediaServiceManager mediaServiceManager;
 
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
-
     static class MyHandler extends Handler {
 
         WeakReference<CollectionActivity> activityWeakReference;
@@ -51,7 +49,7 @@ public class CollectionActivity extends BaseActivity {
             CollectionActivity activity=activityWeakReference.get();
             if(activity==null){return;}
             switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 default:break;
@@ -129,7 +127,7 @@ public class CollectionActivity extends BaseActivity {
                         }
                     });
                 } else {
-                    handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
                 }
             }
         }.start();
@@ -158,8 +156,9 @@ public class CollectionActivity extends BaseActivity {
         collectionListView = (ListView) findViewById(R.id.collectionListView);
 
         mErrorView = findViewById(R.id.mErrorView);
-        refreshBtn = (Button) mErrorView.findViewById(R.id.refreshBtn);
-
+        if (mErrorView != null) {
+            refreshBtn = (Button) mErrorView.findViewById(R.id.refreshBtn);
+        }
         collectionExhibitList = new ArrayList<>();
         exhibitAdapter = new ExhibitAdapter(this, collectionExhibitList);
         collectionListView.setAdapter(exhibitAdapter);

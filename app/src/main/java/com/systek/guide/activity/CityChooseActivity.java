@@ -49,9 +49,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
     private AMapLocationClientOption locationOption;
     private TextView currentCity,suggestCity;
 
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
     private static final int MSG_WHAT_UPDATE_DATA_FAIL=2;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +143,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
                         DataBiz.saveListToSQLite(cities);
                     }
                 }
-                int msgWhat=MSG_WHAT_UPDATE_DATA_SUCCESS;
+                int msgWhat=MSG_WHAT_REFRESH_VIEW;
                 if(cities==null||cities.size()==0){
                     msgWhat=MSG_WHAT_UPDATE_DATA_FAIL;
                 }
@@ -181,7 +179,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         String city=aMapLocation.getCity();
         if(TextUtils.isEmpty(city)){return;}
         chooseCity =city;
-        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+        handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
         if (null != locationClient) {
             /**
              * 如果AMapLocationClient是在当前Activity实例化的，
@@ -303,7 +301,7 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
             CityChooseActivity activity=activityWeakReference.get();
             if(activity==null){return;}
             switch (msg.what){
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 case MSG_WHAT_UPDATE_DATA_FAIL:

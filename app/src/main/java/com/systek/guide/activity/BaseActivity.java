@@ -51,6 +51,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     public static final String THEME="theme";
     protected  int  theme;
 
+    public static final int MSG_WHAT_REFRESH_VIEW=55;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,7 +76,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         super.onResume();
         int mTheme= (int) Tools.getValue(this,THEME,R.style.AppTheme);
         if(mTheme!=theme){
-          recreate();
+            recreate();
+            handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
         }
     }
 

@@ -12,18 +12,6 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\play_menu.xml"
     },
     {
-        "merged": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\normal_menu.xml",
-        "source": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\menu\\normal_menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
-        "source": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
-    },
-    {
-        "merged": "D:\\Android\\work3\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\Android\\work3\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     }

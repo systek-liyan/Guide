@@ -26,6 +26,7 @@ import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.NetworkUtil;
+import com.systek.guide.utils.Tools;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,7 +44,6 @@ public class MuseumListActivity extends BaseActivity {
     private MuseumAdapter adapter;//适配器
 
     private static final int MSG_WHAT_UPDATE_NO_DATA=2;
-    private static final int MSG_WHAT_UPDATE_DATA_SUCCESS=3;
     private static final int MSG_WHAT_REFRESH_TITLE=4;
     private static final int MSG_WHAT_REFRESH_DATA=5;
 
@@ -75,19 +75,17 @@ public class MuseumListActivity extends BaseActivity {
                 case MSG_WHAT_REFRESH_DATA:
                     activity.initData();
                     break;
-                case MSG_WHAT_UPDATE_DATA_SUCCESS:
-                    activity.closeDialog();
+                case MSG_WHAT_REFRESH_VIEW:
                     activity.refreshView();
                     break;
                 case MSG_WHAT_REFRESH_TITLE:
                     activity.refreshTitle();
                     break;
                 case MSG_WHAT_UPDATE_NO_DATA:
-                    activity.closeDialog();
                     activity.onNoData();
                     break;
-                default:break;
             }
+            activity.closeDialog();
         }
     }
 
@@ -110,13 +108,12 @@ public class MuseumListActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        refreshView();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver();
+        //registerReceiver();
     }
 
     @Override
@@ -219,7 +216,7 @@ public class MuseumListActivity extends BaseActivity {
                     }else if(museumList.size()==0){
                         handler.sendEmptyMessage(MSG_WHAT_UPDATE_NO_DATA);
                     } else{
-                        handler.sendEmptyMessage(MSG_WHAT_UPDATE_DATA_SUCCESS);
+                        handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
                     }
                     handler.sendEmptyMessage(MSG_WHAT_REFRESH_TITLE);
                 }
@@ -234,12 +231,17 @@ public class MuseumListActivity extends BaseActivity {
     }
 
     private void unRegisterReceiver() {
-        unregisterReceiver(receiver);
+       // unregisterReceiver(receiver);
     }
 
     private void refreshView() {
         if(museumList==null||museumList.size()==0){return;}
         if(adapter==null){return;}
+        int mTheme= (int) Tools.getValue(this,THEME,R.style.AppTheme);
+        if(mTheme!=theme){
+            adapter=new MuseumAdapter(this,museumList);
+            museumListView.setAdapter(adapter);
+        }
         adapter.updateData(museumList);
     }
 

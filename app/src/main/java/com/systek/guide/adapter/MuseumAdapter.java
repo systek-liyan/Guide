@@ -13,6 +13,7 @@ import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
+import com.systek.guide.activity.BaseActivity;
 import com.systek.guide.activity.DownloadManagerActivity;
 import com.systek.guide.entity.MuseumBean;
 import com.systek.guide.utils.ImageUtil;
@@ -63,7 +64,16 @@ public class MuseumAdapter extends BaseAdapter implements IConstants {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null || convertView.getTag() == null) {
-            convertView = LinearLayout.inflate(context.getApplicationContext(),R.layout.item_museum, null);
+            int theme= (int) Tools.getValue(context, BaseActivity.THEME,R.style.AppTheme);
+            switch (theme){
+                case R.style.AppTheme:
+                    convertView = LinearLayout.inflate(context.getApplicationContext(),R.layout.item_museum, null);
+                    break;
+                case R.style.BlueAppTheme:
+                    convertView = LinearLayout.inflate(context.getApplicationContext(),R.layout.item_museum_blue, null);
+                    break;
+                default:convertView = LinearLayout.inflate(context.getApplicationContext(),R.layout.item_museum, null);
+            }
             //FontManager.applyFont(context, convertView);
             viewHolder = new ViewHolder();
             viewHolder.museumName = (TextView) convertView.findViewById(R.id.museumName);

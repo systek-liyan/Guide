@@ -52,10 +52,16 @@ public class DownloadManagerActivity extends BaseActivity {
     private void initView() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mErrorView=findViewById(R.id.mErrorView);
-        refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (mErrorView != null) {
+            refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
+        }
+        if (recyclerView != null) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
         adapter = new TaskItemAdapter();
-        recyclerView.setAdapter(adapter);
+        if (recyclerView != null) {
+            recyclerView.setAdapter(adapter);
+        }
         setTitleBar();
         setTitleBarTitle(R.string.title_bar_download_center);
         setHomeIcon();
