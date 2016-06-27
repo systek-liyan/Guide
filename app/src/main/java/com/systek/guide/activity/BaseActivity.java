@@ -55,7 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
         theme= (int) Tools.getValue(this,THEME,R.style.AppTheme);
         switch (theme){
             case R.style.AppTheme:
@@ -67,7 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                 setTheme(R.style.BlueAppTheme);
                 break;
         }
-        super.onCreate(savedInstanceState);
         setIntent(getIntent());
     }
 
@@ -79,6 +78,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             recreate();
             handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
         }
+    }
+
+    @Override
+    public void onError(String error) {
+
     }
 
     @Override

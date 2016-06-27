@@ -12,6 +12,7 @@ public interface PlayChangeCallback {
     int STATE_PAUSE=2;
     int STATE_STOP=3;
 
+    void onError(String error);
     void onStateChanged(int state);
     void onExhibitChanged(ExhibitBean exhibit);
     void onPositionChanged(int duration ,int position);

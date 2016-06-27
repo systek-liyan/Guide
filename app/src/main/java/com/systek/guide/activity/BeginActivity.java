@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.systek.guide.R;
 import com.systek.guide.manager.BluetoothManager;
@@ -22,7 +24,16 @@ public class BeginActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_begin);
+        View view = LinearLayout.inflate(this,R.layout.activity_begin,null);
+        switch (theme){
+            case R.style.AppTheme:
+                view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                break;
+            case R.style.BlueAppTheme:
+                view.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlue));
+                break;
+        }
+        setContentView(view);
         handler=new MyHandler(this);
         initData();
 

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.systek.guide"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.systek.guide">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
 
     <application
         android:name=".MyApplication"
@@ -29,21 +28,19 @@
         android:supportsRtl="true">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="643c2034226d338ca2f15eb9bb791f70"/>
+            android:value="643c2034226d338ca2f15eb9bb791f70" />
         <!-- 定位需要的服务 -->
-        <service android:name="com.amap.api.location.APSService"/>
+        <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".activity.TestActivity">
-        </activity>
-
+        <activity android:name=".activity.TestActivity"></activity>
         <activity
             android:name=".activity.BeginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -51,34 +48,30 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".activity.MuseumListActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-           >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MuseumHomeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-           />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ListAndMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.TopicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.LockScreenActivity"
             android:excludeFromRecents="true"
@@ -86,52 +79,54 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:taskAffinity="com.systek.guide.lockscreen"
-            android:theme="@style/LockScreenBase"/>
+            android:theme="@style/LockScreenBase" />
         <activity
             android:name=".activity.WelcomeActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"/>
+            android:theme="@style/CustomTheme" />
         <activity
             android:name=".activity.CollectionActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.SearchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.SettingActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DownloadManagerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
 
         <service
             android:name=".service.MediaPlayService"
             android:enabled="true"
             android:exported="false"
-            android:isolatedProcess="false"/>
+            android:isolatedProcess="false" />
         <service
             android:name=".service.DownloadService"
-            android:exported="false">
-        </service>
+            android:exported="false"/>
 
-        <receiver android:name=".receiver.PhoneReceiver">
+        <!--receiver android:name=".receiver.PhoneReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"/>
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
+        </receiver-->
 
+        <service
+            android:name=".service.ExhibitPlayService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

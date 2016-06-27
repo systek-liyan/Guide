@@ -41,8 +41,7 @@
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name="com.systek.guide.activity.TestActivity" >
-        </activity>
+        <activity android:name="com.systek.guide.activity.TestActivity" />
         <activity
             android:name="com.systek.guide.activity.BeginActivity"
             android:screenOrientation="portrait"
@@ -58,13 +57,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.systek.guide.activity.MuseumListActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.systek.guide.activity.MuseumHomeActivity"
             android:launchMode="singleTask"
@@ -115,8 +112,7 @@
             android:name="com.systek.guide.activity.DownloadManagerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme" />
 
         <service
             android:name="com.systek.guide.service.MediaPlayService"
@@ -125,18 +121,23 @@
             android:isolatedProcess="false" />
         <service
             android:name="com.systek.guide.service.DownloadService"
-            android:exported="false" >
-        </service>
+            android:exported="false" />
 
-        <receiver android:name="com.systek.guide.receiver.PhoneReceiver" >
+        <!--
+        receiver android:name=".receiver.PhoneReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
+        </receiver
+        -->
 
+        <service
+            android:name="com.systek.guide.service.ExhibitPlayService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name="com.liulishuo.filedownloader.services.FileDownloadService"
             android:process=":filedownloader" />

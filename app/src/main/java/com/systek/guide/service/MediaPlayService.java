@@ -159,10 +159,6 @@ public class MediaPlayService extends Service implements IConstants {
             if(callback!=null){
                 callback.onStateChanged(playState);
             }
-            /*Intent intent=new Intent();
-            intent.setAction(INTENT_CHANGE_PLAY_PLAY);
-            sendBroadcast(intent);*/
-            //isPlaying=true;
             addRecord(currentExhibit);
             duration = mediaPlayer.getDuration();
             handler.sendEmptyMessage(MSG_WHAT_UPDATE_PROGRESS);
@@ -352,11 +348,6 @@ public class MediaPlayService extends Service implements IConstants {
         if(callback!=null){
             callback.onPositionChanged(duration,currentPosition);
         }
-       /* Intent intent=new Intent();
-        intent.setAction(INTENT_EXHIBIT_PROGRESS);
-        intent.putExtra(INTENT_EXHIBIT_PROGRESS, currentPosition);
-        intent.putExtra(INTENT_EXHIBIT_DURATION,duration);
-        sendBroadcast(intent);*/
         handler.sendEmptyMessageDelayed(MSG_WHAT_UPDATE_PROGRESS,800);
     }
 
