@@ -29,6 +29,7 @@ import com.systek.guide.R;
 import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.custom.LoadingDialog;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.service.Playback;
 import com.systek.guide.utils.Tools;
 
 /**
@@ -45,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     protected Dialog dialog;
     protected View mErrorView;
     protected Button refreshBtn;
-    public  int state= PlayChangeCallback.STATE_INVALID;
+    public  int state= Playback.STATE_NONE;
 
     protected Handler handler;
     public static final String THEME="theme";
@@ -87,6 +88,11 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
 
     @Override
     public void onStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onStateChanged(int state, int position, String error) {
 
     }
 

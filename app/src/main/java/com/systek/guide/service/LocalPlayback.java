@@ -11,7 +11,6 @@ import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 
 import com.systek.guide.IConstants;
-import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.utils.LogUtil;
 
@@ -41,37 +40,24 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
 
     private final ExhibitPlayService mService;
     private final WifiManager.WifiLock mWifiLock;
-    private int mState;
     private boolean mPlayOnFocusGain;
     private Callback mCallback;
-   // private final MusicProvider mMusicProvider;
     private volatile boolean mAudioNoisyReceiverRegistered;
     private volatile int mCurrentPosition;
     private volatile ExhibitBean mCurrentExhibit;
-
     // Type of audio focus we have:
     private int mAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
+
     private final AudioManager mAudioManager;
     private MediaPlayer mMediaPlayer;
-
-    public PlayChangeCallback getPlayChangeCallback() {
-        return playChangeCallback;
-    }
-
-    public void setPlayChangeCallback(PlayChangeCallback playChangeCallback) {
-        this.playChangeCallback = playChangeCallback;
-    }
-
-    private PlayChangeCallback playChangeCallback;
+    private int mState;
 
 
-    private int playMode=PLAY_MODE_HAND ; //默认设置自动点击播放
+    private int playMode=PLAY_MODE_HAND ; //默认设置手动点击播放
 
 
     private final IntentFilter mAudioNoisyIntentFilter =
             new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-
-
     private final BroadcastReceiver mAudioNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -86,14 +72,18 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
         }
     };
 
-    public LocalPlayback(ExhibitPlayService service) {//, MusicProvider musicProvider
+    public LocalPlayback(ExhibitPlayService service) {
         this.mService = service;
-        //this.mMusicProvider = musicProvider;
         this.mAudioManager = (AudioManager) service.getSystemService(Context.AUDIO_SERVICE);
         // Create the Wifi lock (this does not acquire the lock, this just creates it)
         this.mWifiLock = ((WifiManager) service.getSystemService(Context.WIFI_SERVICE))
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, "qiang_lock");
     }
+
+
+    /**
+     * 锁屏广播接收器
+     * */
 
     @Override
     public void start() {
@@ -145,7 +135,7 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
 
     @Override
     public boolean isPlaying() {
-        return mPlayOnFocusGain || (mMediaPlayer != null && mMediaPlayer.isPlaying());
+        return  (mMediaPlayer != null && mMediaPlayer.isPlaying());
     }
 
     @Override
@@ -179,6 +169,7 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
 
     @Override
     public void play(ExhibitBean item) {
+        if(item==null){return;}
         mPlayOnFocusGain = true;
         tryToGetAudioFocus();
         registerAudioNoisyReceiver();
@@ -222,6 +213,7 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
 
                 if (mCallback != null) {
                     mCallback.onPlaybackStatusChanged(mState);
+                    mCallback.onMetadataChanged(mCurrentExhibit);
                 }
 
             } catch (IOException ex) {
@@ -297,7 +289,7 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
     }
 
     @Override
-    public void setCurrentMediaId(ExhibitBean exhibit) {
+    public void setCurrentExhibit(ExhibitBean exhibit) {
         this.mCurrentExhibit = exhibit;
     }
 

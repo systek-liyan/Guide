@@ -1,10 +1,12 @@
 package com.systek.guide;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.liulishuo.filedownloader.FileDownloader;
@@ -18,8 +20,6 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.systek.guide.biz.DataBiz;
-import com.systek.guide.manager.BluetoothManager;
-import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
@@ -48,15 +48,10 @@ public class MyApplication extends Application implements IConstants, BootstrapN
     private RegionBootstrap regionBootstrap;
     /*软件是否开发完毕*/
     public static final boolean isRelease = false;
-    public MediaServiceManager getmServiceManager() {
-        return mServiceManager;
-    }
-    public MediaServiceManager mServiceManager;
     private boolean haveDetectedBeaconsSinceBoot = false;
 
     /*当前网络状态*/
     public static int currentNetworkType= INTERNET_TYPE_NONE;
-    private BluetoothManager bluetoothManager;
 
 
     @Override
@@ -99,12 +94,8 @@ public class MyApplication extends Application implements IConstants, BootstrapN
         backgroundPowerSaver = new BackgroundPowerSaver(this);
     }
 
-    public void initMediaService() {
-        mServiceManager = MediaServiceManager.getInstance(getApplicationContext());
-        mServiceManager.connectService();
-    }
 
-
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void setTypeface(){
         Typeface  typeFace = Typeface.createFromAsset(getAssets(), "fonts/aaa.ttf");
         try
@@ -113,14 +104,10 @@ public class MyApplication extends Application implements IConstants, BootstrapN
             field.setAccessible(true);
             field.set(null, typeFace);
         }
-        catch (NoSuchFieldException e)
+        catch (NoSuchFieldException | IllegalAccessException e)
         {
             e.printStackTrace();
-        }
-        catch (IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e){
             ExceptionUtil.handleException(e);
         }
     }
@@ -203,12 +190,6 @@ public class MyApplication extends Application implements IConstants, BootstrapN
     }
     /*退出程序*/
     public  void exit() {
-        if(bluetoothManager!=null){
-        }
-        if(mServiceManager!=null){
-            mServiceManager.disConnectService();
-        }
-        bluetoothManager=null;
         //ImageLoader.getInstance().clearMemoryCache();
         DataBiz.clearTempValues(getAppContext());
         android.os.Process.killProcess(android.os.Process.myPid());

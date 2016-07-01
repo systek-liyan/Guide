@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -41,7 +42,8 @@
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name="com.systek.guide.activity.TestActivity" />
+        <activity android:name="com.systek.guide.activity.TestActivity" >
+        </activity>
         <activity
             android:name="com.systek.guide.activity.BeginActivity"
             android:screenOrientation="portrait"
@@ -115,25 +117,8 @@
             android:theme="@style/AppTheme" />
 
         <service
-            android:name="com.systek.guide.service.MediaPlayService"
-            android:enabled="true"
-            android:exported="false"
-            android:isolatedProcess="false" />
-        <service
             android:name="com.systek.guide.service.DownloadService"
             android:exported="false" />
-
-        <!--
-        receiver android:name=".receiver.PhoneReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver
-        -->
-
         <service
             android:name="com.systek.guide.service.ExhibitPlayService"
             android:enabled="true"

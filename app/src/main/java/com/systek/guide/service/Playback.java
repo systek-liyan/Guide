@@ -6,7 +6,7 @@ import com.systek.guide.entity.ExhibitBean;
  * Created by Qiang on 2016/6/24.
  */
 public interface Playback {
-    public final static long PLAYBACK_POSITION_UNKNOWN = -1;
+    long PLAYBACK_POSITION_UNKNOWN = -1;
     int STATE_NONE = 0;
     int STATE_STOPPED = 1;
     int STATE_PAUSED = 2;
@@ -111,7 +111,7 @@ public interface Playback {
      *
      * @param exhibit to be set as the current.
      */
-    void setCurrentMediaId(ExhibitBean exhibit);
+    void setCurrentExhibit(ExhibitBean exhibit);
 
 
     interface Callback {

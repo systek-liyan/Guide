@@ -16,7 +16,7 @@ import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ public class CollectionActivity extends BaseActivity {
     private List<ExhibitBean> collectionExhibitList;//展品集合
     private ExhibitAdapter exhibitAdapter;//适配器
     private String museumId;
-    private MediaServiceManager mediaServiceManager;
 
     static class MyHandler extends Handler {
 
@@ -81,13 +80,13 @@ public class CollectionActivity extends BaseActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
-            ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
+            ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
             //exhibitAdapter.setSelectItem(position);
             exhibitAdapter.setSelectExhibit(exhibitBean);
             if(bean==null||!bean.equals(exhibitBean)){
                 exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
             }
-            mediaServiceManager.setPlayMode(PLAY_MODE_HAND);
+            PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
             exhibitAdapter.notifyDataSetInvalidated();
 
             Intent intent1 = new Intent(CollectionActivity.this, PlayActivity.class);
@@ -152,7 +151,6 @@ public class CollectionActivity extends BaseActivity {
         setTitleBarTitle("收藏");
         setHomeIcon();
         toolbar.setNavigationOnClickListener(backOnClickListener);
-        mediaServiceManager = MediaServiceManager.getInstance(this);
         collectionListView = (ListView) findViewById(R.id.collectionListView);
 
         mErrorView = findViewById(R.id.mErrorView);

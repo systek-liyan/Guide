@@ -7,12 +7,13 @@ import com.systek.guide.entity.ExhibitBean;
  */
 public interface PlayChangeCallback {
 
-    int STATE_INVALID =0;
+    /*int STATE_INVALID =0;
     int STATE_PLAYING =1;
     int STATE_PAUSE=2;
-    int STATE_STOP=3;
+    int STATE_STOP=3;*/
 
     void onError(String error);
+    void onStateChanged(int state,int position,String error);
     void onStateChanged(int state);
     void onExhibitChanged(ExhibitBean exhibit);
     void onPositionChanged(int duration ,int position);

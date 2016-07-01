@@ -625,6 +625,7 @@
     <dimen name="tv_museum_name_size">15sp</dimen>
     <dimen name="width_screen">360dp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
+    <item name="MAP_ID" type="id"/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
     <item name="action_menu_divider" type="id"/>

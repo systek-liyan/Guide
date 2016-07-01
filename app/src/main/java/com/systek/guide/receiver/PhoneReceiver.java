@@ -8,7 +8,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.LogUtil;
 
 /**
@@ -19,12 +19,10 @@ import com.systek.guide.utils.LogUtil;
 public class PhoneReceiver extends BroadcastReceiver{
 
     private static boolean incomingFlag = false;
-    private MediaServiceManager mediaServiceManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         LogUtil.i("ZHANG","接收了电话广播");
-        mediaServiceManager=MediaServiceManager.getInstance(context);
         //拨打电话
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
             incomingFlag = false;
@@ -44,8 +42,8 @@ public class PhoneReceiver extends BroadcastReceiver{
                 case TelephonyManager.CALL_STATE_RINGING:
                     incomingFlag = true;
                     Log.i("PhoneReceiver", "CALL IN RINGING :" + incomingNumber);
-                    if(mediaServiceManager!=null&&mediaServiceManager.isPlaying()){
-                        mediaServiceManager.pause();
+                    if(PlayManager.getInstance().isPlaying()){
+                        PlayManager.getInstance().pause();
                     }
                     break;
                 //电话接听
@@ -53,8 +51,8 @@ public class PhoneReceiver extends BroadcastReceiver{
                     if (incomingFlag) {
                         Log.i("PhoneReceiver", "CALL IN ACCEPT :" + incomingNumber);
                     }
-                    if(mediaServiceManager!=null&&mediaServiceManager.isPlaying()){
-                        mediaServiceManager.pause();
+                    if(PlayManager.getInstance().isPlaying()){
+                        PlayManager.getInstance().pause();
                     }
                     break;
                 //电话挂机

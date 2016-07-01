@@ -53,22 +53,6 @@ public class MyBeaconTask implements Runnable,IConstants {
         callback.getNearestBeacon(beaconList.get(0));
         callback.getExhibits(exhibitBeansList);
         callback.getNearestExhibit(exhibitBeansList.get(0));
-
-       /* Beacon beacon=DisCount.getInstance().dis(beacons);
-        if(beacon!=null){
-            LogUtil.i("ZHANG",System.currentTimeMillis()+"  beacon= "+beacon.getId3());
-        }
-        List<Beacon> beaconList=DisCount.getInstance().disArray(beacons);
-        List<BeaconBean> mBeaconList=changeToBeaconList(beaconList,20.0);
-        if(beaconList==null||beaconList.size()==0){return;}
-        List<ExhibitBean> exhibitBeansList=searchExhibitByBeacon(mBeaconList);
-        if (exhibitBeansList==null||exhibitBeansList.size()==0) {return;}
-        if(callback==null){return;}
-        List<ExhibitBean> tempList=searchExhibitByBeacon(beacon);
-        callback.getExhibits(exhibitBeansList);
-        callback.getNearestExhibits(tempList);
-        callback.getNearestExhibit(exhibitBeansList.get(0));*/
-
     }
 
     /**

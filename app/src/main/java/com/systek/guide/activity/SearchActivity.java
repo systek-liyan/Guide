@@ -17,7 +17,7 @@ import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.custom.ClearEditText;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -94,15 +94,15 @@ public class SearchActivity extends BaseActivity {
 
                 ExhibitBean clickExhibit = exhibitAdapter.getItem(position);
                 //ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-                ExhibitBean currentExhibit = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                ExhibitBean currentExhibit = PlayManager.getInstance().getCurrentExhibit();
                 //exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.setSelectExhibit(clickExhibit);
                 if(currentExhibit==null||!currentExhibit.equals(clickExhibit)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
                 }
-                MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
                 exhibitAdapter.notifyDataSetInvalidated();
-                MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(clickExhibit);
+                PlayManager.getInstance().playFromBean(clickExhibit);
                 startActivity(new Intent(SearchActivity.this,PlayActivity.class));
                 finish();
             }

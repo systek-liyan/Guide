@@ -26,8 +26,8 @@ import com.systek.guide.R;
 import com.systek.guide.adapter.MuseumIconAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.MuseumBean;
-import com.systek.guide.manager.MediaServiceManager;
 import com.systek.guide.service.DownloadService;
+import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.MyHttpUtil;
@@ -80,7 +80,6 @@ public class MuseumHomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MyApplication)getApplication()).initMediaService();
         setContentView(R.layout.activity_museum_home);
         handler=new MyHandler(this);
         initDrawer();
@@ -244,10 +243,8 @@ public class MuseumHomeActivity extends BaseActivity {
                             mediaPlayer.pause();
                             setPlayStateImageToClose();
                         }else{
-                            MyApplication application=MyApplication.get();
-                            MediaServiceManager serviceManager=application.getmServiceManager();
-                            if(serviceManager!=null&&serviceManager.isPlaying()){
-                                serviceManager.pause();
+                            if(PlayManager.getInstance().isPlaying()){
+                                PlayManager.getInstance().pause();
                             }
                             mediaPlayer.start();
                             setPlayStateImageToOpen();
@@ -394,11 +391,6 @@ public class MuseumHomeActivity extends BaseActivity {
     MediaPlayer.OnPreparedListener mediaListener=new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(MediaPlayer mp) {
-            MyApplication application=MyApplication.get();
-            MediaServiceManager serviceManager=application.getmServiceManager();
-            if(serviceManager==null){
-                mp.start();
-            }
         }
     };
 

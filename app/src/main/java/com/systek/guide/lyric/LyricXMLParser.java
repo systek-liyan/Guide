@@ -20,8 +20,8 @@ public class LyricXMLParser {
 
     private static final String TAG = "LyricXMLParser";
 
-    private final String ELEMENT_COUNT = "count";
-    private final String ELEMENT_LRCID = "lrcid";
+    private static final String ELEMENT_COUNT = "count";
+    private static final String ELEMENT_LRCID = "lrcid";
 
     public int parseLyricId(InputStream is) throws Exception {
         SAXParserFactory factory = SAXParserFactory.newInstance(); // 取得SAXParserFactory实例

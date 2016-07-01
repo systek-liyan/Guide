@@ -2,19 +2,23 @@ package com.systek.guide.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.text.TextUtils;
 
+import com.systek.guide.IConstants;
 import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.receiver.LockScreenReceiver;
 import com.systek.guide.utils.LogUtil;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ExhibitPlayService extends Service implements Playback.Callback{
+public class ExhibitPlayService extends Service implements Playback.Callback,IConstants{
 
     private static final String TAG = LogUtil.makeLogTag(ExhibitPlayService.class);
 
@@ -48,21 +52,75 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
     //private Bundle mSessionExtras;
     private final DelayedStopHandler mDelayedStopHandler = new DelayedStopHandler(this);
     private Playback mPlayback;
-    private PlayChangeCallback playChangeCallback;
+    private List<PlayChangeCallback> playChangeCallbackList;
+    private Handler handler;
+    private LockScreenReceiver mReceiver;
+    private boolean isLockScreenReceiverRegistered;
+
+    private ExhibitBean getCurrentPlayingMusic() {
+        return mCurrentExhibit;
+    }
 
     //private List<ExhibitBean> mPlayingQueue;
+    private static final int MSG_WHAT_UPDATE_PROGRESS=1;
 
-    public void setPlayChangeCallback(PlayChangeCallback playChangeCallback) {
-        this.playChangeCallback = playChangeCallback;
+    static class MyHandler extends Handler{
+
+        WeakReference<ExhibitPlayService> playServiceWeakReference;
+
+        MyHandler(ExhibitPlayService mediaPlayService){
+            this.playServiceWeakReference=new WeakReference<>(mediaPlayService);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            if(playServiceWeakReference==null){return;}
+            ExhibitPlayService mediaPlayService=playServiceWeakReference.get();
+            if(mediaPlayService==null){return;}
+            switch (msg.what) {
+                case MSG_WHAT_UPDATE_PROGRESS:
+                    mediaPlayService.doUpdateProgress();
+                    break;
+            }
+        }
     }
 
-    public PlayChangeCallback getPlayChangeCallback() {
-        return playChangeCallback;
+
+    private void doUpdateProgress() {
+        if(playChangeCallbackList==null||playChangeCallbackList.size()==0){
+            handler.sendEmptyMessageDelayed(MSG_WHAT_UPDATE_PROGRESS,500);
+            return;}//||!isSendProgress
+        if(mPlayback.isPlaying()){
+            int currentPosition = mPlayback.getCurrentStreamPosition();
+            int duration=mPlayback.getDuration();
+            if(currentPosition!=0&&duration!=0){
+                for(PlayChangeCallback callback:playChangeCallbackList){
+                    if(callback!=null){
+                        callback.onPositionChanged(duration,currentPosition);
+                    }
+                }
+            }
+        }
+        handler.sendEmptyMessageDelayed(MSG_WHAT_UPDATE_PROGRESS,500);
     }
 
+
+    public void addPlayChangeCallback(PlayChangeCallback playChangeCallback) {
+        if(playChangeCallbackList==null){
+            playChangeCallbackList=new ArrayList<>();
+        }
+        playChangeCallbackList.add(playChangeCallback);
+    }
+
+    public void removePlayChangeCallback(PlayChangeCallback playChangeCallback){
+        if(playChangeCallbackList==null){return;}
+        if(playChangeCallbackList.contains(playChangeCallback)){
+            playChangeCallbackList.remove(playChangeCallback);
+        }
+    }
 
     private Binder binder = new MediaServiceBinder();///服务Binder*/
-
 
     public ExhibitPlayService() {
     }
@@ -72,10 +130,11 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         super.onCreate();
         //mPlayingQueue = new ArrayList<>();
         mPlayback = new LocalPlayback(this);
+        handler=new MyHandler(this);
         mPlayback.setState(Playback.STATE_NONE);
         mPlayback.setCallback(this);
         mPlayback.start();
-        //updatePlaybackState(null);
+        updatePlaybackState(null);
 
     }
 
@@ -99,6 +158,7 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         return START_STICKY;
     }
 
+
     /**
      * (non-Javadoc)
      * @see android.app.Service#onDestroy()
@@ -110,8 +170,10 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         handleStopRequest(null);
 
         mDelayedStopHandler.removeCallbacksAndMessages(null);
+        this.playChangeCallbackList=null;
         // Always release the MediaSession to clean up resources
         // and notify associated MediaController(s).
+        //mSession.release();
     }
 
 
@@ -142,8 +204,9 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         // service is no longer necessary. Will be started again if needed.
         stopSelf();
         mServiceStarted = false;
+        handler.removeCallbacksAndMessages(null);
+        unRegisiterLockScreenReceiver();
     }
-
 
     /**
      * Handle a request to play music
@@ -162,13 +225,25 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         }
         updateMetadata();
         mPlayback.play(mCurrentExhibit);
-        //}
+        doUpdateProgress();
+        registerLockScreenReceiver();
+    }
+    private void registerLockScreenReceiver() {
+        if(isLockScreenReceiverRegistered){return;}
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        mReceiver = new LockScreenReceiver();
+        registerReceiver(mReceiver, filter);
+        isLockScreenReceiverRegistered=true;
     }
 
-    private ExhibitBean getCurrentPlayingMusic() {
-        return mCurrentExhibit;
+    private void unRegisiterLockScreenReceiver(){
+        if(isLockScreenReceiverRegistered){
+            unregisterReceiver(mReceiver);
+            isLockScreenReceiverRegistered=false;
+        }
     }
-
 
 
     private void updateMetadata() {
@@ -180,10 +255,7 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
      * @param error if not null, error message to present to the user.
      */
     private void updatePlaybackState(String error) {
-        if(playChangeCallback==null|| TextUtils.isEmpty(error)){return;}
-        playChangeCallback.onError(error);
-        //playChangeCallback.onExhibitChanged(mPlayback.getCurrentExhibit());
-      /*   LogUtil.d(TAG, "updatePlaybackState, playback state=" + mPlayback.getState());
+        LogUtil.d(TAG, "updatePlaybackState, playback state=" + mPlayback.getState());
         long position = Playback.PLAYBACK_POSITION_UNKNOWN;
         if (mPlayback != null && mPlayback.isConnected()){
             position = mPlayback.getCurrentStreamPosition();
@@ -195,10 +267,13 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
             // stop unexpectedly and persist until the user takes action to fix it.
             state = Playback.STATE_ERROR;
         }
-
-        //mSession.setPlaybackState(stateBuilder.build());
-
-       if (state == PlaybackState.STATE_PLAYING || state == PlaybackState.STATE_PAUSED) {
+        if(playChangeCallbackList==null){return;}
+        for(PlayChangeCallback callback:playChangeCallbackList){
+            if(callback!=null){
+                callback.onStateChanged(state,(int)position,error);
+            }
+        }
+      /* if (state == PlaybackState.STATE_PLAYING || state == PlaybackState.STATE_PAUSED) {
             mMediaNotificationManager.startNotification();
         }*/
     }
@@ -211,7 +286,20 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
 
     @Override
     public void onCompletion() {
-// The media player finished playing the current song, so we go ahead
+        mPlayback.seekTo(0);
+        mPlayback.setCurrentStreamPosition(0);
+        if(playChangeCallbackList==null||playChangeCallbackList.size()==0){return;}
+        for(PlayChangeCallback callback:playChangeCallbackList){
+            if(callback!=null){
+                callback.onPositionChanged(0,0);
+            }
+        }
+        if(mPlayback.getMode()==PLAY_MODE_AUTO){
+            handlePlayRequest();
+        }else{
+            handleStopRequest(null);
+        }
+        // The media player finished playing the current song, so we go ahead
         // and start the next.
        /* if (mPlayingQueue != null && !mPlayingQueue.isEmpty()) {
             // In this sample, we restart the playing queue when it gets to the end:
@@ -228,20 +316,32 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
 
     @Override
     public void onPlaybackStatusChanged(int state) {
-        if(playChangeCallback==null||mPlayback==null){return;}
-        playChangeCallback.onStateChanged(state);
+        if(playChangeCallbackList==null||playChangeCallbackList.size()==0||mPlayback==null){return;}
+        for(PlayChangeCallback callback:playChangeCallbackList){
+            if(callback!=null){
+                callback.onStateChanged(state);
+            }
+        }
     }
 
     @Override
     public void onError(String error) {
-        if(playChangeCallback==null||mPlayback==null){return;}
-        playChangeCallback.onError(error);
+        if(playChangeCallbackList==null||playChangeCallbackList.size()==0||mPlayback==null){return;}
+        for(PlayChangeCallback callback:playChangeCallbackList){
+            if(callback!=null){
+                callback.onError(error);
+            }
+        }
     }
 
     @Override
     public void onMetadataChanged(ExhibitBean exhibit) {
-        if(playChangeCallback==null||mPlayback==null){return;}
-        playChangeCallback.onExhibitChanged(exhibit);
+        if(playChangeCallbackList==null||playChangeCallbackList.size()==0||mPlayback==null){return;}
+        for(PlayChangeCallback callback:playChangeCallbackList){
+            if(callback!=null){
+                callback.onExhibitChanged(exhibit);
+            }
+        }
     }
 
 
@@ -299,12 +399,13 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         public void onSkipToQueueItem(ExhibitBean exhibit){
             if(mPlayback==null||exhibit==null){return;}
             mCurrentExhibit=exhibit;
-            mPlayback.play(exhibit);
+            handlePlayRequest();
         }
 
-        public void onSeekTo(long position){
-            if(mPlayback==null){return;}
+        public boolean onSeekTo(long position){
+            if(mPlayback==null){return false;}
             mPlayback.seekTo((int) position);
+            return true;
         }
         public boolean isPlaying() {
             return mPlayback != null && mPlayback.isPlaying();
@@ -316,7 +417,7 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         }
 
         public int getDuration(){
-            if(mPlayback==null){return 0;}
+            if(mPlayback==null||!mPlayback.isPlaying()){return 0;}
             return mPlayback.getDuration();
         }
         public int getState(){
@@ -332,10 +433,15 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
             mPlayback.setMode(mode);
         }
 
-        public void onPause() {
+       /* public void onPause() {
             if (mPlayback == null) {return;}
             mPlayback.pause();
+        }*/
+
+        public void onStateChanged(int state){
+            onPlaybackStatusChanged(state);
         }
+
 
         public ExhibitBean getCurrentExhibit(){
             if(mPlayback==null){return null;}
@@ -345,11 +451,12 @@ public class ExhibitPlayService extends Service implements Playback.Callback{
         public void onStop(){
             handleStopRequest(null);
         }
-        public void setPlayback(PlayChangeCallback playChangeCallback){
-            setPlayChangeCallback(playChangeCallback);
+
+        public void addPlayback(PlayChangeCallback playChangeCallback){
+            addPlayChangeCallback(playChangeCallback);
         }
-        public PlayChangeCallback getPlayback(){
-            return getPlayChangeCallback();
+        public void removePlayback(PlayChangeCallback playChangeCallback){
+            removePlayChangeCallback(playChangeCallback);
         }
 
         public void onSkipToNext(){

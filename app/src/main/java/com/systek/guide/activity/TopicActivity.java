@@ -23,7 +23,7 @@ import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.ExceptionUtil;
 
 import java.lang.ref.WeakReference;
@@ -211,25 +211,15 @@ public class TopicActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
-                ExhibitBean bean = MediaServiceManager.getInstance(TopicActivity.this).getCurrentExhibit();
+                ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
                 //exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.setSelectExhibit(exhibitBean);
                 if(bean==null||!bean.equals(exhibitBean)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
                 }
-                MediaServiceManager.getInstance(TopicActivity.this).setPlayMode(PLAY_MODE_HAND);
+                PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
                 exhibitAdapter.notifyDataSetInvalidated();
-                MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibitBean);
-                /*Intent intent1 = new Intent(TopicActivity.this, PlayActivity.class);
-                if (bean == null || !bean.equals(exhibitBean)) {
-                    String str = JSON.toJSONString(exhibitBean);
-                    Intent intent = new Intent();
-                    intent.setAction(INTENT_EXHIBIT);
-                    intent.putExtra(INTENT_EXHIBIT, str);
-                    sendBroadcast(intent);
-                    intent1.putExtra(INTENT_EXHIBIT, str);
-                }
-                startActivity(intent1);*/
+                PlayManager.getInstance().playFromBean(exhibitBean);
             }
         });
         setManyBtnListener();

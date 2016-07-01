@@ -22,7 +22,7 @@ import com.systek.guide.activity.ListAndMapActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.BluetoothManager;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.Tools;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -42,18 +42,19 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
     private Handler handler;
 
     private ListChangeReceiver listChangeReceiver;
+
     private List<ExhibitBean> currentExhibitList;
+
     private OnFragmentInteractionListener mListener;
     //private MediaServiceManager mediaServiceManager;
     private ExhibitBean currentExhibit;
     private LinearLayout loadingView;
     public static final int MSG_WHAT_UPDATE_DATA_SUCCESS=1;
-
-
     private static ExhibitListFragment exhibitListFragment;
+
+
     private AVLoadingIndicatorView avLoadingView;
     private int theme;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -67,8 +68,13 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
         }
         return exhibitListFragment;
     }
+
     public Handler getHandler() {
         return handler;
+    }
+
+    public List<ExhibitBean> getCurrentExhibitList() {
+        return currentExhibitList;
     }
 
     public void setCurrentExhibitList(List<ExhibitBean> currentExhibitList) {
@@ -90,7 +96,7 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
         /*if(mediaServiceManager!=null){
             currentExhibit=mediaServiceManager.getCurrentExhibit();
         }*/
-        currentExhibit=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+        currentExhibit= PlayManager.getInstance().getCurrentExhibit();
     }
 
     @Override
@@ -155,15 +161,15 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
                 //ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
-                ExhibitBean bean = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
                 //exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.setSelectExhibit(exhibitBean);
                 if(bean==null||!bean.equals(exhibitBean)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
-                    MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                    PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
                     exhibitAdapter.notifyDataSetInvalidated();
                     ((ListAndMapActivity)getActivity()).onFragmentInteraction(exhibitBean);
-                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibitBean);
+                    PlayManager.getInstance().playFromBean(exhibitBean);
                 }
 
             }

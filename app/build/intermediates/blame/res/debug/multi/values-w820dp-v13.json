@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "outputFile": "D:\\Android\\work2\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 143
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 194
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 253
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -87,7 +87,7 @@
                     "endOffset": 325
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -106,7 +106,7 @@
                     "endOffset": 374
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\colors.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -125,7 +125,7 @@
                     "endOffset": 432
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -144,7 +144,7 @@
                     "endOffset": 488
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -163,7 +163,7 @@
                     "endOffset": 542
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
@@ -182,7 +182,7 @@
                     "endOffset": 597
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -201,7 +201,7 @@
                     "endOffset": 650
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
@@ -220,7 +220,7 @@
                     "endOffset": 701
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
@@ -239,7 +239,7 @@
                     "endOffset": 753
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -258,7 +258,7 @@
                     "endOffset": 814
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
@@ -277,7 +277,7 @@
                     "endOffset": 861
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
@@ -296,7 +296,7 @@
                     "endOffset": 903
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -315,7 +315,7 @@
                     "endOffset": 945
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -334,7 +334,7 @@
                     "endOffset": 988
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -353,7 +353,7 @@
                     "endOffset": 1031
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -372,7 +372,7 @@
                     "endOffset": 1072
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -391,7 +391,7 @@
                     "endOffset": 1115
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
@@ -410,7 +410,7 @@
                     "endOffset": 1170
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -429,7 +429,7 @@
                     "endOffset": 1219
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
@@ -448,7 +448,7 @@
                     "endOffset": 1271
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -467,7 +467,7 @@
                     "endOffset": 1338
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -486,7 +486,7 @@
                     "endOffset": 1400
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -505,7 +505,7 @@
                     "endOffset": 1445
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
@@ -524,7 +524,7 @@
                     "endOffset": 1498
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -543,7 +543,7 @@
                     "endOffset": 1561
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -562,7 +562,7 @@
                     "endOffset": 1621
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -581,7 +581,7 @@
                     "endOffset": 1678
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -600,7 +600,7 @@
                     "endOffset": 1718
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,
@@ -619,7 +619,7 @@
                     "endOffset": 1788
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 35,
                         "startColumn": 4,
@@ -638,7 +638,7 @@
                     "endOffset": 1851
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -657,7 +657,7 @@
                     "endOffset": 1915
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -676,7 +676,7 @@
                     "endOffset": 1980
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
@@ -695,7 +695,7 @@
                     "endOffset": 2045
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -714,7 +714,7 @@
                     "endOffset": 2106
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
@@ -733,7 +733,7 @@
                     "endOffset": 2167
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -752,7 +752,7 @@
                     "endOffset": 2233
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 23,
                         "startColumn": 4,
@@ -771,7 +771,7 @@
                     "endOffset": 2295
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
@@ -790,7 +790,7 @@
                     "endOffset": 2358
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
@@ -809,7 +809,7 @@
                     "endOffset": 2424
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 4,
@@ -828,7 +828,7 @@
                     "endOffset": 2484
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -847,7 +847,7 @@
                     "endOffset": 2546
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -866,7 +866,7 @@
                     "endOffset": 2610
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 4,
@@ -885,7 +885,7 @@
                     "endOffset": 2674
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -904,7 +904,7 @@
                     "endOffset": 2739
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
@@ -923,7 +923,7 @@
                     "endOffset": 2792
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 4,
@@ -942,7 +942,7 @@
                     "endOffset": 2847
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 31,
                         "startColumn": 4,
@@ -961,7 +961,7 @@
                     "endOffset": 2899
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
@@ -980,7 +980,7 @@
                     "endOffset": 2958
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
@@ -999,7 +999,7 @@
                     "endOffset": 3005
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\strings.xml",
                     "position": {
                         "startLine": 29,
                         "startColumn": 4,
@@ -1019,7 +1019,7 @@
                     "endOffset": 3324
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -1040,7 +1040,7 @@
                     "endOffset": 4480
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -1060,7 +1060,7 @@
                     "endOffset": 4581
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -1080,7 +1080,7 @@
                     "endOffset": 5145
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 90,
                         "startColumn": 4,
@@ -1101,7 +1101,7 @@
                     "endOffset": 5375
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 4,
@@ -1122,7 +1122,7 @@
                     "endOffset": 5547
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 45,
                         "startColumn": 4,
@@ -1143,7 +1143,7 @@
                     "endOffset": 5674
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 4,
@@ -1164,7 +1164,7 @@
                     "endOffset": 6070
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
@@ -1185,7 +1185,7 @@
                     "endOffset": 6445
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 81,
                         "startColumn": 4,
@@ -1206,7 +1206,7 @@
                     "endOffset": 6872
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 61,
                         "startColumn": 4,
@@ -1227,7 +1227,7 @@
                     "endOffset": 7370
                 },
                 "from": {
-                    "file": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
+                    "file": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\values-w820dp\\styles.xml",
                     "position": {
                         "startLine": 70,
                         "startColumn": 4,

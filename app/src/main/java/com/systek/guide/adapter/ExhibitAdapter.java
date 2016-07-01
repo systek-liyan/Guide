@@ -19,7 +19,7 @@ import com.systek.guide.IConstants;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
 
@@ -164,11 +164,11 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         String iconUrl = exhibitBean.getIconurl();
         ImageUtil.displayImage(iconUrl, viewHolder.ivExhibitIcon,true,false);
 
-        ExhibitBean currentExhibit= MediaServiceManager.getInstance(context).getCurrentExhibit();
+        ExhibitBean currentExhibit= PlayManager.getInstance().getCurrentExhibit();
         if(currentExhibit!=null){
             setSelectExhibit(currentExhibit);
         }
-        boolean isPlaying=MediaServiceManager.getInstance(context).isPlaying();
+        boolean isPlaying=PlayManager.getInstance().isPlaying();
         if(isPlaying){
             state=STATE_PLAYING;
         }

@@ -26,10 +26,10 @@ import com.systek.guide.R;
 import com.systek.guide.adapter.NearlyGalleryAdapter;
 import com.systek.guide.biz.MyBeaconTask;
 import com.systek.guide.callback.BeaconChangeCallback;
-import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
+import com.systek.guide.service.Playback;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.TimeUtil;
@@ -99,8 +99,7 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
                     public void getNearestExhibit(final ExhibitBean exhibit) {
 
                         if(exhibit==null){return;}
-                        MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
-                        if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
+                        if(PlayManager.getInstance().getPlayMode()==PLAY_MODE_AUTO&&PlayManager.getInstance().isPlaying()){
                             if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
                                 /*SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                                 LogUtil.i("ZHANG","equals= "+df.format(new Date()));*/
@@ -108,7 +107,7 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibit);
+                                    PlayManager.getInstance().playFromBean(exhibit);
                                 }
                             });
                         }
@@ -235,6 +234,14 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
         handler.sendEmptyMessage(MSG_WHAT_REFRESH_STATE);// TODO: 2016/5/26
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+        PlayManager.getInstance().unbindService(this);
+    }
+
     @Override
     public void onExhibitChanged(ExhibitBean exhibit) {
         if(currentExhibit==null||!currentExhibit.equals(exhibit)){
@@ -294,17 +301,15 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
     @Override
     protected void onResume() {
         super.onResume();
-        if(MediaServiceManager.getInstance(this).isPlaying()){
-            //state=PLAY_STATE_START;
-            state= PlayChangeCallback.STATE_PLAYING;
+        PlayManager.getInstance().bindToService(this,this);
+        if(PlayManager.getInstance().isPlaying()){
+            state= Playback.STATE_PLAYING;
         }else{
-            //state=PLAY_STATE_STOP;
-            state= PlayChangeCallback.STATE_STOP;
+            state= Playback.STATE_STOPPED;
         }
         refreshState();
         handler.postDelayed(animationDrawableTask, 300);
         if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
-        MediaServiceManager.getInstance(this).setStateChangeCallback(this);
     }
 
     //通过延时控制当前绘制bitmap的位置坐标
@@ -321,7 +326,6 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
         super.onPause();
         animArrowDrawable.stop();
         if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
-        MediaServiceManager.getInstance(this).removeStateChangeCallback();
 
     }
 
@@ -344,18 +348,18 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
             public void onItemClick(View view, int position) {
 
                 ExhibitBean clickExhibit = nearlyGalleryAdapter.getEntity(position);
-                ExhibitBean bean = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
 
                 if(bean==null||!bean.equals(clickExhibit)){
                     nearlyGalleryAdapter.setSelectIndex(clickExhibit);
                 }
-                MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
                 nearlyGalleryAdapter.notifyDataSetChanged();
 
                 if(bean==null||!bean.equals(clickExhibit)){
-                    MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                    PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
                     nearlyGalleryAdapter.notifyDataSetChanged();
-                    MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(clickExhibit);
+                    PlayManager.getInstance().playFromBean(clickExhibit);
                 }
 
             }
@@ -364,7 +368,11 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
         ivPlayCtrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaServiceManager.getInstance(getActivity()).onStateChange();
+                if(PlayManager.getInstance().isPlaying()){
+                    PlayManager.getInstance().pause();
+                }else{
+                    PlayManager.getInstance().play();
+                }
 
             }
         });
@@ -388,7 +396,7 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
                         currentExhibit = bean;
                     }
                 }else{
-                    currentExhibit=MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                    currentExhibit=PlayManager.getInstance().getCurrentExhibit();
                 }
                 handler.sendEmptyMessage(MSG_WHAT_CHANGE_EXHIBIT);
             }
@@ -419,7 +427,7 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
 
     private void refreshState() {
 
-        if(state == PlayChangeCallback.STATE_PLAYING){//state==PLAY_STATE_START
+        if(state == Playback.STATE_PLAYING||state == Playback.STATE_BUFFERING){
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_48dp));//iv_play_state_open_big,ic_pause_black_36dp
         }else{
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_48dp));
@@ -430,7 +438,7 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if(!fromUser){return;}
-            MediaServiceManager.getInstance(getActivity()).seekTo(progress);
+            PlayManager.getInstance().seekTo(progress);
         }
 
         @Override

@@ -20,12 +20,12 @@ import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.biz.MyBeaconTask;
 import com.systek.guide.callback.BeaconChangeCallback;
-import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.fragment.ExhibitListFragment;
 import com.systek.guide.fragment.MapFragment;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
+import com.systek.guide.service.Playback;
 import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.ImageUtil;
 import com.systek.guide.utils.LogUtil;
@@ -76,48 +76,49 @@ public class ListAndMapActivity extends BaseActivity
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, org.altbeacon.beacon.Region region) {
 
-                    if(beacons==null||beacons.size()==0){return ; }
-                    executor.execute(new MyBeaconTask(beacons, new BeaconChangeCallback() {
-                        @Override
-                        public void getExhibits(List<ExhibitBean> exhibits) {
-                            if(exhibitListFragment==null||exhibits==null||exhibitListFragment.getHandler()==null){return;}
-                            if(System.currentTimeMillis()-t<4000){
-                                return;
-                            }
+                if(beacons==null||beacons.size()==0){return ; }
+                executor.execute(new MyBeaconTask(beacons, new BeaconChangeCallback() {
+                    @Override
+                    public void getExhibits(List<ExhibitBean> exhibits) {
+
+                        if(exhibitListFragment==null){return;}
+                        if(exhibitListFragment.getCurrentExhibitList()==null||exhibitListFragment.getCurrentExhibitList().size()==0){
+                            refreshFragmentExhibit(exhibits);
+                        }else{
+                            if(System.currentTimeMillis()-t<4000){return;}
                             t=System.currentTimeMillis();
-                            exhibitListFragment.setCurrentExhibitList(exhibits);
-                            exhibitListFragment.getHandler().sendEmptyMessage(ExhibitListFragment.MSG_WHAT_UPDATE_DATA_SUCCESS);
+                            refreshFragmentExhibit(exhibits);
                         }
+                    }
 
-                        @Override
-                        public void getNearestExhibit(final ExhibitBean exhibit) {
+                    @Override
+                    public void getNearestExhibit(final ExhibitBean exhibit) {
 
-                            if(exhibitListFragment==null||exhibit==null){return;}
-                            MediaServiceManager mediaServiceManager=MediaServiceManager.getInstance(getActivity());
-                            if(mediaServiceManager.getPlayMode()==MediaServiceManager.PLAY_MODE_AUTO&&!mediaServiceManager.isPause()){
-                                if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
+                        if(exhibitListFragment==null||exhibit==null){return;}
+                        PlayManager manager=PlayManager.getInstance();
+                        if(manager.getPlayMode()==PLAY_MODE_AUTO&&manager.isPlaying()){//TODO: 2016/6/30 isPlaying?
+                            if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
                                     /*SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                                     LogUtil.i("ZHANG","equals= "+df.format(new Date()));*/
-                                    return;}
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MediaServiceManager.getInstance(getActivity()).notifyExhibitChange(exhibit);
-                                    }
-                                });
-                            }
+                                return;}
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PlayManager.getInstance().playFromBean(exhibit);
+                                }
+                            });
                         }
+                    }
 
+                    @Override
+                    public void getNearestBeacon(BeaconBean bean) {
+                        if(mapFragment==null||bean==null||mapFragment.getHandler()==null){return;}
+                        mapFragment.setBeacon(bean);
+                        mapFragment.getHandler().sendEmptyMessage(MapFragment.MSG_WHAT_DRAW_POINT);
+                    }
 
-                        @Override
-                        public void getNearestBeacon(BeaconBean bean) {
-                            if(mapFragment==null||bean==null||mapFragment.getHandler()==null){return;}
-                            mapFragment.setBeacon(bean);
-                            mapFragment.getHandler().sendEmptyMessage(MapFragment.MSG_WHAT_DRAW_POINT);
-                        }
-
-                    }));
-                }
+                }));
+            }
         });
         try {
             beaconManager.startRangingBeaconsInRegion(new Region(BEACON_LAYOUT, null, null, null));
@@ -125,6 +126,13 @@ public class ListAndMapActivity extends BaseActivity
             ExceptionUtil.handleException(e);
         }
 
+    }
+
+    private void refreshFragmentExhibit(List<ExhibitBean> exhibits) {
+
+        if(exhibitListFragment==null||exhibits==null||exhibitListFragment.getHandler()==null){return;}
+        exhibitListFragment.setCurrentExhibitList(exhibits);
+        exhibitListFragment.getHandler().sendEmptyMessage(ExhibitListFragment.MSG_WHAT_UPDATE_DATA_SUCCESS);
     }
 
 
@@ -200,34 +208,32 @@ public class ListAndMapActivity extends BaseActivity
         }
         beaconManager = BeaconManager.getInstanceForApplication(this);
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+        PlayManager.getInstance().bindToService(this,this);
         //绑定蓝牙扫描服务
         beaconManager.bind(this);
-
         //加载播放器
         handler=new MyHandler(this);
         initView();
         addListener();
         initData();
+        refreshModeIcon();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-        ExhibitBean exhibitBean=MediaServiceManager.getInstance(this).getCurrentExhibit();
+        ExhibitBean exhibitBean=PlayManager.getInstance().getCurrentExhibit();
         if(exhibitBean!=null){
             currentExhibit=exhibitBean;
             exhibitName.setText(currentExhibit.getName());
             refreshViewBottomTab();
         }
-        refreshState();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         registerReceiver();
-        MediaServiceManager.getInstance(this).setStateChangeCallback(this);
         if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
     }
 
@@ -235,7 +241,6 @@ public class ListAndMapActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         unRegisterReceiver();
-        MediaServiceManager.getInstance(this).removeStateChangeCallback();
         if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(true);
     }
 
@@ -244,6 +249,7 @@ public class ListAndMapActivity extends BaseActivity
         exhibitListFragment=null;
         mapFragment=null;
         super.onDestroy();
+        PlayManager.getInstance().unbindService(this);
         beaconManager.unbind(this);
     }
 
@@ -282,13 +288,7 @@ public class ListAndMapActivity extends BaseActivity
 
 
     private void refreshState() {
-        if(MediaServiceManager.getInstance(this).isPlaying()){
-            state= PlayChangeCallback.STATE_PLAYING;
-
-        }else{
-            state= PlayChangeCallback.STATE_STOP;
-        }
-        switch (MediaServiceManager.getInstance(this).getPlayMode()){
+        switch (PlayManager.getInstance().getPlayMode()){
             case PLAY_MODE_AUTO:
                 ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
                 break;
@@ -300,7 +300,7 @@ public class ListAndMapActivity extends BaseActivity
                 break;
         }
         //}
-        if(state== PlayChangeCallback.STATE_PLAYING) {
+        if(state== Playback.STATE_PLAYING||state==Playback.STATE_BUFFERING) {
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
         }else{
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_play_arrow_white_24dp));
@@ -365,7 +365,7 @@ public class ListAndMapActivity extends BaseActivity
      * 根据状态切换模式图标
      */
     private void refreshModeIcon() {
-        switch (MediaServiceManager.getInstance(this).getPlayMode()){
+        switch (PlayManager.getInstance().getPlayMode()){
             case PLAY_MODE_AUTO:
                 ivGuideMode.setBackgroundResource(R.drawable.play_mode_auto);
                 break;
@@ -387,7 +387,11 @@ public class ListAndMapActivity extends BaseActivity
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.ivPlayCtrl:
-                    MediaServiceManager.getInstance(getApplicationContext()).onStateChange();
+                    if(PlayManager.getInstance().isPlaying()){
+                        PlayManager.getInstance().pause();
+                    }else{
+                        PlayManager.getInstance().play();
+                    }
                     break;
                 case R.id.exhibitIcon:
                     Intent intent1=new Intent(ListAndMapActivity.this,PlayActivity.class);
@@ -396,18 +400,18 @@ public class ListAndMapActivity extends BaseActivity
                     break;
                 case R.id.ivGuideMode:
                     tvToast.setVisibility(View.VISIBLE);
-                    int  mode = MediaServiceManager.getInstance(getActivity()).getPlayMode();
+                    int  mode = PlayManager.getInstance().getPlayMode();
                     switch (mode){
                         case PLAY_MODE_AUTO:
-                            MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_HAND);
+                            PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
                             tvToast.setText("手动模式");
                             break;
                         case PLAY_MODE_HAND:
-                            MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_AUTO);
+                            PlayManager.getInstance().setPlayMode(PLAY_MODE_AUTO);
                             tvToast.setText("自动模式");
                             break;
                         case PLAY_MODE_AUTO_PAUSE:
-                            MediaServiceManager.getInstance(getActivity()).setPlayMode(PLAY_MODE_AUTO);
+                            PlayManager.getInstance().setPlayMode(PLAY_MODE_AUTO);
                             break;
                     }
                     refreshModeIcon();
@@ -445,7 +449,7 @@ public class ListAndMapActivity extends BaseActivity
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if(!fromUser){return;}
-            MediaServiceManager.getInstance(getActivity()).seekTo(progress);
+            PlayManager.getInstance().seekTo(progress);
         }
 
         @Override

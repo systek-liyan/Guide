@@ -46,7 +46,7 @@ import com.systek.guide.biz.map.TextPopup;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.manager.BluetoothManager;
-import com.systek.guide.manager.MediaServiceManager;
+import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.ExceptionUtil;
 
 import java.lang.ref.WeakReference;
@@ -176,7 +176,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
         map = new MapWidget(savedInstanceState, activity,
                 "map", // root name of the map under assets folder.
                 11); // 地图初始缩放级别
-        map.setId(MAP_ID);
+        //map.setId(MAP_ID);
         OfflineMapConfig config = map.getConfig();
         config.setMapCenteringEnabled(true);
         config.setPinchZoomEnabled(true); // 双指缩放启用
@@ -535,7 +535,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
                     if (mapObjectInfoPopup != null) {
                         mapObjectInfoPopup.hide();
                         }
-                    ExhibitBean bean = MediaServiceManager.getInstance(getActivity()).getCurrentExhibit();
+                    ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
                     if (bean == null || !bean.equals(exhibit)) {
                         String str = JSON.toJSONString(exhibit);
                         Intent intent = new Intent();
