@@ -38,7 +38,6 @@ public class DownloadManagerActivity extends BaseActivity {
     private TaskItemAdapter adapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class DownloadManagerActivity extends BaseActivity {
             refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
         }
         if (recyclerView != null) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         }
         adapter = new TaskItemAdapter();
         if (recyclerView != null) {

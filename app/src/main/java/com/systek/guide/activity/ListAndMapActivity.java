@@ -95,8 +95,7 @@ public class ListAndMapActivity extends BaseActivity
                     public void getNearestExhibit(final ExhibitBean exhibit) {
 
                         if(exhibitListFragment==null||exhibit==null){return;}
-                        PlayManager manager=PlayManager.getInstance();
-                        if(manager.getPlayMode()==PLAY_MODE_AUTO&&manager.isPlaying()){//TODO: 2016/6/30 isPlaying?
+                        if(PlayManager.getInstance().getPlayMode()==PLAY_MODE_AUTO&&PlayManager.getInstance().isPlaying()){//TODO: 2016/6/30 isPlaying?
                             if(currentExhibit!=null&&exhibit.equals(currentExhibit)){
                                     /*SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                                     LogUtil.i("ZHANG","equals= "+df.format(new Date()));*/
@@ -249,7 +248,7 @@ public class ListAndMapActivity extends BaseActivity
         exhibitListFragment=null;
         mapFragment=null;
         super.onDestroy();
-        PlayManager.getInstance().unbindService(this);
+        PlayManager.getInstance().unbindService(this,this);
         beaconManager.unbind(this);
     }
 

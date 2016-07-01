@@ -1,18 +1,18 @@
 [
     {
-        "merged": "D:\\Android\\work2\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
-        "source": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\menu.xml"
     },
     {
-        "merged": "D:\\Android\\work2\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
-        "source": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\normal_menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\normal_menu.xml"
     },
     {
-        "merged": "D:\\Android\\work2\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\normal_menu.xml",
-        "source": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\menu\\normal_menu.xml"
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\play_menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\play_menu.xml"
     },
     {
-        "merged": "D:\\Android\\work2\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\play_menu.xml",
-        "source": "D:\\Android\\work2\\Guide\\app\\src\\main\\res\\menu\\play_menu.xml"
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\menu\\drawer_menu.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     }
 ]

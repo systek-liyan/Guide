@@ -551,7 +551,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     protected void onDestroy() {
         viewpagerWordImage.removeAllViewsInLayout();
         beaconManager.unbind(this);
-        PlayManager.getInstance().unbindService(this);
+        PlayManager.getInstance().unbindService(this,this);
         super.onDestroy();
     }
 

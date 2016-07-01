@@ -55,8 +55,9 @@ public class PlayManager implements IConstants{
         this.playChangeCallback=playChangeCallback;
         context.bindService(new Intent(context,ExhibitPlayService.class),mConn,Context.BIND_AUTO_CREATE);
     }
-    public void unbindService(@NonNull Context context){
+    public void unbindService(@NonNull Context context,PlayChangeCallback playChangeCallback){
         context.unbindService(mConn);
+        mediaServiceBinder.removePlayback(playChangeCallback);
     }
 
 

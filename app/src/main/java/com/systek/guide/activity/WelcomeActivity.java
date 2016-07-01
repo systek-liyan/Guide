@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -21,8 +23,8 @@ import java.util.ArrayList;
 public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
 
     private int lastPage = 0;
-    private int dotWidth = 40;
-    private int dotHeight = 35;
+    private static final int dotWidth = 40;
+    private static final int dotHeight = 35;
     private ArrayList<Dot> mDots;
     private Button btn_into_app;
     private ViewPager viewPager;
@@ -35,6 +37,16 @@ public class WelcomeActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //隐藏标题栏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //隐藏状态栏
+        //定义全屏参数
+        int flag= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        //获得当前窗体对象
+        Window window=getWindow();
+        //设置当前窗体为全屏显示
+        window.setFlags(flag, flag);
         setContentView(R.layout.activity_welcome);
 
         initView();

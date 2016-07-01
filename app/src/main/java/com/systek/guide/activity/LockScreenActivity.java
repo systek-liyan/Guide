@@ -239,7 +239,7 @@ public class LockScreenActivity extends SwipeBackActivity implements BeaconConsu
     protected void onDestroy() {
         super.onDestroy();
         beaconManager.unbind(this);
-        PlayManager.getInstance().unbindService(this);
+        PlayManager.getInstance().unbindService(this,this);
     }
 
     @Override

@@ -8,11 +8,14 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.PlaybackState;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.PowerManager;
 
 import com.systek.guide.IConstants;
 import com.systek.guide.entity.ExhibitBean;
+import com.systek.guide.utils.ExceptionUtil;
 import com.systek.guide.utils.LogUtil;
+import com.systek.guide.utils.MyHttpUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -224,6 +227,38 @@ public class LocalPlayback implements Playback, IConstants,AudioManager.OnAudioF
             }
         }
     }
+
+
+    /**
+     * 用于下载音频类
+     */
+    int count;
+
+    class DownloadAudioTask extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String audioUrl=params[0];
+            String audioName=params[1];
+            String saveDir=getCurrentAudioPath();
+            try {
+                MyHttpUtil.downLoadFromUrl(audioUrl, saveDir,audioName);
+            } catch (IOException e) {
+                ExceptionUtil.handleException(e);
+            }
+            count++;
+            return saveDir+audioName;
+        }
+        @Override
+        protected void onPostExecute(String savePath) {
+            if(count<=5){
+                play(mCurrentExhibit);
+            }
+        }
+    }
+
+
+
 
     private String getCurrentAudioPath() {
         if(mCurrentExhibit==null){return null;}
