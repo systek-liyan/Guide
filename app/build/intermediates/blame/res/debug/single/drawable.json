@@ -132,12 +132,12 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\progress_bg.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\material_drawer_badge.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\drawable\\material_drawer_badge.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_equalizer_white_36dp.xml",
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable\\ic_equalizer_white_36dp.xml"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\material_drawer_badge.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.mikepenz\\materialdrawer\\4.6.4\\res\\drawable\\material_drawer_badge.xml"
     },
     {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",

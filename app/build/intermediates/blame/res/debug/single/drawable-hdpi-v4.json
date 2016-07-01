@@ -360,11 +360,11 @@
         "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\fullscreen_bg_gradient.xml"
     },
     {
-        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\btn_bg_blue.xml",
-        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\btn_bg_blue.xml"
-    },
-    {
         "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_popup_background_mtrl_mult.9.png",
         "source": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable-hdpi-v4\\abc_popup_background_mtrl_mult.9.png"
+    },
+    {
+        "merged": "D:\\Android\\work\\Guide\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\btn_bg_blue.xml",
+        "source": "D:\\Android\\work\\Guide\\app\\src\\main\\res\\drawable-hdpi\\btn_bg_blue.xml"
     }
 ]
