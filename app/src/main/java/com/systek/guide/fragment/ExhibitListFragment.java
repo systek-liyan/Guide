@@ -160,9 +160,7 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
-                //ExhibitBean bean = mediaServiceManager.getCurrentExhibit();
                 ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
-                //exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.setSelectExhibit(exhibitBean);
                 if(bean==null||!bean.equals(exhibitBean)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);

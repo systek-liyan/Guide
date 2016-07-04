@@ -92,6 +92,7 @@ public class TopicActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic);
         handler=new MyHandler(this);
+        PlayManager.getInstance().bindToService(this,this);
         initDrawer();
         initView();
         addListener();
@@ -128,8 +129,13 @@ public class TopicActivity extends BaseActivity {
         exhibitAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PlayManager.getInstance().unbindService(this,this);
+    }
 
-   private void initView() {
+    private void initView() {
         setTitleBar();
         setTitleBarTitle(R.string.title_bar_topic);
         setHomeIcon();
@@ -212,14 +218,17 @@ public class TopicActivity extends BaseActivity {
 
                 ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
                 ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
-                //exhibitAdapter.setSelectItem(position);
                 exhibitAdapter.setSelectExhibit(exhibitBean);
                 if(bean==null||!bean.equals(exhibitBean)){
                     exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+                    PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
+                    exhibitAdapter.notifyDataSetInvalidated();
+                    PlayManager.getInstance().playFromBean(exhibitBean);
                 }
-                PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
-                exhibitAdapter.notifyDataSetInvalidated();
-                PlayManager.getInstance().playFromBean(exhibitBean);
+                Intent intent=new Intent(getActivity(),PlayActivity.class);
+                intent.putExtra(INTENT_EXHIBIT,exhibitBean);
+                startActivity(intent);
+
             }
         });
         setManyBtnListener();

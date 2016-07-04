@@ -73,7 +73,7 @@ public class PlayManager implements IConstants{
     };
 
     public int getState(){
-        return mediaServiceBinder.getState();
+        return mediaServiceBinder==null?0:mediaServiceBinder.getState();
     }
     /**
      * 获取当前播放进度

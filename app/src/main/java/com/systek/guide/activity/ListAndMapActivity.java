@@ -232,6 +232,7 @@ public class ListAndMapActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
+        refreshState();
         registerReceiver();
         if (beaconManager.isBound(this)) beaconManager.setBackgroundMode(false);
     }
@@ -299,6 +300,7 @@ public class ListAndMapActivity extends BaseActivity
                 break;
         }
         //}
+        state=PlayManager.getInstance().getState();
         if(state== Playback.STATE_PLAYING||state==Playback.STATE_BUFFERING) {
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_24dp));
         }else{

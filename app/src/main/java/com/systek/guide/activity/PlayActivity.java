@@ -27,7 +27,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.adapter.MultiAngleImgAdapter;
 import com.systek.guide.adapter.base.ViewPagerAdapter;
@@ -230,14 +229,16 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
 
     private void initData() {
         Intent intent=getIntent();
-        String exhibitStr=intent.getStringExtra(INTENT_EXHIBIT);
-        if(!TextUtils.isEmpty(exhibitStr)){
-            ExhibitBean bean= JSON.parseObject(exhibitStr, ExhibitBean.class);
-            if(currentExhibit==null) {
-                currentExhibit = bean;
+        ExhibitBean exhibitBean= (ExhibitBean) intent.getSerializableExtra(INTENT_EXHIBIT);
+        currentExhibit=PlayManager.getInstance().getCurrentExhibit();
+        if(exhibitBean!=null){
+            if(currentExhibit==null){
+                currentExhibit=exhibitBean;
+            }else{
+                if(!currentExhibit.equals(exhibitBean)){
+                    PlayManager.getInstance().playFromBean(exhibitBean);
+                }
             }
-        }else{
-            currentExhibit=PlayManager.getInstance().getCurrentExhibit();
         }
         handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
     }
