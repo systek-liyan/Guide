@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.systek.guide.R;
-import com.systek.guide.manager.BluetoothManager;
+import com.systek.guide.biz.DataBiz;
 import com.systek.guide.utils.Tools;
 
 import java.lang.ref.WeakReference;
@@ -58,8 +58,7 @@ public class BeginActivity extends BaseActivity{
                     //targetClass=CityChooseActivity.class;
                 }
                 if(!isFirstLogin){
-                    BluetoothManager bluetoothManager= BluetoothManager.newInstance(BeginActivity.this);
-                    currentMuseumId=bluetoothManager.getCurrentMuseumId();
+                    currentMuseumId= (String) DataBiz.getTempValue(BeginActivity.this, SP_MUSEUM_ID, "");
                     if(!TextUtils.isEmpty(currentMuseumId)){
                         targetClass=MuseumHomeActivity.class;
                     }

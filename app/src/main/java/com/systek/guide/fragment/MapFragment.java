@@ -39,13 +39,14 @@ import com.ls.widgets.map.model.MapObject;
 import com.ls.widgets.map.utils.PivotFactory;
 import com.systek.guide.IConstants;
 import com.systek.guide.R;
+import com.systek.guide.activity.ListAndMapActivity;
+import com.systek.guide.activity.PlayActivity;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.biz.map.MapObjectContainer;
 import com.systek.guide.biz.map.MapObjectModel;
 import com.systek.guide.biz.map.TextPopup;
 import com.systek.guide.entity.BeaconBean;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.ExceptionUtil;
 
@@ -68,7 +69,6 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
     private Activity activity;
     private Location points[];
     private int currentPoint;
-    private BluetoothManager bluetoothManager;
 
     private static MapFragment mapFragment;
     private List<ExhibitBean> topicExhibitList;
@@ -122,23 +122,6 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
         mapReceiver =new MapReceiver();
         activity.registerReceiver(mapReceiver,filter);
     }
-
-
-    /**
-     * 蓝牙扫描对象
-     */
-
-
-    /*//蓝牙模块返回最近的信标
-    private NearestBeaconListener nearestBeaconListener = new NearestBeaconListener() {
-        @Override
-        public void nearestBeaconCallBack(BeaconBean b) {
-            beacon = b;
-            tempList= DataBiz.getExhibitListByBeaconId(beacon.getMuseumId(), beacon.getId());
-            handler.sendEmptyMessage(MSG_WHAT_DRAW_POINT);
-        }
-    };*/
-
 
     public static final int MSG_WHAT_DRAW_POINT = 1;
     @Override
@@ -310,7 +293,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
             //获取地图对象的绘制
             Drawable drawable = getResources().getDrawable(R.drawable.icon_map_object);// TODO: 2016/1/1
             // Creating the map object
-            MapObject object1 = new MapObject(Integer.valueOf(nextObjectId), // id, will be passed to the listener when user clicks on it
+            MapObject object1 = new MapObject(nextObjectId, // id, will be passed to the listener when user clicks on it
                     drawable,
                     new Point(0, 0), // coordinates in original map coordinate system.
                     // Pivot point of center of the drawable in the drawable's coordinate system.
@@ -330,7 +313,7 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
     //绘制可扩展的地图对象
     private void addScalableMapObject(int x, int y, Layer layer) {
         Drawable drawable = getResources().getDrawable(R.drawable.maps_blue_dot);
-        MapObject object1 = new MapObject(Integer.valueOf(nextObjectId),
+        MapObject object1 = new MapObject(nextObjectId,
                 drawable,
                 x,
                 y,
@@ -535,14 +518,17 @@ public class MapFragment extends BaseFragment implements IConstants, MapEventsLi
                     if (mapObjectInfoPopup != null) {
                         mapObjectInfoPopup.hide();
                         }
-                    ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
-                    if (bean == null || !bean.equals(exhibit)) {
-                        String str = JSON.toJSONString(exhibit);
-                        Intent intent = new Intent();
-                        intent.setAction(INTENT_EXHIBIT);
-                        intent.putExtra(INTENT_EXHIBIT, str);
-                        activity.sendBroadcast(intent);}
 
+
+                    ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
+                    if(bean==null||!bean.equals(exhibit)){
+                        PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
+                        ((ListAndMapActivity)getActivity()).onFragmentInteraction(exhibit);
+                        PlayManager.getInstance().playFromBean(exhibit);
+                    }
+                    Intent intent=new Intent(getActivity(),PlayActivity.class);
+                    //intent.putExtra(INTENT_EXHIBIT,exhibit);
+                    startActivity(intent);
                 }
 
                 return false;

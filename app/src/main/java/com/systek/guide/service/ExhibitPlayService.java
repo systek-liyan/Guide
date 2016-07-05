@@ -23,10 +23,10 @@ public class ExhibitPlayService extends Service implements Playback.Callback,ICo
     private static final String TAG = LogUtil.makeLogTag(ExhibitPlayService.class);
 
     // Extra on MediaSession that contains the Cast device name currently connected to
-    public static final String EXTRA_CONNECTED_CAST = "com.qiang.mediaProject.CAST_NAME";
+    public static final String EXTRA_CONNECTED_CAST = "com.sysytek.guide.CAST_NAME";
     // The action of the incoming Intent indicating that it contains a command
     // to be executed (see {@link #onStartCommand})
-    public static final String ACTION_CMD = "com.qiang.mediaProject.ACTION_CMD";
+    public static final String ACTION_CMD = "com.sysytek.guide.ACTION_CMD";
     // The key in the extras of the incoming Intent indicating the command that
     // should be executed (see {@link #onStartCommand})
     public static final String CMD_NAME = "CMD_NAME";
@@ -38,7 +38,7 @@ public class ExhibitPlayService extends Service implements Playback.Callback,ICo
     public static final String CMD_STOP_CASTING = "CMD_STOP_CASTING";
 
     // Action to thumbs up a media item
-    private static final String CUSTOM_ACTION_THUMBS_UP = "com.qiang.mediaProject.THUMBS_UP";
+    private static final String CUSTOM_ACTION_THUMBS_UP = "com.sysytek.guide.THUMBS_UP";
     // Delay stopSelf by using a handler.
     private static final int STOP_DELAY = 30000;
 
@@ -432,11 +432,6 @@ public class ExhibitPlayService extends Service implements Playback.Callback,ICo
             if(mPlayback==null){return ;}
             mPlayback.setMode(mode);
         }
-
-       /* public void onPause() {
-            if (mPlayback == null) {return;}
-            mPlayback.pause();
-        }*/
 
         public void onStateChanged(int state){
             onPlaybackStatusChanged(state);

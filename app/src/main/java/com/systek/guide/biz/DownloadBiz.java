@@ -20,7 +20,7 @@ public class DownloadBiz implements IConstants {
     /** 获得assets资源json */
     public String getAssetsJSON(String id) {
         String url=BASE_URL+URL_ALL_MUSEUM_ASSETS + id;
-        return MyHttpUtil.doGet(url);
+        return MyHttpUtil.sendGet(url);
     }
 
     /** 获得assets资源json */

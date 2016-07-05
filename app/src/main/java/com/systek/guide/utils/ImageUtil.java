@@ -2,12 +2,17 @@ package com.systek.guide.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,7 +28,13 @@ import com.systek.guide.MyApplication;
 import com.systek.guide.R;
 import com.systek.guide.biz.DataBiz;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Qiang on 2016/3/29.
@@ -123,7 +134,7 @@ public class ImageUtil implements IConstants {
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                 if (bitmap != null) {
-                    Bitmap mBitmap = blurBitmap(context, bitmap);//FastBlur.doBlur(bitmap,2,true)
+                    Bitmap mBitmap = FastBlur.blur(bitmap,context); //blurBitmap(context, bitmap);//FastBlur.doBlur(bitmap,2,true)
                     imageView.setImageBitmap(mBitmap);
                 }
             }
@@ -149,7 +160,7 @@ public class ImageUtil implements IConstants {
             @Override
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                 if(bitmap!=null){
-                    Bitmap mBitmap= blurBitmap(context,bitmap);//FastBlur.doBlur(bitmap,2,true)
+                    Bitmap mBitmap= FastBlur.blur(bitmap,context); //blurBitmap(context,bitmap);//FastBlur.doBlur(bitmap,2,true)
                     imageView.setImageBitmap(mBitmap);
                 }
             }
@@ -184,7 +195,7 @@ public class ImageUtil implements IConstants {
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            Bitmap bitmap=blurBitmap(context,loadedImage);
+            Bitmap bitmap=FastBlur.blur(loadedImage,context); //blurBitmap(context,loadedImage);
             imageView.setImageBitmap(bitmap);
             try{
                 LogUtil.i("ZHANG","onLoadingComplete");
@@ -329,5 +340,112 @@ public class ImageUtil implements IConstants {
         }
 
     }
+
+
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+
+        Bitmap bitmap = Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        //canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+    public static  byte[] BitmapToBytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+
+
+    public static byte[] getImageFromNet(URL url) {
+        byte[] data = null;
+        try {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setReadTimeout(5000);
+            InputStream input = conn.getInputStream();// 到这可以直接BitmapFactory.decodeFile也行。 返回bitmap
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = input.read(buffer)) != -1) {
+                output.write(buffer, 0, len);
+            }
+            input.close();
+            data = output.toByteArray();
+            System.out.println("下载完毕！");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            ExceptionUtil.handleException(e);
+        }
+        return data;
+    }
+
+
+    /**
+     * 把bitmap转换成String
+     *
+     * @param filePath
+     * @return
+     */
+    public static String bitmapToString(String filePath,int width,int height) {
+
+        Bitmap bm = getSmallBitmap(filePath,width,height);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+
+    }
+
+
+    /**
+     * 根据路径获得突破并压缩返回bitmap用于显示
+     * @return
+     */
+    public static Bitmap getSmallBitmap(String filePath,int width,int height) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, width,height);
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeFile(filePath, options);
+    }
+
+    /**
+     * 计算图片的缩放值
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options,
+                                            int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            // Calculate ratios of height and width to requested height and
+            // width
+            final int heightRatio = Math.round((float) height/(float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            // Choose the smallest ratio as inSampleSize value, this will
+            // guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
+    }
+
 
 }

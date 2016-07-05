@@ -106,9 +106,6 @@ public class FontUtils {
      * @param style One of {@link Typeface#NORMAL}, {@link Typeface#BOLD}, {@link Typeface#ITALIC}, {@link Typeface#BOLD_ITALIC}
      */
     private void replaceFont(@NonNull View root, @NonNull Typeface typeface, int style) {
-        if (root == null || typeface == null) {
-            return;
-        }
         if (style < 0 || style > 3) {
             style = Typeface.NORMAL;
         }

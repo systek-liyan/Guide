@@ -55,10 +55,12 @@
         <activity
             android:name=".activity.MuseumListActivity"
             android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MuseumHomeActivity"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ListAndMapActivity"
@@ -101,6 +103,7 @@
         <activity
             android:name=".activity.SettingActivity"
             android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DownloadManagerActivity"

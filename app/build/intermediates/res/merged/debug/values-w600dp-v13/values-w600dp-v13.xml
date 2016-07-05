@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="abc_search_view_text_min_width">192dip</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="dialog_button_textSize">13sp</dimen>
@@ -35,7 +34,6 @@
     <dimen name="tv_home_page_exhibit_name_size">14sp</dimen>
     <dimen name="tv_museum_name_size">20sp</dimen>
     <dimen name="width_screen">610dp</dimen>
-    <integer name="abc_max_action_buttons">5</integer>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--导航栏底色-->

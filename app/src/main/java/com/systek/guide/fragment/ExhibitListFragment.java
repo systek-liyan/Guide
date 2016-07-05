@@ -21,7 +21,6 @@ import com.systek.guide.activity.BaseActivity;
 import com.systek.guide.activity.ListAndMapActivity;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.entity.ExhibitBean;
-import com.systek.guide.manager.BluetoothManager;
 import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.Tools;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -199,7 +198,6 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
     public void onDestroy() {
         activity.unregisterReceiver(listChangeReceiver);
         handler.removeCallbacksAndMessages(null);
-        BluetoothManager.newInstance(getActivity()).setIsInGuide(true);
         super.onDestroy();
         exhibitListFragment=null;
     }
@@ -212,7 +210,6 @@ public class ExhibitListFragment extends BaseFragment implements IConstants {
             hideLoadingView();
         }
         exhibitAdapter.updateData(currentExhibitList);
-        BluetoothManager.newInstance(getActivity()).setIsInGuide(false);
     }
 
 

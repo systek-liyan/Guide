@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<View xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="360dp"
-    android:background="@color/my_own_red_300"
-    android:adjustViewBounds="true"
-    android:scaleType="fitCenter"/><!--android:src="@drawable/header"-->
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary">
+    <TextView
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>
+
+
+
+    <!--android:src="@drawable/header"-->

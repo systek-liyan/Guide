@@ -41,7 +41,6 @@ public class DownloadService extends IntentService implements IConstants{
 
     private static final String EXTRA_PARAM1 = "com.systek.guide.service.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "com.systek.guide.service.extra.PARAM2";
-    private int total;
 
     public DownloadService() {
         super("DownloadService");
@@ -203,9 +202,6 @@ public class DownloadService extends IntentService implements IConstants{
             @Override
             protected void completed(BaseDownloadTask task) {
                 count++;
-                if(total==count){
-                    //TasksManager.getImpl().setStatus();
-                }
                 LogUtil.i("ZHANG","count=="+count+"completed=="+task.getPath());
             }
 
@@ -224,52 +220,4 @@ public class DownloadService extends IntentService implements IConstants{
             }
         };
     }
-
-
 }
- /*DownloadBiz downloadBiz= (DownloadBiz) BizFactory.getDownloadBiz();
-        String assetsJson=downloadBiz.getAssetsJSON(museumId);
-        if(TextUtils.isEmpty(assetsJson)){
-            LogUtil.i("ZHANG","assetsJson获取失败");
-            return;
-        }
-        List<String> assetsList=downloadBiz.parseAssetsJson(assetsJson);
-        if(assetsList==null||assetsList.size()==0){
-            LogUtil.i("ZHANG","assetsJson为 0");
-            return;}
-        total =assetsList.size();
-        try {
-
-            downloadListener = getFileDownloadListener();
-            final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(downloadListener);
-            String path= LOCAL_ASSETS_PATH+museumId;
-            if(!path.endsWith(File.separator)){
-                path = path + File.separator;
-            }
-            File dir = new File(path);
-            if(!dir.isDirectory()){
-                if(dir.mkdirs()){
-                    Log.i("ZHANG","文件夹已经创建");
-                }
-            }
-            final List<BaseDownloadTask> tasks = new ArrayList<>();
-            for (int i = 0; i < total; i++) {
-                String url=BASE_URL+assetsList.get(i);
-                String name= Tools.changePathToName(assetsList.get(i));
-                BaseDownloadTask task=FileDownloader.getImpl()
-                        .create(url)
-                        .setPath(path + name);
-                task.ready();
-                tasks.add(task);
-            }
-            // 由于是队列任务, 这里是我们假设了现在不需要每个任务都回调`FileDownloadListener#progress`,
-            // 我们只关系每个任务是否完成, 所以这里这样设置可以很有效的减少ipc.
-            queueSet.disableCallbackProgressTimes();
-            // 所有任务在下载失败的时候都自动重试一次
-            queueSet.setAutoRetryTimes(1);
-            queueSet.downloadTogether(tasks);
-            queueSet.start();
-        }catch (Exception e){
-            ExceptionUtil.handleException(e);
-        }
-*/

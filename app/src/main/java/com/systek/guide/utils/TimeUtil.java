@@ -90,34 +90,6 @@ public class TimeUtil {
     }
 
     /**
-     *
-     * 获得星期几
-     * @return
-     * int	1是星期日、2是星期一、3是星期二、4是星期三、5是星期四、6是星期五、7是星期六
-     * @since 1.0.0
-
-    public static String getDayofweek( Activity act ) {
-
-    Resources resources = act.getResources();
-    ResourceManager mResourceManager = ResourceManager.getInstance(act);
-    String[] weekStr = resources.getStringArray( mResourceManager.getArrayId("fw_week") );
-    Calendar cal = Calendar.getInstance();
-    cal.setTime( new Date( System.currentTimeMillis() ) );
-    int s = cal.get( Calendar.DAY_OF_WEEK );
-    // 返回1是星期日、2是星期一、3是星期二、4是星期三、5是星期四、6是星期五、7是星期六
-    String currWeek = "";
-    if( s > 0 ) {
-    currWeek = weekStr[ s - 1 ];
-    return currWeek;
-    }
-    return currWeek;
-
-    } */
-
-
-
-
-    /**
      * 计算已经过的时间(时间戳单位为秒，当前系统时间需要除以1000)
      *
      * @param oldTime

@@ -63,11 +63,13 @@
         <activity
             android:name="com.systek.guide.activity.MuseumListActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.MuseumHomeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.ListAndMapActivity"
             android:launchMode="singleTop"
@@ -109,7 +111,8 @@
         <activity
             android:name="com.systek.guide.activity.SettingActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.systek.guide.activity.DownloadManagerActivity"
             android:launchMode="singleTop"

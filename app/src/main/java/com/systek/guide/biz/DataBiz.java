@@ -152,7 +152,7 @@ public class DataBiz implements IConstants{
      * @return
      */
     public synchronized static <T> List<T> getEntityListFromNet(Class<T> clazz,String url){
-        String response= MyHttpUtil.doGet(url);
+        String response= MyHttpUtil.sendGet(url);
         if(TextUtils.isEmpty(response)){return null;}
         return JSON.parseArray(response, clazz);
     }

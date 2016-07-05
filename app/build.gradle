@@ -34,7 +34,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile('com.mikepenz:materialdrawer:4.6.4@aar') {
+    compile('com.mikepenz:materialdrawer:5.3.3@aar') {
         transitive = true
     }
     testCompile 'junit:junit:4.12'

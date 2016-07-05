@@ -424,11 +424,6 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
     }
 
     private void refreshState() {
-       /* if(MediaServiceManager.getInstance(this).isPlaying()){
-            state= PlayChangeCallback.STATE_PLAYING;
-        }else{
-            state= PlayChangeCallback.STATE_STOP;
-        }*/
         if(PlayManager.getInstance().isPlaying()){//state==PLAY_STATE_START
             ivPlayCtrl.setImageDrawable(getResources().getDrawable(R.drawable.uamp_ic_pause_white_48dp));//iv_play_state_open_big,ic_pause_black_36dp
         }else{

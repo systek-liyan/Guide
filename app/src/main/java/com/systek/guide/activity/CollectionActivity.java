@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
-import com.alibaba.fastjson.JSON;
 import com.systek.guide.R;
 import com.systek.guide.adapter.ExhibitAdapter;
 import com.systek.guide.biz.DataBiz;
@@ -61,11 +60,18 @@ public class CollectionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
         handler=new MyHandler(this);
+        PlayManager.getInstance().bindToService(this,this);
         //加载抽屉
         initDrawer();
         initView();
         addListener();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PlayManager.getInstance().unbindService(this,this);
     }
 
     /**
@@ -81,24 +87,16 @@ public class CollectionActivity extends BaseActivity {
 
             ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
             ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
-            //exhibitAdapter.setSelectItem(position);
             exhibitAdapter.setSelectExhibit(exhibitBean);
             if(bean==null||!bean.equals(exhibitBean)){
                 exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+                PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
+                exhibitAdapter.notifyDataSetInvalidated();
+                PlayManager.getInstance().playFromBean(exhibitBean);
             }
-            PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
-            exhibitAdapter.notifyDataSetInvalidated();
-
-            Intent intent1 = new Intent(CollectionActivity.this, PlayActivity.class);
-            if (bean == null || !bean.equals(exhibitBean)) {
-                String str = JSON.toJSONString(exhibitBean);
-                Intent intent = new Intent();
-                intent.setAction(INTENT_EXHIBIT);
-                intent.putExtra(INTENT_EXHIBIT, str);
-                sendBroadcast(intent);
-                intent1.putExtra(INTENT_EXHIBIT, str);
-            }
-            startActivity(intent1);
+            Intent intent=new Intent(getActivity(),PlayActivity.class);
+            intent.putExtra(INTENT_EXHIBIT,exhibitBean);
+            startActivity(intent);
         }
     };
 

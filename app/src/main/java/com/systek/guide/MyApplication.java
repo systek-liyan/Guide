@@ -19,7 +19,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.squareup.leakcanary.LeakCanary;
 import com.systek.guide.biz.DataBiz;
 import com.systek.guide.receiver.NetworkStateChangedReceiver;
 import com.systek.guide.utils.ExceptionUtil;
@@ -67,7 +66,7 @@ public class MyApplication extends Application implements IConstants, BootstrapN
         myApplication = this;
         registerNetWorkReceiver();
         //初始化检查内存泄露
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         //FontUtils.getInstance().replaceSystemDefaultFontFromAsset(this, "fonts/aaa.ttf");
         initBluetoothFrame();
         int theme= (int) Tools.getValue(this,"theme",R.style.AppTheme);

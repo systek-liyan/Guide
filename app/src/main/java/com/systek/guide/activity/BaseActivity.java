@@ -120,7 +120,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             handler.removeCallbacksAndMessages(null);
         }
         super.onDestroy();
-        //beaconManager.unbind(this);
     }
 
     public void showDialog(String msg){

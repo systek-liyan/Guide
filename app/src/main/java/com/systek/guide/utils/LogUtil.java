@@ -44,7 +44,7 @@ public class LogUtil {
     private static final int MESSAGE_LENGTH_MAX = 256;
     private static final int mMaxArrayCount = 100;// 每100条向文件里保存一次
     private static final int mMaxLogLength = 5 * 1024 * 1024; // 最大5M
-    private static Object mLock = new Object();
+    private static final Object mLock = new Object();
 
     private static ArrayList<String> mLogArray = new ArrayList<String>();
     private static final String LOG_FILE_NAME = "log.txt";
@@ -122,10 +122,9 @@ public class LogUtil {
         if( null == msg ) {
             return;
         }
-        String finalTag = tag;
-        print( DEBUG, finalTag, msg );
+        print( DEBUG, tag, msg );
         if( !mIsPrintLog ) {
-            log( finalTag + "\t" + ( msg.length() > MESSAGE_LENGTH_MAX ? msg.substring( MESSAGE_LENGTH_MAX ) : msg ) );
+            log( tag + "\t" + ( msg.length() > MESSAGE_LENGTH_MAX ? msg.substring( MESSAGE_LENGTH_MAX ) : msg ) );
         }
     }
 
