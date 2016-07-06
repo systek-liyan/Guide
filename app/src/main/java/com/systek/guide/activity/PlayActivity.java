@@ -356,10 +356,7 @@ public class PlayActivity extends BaseActivity implements LyricFragment.OnFragme
             public void onItemClick(View view, int position) {
                 MultiAngleImg multiAngleImg = multiAngleImgs.get(position);
                 currentIconUrl = multiAngleImg.getUrl();
-                Intent intent = new Intent();
-                intent.setAction(INTENT_SEEK_BAR_CHANG);
-                intent.putExtra(INTENT_SEEK_BAR_CHANG, multiAngleImg.getTime());
-                sendBroadcast(intent);
+                PlayManager.getInstance().seekTo(multiAngleImg.getTime());
             }
         });
 
