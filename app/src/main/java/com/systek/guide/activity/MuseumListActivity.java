@@ -3,19 +3,22 @@ package com.systek.guide.activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.systek.guide.MyApplication;
@@ -57,6 +60,9 @@ public class MuseumListActivity extends BaseActivity {
             }
         }
     };
+    private DrawerLayout mDrawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     static class MyHandler extends Handler {
 
@@ -97,13 +103,134 @@ public class MuseumListActivity extends BaseActivity {
         setContentView(R.layout.activity_museum_list);
         handler=new MyHandler(this);
         //加载抽屉
-        initDrawer();
+        initToolBar();
         initView();
         addListener();
         showDialog("正在加载...");
         initData();
 
     }
+
+
+    private final DrawerLayout.DrawerListener mDrawerListener = new DrawerLayout.DrawerListener(){
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+
+        }
+    };
+
+
+    private void initToolBar() {
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar == null) {
+            throw new IllegalStateException("Layout is required to include a Toolbar with id 'toolbar'");
+        }
+        toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        mToolbar.inflateMenu(R.menu.museum_list_menu);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent=new Intent(getActivity(),CityChooseActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent=new Intent(getActivity(),CityChooseActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (mDrawerLayout != null) {
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            if (navigationView == null) {
+                throw new IllegalStateException("Layout requires a NavigationView with id 'nav_view'");
+            }
+
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem item) {
+
+                    Intent intent=null;
+                    switch (item.getItemId()){
+                        case R.id.menu_1:
+                            intent=new Intent(getActivity(),DownloadManagerActivity.class);
+                            break;
+                        case R.id.menu_2:
+                            intent=new Intent(getActivity(),CollectionActivity.class);
+                            break;
+                        case R.id.menu_3:
+                            intent=new Intent(getActivity(),CityChooseActivity.class);
+                            break;
+                        /*case R.id.menu_4:
+                            intent=new Intent(getActivity(),MuseumListActivity.class);
+                            break;*/
+                        case R.id.menu_5:
+                            intent=new Intent(getActivity(),SettingActivity.class);
+                            break;
+                        default:break;
+                    }
+                    if(intent!=null){
+                        startActivity(intent);
+                    }
+                    closeDrawer();
+                    return true;
+                }
+            });
+            // Create an ActionBarDrawerToggle that will handle opening/closing of the drawer:
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,R.string.app_name, R.string.app_name);
+            mDrawerLayout.addDrawerListener(mDrawerListener);
+            //populateDrawerItems(navigationView);
+            //setSupportActionBar(mToolbar);
+            updateDrawerToggle();
+        } else {
+            setSupportActionBar(mToolbar);
+        }
+    }
+    private void closeDrawer(){
+        if(mDrawerLayout==null||navigationView==null){return;}
+        if(mDrawerLayout.isDrawerOpen(navigationView)){
+            mDrawerLayout.closeDrawer(navigationView);
+        }
+    }
+
+    protected void updateDrawerToggle() {
+        if (mDrawerToggle == null) {
+            return;
+        }
+        boolean isRoot = getFragmentManager().getBackStackEntryCount() == 0;
+        mDrawerToggle.setDrawerIndicatorEnabled(isRoot);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(!isRoot);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(!isRoot);
+            getSupportActionBar().setHomeButtonEnabled(!isRoot);
+        }
+        if (isRoot) {
+            mDrawerToggle.syncState();
+        }
+    }
+
+
+
 
     @Override
     protected void onRestart() {
@@ -113,13 +240,11 @@ public class MuseumListActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //registerReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unRegisterReceiver();
     }
 
     @Override
@@ -135,19 +260,6 @@ public class MuseumListActivity extends BaseActivity {
      */
     private void addListener() {
         museumListView.setOnItemClickListener(onItemClickListener);
-        setHomeClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (drawer == null) {
-                    return;
-                }
-                if (drawer.isDrawerOpen()) {
-                    drawer.closeDrawer();
-                } else {
-                    drawer.openDrawer();
-                }
-            }
-        });
     }
 
     /**
@@ -224,15 +336,6 @@ public class MuseumListActivity extends BaseActivity {
         }.start();
     }
 
-    private void registerReceiver() {
-        IntentFilter filter=new IntentFilter(ACTION_NET_IS_COMING);
-        filter.addAction(ACTION_NET_IS_OUT);
-        registerReceiver(receiver, filter);
-    }
-
-    private void unRegisterReceiver() {
-       // unregisterReceiver(receiver);
-    }
 
     private void refreshView() {
         if(museumList==null||museumList.size()==0){return;}
@@ -256,9 +359,6 @@ public class MuseumListActivity extends BaseActivity {
      */
     private void initView() {
         long startTime=System.currentTimeMillis();
-        setTitleBar();
-        setHomeIcon();
-        setHomeIcon(R.drawable.ic_menu);
         museumListView=(ListView)findViewById(R.id.museumListView);
         mErrorView=findViewById(R.id.mErrorView);
         refreshBtn=(Button)mErrorView.findViewById(R.id.refreshBtn);
@@ -271,19 +371,7 @@ public class MuseumListActivity extends BaseActivity {
         LogUtil.i(getTag(), "initView执行用时==" + (System.currentTimeMillis() - startTime));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.normal_menu, menu);
-        menu.getItem(0).setIcon(R.drawable.iv_tab);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent=new Intent(MuseumListActivity.this,CityChooseActivity.class);
-        startActivity(intent);
-        return true;
-    }
 
     @Override
     protected void onDestroy() {
@@ -294,16 +382,16 @@ public class MuseumListActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(drawer.isDrawerOpen()){
+            /*if(drawer.isDrawerOpen()){
                 drawer.closeDrawer();
-            }else {
+            }else {  }*/
                 if ((System.currentTimeMillis() - mExitTime) > 2000) {
                     Toast.makeText(this, "在按一次退出", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
                 } else {
                     DataBiz.clearTempValues(this);
                     MyApplication.get().exit();
-                }
+
             }
             return true;
         }

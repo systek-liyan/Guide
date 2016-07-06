@@ -16,7 +16,7 @@
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/avLoadingView"
             app:indicator="LineSpinFadeLoader"
-            app:indicator_color="@color/my_own_red_300"
+            app:indicator_color="@color/colorPrimary"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -26,7 +26,7 @@
             android:textSize="18sp"
             android:layout_marginStart="5dp"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/my_own_red_300"
+            android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

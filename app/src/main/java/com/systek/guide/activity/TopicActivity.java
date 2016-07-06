@@ -93,7 +93,6 @@ public class TopicActivity extends BaseActivity {
         setContentView(R.layout.activity_topic);
         handler=new MyHandler(this);
         PlayManager.getInstance().bindToService(this,this);
-        initDrawer();
         initView();
         addListener();
         initData();
@@ -239,12 +238,12 @@ public class TopicActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(drawer.isDrawerOpen()){
+           /* if(drawer.isDrawerOpen()){
                 drawer.closeDrawer();
                 return true;
-            }else{
+            }else{}*/
                 return super.onKeyDown(keyCode, event);
-            }
+
         }
         return super.onKeyDown(keyCode,event);
     }

@@ -62,7 +62,7 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         handler=new MyHandler(this);
-        initDrawer();
+        //initDrawer();
         initView();
         addListener();
         initData();

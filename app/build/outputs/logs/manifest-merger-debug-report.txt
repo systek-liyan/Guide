@@ -122,24 +122,6 @@ MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\wor
 MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:11:5-15:19
-MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:cardview-v7:23.1.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
 MERGED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\intermediates\exploded-aar\Guide\beaconlibrary\unspecified\AndroidManifest.xml:17:5-36:19
 MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
@@ -148,6 +130,24 @@ MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\bu
 MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:cardview-v7:23.4.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.4.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:11:5-15:19
 MERGED from [com.squareup.leakcanary:leakcanary-android:1.3.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.squareup.leakcanary\leakcanary-android\1.3.1\AndroidManifest.xml:27:5-49:19
 	android:label
 		ADDED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml:28:9-41
@@ -384,7 +384,14 @@ MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
 MERGED from [com.android.support:recyclerview-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.0.0\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
-MERGED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:7:5-9:41
+MERGED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\intermediates\exploded-aar\Guide\beaconlibrary\unspecified\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
 MERGED from [com.wang.avi:library:1.0.5] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.wang.avi\library\1.0.5\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
@@ -395,8 +402,6 @@ MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
 MERGED from [com.android.support:recyclerview-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.0.0\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:cardview-v7:23.1.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
 MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:21:5-43
@@ -404,14 +409,9 @@ MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\bu
 MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:21:5-43
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
-MERGED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\intermediates\exploded-aar\Guide\beaconlibrary\unspecified\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:cardview-v7:23.4.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.4.0\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:animated-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.0.0\AndroidManifest.xml:21:5-43
-MERGED from [com.android.support:support-v4:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.squareup.leakcanary:leakcanary-android:1.3.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.squareup.leakcanary\leakcanary-android\1.3.1\AndroidManifest.xml:20:5-22:41
 	tools:overrideLibrary
 		ADDED from [com.android.support:appcompat-v7:24.0.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.0.0\AndroidManifest.xml:23:9-75
@@ -421,12 +421,6 @@ MERGED from [com.squareup.leakcanary:leakcanary-android:1.3.1] D:\Android\work\G
 	android:minSdkVersion
 		INJECTED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml
 		INJECTED from D:\Android\work\Guide\app\src\main\AndroidManifest.xml
-service#com.liulishuo.filedownloader.services.FileDownloadService
-ADDED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:12:9-14:49
-	android:process
-		ADDED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:14:13-46
-	android:name
-		ADDED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:13:13-85
 uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
 ADDED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\intermediates\exploded-aar\Guide\beaconlibrary\unspecified\AndroidManifest.xml:13:5-81
 	android:name
@@ -473,6 +467,12 @@ ADDED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\int
 		ADDED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\intermediates\exploded-aar\Guide\beaconlibrary\unspecified\AndroidManifest.xml:35:13-37
 	android:name
 		ADDED from [Guide:beaconlibrary:unspecified] D:\Android\work\Guide\app\build\intermediates\exploded-aar\Guide\beaconlibrary\unspecified\AndroidManifest.xml:33:13-70
+service#com.liulishuo.filedownloader.services.FileDownloadService
+ADDED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:12:9-14:49
+	android:process
+		ADDED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:14:13-46
+	android:name
+		ADDED from [com.liulishuo.filedownloader:library:0.2.0] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.liulishuo.filedownloader\library\0.2.0\AndroidManifest.xml:13:13-85
 service#com.squareup.leakcanary.internal.HeapAnalyzerService
 ADDED from [com.squareup.leakcanary:leakcanary-android:1.3.1] D:\Android\work\Guide\app\build\intermediates\exploded-aar\com.squareup.leakcanary\leakcanary-android\1.3.1\AndroidManifest.xml:28:9-31:45
 	android:enabled

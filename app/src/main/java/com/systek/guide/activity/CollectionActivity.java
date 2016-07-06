@@ -62,7 +62,7 @@ public class CollectionActivity extends BaseActivity {
         handler=new MyHandler(this);
         PlayManager.getInstance().bindToService(this,this);
         //加载抽屉
-        initDrawer();
+        //initDrawer();
         initView();
         addListener();
         initData();

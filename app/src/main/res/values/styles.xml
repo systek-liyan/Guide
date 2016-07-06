@@ -29,9 +29,9 @@
         <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
         <item name="material_drawer_divider">@color/md_white_1000</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/my_own_red_300</item>
+        <item name="material_drawer_selected_text">@color/colorPrimary</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
-        <item name="android:textColor">@color/my_own_red_300</item>
+        <item name="android:textColor">@color/colorPrimary</item>
 
     </style>
 
@@ -72,7 +72,7 @@
         <item name="material_drawer_hint_text">@color/material_drawer_dark_hint_text</item>
         <item name="material_drawer_divider">@color/md_white_1000</item>
         <item name="material_drawer_selected">@color/material_drawer_selected</item>
-        <item name="material_drawer_selected_text">@color/my_own_red_300</item>
+        <item name="material_drawer_selected_text">@color/colorPrimary</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_dark_primary_text</item>
         <!-- CAB :D -->
         <item name="windowActionModeOverlay">true</item>

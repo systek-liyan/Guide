@@ -29,7 +29,7 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         handler=new MyHandler(this);
-        initDrawer();
+        //initDrawer();
         initView();
         addListener();
 

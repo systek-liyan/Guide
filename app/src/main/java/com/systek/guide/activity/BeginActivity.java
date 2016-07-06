@@ -32,6 +32,8 @@ public class BeginActivity extends BaseActivity{
             case R.style.BlueAppTheme:
                 view.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlue));
                 break;
+            default:view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                break;
         }
         setContentView(view);
         handler=new MyHandler(this);

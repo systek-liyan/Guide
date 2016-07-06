@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:minHeight="?attr/actionBarSize"
-    android:background="@color/my_own_red_300">
+    android:background="?attr/colorPrimary">
     <RadioGroup
         android:id="@+id/radioGroupTitle"
         android:layout_gravity="center"

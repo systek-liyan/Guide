@@ -204,6 +204,8 @@ public class ListAndMapActivity extends BaseActivity
             case R.style.BlueAppTheme:
                 setContentView(R.layout.activity_list_and_map_blue);
                 break;
+            default:setContentView(R.layout.activity_list_and_map);
+                break;
         }
         beaconManager = BeaconManager.getInstanceForApplication(this);
         executor= (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
@@ -350,10 +352,10 @@ public class ListAndMapActivity extends BaseActivity
         if (v != null) {
             toolbar = (Toolbar) v;
             setSupportActionBar(toolbar);
-            if(theme==R.style.AppTheme){
-                toolbar.setBackgroundColor(getResources().getColor(R.color.my_own_red_300));
-            }else{
+            if(theme==R.style.BlueAppTheme){
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlue));
+            }else{
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
             ActionBar actionBar= getSupportActionBar();
             if(actionBar==null){ return;}

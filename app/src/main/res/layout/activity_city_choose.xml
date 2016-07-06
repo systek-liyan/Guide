@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.CityChooseActivity">
-
     <include layout="@layout/toolbar"/>
 
     <include
@@ -102,4 +101,5 @@
             android:layout_height="match_parent"
             android:layout_gravity="end|center" />
     </FrameLayout>
+
 </LinearLayout>

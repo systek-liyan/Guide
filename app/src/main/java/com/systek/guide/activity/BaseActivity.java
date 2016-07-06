@@ -20,9 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.systek.guide.IConstants;
 import com.systek.guide.MyApplication;
 import com.systek.guide.R;
@@ -40,18 +37,16 @@ import com.systek.guide.utils.Tools;
 public abstract class BaseActivity extends AppCompatActivity implements IConstants,PlayChangeCallback {
 
     public String TAG = getClass().getSimpleName();//类的唯一标记
-    protected Drawer drawer;//抽屉
+    //protected Drawer drawer;//抽屉
     protected Toolbar toolbar;
     protected TextView toolbarTitle;
     protected Dialog dialog;
     protected View mErrorView;
     protected Button refreshBtn;
     public  int state= Playback.STATE_NONE;
-
     protected Handler handler;
     public static final String THEME="theme";
     protected  int  theme;
-
     public static final int MSG_WHAT_REFRESH_VIEW=55;
 
     @Override
@@ -112,6 +107,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     public void unRegisterBluetoothReceiver() {
         unregisterReceiver(bluetoothState);
     }
+
 
 
     @Override
@@ -178,10 +174,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
             toolbar = (Toolbar) v;
             setSupportActionBar(toolbar);
             toolbarTitle = (TextView) v.findViewById(R.id.toolbar_title);
-            if(theme==R.style.AppTheme){
-                toolbar.setBackgroundColor(getResources().getColor(R.color.my_own_red_300));
-            }else{
+            if(theme==R.style.BlueAppTheme){
                 toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryBlue));
+            }else{
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
             if (toolbarTitle == null) {return;}
             ActionBar actionBar= getSupportActionBar();
@@ -212,9 +208,13 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
         }
     };
 
+
+
+
+
     /**
      * 加载抽屉
-     */
+
     protected void initDrawer() {
         drawer = new DrawerBuilder()
                 .withActivity(this)
@@ -247,7 +247,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
                         return false;
                     }
                 }).build();
-    }
+    }*/
 
     /**
      * 获得当前activity的tag
@@ -282,9 +282,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     */
     public void keyBack() {
         //如果未关闭抽屉，先关闭抽屉，再销毁activity
-        if(drawer!=null&&drawer.isDrawerOpen()){
+       /* if(drawer!=null&&drawer.isDrawerOpen()){
             drawer.closeDrawer();
-        }
+        }*/
         finish();
     }
 

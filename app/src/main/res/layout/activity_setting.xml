@@ -31,7 +31,7 @@
             android:id="@+id/themeNormal"
             android:text="Blue_Theme"
             android:layout_marginTop="@dimen/simple_10dp"
-            android:background="@color/my_own_red_300"
+            android:background="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -59,7 +59,6 @@ public class CityChooseActivity extends BaseActivity  implements AMapLocationLis
         //加载标题栏
         setTitleBar();
         //加载抽屉
-        initDrawer();
         //加载高德地图
         initLocation();
         initView();

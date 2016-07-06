@@ -126,9 +126,6 @@
             android:name="com.systek.guide.service.ExhibitPlayService"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name="com.liulishuo.filedownloader.services.FileDownloadService"
-            android:process=":filedownloader" />
 
         <receiver android:name="org.altbeacon.beacon.startup.StartupBroadcastReceiver" >
             <intent-filter>
@@ -148,6 +145,9 @@
             android:name="org.altbeacon.beacon.BeaconIntentProcessor"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name="com.liulishuo.filedownloader.services.FileDownloadService"
+            android:process=":filedownloader" />
         <service
             android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
             android:enabled="false"
