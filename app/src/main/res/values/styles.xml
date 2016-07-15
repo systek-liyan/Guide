@@ -2,6 +2,10 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--让程序在初始化的时候窗口是透明的，初始化结束后程序主界面才会显示出来，避免白屏界面-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+
         <!--导航栏底色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!--状态栏底色-->
@@ -38,6 +42,7 @@
 
 
     <style name="BlueAppTheme" parent="AppTheme">
+
         <!--导航栏底色-->
         <item name="colorPrimary">@color/colorPrimaryBlue</item>
         <!--状态栏底色-->
@@ -56,11 +61,15 @@
 
 
     <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:typeface">serif</item>
     </style>
 
 
     <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
         <!-- ...and here we setting appcompat’s color theme attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

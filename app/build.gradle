@@ -10,7 +10,7 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.systek.guide"
         minSdkVersion 18
@@ -48,16 +48,13 @@ dependencies {
     compile 'com.wang.avi:library:1.0.5'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.liulishuo.filedownloader:library:0.2.0'
     compile files('libs/universal-image-loader-1.9.5.jar')
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    // or 1.4-beta1
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
-    // or 1.4-beta1
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
-    // or 1.4-beta1
 }

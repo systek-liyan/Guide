@@ -864,6 +864,7 @@
     <string name="library_materialize_owner">Mike Penz</string>
     <string name="library_materialize_repositoryLink">https://github.com/mikepenz/Materialize</string>
     <string name="library_materialize_year">2016</string>
+    <string name="load_more_text">加载更多…</string>
     <string name="material_drawer_close">Close</string>
     <string name="material_drawer_open">Open</string>
     <string name="networkError">网络异常</string>
@@ -887,6 +888,10 @@
         <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
     </style>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--让程序在初始化的时候窗口是透明的，初始化结束后程序主界面才会显示出来，避免白屏界面-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+
         <!--导航栏底色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!--状态栏底色-->
@@ -1942,6 +1947,7 @@
         <item name="biv_selectorOnPress">@color/material_drawer_primary</item>
     </style>
     <style name="BlueAppTheme" parent="AppTheme">
+
         <!--导航栏底色-->
         <item name="colorPrimary">@color/colorPrimaryBlue</item>
         <!--状态栏底色-->
@@ -1964,6 +1970,8 @@
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
     <style name="CustomTheme" parent="MaterialDrawerTheme.Light.TranslucentStatus">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
         <!-- ...and here we setting appcompat’s color theme attrs -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -1982,6 +1990,8 @@
         <item name="android:typeface">serif</item>
     </style>
     <style name="FullscreenTheme" parent="MaterialDrawerTheme.Light.DarkToolbar.TranslucentStatus">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:typeface">serif</item>
     </style>
     <style name="LockScreenBase" parent="FullscreenTheme"><!--Theme.AppCompat.Light.NoActionBar-->

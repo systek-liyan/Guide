@@ -74,11 +74,6 @@
 -keep class com.systek.guide.**{
     *;
 }
-#-keep class  com.veidy.activity.login.WebLoginActivity{*;}
-#-keep class  com.veidy.activity.UserInfoFragment{*;}
-#-keep class  com.veidy.activity.HomeFragmentActivity{*;}
-#-keep class  com.veidy.activity.CityActivity{*;}
-#-keep class  com.veidy.activity.ClinikActivity{*;}
 #如果引用了v4或者v7包
 -dontwarn android.support.**
 #混淆保护自己项目的部分代码以及引用的第三方jar包library-end#

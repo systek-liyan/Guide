@@ -45,9 +45,8 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
     public static final int STATE_PAUSED = 2;
     public static final int STATE_PLAYING = 3;
     private static ColorStateList sColorStatePlaying;
-
-
     private static ColorStateList sColorStateNotPlaying;
+
 
     public void setState(int item ,int state) {
         this.selectItem = item;
@@ -162,6 +161,7 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         });
         // 显示图片
         String iconUrl = exhibitBean.getIconurl();
+        viewHolder.ivExhibitIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.emotionstore_progresscancelbtn));
         ImageUtil.displayImage(iconUrl, viewHolder.ivExhibitIcon,true,false);
 
         ExhibitBean currentExhibit= PlayManager.getInstance().getCurrentExhibit();
@@ -180,15 +180,13 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
                     viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
                     break;
                 case STATE_PLAYING:
-                    AnimationDrawable animation = (AnimationDrawable)
-                            context.getResources().getDrawable(R.drawable.ic_equalizer_white_36dp);
+                    AnimationDrawable animation = (AnimationDrawable) context.getResources().getDrawable(R.drawable.ic_equalizer_white_36dp);
                     viewHolder.ivPlayAnim.setImageDrawable(animation);
                     viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
                     if (animation != null) animation.start();
                     break;
                 case STATE_PAUSED:
-                    viewHolder.ivPlayAnim.setImageDrawable(
-                            context.getResources().getDrawable(R.drawable.ic_equalizer1_white_36dp));
+                    viewHolder.ivPlayAnim.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_equalizer1_white_36dp));
                     viewHolder.ivPlayAnim.setVisibility(View.VISIBLE);
                     break;
                 default:
@@ -198,10 +196,6 @@ public class ExhibitAdapter extends BaseAdapter implements IConstants {
         }else{
             viewHolder.ivPlayAnim.setVisibility(View.GONE);
         }
-
-
-
-
         return convertView;
     }
 

@@ -222,9 +222,18 @@
             android:background="@color/md_grey_300" />
     </LinearLayout>
 
-    <ListView
+    <!--ListView
         android:id="@+id/lv_collection_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal" /-->
+
+    <com.systek.guide.custom.recyclerView.QRecyclerView
+        android:id="@+id/qRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+
 </LinearLayout>

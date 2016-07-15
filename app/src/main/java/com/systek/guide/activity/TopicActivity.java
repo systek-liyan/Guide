@@ -7,21 +7,21 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.exception.DbException;
 import com.systek.guide.R;
-import com.systek.guide.adapter.ExhibitAdapter;
+import com.systek.guide.adapter.ExhibitRecycleAdapter;
 import com.systek.guide.biz.DataBiz;
+import com.systek.guide.custom.recyclerView.QRecyclerView;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.service.PlayManager;
 import com.systek.guide.utils.ExceptionUtil;
@@ -30,10 +30,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * 专题activity
- *
  *
  */
 public class TopicActivity extends BaseActivity {
@@ -44,16 +42,23 @@ public class TopicActivity extends BaseActivity {
     private  List<ExhibitBean> checkExhibitList;
     /**展示列表*/
     private  List<ExhibitBean> disPlayCheckExhibitList;
+
+
+    private  List<ExhibitBean> mDisPlayCheckExhibitList;
     /**已选标签布局*/
     private LinearLayout ll_collection_has_choose;
     /**展示集listview*/
-    private ListView lv_collection_listView;
+    //private ListView qRecyclerView;
+    private QRecyclerView qRecyclerView;
+
     /**适配器*/
-    private ExhibitAdapter exhibitAdapter;
+    // private ExhibitAdapter exhibitAdapter;
+
+    private ExhibitRecycleAdapter exhibitAdapter;
+
     /**已选标签控件集合*/
     private List<TextView> tvList;
 
-    //private MediaServiceManager mediaServiceManager;
     private String currentMuseumId;
 
     private TextView  tv_collection_dongwei,tv_collection_beiqi, tv_collection_beiwei, tv_collection_xizhou,
@@ -84,6 +89,7 @@ public class TopicActivity extends BaseActivity {
                     break;
                 default:break;
             }
+            activity.initComplete();
         }
     }
 
@@ -99,6 +105,11 @@ public class TopicActivity extends BaseActivity {
 
     }
 
+    public void initComplete(){
+        qRecyclerView.setPullLoadMoreCompleted();
+    }
+
+
     private void initData() {
         Intent intent=getIntent();
         currentMuseumId =intent.getStringExtra(INTENT_MUSEUM_ID);
@@ -106,8 +117,13 @@ public class TopicActivity extends BaseActivity {
             @Override
             public void run() {
                 if(TextUtils.isEmpty(currentMuseumId)){return;}
-                totalExhibitList=DataBiz.getLocalListById(ExhibitBean.class, currentMuseumId);
+
+               /* totalExhibitList=DataBiz.getLocalListById(ExhibitBean.class, currentMuseumId);
                 if(totalExhibitList!=null&&totalExhibitList.size()>0){
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
+                }*/
+                loadMoreData();
+                if(mDisPlayCheckExhibitList!=null&&mDisPlayCheckExhibitList.size()>0){
                     handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
                 }
             }
@@ -118,7 +134,8 @@ public class TopicActivity extends BaseActivity {
 
     private void refreshView() {
         if(exhibitAdapter!=null){
-            exhibitAdapter.updateData(totalExhibitList);// TODO: 2016/1/3
+            //exhibitAdapter.updateData(totalExhibitList);// TODO: 2016/1/3
+            exhibitAdapter.updateData(mDisPlayCheckExhibitList);// TODO: 2016/1/3
         }
     }
 
@@ -147,7 +164,23 @@ public class TopicActivity extends BaseActivity {
         ll_collection_years=(LinearLayout)findViewById(R.id.ll_collection_years);
         ll_collection_material=(LinearLayout)findViewById(R.id.ll_collection_material);
 
-        lv_collection_listView=(ListView)findViewById(R.id.lv_collection_listView);
+        //qRecyclerView=(ListView)findViewById(R.id.qRecyclerView);
+        qRecyclerView =(QRecyclerView) findViewById(R.id.qRecyclerView);
+
+        //显示下拉刷新
+        qRecyclerView.setRefreshing(true);
+        //设置上拉刷新文字
+        qRecyclerView.setFooterViewText("loading");
+        //设置上拉刷新文字颜色
+        qRecyclerView.setFooterViewTextColor(R.color.md_white_1000);
+        //设置加载更多背景色
+        qRecyclerView.setFooterViewBackgroundColor(R.color.colorAccentBlue);
+        qRecyclerView.setLinearLayout();
+
+        qRecyclerView.setOnPullLoadMoreListener(pullLoadMoreListener);
+        qRecyclerView.setEmptyView(LayoutInflater.from(getActivity()).inflate(R.layout.layout_recycler_empty_view, null));//setEmptyView
+
+
 
         tvLabelClear=(TextView)findViewById(R.id.tvLabelClear);
 
@@ -184,11 +217,17 @@ public class TopicActivity extends BaseActivity {
         tvList.add(tv_collection_tongqi);
         tvList.add(tv_collection_shike);
         totalExhibitList=new ArrayList<>();
-        exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
-        lv_collection_listView.setAdapter(exhibitAdapter);
+
+        mDisPlayCheckExhibitList=new ArrayList<>();
+        //exhibitAdapter=new ExhibitAdapter(this, totalExhibitList);
+        //exhibitAdapter=new ExhibitRecycleAdapter(this, totalExhibitList);
+        exhibitAdapter=new ExhibitRecycleAdapter(this, mDisPlayCheckExhibitList);
+
+        qRecyclerView.setAdapter(exhibitAdapter);
         //去除滑动到末尾时的阴影
-        lv_collection_listView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
+        qRecyclerView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
     }
+
     private void addListener() {
 
         tvLabelClear.setOnClickListener(new View.OnClickListener() {
@@ -209,9 +248,9 @@ public class TopicActivity extends BaseActivity {
         });
 
         //快速滑动停止加载图片
-        lv_collection_listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
+        //qRecyclerView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true));
 
-        lv_collection_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* qRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -231,8 +270,68 @@ public class TopicActivity extends BaseActivity {
             }
         });
         setManyBtnListener();
+    }*/
+        exhibitAdapter.setOnItemClickListener(new ExhibitRecycleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ExhibitBean exhibitBean = exhibitAdapter.getItem(position);
+                ExhibitBean bean = PlayManager.getInstance().getCurrentExhibit();
+                exhibitAdapter.setSelectExhibit(exhibitBean);
+                if(bean==null||!bean.equals(exhibitBean)){
+                    //exhibitAdapter.setState(position,ExhibitAdapter.STATE_PLAYING);
+                    PlayManager.getInstance().setPlayMode(PLAY_MODE_HAND);
+                    //exhibitAdapter.notifyDataSetInvalidated();
+                    exhibitAdapter.notifyItemChanged(position);
+                    PlayManager.getInstance().playFromBean(exhibitBean);
+                }
+                Intent intent=new Intent(getActivity(),PlayActivity.class);
+                intent.putExtra(INTENT_EXHIBIT,exhibitBean);
+                startActivity(intent);
+            }
+        });
+        setManyBtnListener();
     }
 
+    private int currentPosition=10;
+
+    private QRecyclerView.PullLoadMoreListener pullLoadMoreListener=new  QRecyclerView.PullLoadMoreListener(){
+
+        @Override
+        public void onRefresh() {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
+                }
+            },1000);
+        }
+
+        @Override
+        public void onLoadMore() {
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //loadMoreData();
+                    handler.sendEmptyMessage(MSG_WHAT_REFRESH_VIEW);
+                }
+            },1000);
+        }
+    };
+
+    private void loadMoreData() {
+        List<ExhibitBean> tempList=null;
+        try {
+            tempList= DataBiz.getDb().findAll(Selector.from(ExhibitBean.class).limit(10).offset(currentPosition));
+            currentPosition+=10;
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        if(tempList!=null&&tempList.size()>0){
+            mDisPlayCheckExhibitList.removeAll(tempList);
+            mDisPlayCheckExhibitList.addAll(tempList);
+        }
+    }
 
 
     @Override
@@ -242,7 +341,7 @@ public class TopicActivity extends BaseActivity {
                 drawer.closeDrawer();
                 return true;
             }else{}*/
-                return super.onKeyDown(keyCode, event);
+            return super.onKeyDown(keyCode, event);
 
         }
         return super.onKeyDown(keyCode,event);
