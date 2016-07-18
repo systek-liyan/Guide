@@ -27,6 +27,7 @@ import com.systek.guide.callback.PlayChangeCallback;
 import com.systek.guide.custom.LoadingDialog;
 import com.systek.guide.entity.ExhibitBean;
 import com.systek.guide.service.Playback;
+import com.systek.guide.utils.LogUtil;
 import com.systek.guide.utils.Tools;
 
 /**
@@ -48,6 +49,23 @@ public abstract class BaseActivity extends AppCompatActivity implements IConstan
     public static final String THEME="theme";
     protected  int  theme;
     public static final int MSG_WHAT_REFRESH_VIEW=55;
+
+    /**
+     * 这里用到的一个知识点就是Java中Object类的finalize方法。
+     * 当GC准备回收一个Java Object（所有Java对象都是Object的子类）的时候，
+     * GC会调用这个Object的finalize方法。这个方法有点类似于C++中析构函数，
+     * 本意是让你用来回收一些已经不需要的资源的（主要是针对Native资源）。
+     * 其实Java日常开发中，并不鼓励依赖于这个方法来实现回收的逻辑，
+     * 因为如果你重度依赖于finalize的话，finalize本身也有可能造成内存泄漏，
+     * 但是我们这里只是用来作为是否已经回收的依据，还是可以的
+     * @throws Throwable
+     */
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        LogUtil.d("zhang", "====LeakActivity has been recycled!");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
