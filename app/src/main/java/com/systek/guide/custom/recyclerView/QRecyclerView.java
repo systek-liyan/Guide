@@ -3,6 +3,7 @@ package com.systek.guide.custom.recyclerView;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.systek.guide.R;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by Qiang on 2016/7/13.
@@ -132,7 +135,7 @@ public class QRecyclerView  extends LinearLayout{
         if (adapter != null) {
             mRecyclerView.setAdapter(adapter);
             if (mEmptyDataObserver == null) {
-                mEmptyDataObserver = new QRecyclerView.AdapterDataObserver();
+                mEmptyDataObserver = new QRecyclerView.AdapterDataObserver(this);
             }
             adapter.registerAdapterDataObserver(mEmptyDataObserver);
         }
@@ -218,22 +221,36 @@ public class QRecyclerView  extends LinearLayout{
      * When adapter's item count greater than 0 and empty view has been set,then show the empty view.
      * when adapter's item count is 0 ,then empty view hide.
      */
-    private class AdapterDataObserver extends android.support.v7.widget.RecyclerView.AdapterDataObserver {
+    private static class AdapterDataObserver extends android.support.v7.widget.RecyclerView.AdapterDataObserver {
+
+        private WeakReference<QRecyclerView> recyclerViewWeakReference;
+
+        public AdapterDataObserver(@NonNull QRecyclerView recyclerView){
+            recyclerViewWeakReference=new WeakReference<>(recyclerView);
+        }
+
+        private boolean isWeakNull(){
+            return recyclerViewWeakReference==null||recyclerViewWeakReference.get()==null;
+        }
+
         @Override
         public void onChanged() {
-            showEmptyView();
+            if(isWeakNull()){return;}
+            recyclerViewWeakReference.get().showEmptyView();
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             super.onItemRangeInserted(positionStart, itemCount);
-            showEmptyView();
+            if(isWeakNull()){return;}
+            recyclerViewWeakReference.get().showEmptyView();
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             super.onItemRangeRemoved(positionStart, itemCount);
-            showEmptyView();
+            if(isWeakNull()){return;}
+            recyclerViewWeakReference.get().showEmptyView();
         }
     }
 
